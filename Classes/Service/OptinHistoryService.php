@@ -113,6 +113,19 @@ class OptinHistoryService {
 	 * @return array
 	 */
 	private static function prepareInsertData(array $jsonInput, int $itemType): array {
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+			'tx_sgcookieoptin_domain_model_group'
+		);
+		$groupNames = $queryBuilder->select('group_name')
+			->from('tx_sgcookieoptin_domain_model_group')
+			->execute()
+			->fetchAll();
+
+		$allowedGroupNames = ['essential', 'iframes'];
+		foreach ($groupNames as $groupName) {
+			$allowedGroupNames[] = $groupName['group_name'];
+		}
+
 		$insertData = [];
 		$cookieValuePairs = explode('|', $jsonInput['cookieValue']);
 		// we want the next 3 values to be identical for all items of this preference
@@ -121,6 +134,11 @@ class OptinHistoryService {
 		$date = substr($tstamp, 0, 10);
 		foreach ($cookieValuePairs as $pair) {
 			list($groupName, $value) = explode(':', $pair);
+
+			if (!in_array($groupName, $allowedGroupNames)) {
+				continue;
+			}
+
 			$insertData[] = [
 				'user_hash' => $jsonInput['uuid'],
 				'version' => $jsonInput['version'],
