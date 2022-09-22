@@ -66,6 +66,11 @@ class StaticFileGenerationService implements SingletonInterface {
 	protected $siteRoot;
 
 	/**
+	 * @var string
+	 */
+	protected $cacheBusterString = '';
+
+	/**
 	 * Generates the JavaScript, JSON and CSS files for this site root
 	 *
 	 * @param int $siteRootId
@@ -431,6 +436,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 			$file = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_STYLE_SHEET_PATH_EXT . self::TEMPLATE_STYLE_SHEET_NAME);
@@ -480,7 +486,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			$data[] = $value;
 		}
 
-		$file = $sitePath . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
+		$file = $sitePath . $folder . str_replace('.css', $this->getCacheBusterString() . '.css', self::TEMPLATE_STYLE_SHEET_NAME);
 		file_put_contents($file, str_replace($keys, $data, $content));
 
 		if ($minifyFile) {
@@ -510,6 +516,18 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Generates a small cache buster string for the file names
+	 * @return string
+	 */
+	protected function getCacheBusterString(): string {
+		if (!$this->cacheBusterString) {
+			$this->cacheBusterString = (string) substr(md5(microtime()), 0, 8);
+		}
+
+		return $this->cacheBusterString;
 	}
 
 	/**
@@ -546,7 +564,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			return '';
 		}
 
-		$file = $folder . $groupName . '-' . $languageUid . '.js';
+		$file = $folder . $groupName . $this->getCacheBusterString() . '-' . $languageUid . '.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$groupFile = $sitePath . $file;
 		file_put_contents($groupFile, $content);
@@ -569,10 +587,12 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @param bool $minifyFile
 	 *
 	 * @return void
+	 * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
 	 */
 	protected function createJavaScriptFile($folder, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
-		$file = $sitePath . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
+
+		$file = $sitePath . $folder . str_replace('.js', $this->getCacheBusterString() . '.js', self::TEMPLATE_JAVA_SCRIPT_NAME);
 
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
@@ -1003,6 +1023,8 @@ class StaticFileGenerationService implements SingletonInterface {
 			$locale . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
 			self::TEMPLATE_JSON_NAME
 		);
+
+		$file = str_replace('.json', $this->getCacheBusterString() . '.json', $file);
 
 		$mask = JSON_PRETTY_PRINT;
 		if (defined('JSON_THROW_ON_ERROR')) {

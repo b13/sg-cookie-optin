@@ -78,16 +78,11 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 
 		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
 
-		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$file = $this->getAssetFilePath($sitePath, $folder, $rootPageId, 'cookieOptin*.js');
 		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
 		if ($jsonFile === NULL) {
 			return '';
-		}
-
-		$cacheBuster = filemtime($sitePath . $file);
-		if (!$cacheBuster) {
-			$cacheBuster = '';
 		}
 
 		// we decode and encode again to remove the PRETTY_PRINT when rendering for better performance on the frontend
@@ -105,7 +100,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
 			}
 
-			$fileUrl = $overwrittenBaseUrl ?? $siteBaseUrl . $file . '?' . $cacheBuster;
+			$fileUrl = $overwrittenBaseUrl ?? $siteBaseUrl . $file;
 			return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) . '</script>
 					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
 					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"></script>';
@@ -134,15 +129,10 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			return '';
 		}
 
-		$file = $folder . 'siteroot-' . $rootPageId . '/cookieOptin.css';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$file = $this->getAssetFilePath($sitePath, $folder, $rootPageId, 'cookieOptin*.css');
 		if (!file_exists($sitePath . $file)) {
 			return '';
-		}
-
-		$cacheBuster = filemtime($sitePath . $file);
-		if (!$cacheBuster) {
-			$cacheBuster = '';
 		}
 
 		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
@@ -159,8 +149,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage);
-		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n"
-			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n";
+		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '" media="all" crossorigin="anonymous">' . "\n"
+			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '" media="all" crossorigin="anonymous">' . "\n";
 	}
 
 	/**
@@ -205,6 +195,13 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws SiteNotFoundException
 	 */
 	protected function getJsonFilePath(string $folder, int $rootPageId, string $sitePath) {
+		$jsonFiles = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData' .
+			JsonImportService::LOCALE_SEPARATOR . $this->getLanguageWithLocale() . '*.json');
+		if (count($jsonFiles) > 0) {
+			// return the first file we found
+			return str_replace($sitePath, '', $jsonFiles[0]);
+		}
+
 		$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData' . JsonImportService::LOCALE_SEPARATOR .
 			$this->getLanguageWithLocale() . '.json';
 		if (!file_exists($sitePath . $jsonFile)) {
@@ -219,6 +216,24 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		return $jsonFile;
+	}
+
+	/**
+	 * Get the current CSS or JS asset file path
+	 *
+	 * @param $sitePath
+	 * @param $folder
+	 * @param $rootPageId
+	 * @param $pattern
+	 * @return mixed|null
+	 */
+	protected function getAssetFilePath($sitePath, $folder, $rootPageId, $pattern) {
+		$files = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . $pattern);
+		if (count($files) > 0) {
+			return str_replace($sitePath, '', $files[0]);
+		}
+
+		return NULL;
 	}
 
 	/**
