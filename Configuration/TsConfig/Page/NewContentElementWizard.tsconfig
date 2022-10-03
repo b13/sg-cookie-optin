@@ -12,6 +12,16 @@ mod {
 
 			}
 
+			optin {
+				iconIdentifier = extension-sg_cookie_optin
+				title = LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginTitle
+				description = LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginDescription
+				tt_content_defValues {
+					CType = list
+					list_type = sgcookieoptin_cookielist
+				}
+
+			}
 		}
 
 		show = *

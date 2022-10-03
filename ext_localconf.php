@@ -41,12 +41,34 @@ call_user_func(
 					\SGalinski\SgCookieOptin\Controller\OptinController::class => '',
 				]
 			);
+			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+				'sg_cookie_optin',
+				'CookieList',
+				[
+					\SGalinski\SgCookieOptin\Controller\OptinController::class => 'cookieList',
+				],
+				// non-cacheable actions
+				[
+					\SGalinski\SgCookieOptin\Controller\OptinController::class => '',
+				]
+			);
 		} else {
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'SGalinski.sg_cookie_optin',
 				'OptIn',
 				[
 					'Optin' => 'show',
+				],
+				// non-cacheable actions
+				[
+					'Optin' => '',
+				]
+			);
+			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+				'SGalinski.sg_cookie_optin',
+				'CookieList',
+				[
+					'Optin' => 'cookieList',
 				],
 				// non-cacheable actions
 				[

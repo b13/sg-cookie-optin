@@ -40,10 +40,12 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -121,6 +123,59 @@ class OptinController extends ActionController {
 	 * @return void
 	 */
 	public function showAction() {
+	}
+
+	/**
+	 * Renders the cookie list.
+	 *
+	 * @return void
+	 */
+	public function cookieListAction() {
+		$rootPageId = $GLOBALS['TSFE']->rootLine[0]['uid'] ?? 0;
+		$languageUid = $GLOBALS['TSFE']->getLanguage()->getLanguageId();
+
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+					'tx_sgcookieoptin_domain_model_optin'
+				);
+		$optin = $queryBuilder->select('*')
+			->from('tx_sgcookieoptin_domain_model_optin')
+			->where($queryBuilder->expr()->eq('pid', $rootPageId))
+			->andWhere($queryBuilder->expr()->eq('sys_language_uid', $languageUid))
+			->execute()
+			->fetchAssociative();
+
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+			'tx_sgcookieoptin_domain_model_group'
+		);
+		$groups = $queryBuilder->select('*')
+			->from('tx_sgcookieoptin_domain_model_group')
+			->where($queryBuilder->expr()->eq('parent_optin', $optin['uid']))
+			->andWhere($queryBuilder->expr()->eq('sys_language_uid', $languageUid))
+			->execute()
+			->fetchAll();
+
+		array_unshift($groups, [
+			'uid' => 0,
+			'title' => $optin['essential_title'],
+			'description' => $optin['essential_description'],
+			'cookies' => 0
+		]);
+
+		foreach ($groups as &$group) {
+			$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+				'tx_sgcookieoptin_domain_model_cookie'
+			);
+			$cookies = $queryBuilder->select('*')
+				->from('tx_sgcookieoptin_domain_model_cookie')
+				->where($queryBuilder->expr()->eq('parent_group', $group['uid']))
+				->andWhere($queryBuilder->expr()->eq('sys_language_uid', $languageUid))
+				->execute()
+				->fetchAll();
+			$group['cookies'] = $cookies;
+		}
+
+		$this->view->assign('groups', $groups);
+		$this->view->assign('optin', $optin);
 	}
 
 	/**
