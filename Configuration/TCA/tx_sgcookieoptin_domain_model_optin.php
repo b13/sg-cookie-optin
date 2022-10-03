@@ -61,7 +61,8 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
 					iframe_enabled, iframe_title, iframe_description, iframe_cookies, --palette--;;iframe_texts,
 					--palette--;;iframe_colors, --palette--;;iframe_template, --palette--;;iframe_replacement_template,
-					--palette--;;iframe_whitelist,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframe_settings,
+					--palette--;;iframe_whitelist, services,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.banner,
 					--palette--;;banner_general, --palette--;;banner_general_colors,
 					--palette--;;banner_settings_button, --palette--;;banner_accept_button,
@@ -140,7 +141,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_colors',
 			'showitem' => 'iframe_color_consent_box_background, --linebreak--,
 				iframe_color_button_load_one, iframe_color_button_load_one_hover, iframe_color_button_load_one_text, --linebreak--,
-				iframe_color_open_settings'
+				iframe_color_open_settings, --linebreak--,
+				iframe_replacement_background_image'
 		],
 		'iframe_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_template',
@@ -159,7 +161,7 @@ $configuration = [
 			'showitem' => 'iframe_replacement_selection, iframe_replacement_overwritten, --linebreak--,
 				iframe_replacement_warning, --linebreak--,
 				iframe_replacement_html, --linebreak--,
-				iframe_custom_templates'
+				services'
 		],
 		'banner_general' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general',
@@ -1078,6 +1080,19 @@ $configuration = [
 			   ]
 			],
 		],
+		'iframe_replacement_background_image' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image.description',
+			'config' => [
+				'type' => 'input',
+				'eval' => 'trim',
+				'behaviour' => [
+				   'allowLanguageSynchronization' => TRUE
+				],
+				'default' => '',
+			],
+		],
 		'cookie_lifetime' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_lifetime',
@@ -1728,12 +1743,12 @@ $configuration = [
 				'eval' => 'trim, required'
 			]
 		],
-		'iframe_custom_templates' => [
+		'services' => [
 			'exclude' => TRUE,
-			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_custom_templates',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.services',
 			'config' => [
 				'type' => 'inline',
-				'foreign_table' => 'tx_sgcookieoptin_domain_model_template',
+				'foreign_table' => 'tx_sgcookieoptin_domain_model_service',
 				'foreign_field' => 'parent_optin',
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
@@ -1826,7 +1841,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex,'
 		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
 		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
-		. 'color_fingerprint_background, color_fingerprint_image, iframe_custom_templates';
+		. 'color_fingerprint_background, color_fingerprint_image, services, iframe_replacement_background_image';
 }
 
 return $configuration;

@@ -92,7 +92,7 @@ class JsonImportService {
 		$cookieGroups = $jsonData['cookieGroups'];
 		$iframeGroup = $jsonData['iFrameGroup'];
 		$footerLinks = $jsonData['footerLinks'];
-		$customTemplates = $jsonData['mustacheData']['customTemplates'];
+		$services = $jsonData['mustacheData']['services'];
 
 		if (!is_array($footerLinks)) {
 			$footerLinks = [];
@@ -172,19 +172,20 @@ class JsonImportService {
 			'iframe_button_allow_one_text',
 			'iframe_button_load_one_text',
 			'iframe_open_settings_text',
+			'iframe_replacement_background_image'
 
 		],
 			$flatJsonData
 		);
 
-		// Add Templates
-		$templateIndex = 0;
-		foreach ($customTemplates as $identifier => $template) {
-			$template['identifier'] = $identifier;
-			$templateId = $this->addCustomTemplate(
+		// Add Serivices
+		$serviceIndex = 0;
+		foreach ($services as $identifier => $service) {
+			$service['identifier'] = $identifier;
+			$serviceId = $this->addService(
 				$pid,
-				$template,
-				$templateIndex,
+				$service,
+				$serviceIndex,
 				$optInId,
 				$sysLanguageUid,
 				$defaultLanguageOptinId,
@@ -193,10 +194,10 @@ class JsonImportService {
 
 			// store the mapping
 			if ($defaultLanguageOptinId === NULL) {
-				$this->defaultLanguageIdMappingLookup['templates'][$templateIndex] = $templateId;
+				$this->defaultLanguageIdMappingLookup['services'][$serviceIndex] = $serviceId;
 			}
 
-			$templateIndex++;
+			$serviceIndex++;
 		}
 
 		// Add Groups
@@ -508,11 +509,11 @@ class JsonImportService {
 	}
 
 	/**
-	 * Adds a custom template entry in the database
+	 * Adds a service entry in the database
 	 *
 	 * @param int $pid
-	 * @param array $template
-	 * @param int $templateIndex
+	 * @param array $service
+	 * @param int $serviceIndex
 	 * @param int $optInId
 	 * @param int|null $sysLanguageUid
 	 * @param int|null $defaultLanguageOptinId
@@ -520,38 +521,40 @@ class JsonImportService {
 	 * @param ConnectionPool $connectionPool
 	 * @return string
 	 */
-	protected function addCustomTemplate(
+	protected function addService(
 		$pid,
-		$template,
-		$templateIndex,
+		$service,
+		$serviceIndex,
 		$optInId,
 		$sysLanguageUid,
 		$defaultLanguageOptinId,
 		$connectionPool
 	): string {
-		$templateData = [
+		$serviceData = [
 			'pid' => $pid,
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
-			'identifier' => $template['identifier'],
-			'replacement_html' => $template['mustache'],
-			'sorting' => $templateIndex + 1,
+			'identifier' => $service['identifier'],
+			'replacement_html' => $service['mustache'],
+			'replacement_html_overwritten' => $service['replacement_html_overwritten'],
+			'replacement_background_image' => $service['replacement_background_image'],
+			'sorting' => $serviceIndex + 1,
 			'parent_optin' => $optInId,
 			'crdate' => $GLOBALS['EXEC_TIME'],
 			'tstamp' => $GLOBALS['EXEC_TIME'],
 		];
 
 		if ($defaultLanguageOptinId !== NULL) {
-			$templateData['sys_language_uid'] = $sysLanguageUid;
-			$templateData['l10n_parent'] = $this->defaultLanguageIdMappingLookup['templates'][$templateIndex];
+			$serviceData['sys_language_uid'] = $sysLanguageUid;
+			$serviceData['l10n_parent'] = $this->defaultLanguageIdMappingLookup['services'][$serviceIndex];
 		}
 
 		return $this->flexInsert(
 			$connectionPool,
-			'tx_sgcookieoptin_domain_model_template',
+			'tx_sgcookieoptin_domain_model_service',
 			[
-			'pid', 'identifier', 'replacement_html'
+			'pid', 'identifier', 'replacement_html_overwritten', 'replacement_html', 'replacement_background_image', 'source_regex'
 		],
-			$templateData
+			$serviceData
 		);
 	}
 

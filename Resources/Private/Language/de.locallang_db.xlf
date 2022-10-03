@@ -853,17 +853,37 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[Fingerprint]]></source>
 				<target><![CDATA[Fingerabdruck]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_template" approved="yes">
-				<source><![CDATA[Custom Template]]></source>
-				<target><![CDATA[Benutzerdefinierte Vorlage]]></target>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service" approved="yes">
+				<source><![CDATA[Service]]></source>
+				<target><![CDATA[Service]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_template.identifier" approved="yes">
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.identifier" approved="yes">
 				<source><![CDATA[Identifier]]></source>
 				<target><![CDATA[Identifikator]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_custom_templates" approved="yes">
-				<source><![CDATA[Custom Templates]]></source>
-				<target><![CDATA[Benutzerdefinierte Vorlagen]]></target>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.services" approved="yes">
+				<source><![CDATA[Services]]></source>
+				<target><![CDATA[Services]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image" approved="yes">
+				<source><![CDATA[iFrame Replacement Background Image]]></source>
+				<target><![CDATA[iFrame Ersatz Hintergrundbild]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image.description" approved="yes">
+				<source><![CDATA[Enter a URL to a background image if you would like to use it instead of the background color. Please make sure the origin is allowed in your content security policy.]]></source>
+				<target><![CDATA[Geben Sie eine URL zu einem Hintergrundbild ein, wenn Sie es anstelle der Hintergrundfarbe verwenden möchten. Vergewissern Sie sich, dass der Ursprung in Ihrer Sicherheitsrichtlinie für Inhalte erlaubt ist.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.source_regex" approved="yes">
+				<source><![CDATA[Automatically assign the service template to all external content elements whose source matches the following regular expressions. Every new line is interpreted as a new regular expression. Syntax errors may lead to issues on your website!]]></source>
+				<target><![CDATA[Automatisch allen externen Inhaltselementen, deren Quelle mit den folgenden regulären Ausdrücken übereinstimmt, die Dienstvorlage zuweisen. Jede neue Zeile wird als neuer regulärer Ausdruck interpretiert. Syntaxfehler können zu Problemen auf Ihrer Website führen!]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.replacement_html_overwritten" approved="yes">
+				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
+				<target><![CDATA[Vorlage überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen.)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
+				<source><![CDATA[External Content Settings]]></source>
+				<target><![CDATA[Externe Inhalte Eintellungen]]></target>
 			</trans-unit>
 		</body>
 	</file>

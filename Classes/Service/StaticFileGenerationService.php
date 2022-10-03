@@ -900,6 +900,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'unified_cookie_name' => (bool) $translatedData['unified_cookie_name'],
 			'disable_usage_statistics' => (bool) $translatedData['disable_usage_statistics'],
 			'fingerprint_position' => (int) $translatedData['fingerprint_position'],
+			'iframe_replacement_background_image' => (string) $translatedData['iframe_replacement_background_image'],
 		];
 
 		$textEntries = [
@@ -1006,13 +1007,23 @@ class StaticFileGenerationService implements SingletonInterface {
 			],
 		];
 
-		$jsonDataArray['mustacheData']['customTemplates'] = [];
-		if (count($translatedData['iframe_custom_templates']) > 0) {
+		$jsonDataArray['mustacheData']['services'] = [];
+		if (count($translatedData['services']) > 0) {
 			$templateService = GeneralUtility::makeInstance(TemplateService::class);
-			foreach ($translatedData['iframe_custom_templates'] as $customTemplate) {
-				$jsonDataArray['mustacheData']['customTemplates'][$customTemplate['identifier']] = [
-					'rendered' => $templateService->renderTemplate($customTemplate['replacement_html'], $jsonDataArray),
-					'mustache' => $customTemplate['replacement_html'],
+			foreach ($translatedData['services'] as $service) {
+
+				if ($service['replacement_html_overwritten']) {
+					$rendered = $templateService->renderTemplate($service['replacement_html'], $jsonDataArray);
+				} else {
+					$rendered = $jsonDataArray['mustacheData']['iframeReplacement']['markup'];
+				}
+
+				$jsonDataArray['mustacheData']['services'][$service['identifier']] = [
+					'rendered' => $rendered,
+					'mustache' => $service['replacement_html'],
+					'replacement_html_overwritten' => $service['replacement_html_overwritten'],
+					'background_image' => $service['replacement_background_image'],
+					'regex' => $service['source_regex'],
 				];
 			}
 		}

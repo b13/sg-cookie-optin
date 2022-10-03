@@ -629,14 +629,26 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint" approved="yes">
 				<source><![CDATA[Fingerprint]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_template" approved="yes">
-				<source><![CDATA[Custom Template]]></source>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service" approved="yes">
+				<source><![CDATA[Services]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_template.identifier" approved="yes">
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.identifier" approved="yes">
 				<source><![CDATA[Identifier]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_custom_templates" approved="yes">
-				<source><![CDATA[Custom Templates]]></source>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.services" approved="yes">
+				<source><![CDATA[Services]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image" approved="yes">
+				<source><![CDATA[iFrame Replacement Background Image]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image.description" approved="yes">
+				<source><![CDATA[Enter a URL to a background image if you would like to use it instead of the background color. Please make sure the origin is allowed in your content security policy.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.replacement_html_overwritten" approved="yes">
+				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
+				<source><![CDATA[External Content Settings]]></source>
 			</trans-unit>
 		</body>
 	</file>

@@ -26,7 +26,7 @@
 
 $configuration = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_template',
+		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service',
 		'label' => 'identifier',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
@@ -42,12 +42,12 @@ $configuration = [
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
-		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_template.svg'
+		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_service.svg'
 	],
 	'interface' => [],
 	'types' => [
 		'1' => [
-			'showitem' => 'identifier, replacement_html',
+			'showitem' => 'identifier, replacement_html_overwritten, replacement_html, source_regex, replacement_background_image',
 		],
 	],
 	'palettes' => [
@@ -80,8 +80,8 @@ $configuration = [
 				'items' => [
 					['', 0]
 				],
-				'foreign_table' => 'tx_sgcookieoptin_domain_model_template',
-				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_template.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_template.sys_language_uid IN (-1,0)',
+				'foreign_table' => 'tx_sgcookieoptin_domain_model_service',
+				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_service.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_service.sys_language_uid IN (-1,0)',
 				'default' => 0
 			]
 		],
@@ -100,11 +100,22 @@ $configuration = [
 		],
 		'identifier' => [
 			'exclude' => TRUE,
-			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_template.identifier',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.identifier',
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim, required'
+			],
+		],
+		'replacement_html_overwritten' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.replacement_html_overwritten',
+			'config' => [
+				'type' => 'check',
+				'default' => '0',
+				'behaviour' => [
+				   'allowLanguageSynchronization' => TRUE
+				],
 			],
 		],
 		'replacement_html' => [
@@ -132,11 +143,35 @@ $configuration = [
 				'default' => 0,
 			],
 		],
+		'replacement_background_image' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image.description',
+			'config' => [
+				'type' => 'input',
+				'eval' => 'trim',
+				'behaviour' => [
+				   'allowLanguageSynchronization' => TRUE
+				],
+				'default' => '',
+			],
+		],
+		'source_regex' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.source_regex',
+//			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.source_regex.description',
+			'config' => [
+				'type' => 'text',
+				'renderType' => 't3editor',
+				'eval' => 'trim',
+			],
+		],
 	],
 ];
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
 	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,'
-		. 'identifier, replacement_html,	parent_group, parent_optin';
+		. 'identifier, replacement_html, parent_group, parent_optin, replacement_background_image, source_regex';
 }
 
 return $configuration;

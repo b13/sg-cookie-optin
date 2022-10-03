@@ -119,6 +119,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_replacement_html text NOT NULL,
 	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_replacement_selection int(11) DEFAULT '0' NOT NULL,
+	iframe_replacement_background_image text NOT NULL,
 
 	iframe_whitelist_regex text NOT NULL,
 	iframe_whitelist_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -136,7 +137,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	iframe_color_button_load_one_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(10) DEFAULT '#373737' NOT NULL,
-	iframe_custom_templates int(11) DEFAULT '0' NOT NULL,
+	services int(11) DEFAULT '0' NOT NULL,
 
 	-- Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
@@ -290,14 +291,17 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 );
 
 --
--- Table structure for table 'tx_sgcookieoptin_domain_model_template'
+-- Table structure for table 'tx_sgcookieoptin_domain_model_service'
 --
-CREATE TABLE tx_sgcookieoptin_domain_model_template (
+CREATE TABLE tx_sgcookieoptin_domain_model_service (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
 
 	identifier varchar(255) DEFAULT '' NOT NULL,
+	replacement_html_overwritten tinyint(4) DEFAULT '0' NOT NULL,
 	replacement_html text NOT NULL,
+	replacement_background_image text NOT NULL,
+	source_regex text NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,

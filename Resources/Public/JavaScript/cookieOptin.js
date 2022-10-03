@@ -1227,31 +1227,32 @@ var SgCookieOptin = {
 
 		switch (externalContent.tagName) {
 			case 'IFRAME':
-				return SgCookieOptin.isElementWhitelisted(externalContent, 'src', regularExpressions);
+				return SgCookieOptin.matchRegexElementSource(externalContent, 'src', regularExpressions, true);
 			case 'OBJECT':
-				return SgCookieOptin.isElementWhitelisted(externalContent, 'data', regularExpressions);
+				return SgCookieOptin.matchRegexElementSource(externalContent, 'data', regularExpressions, true);
 			case 'VIDEO':
 			case 'AUDIO':
-				return SgCookieOptin.isAudioVideoWhitelisted(externalContent, regularExpressions);
+				return SgCookieOptin.matchRegexAudioVideo(externalContent, regularExpressions, true);
 			default:
 				return false;
 		}
 	},
 
 	/**
-	 * Tests whether a dom element attribute is whitelisted
+	 * Tests whether a dom element attribute matches the given regular expressions
 	 *
 	 * @param {dom} externalContent
 	 * @param {string} attribute
 	 * @param {RegExp[]} regularExpressions
+	 * @param {boolean} checkForLocal
 	 * @return {boolean}
 	 */
-	isElementWhitelisted: function(externalContent, attribute, regularExpressions) {
+	matchRegexElementSource: function(externalContent, attribute, regularExpressions, checkForLocal) {
 		if (typeof externalContent.getAttribute !== 'function') {
 			return false;
 		}
 
-		if (SgCookieOptin.isUrlLocal(externalContent.dataset['contentReplaceSrc'] || externalContent.getAttribute(attribute))) {
+		if (checkForLocal && SgCookieOptin.isUrlLocal(externalContent.dataset['contentReplaceSrc'] || externalContent.getAttribute(attribute))) {
 			return true;
 		}
 
@@ -1264,19 +1265,20 @@ var SgCookieOptin = {
 	},
 
 	/**
-	 * Tests if an audio or video element is whitelisted
+	 * Tests if an audio or video element's source matches the given regular expressions
 	 *
 	 * @param {dom} externalContent
 	 * @param {RegExp[]} regularExpressions
+	 * @param {boolean} checkForLocal
 	 * @return {boolean}
 	 */
-	isAudioVideoWhitelisted: function(externalContent, regularExpressions) {
+	matchRegexAudioVideo: function(externalContent, regularExpressions, checkForLocal) {
 		if (externalContent.hasAttribute('src')) {
-			return SgCookieOptin.isElementWhitelisted(externalContent, 'src', regularExpressions);
+			return SgCookieOptin.matchRegexElementSource(externalContent, 'src', regularExpressions, checkForLocal);
 		}
 
 		var sources = externalContent.querySelectorAll('source');
-		var foundNonWhitelisted = false;
+		var foundMatches = false;
 		for (var sourceIndex in sources) {
 			if (!sources.hasOwnProperty(sourceIndex)) {
 				continue;
@@ -1287,12 +1289,12 @@ var SgCookieOptin = {
 			}
 
 			// noinspection JSUnfilteredForInLoop
-			if (!SgCookieOptin.isElementWhitelisted(sources[sourceIndex], 'src', regularExpressions)) {
-				foundNonWhitelisted = true;
+			if (!SgCookieOptin.matchRegexElementSource(sources[sourceIndex], 'src', regularExpressions, checkForLocal)) {
+				foundMatches = true;
 			}
 		}
 
-		return !foundNonWhitelisted;
+		return !foundMatches;
 	},
 
 	/**
@@ -1425,25 +1427,109 @@ var SgCookieOptin = {
 	 * @param {HTMLElement} container
 	 */
 	insertExternalContentReplacementHTML: function (externalContent, container) {
+		var serviceUsed = false;
+		var service = null;
+
+		// check if the service template is explicitly set
 		if (typeof externalContent.dataset.sgCookieOptinReplacementTemplate !== 'undefined') {
-			var template = SgCookieOptin.jsonData.mustacheData.customTemplates[
+			service = SgCookieOptin.jsonData.mustacheData.services[
 				externalContent.dataset.sgCookieOptinReplacementTemplate
 			];
 
-			if (template) {
-				container.insertAdjacentHTML('afterbegin', template.rendered);
-				return;
+			if (service) {
+				serviceUsed = true;
+				SgCookieOptin.emitBeforeExternalContentReplacedEvent(parent, externalContent, container, service);
+				container.insertAdjacentHTML('afterbegin', service.rendered);
 			} else {
 				console.log('Sg Cookie Optin: Template ' + externalContent.dataset.sgCookieOptinReplacementTemplate
 				+ ' not found!');
 			}
+		} else {
+			// try to match service regex
+			if (typeof SgCookieOptin.jsonData.mustacheData.services !== 'undefined') {
+				for (var serviceIndex in SgCookieOptin.jsonData.mustacheData.services) {
+					if (!SgCookieOptin.jsonData.mustacheData.services.hasOwnProperty(serviceIndex)) {
+						continue;
+					}
+
+					if (SgCookieOptin.jsonData.mustacheData.services[serviceIndex].regex.trim() === '') {
+						continue;
+					}
+
+					var regularExpressions = SgCookieOptin.jsonData.mustacheData.services[serviceIndex].regex.trim()
+						.split(/\r?\n/).map(function(value) {
+							return new RegExp(value);
+						});
+
+					var serviceMatched = false;
+					if (typeof regularExpressions === 'object' && regularExpressions.length > 0) {
+						switch (externalContent.tagName) {
+							case 'IFRAME':
+								serviceMatched = SgCookieOptin.matchRegexElementSource(externalContent, 'src', regularExpressions, false);
+								break;
+							case 'OBJECT':
+								serviceMatched = SgCookieOptin.matchRegexElementSource(externalContent, 'data', regularExpressions, false);
+								break;
+							case 'VIDEO':
+							case 'AUDIO':
+								serviceMatched = SgCookieOptin.matchRegexAudioVideo(externalContent, regularExpressions, false);
+								break;
+						}
+					}
+
+					if (serviceMatched) {
+						serviceUsed = true;
+						service = SgCookieOptin.jsonData.mustacheData.services[serviceIndex];
+						SgCookieOptin.emitBeforeExternalContentReplacedEvent(parent, externalContent, container, service);
+						container.insertAdjacentHTML('afterbegin', service.rendered);
+						break;
+					}
+
+				}
+			}
 		}
 
+		if (!serviceUsed) {
+			SgCookieOptin.emitBeforeExternalContentReplacedEvent(parent, externalContent, container, service);
+			container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
+		}
+
+		// Set the backgrond image
+		var backgroundImage;
 		if (typeof externalContent.dataset.sgCookieOptinBackgroundImage !== 'undefined') {
-			container.style.backgroundImage = 'url(' + externalContent.dataset.sgCookieOptinBackgroundImage + ')';
+			backgroundImage = externalContent.dataset.sgCookieOptinBackgroundImage;
+		} else if (service && service.background_image !== '') {
+			backgroundImage = service.background_image;
+		} else if (typeof SgCookieOptin.jsonData.settings.iframe_replacement_background_image !== 'undefined'
+			&& SgCookieOptin.jsonData.settings.iframe_replacement_background_image !== '') {
+			backgroundImage = SgCookieOptin.jsonData.settings.iframe_replacement_background_image;
 		}
 
-		container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
+		if (backgroundImage) {
+			container.style.backgroundImage = 'url(' + backgroundImage + ')';
+		}
+	},
+
+	/**
+	 * Emits the event that takes place right before we replace the external content with the replacement
+	 *
+	 * @param {Object} parent
+	 * @param {dom} externalContent
+	 * @param {dom} container
+	 * @param {null|Object} service
+	 */
+	emitBeforeExternalContentReplacedEvent: function(parent, externalContent, container, service) {
+		// Emit event for replaced content
+		var beforeExternalContentReplaced = new CustomEvent('beforeExternalContentReplaced', {
+			bubbles: true,
+			detail: {
+				parent: parent,
+				externalContent: externalContent,
+				container: container,
+				service: service
+			}
+		});
+		document.dispatchEvent(beforeExternalContentReplaced);
 	},
 
 	/**
@@ -1497,7 +1583,7 @@ var SgCookieOptin = {
 		SgCookieOptin.setExternalContentDescriptionText(wrapper, externalContent);
 		SgCookieOptin.addExternalContentListeners(wrapper);
 
-		document.body.insertAdjacentElement('beforeend', wrapper);
+		document.body.insertAdjacentElement('afterbegin', wrapper);
 
 		// focus the first button for better accessability
 		var buttons = document.getElementsByClassName('sg-cookie-optin-box-button-accept-all');

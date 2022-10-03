@@ -21,6 +21,18 @@
 				<source><![CDATA[Cookie Opt In]]></source>
 				<target><![CDATA[Cookie-Opt-In]]></target>
 			</trans-unit>
+			<trans-unit id="cookieListPluginDescription" approved="yes">
+				<source><![CDATA[Inserts the cookie list.]]></source>
+				<target><![CDATA[Fügt den Cookie-List ein.]]></target>
+			</trans-unit>
+			<trans-unit id="cookieListPluginLabel" approved="yes">
+				<source><![CDATA[Cookie List]]></source>
+				<target><![CDATA[Cookie-List]]></target>
+			</trans-unit>
+			<trans-unit id="cookieListPluginTitle" approved="yes">
+				<source><![CDATA[Cookie List]]></source>
+				<target><![CDATA[Cookie-List]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
