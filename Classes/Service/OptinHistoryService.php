@@ -101,8 +101,9 @@ class OptinHistoryService {
 	 * @return bool
 	 */
 	protected static function validateInput(array $input): bool {
-		return !(!isset($input['uuid'], $input['version'], $input['cookieValue'], $input['isAll'], $input['identifier'])
-			|| ((int) $input['version']) < 1);
+		return isset($input['uuid'], $input['version'], $input['cookieValue'], $input['isAll'], $input['identifier'])
+			&& (int) $input['version'] >= 1
+			&& preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $input['uuid']);
 	}
 
 	/**
