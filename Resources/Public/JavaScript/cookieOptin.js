@@ -1414,7 +1414,8 @@ var SgCookieOptin = {
 			detail: {
 				positionIndex: positionIndex,
 				parent: parent,
-				externalContent: externalContent
+				externalContent: externalContent,
+				container: container
 			}
 		});
 		container.dispatchEvent(externalContentReplacedEvent);
