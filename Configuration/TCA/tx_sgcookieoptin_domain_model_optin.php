@@ -160,8 +160,7 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_template',
 			'showitem' => 'iframe_replacement_selection, iframe_replacement_overwritten, --linebreak--,
 				iframe_replacement_warning, --linebreak--,
-				iframe_replacement_html, --linebreak--,
-				services'
+				iframe_replacement_html, --linebreak--'
 		],
 		'banner_general' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general',
