@@ -811,6 +811,8 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$footerLinks = [];
 		$index = 0;
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+		$parsedSiteBaseUrl = parse_url($siteBaseUrl);
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
@@ -845,6 +847,10 @@ class StaticFileGenerationService implements SingletonInterface {
 				$url = substr($url, 1);
 			}
 
+			if (!$parsedSiteBaseUrl['path'] || $parsedSiteBaseUrl['path'] === '/') {
+				$url = '/' . str_replace($siteBaseUrl, '', $url);
+			}
+
 			$footerLinks[$index] = [
 				'url' => $url,
 				'name' => $name,
@@ -858,7 +864,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		if ($translatedData['overwrite_baseurl']) {
 			$baseUri = $translatedData['overwrite_baseurl'];
 		} else {
-			$baseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+			$baseUrl = $siteBaseUrl;
 			if ((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000)) {
 				$baseUri = $baseUrl;
 			} else {
