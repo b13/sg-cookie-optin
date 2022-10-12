@@ -100,7 +100,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
 			}
 
-			$fileUrl = $overwrittenBaseUrl ?? $siteBaseUrl . $file;
+			$fileUrl = ($overwrittenBaseUrl ?? $siteBaseUrl) . $file;
 			return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) . '</script>
 					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
 					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"></script>';
