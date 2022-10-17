@@ -1432,9 +1432,9 @@ var SgCookieOptin = {
 		var service = null;
 
 		// check if the service template is explicitly set
-		if (typeof externalContent.dataset.sgCookieOptinReplacementTemplate !== 'undefined') {
+		if (typeof externalContent.dataset.sgCookieOptinServiceTemplate !== 'undefined') {
 			service = SgCookieOptin.jsonData.mustacheData.services[
-				externalContent.dataset.sgCookieOptinReplacementTemplate
+				externalContent.dataset.sgCookieOptinServiceTemplate
 			];
 
 			if (service) {
@@ -1499,8 +1499,8 @@ var SgCookieOptin = {
 		var backgroundImage;
 		if (typeof externalContent.dataset.sgCookieOptinBackgroundImage !== 'undefined') {
 			backgroundImage = externalContent.dataset.sgCookieOptinBackgroundImage;
-		} else if (service && service.background_image !== '') {
-			backgroundImage = service.background_image;
+		} else if (service && service.replacement_background_image !== '') {
+			backgroundImage = service.replacement_background_image;
 		} else if (typeof SgCookieOptin.jsonData.settings.iframe_replacement_background_image !== 'undefined'
 			&& SgCookieOptin.jsonData.settings.iframe_replacement_background_image !== '') {
 			backgroundImage = SgCookieOptin.jsonData.settings.iframe_replacement_background_image;

@@ -202,76 +202,16 @@ class JsonImportService {
 
 		// Add Groups
 		foreach ($cookieGroups as $groupIndex => $group) {
-			$groupIdentifier = $groupIndex;
-			if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
-				$groupId = $this->addGroup(
-					$pid,
-					$group,
-					$groupIndex,
-					$optInId,
-					$sysLanguageUid,
-					$defaultLanguageOptinId,
-					$connectionPool
-				);
-			} else {
-				// we use this only for the internal language mapping lookup array
-				$groupIdentifier = $group['groupName'];
-				$groupId = '';
-			}
+			$this->addGroupWithCookiesAndScripts(
+				$groupIndex, $group, $pid, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+			);
+		}
 
-			// store the mapping
-			if ($defaultLanguageOptinId === NULL) {
-				$this->defaultLanguageIdMappingLookup[$groupIdentifier] = [
-					'id' => $groupId,
-					'cookies' => [],
-					'scripts' => []
-				];
-			}
-
-			// Add Cookies
-			if (isset($group['cookieData'])) {
-				foreach ($group['cookieData'] as $cookieIndex => $cookie) {
-					if ($cookie['pseudo'] === TRUE) {
-						continue;
-					}
-					$cookieId = $this->addCookie(
-						$pid,
-						$cookie,
-						$cookieIndex,
-						$group['groupName'],
-						$optInId,
-						$groupId,
-						$sysLanguageUid,
-						$groupIdentifier,
-						$defaultLanguageOptinId,
-						$connectionPool
-					);
-					if ($defaultLanguageOptinId === NULL) {
-						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex] = $cookieId;
-					}
-				}
-			}
-
-			// Add Scripts
-			if (isset($group['scriptData'])) {
-				foreach ($group['scriptData'] as $scriptIndex => $script) {
-					$scriptId = $this->addScript(
-						$pid,
-						$script,
-						$scriptIndex,
-						$group['groupName'],
-						$optInId,
-						$groupId,
-						$sysLanguageUid,
-						$defaultLanguageOptinId,
-						$groupIdentifier,
-						$connectionPool
-					);
-					if ($defaultLanguageOptinId === NULL) {
-						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex] = $scriptId;
-					}
-				}
-			}
+		if (!$flatJsonData['iframe_enabled'] && $iframeGroup) {
+			$groupIndex++;
+			$this->addGroupWithCookiesAndScripts(
+				$groupIndex, $iframeGroup, $pid, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+			);
 		}
 
 		return $optInId;
@@ -637,5 +577,91 @@ class JsonImportService {
 
 		// Save into session
 		$_SESSION['tx_sgcookieoptin']['importJsonData'] = $dataStorage;
+	}
+
+	/**
+	 * @param $groupIndex
+	 * @param $group
+	 * @param int $pid
+	 * @param string $optInId
+	 * @param int|null $sysLanguageUid
+	 * @param int|null $defaultLanguageOptinId
+	 * @param ConnectionPool $connectionPool
+	 * @return void
+	 */
+	protected function addGroupWithCookiesAndScripts(
+		$groupIndex, $group, int $pid, string $optInId, $sysLanguageUid, $defaultLanguageOptinId,
+		ConnectionPool $connectionPool
+	) {
+		$groupIdentifier = $groupIndex;
+		if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
+			$groupId = $this->addGroup(
+				$pid,
+				$group,
+				$groupIndex,
+				$optInId,
+				$sysLanguageUid,
+				$defaultLanguageOptinId,
+				$connectionPool
+			);
+		} else {
+			// we use this only for the internal language mapping lookup array
+			$groupIdentifier = $group['groupName'];
+			$groupId = '';
+		}
+
+		// store the mapping
+		if ($defaultLanguageOptinId === NULL) {
+			$this->defaultLanguageIdMappingLookup[$groupIdentifier] = [
+				'id' => $groupId,
+				'cookies' => [],
+				'scripts' => []
+			];
+		}
+
+		// Add Cookies
+		if (isset($group['cookieData'])) {
+			foreach ($group['cookieData'] as $cookieIndex => $cookie) {
+				if ($cookie['pseudo'] === TRUE) {
+					continue;
+				}
+				$cookieId = $this->addCookie(
+					$pid,
+					$cookie,
+					$cookieIndex,
+					$group['groupName'],
+					$optInId,
+					$groupId,
+					$sysLanguageUid,
+					$groupIdentifier,
+					$defaultLanguageOptinId,
+					$connectionPool
+				);
+				if ($defaultLanguageOptinId === NULL) {
+					$this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex] = $cookieId;
+				}
+			}
+		}
+
+		// Add Scripts
+		if (isset($group['scriptData'])) {
+			foreach ($group['scriptData'] as $scriptIndex => $script) {
+				$scriptId = $this->addScript(
+					$pid,
+					$script,
+					$scriptIndex,
+					$group['groupName'],
+					$optInId,
+					$groupId,
+					$sysLanguageUid,
+					$defaultLanguageOptinId,
+					$groupIdentifier,
+					$connectionPool
+				);
+				if ($defaultLanguageOptinId === NULL) {
+					$this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex] = $scriptId;
+				}
+			}
+		}
 	}
 }
