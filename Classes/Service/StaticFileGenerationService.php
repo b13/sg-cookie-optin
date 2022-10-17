@@ -1027,7 +1027,7 @@ class StaticFileGenerationService implements SingletonInterface {
 					'rendered' => $rendered,
 					'mustache' => $service['replacement_html'],
 					'replacement_html_overwritten' => $service['replacement_html_overwritten'],
-					'background_image' => $service['replacement_background_image'],
+					'replacement_background_image' => $service['replacement_background_image'],
 					'regex' => $service['source_regex'],
 				];
 			}
