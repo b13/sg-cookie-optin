@@ -885,6 +885,18 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[External Content Settings]]></source>
 				<target><![CDATA[Externe Inhalte Eintellungen]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_cookielist.settings" approved="yes">
+				<source><![CDATA[Settings]]></source>
+				<target><![CDATA[Einstellungen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_cookielist.headline" approved="yes">
+				<source><![CDATA[Headline]]></source>
+				<target><![CDATA[Überschrift]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_cookielist.description" approved="yes">
+				<source><![CDATA[Description]]></source>
+				<target><![CDATA[Beschreibung]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -24,7 +24,22 @@
 #SgCookieOptin * li,
 #SgCookieOptin * button,
 #SgCookieOptin * input,
-#SgCookieOptin * label {
+#SgCookieOptin * label,
+.sg-cookie-optin-plugin-cookie-list,
+.sg-cookie-optin-plugin-cookie-list * table,
+.sg-cookie-optin-plugin-cookie-list * tbody,
+.sg-cookie-optin-plugin-cookie-list * tr,
+.sg-cookie-optin-plugin-cookie-list * th,
+.sg-cookie-optin-plugin-cookie-list * td,
+.sg-cookie-optin-plugin-cookie-list * div,
+.sg-cookie-optin-plugin-cookie-list * strong,
+.sg-cookie-optin-plugin-cookie-list * p,
+.sg-cookie-optin-plugin-cookie-list * a,
+.sg-cookie-optin-plugin-cookie-list * ul,
+.sg-cookie-optin-plugin-cookie-list * li,
+.sg-cookie-optin-plugin-cookie-list * button,
+.sg-cookie-optin-plugin-cookie-list * input,
+.sg-cookie-optin-plugin-cookie-list * label {
 	margin: 0;
 	padding: 0;
 	border: 0;

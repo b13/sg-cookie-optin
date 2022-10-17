@@ -650,6 +650,15 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
 				<source><![CDATA[External Content Settings]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_cookielist.settings" approved="yes">
+				<source><![CDATA[Settings]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_cookielist.headline" approved="yes">
+				<source><![CDATA[Headline]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_cookielist.description" approved="yes">
+				<source><![CDATA[Description]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

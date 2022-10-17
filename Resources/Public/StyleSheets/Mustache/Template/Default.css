@@ -10,7 +10,8 @@
 
 /* This file includes basic styles for the template */
 
-#SgCookieOptin .sg-cookie-optin-box {
+#SgCookieOptin .sg-cookie-optin-box,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box{
 	position: relative;
 	overflow: auto;
 
@@ -68,24 +69,29 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-header,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-description {
 	display: block;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-header {
 	margin: 0;
 	font-size: 22px;
 	color: ###color_headline###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-description {
 	margin: 0 0 20px 0;
 	font-size: 14px;
 	line-height: 1.5;
 }
 
 /* Cookie List */
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list {
 	display: block;
 	list-style: none;
 }
@@ -237,7 +243,8 @@
 	display: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible {
 	padding: 10px 0 0 0;
 	border-top: 1px solid ###color_list###;
 	max-height: 2000px;
@@ -250,15 +257,18 @@
 	scrollbar-width: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
 	margin: 0 0 10px 0;
 	padding: 10px;
 
 	border-radius: 5px;
 	background-color: ###color_list###;
+	list-style: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a {
 	display: block;
 	margin: 10px 0 0 0;
 
@@ -267,17 +277,21 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
 	display: block;
 	color: ###color_list_text###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header {
 	margin: 0;
 	font-size: 18px;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
 	margin: 0 0 10px 0;
 	font-size: 14px;
 	line-height: 1.5;
@@ -315,21 +329,25 @@
 	scrollbar-width: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
 	margin: 0 0 10px 0;
 	width: 100%;
 	background-color: ###color_table###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table td {
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table td,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table td {
 	padding: 10px;
 	vertical-align: middle;
 	border-bottom: 1px solid ###color_list###;
 	color: ###color_Table_data_text###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th {
 	width: 25%;
 	font-weight: 600;
 	color: ###color_table_header_text###;
@@ -337,16 +355,19 @@
 	border-right: 1px solid ###color_list###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider {
 	background-color: ###color_list###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider td {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider td,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider td {
 	line-height: 0;
 }
 
 /* Footer */
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-footer {
 	padding: 10px 0 0;
 	border-top: 1px solid ###color_list###;
 }
@@ -376,14 +397,16 @@
 }
 
 /* The Content Element */
-.sg-cookie-optin-plugin #SgCookieOptin {
+.sg-cookie-optin-plugin #SgCookieOptin,
+.sg-cookie-optin-plugin .sg-cookie-optin-plugin-cookie-list {
 	display: block;
 	position: static;
 	background: none;
 	z-index: 10;
 }
 
-.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box {
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box,
+.sg-cookie-optin-plugin .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box {
 	margin: 0;
 	border: solid 1px ###color_list###;
 	border-radius: 5px;
