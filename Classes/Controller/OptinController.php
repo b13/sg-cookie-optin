@@ -214,8 +214,8 @@ class OptinController extends ActionController {
 
 		$view->assign('groups', $groups);
 		$view->assign('optin', $optin);
-		$view->assign('headline', $this->settings['headline']);
-		$view->assign('description', $this->settings['description']);
+		$view->assign('headline', $this->settings['headline'] ?? '');
+		$view->assign('description', $this->settings['description'] ?? '');
 
 		return $view->render();
 	}
