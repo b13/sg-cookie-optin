@@ -47,7 +47,7 @@ $configuration = [
 	'interface' => [],
 	'types' => [
 		'1' => [
-			'showitem' => 'identifier, replacement_html_overwritten, replacement_html, source_regex, replacement_background_image',
+			'showitem' => 'identifier, replacement_html_overwritten, replacement_html, replacement_background_image, source_regex',
 		],
 	],
 	'palettes' => [
