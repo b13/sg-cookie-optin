@@ -659,6 +659,9 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_cookielist.description" approved="yes">
 				<source><![CDATA[Description]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.source_regex" approved="yes">
+				<source><![CDATA[Automatically assign the service template to all external content elements whose source matches the following regular expressions. Every new line is interpreted as a new regular expression. Syntax errors may lead to issues on your website!]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
