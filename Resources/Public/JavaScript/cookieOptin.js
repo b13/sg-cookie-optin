@@ -1432,9 +1432,9 @@ var SgCookieOptin = {
 		var service = null;
 
 		// check if the service template is explicitly set
-		if (typeof externalContent.dataset.sgCookieOptinServiceTemplate !== 'undefined') {
+		if (typeof externalContent.dataset.sgCookieOptinService !== 'undefined') {
 			service = SgCookieOptin.jsonData.mustacheData.services[
-				externalContent.dataset.sgCookieOptinServiceTemplate
+				externalContent.dataset.sgCookieOptinService
 			];
 
 			if (service) {

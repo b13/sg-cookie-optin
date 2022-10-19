@@ -882,8 +882,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Vorlage überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen.)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
-				<source><![CDATA[External Content Settings]]></source>
-				<target><![CDATA[Externe Inhalte Eintellungen]]></target>
+				<source><![CDATA[Services]]></source>
+				<target><![CDATA[Services]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_cookielist.settings" approved="yes">
 				<source><![CDATA[Settings]]></source>

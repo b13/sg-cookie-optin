@@ -648,7 +648,7 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
-				<source><![CDATA[External Content Settings]]></source>
+				<source><![CDATA[Services]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_cookielist.settings" approved="yes">
 				<source><![CDATA[Settings]]></source>
