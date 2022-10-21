@@ -27,7 +27,7 @@
 	max-width: 100%;
 	border-radius: 0;
 	z-index: 999999;
-	background-color: ###banner_color_box###;
+	background-color: var(--sg-cookie-optin-banner-color-box);
 }
 
 #SgCookieOptin .sg-cookie-optin-banner.sg-cookie-optin-banner-bottom .sg-cookie-optin-box {
@@ -43,11 +43,11 @@
 
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-description {
 	padding: 10px;
-	color: ###banner_color_text###;
+	color: var(--sg-cookie-optin-banner_color_text);
 }
 
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-description a {
-	color: ###banner_color_link_text###;
+	color: var(--sg-cookie-optin-banner_color_link_text);
 }
 
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-box-footer-link {

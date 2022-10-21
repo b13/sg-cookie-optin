@@ -21,12 +21,12 @@
 	font-size: 100%;
 	vertical-align: baseline;
 	background: none;
-	color: ###color_text###;
+	color: var(--sg-cookie-optin-color-text);
 	line-height: 1.6;
 }
 
 .sg-cookie-optin-iframe-consent {
-	background-color: ###iframe_color_consent_box_background###;
+	background-color: var(--sg-cookie-optin-iframe_color_consent_box_background);
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -39,24 +39,24 @@
 	margin: 0 auto;
 	padding: 15px;
 
-	color: ###iframe_color_button_load_one_text###;
+	color: var(--sg-cookie-optin-iframe_color_button_load_one_text);
 	font-size: 16px;
 	text-align: center;
 	cursor: pointer;
 	border: none;
 
-	background-color: ###iframe_color_button_load_one###;
+	background-color: var(--sg-cookie-optin-iframe_color_button_load_one);
 }
 
 .sg-cookie-optin-iframe-consent button:hover {
-	background-color: ###iframe_color_button_load_one_hover###;
+	background-color: var(--sg-cookie-optin-iframe_color_button_load_one_hover);
 }
 
 .sg-cookie-optin-iframe-consent a {
 	margin: 0 auto;
 	padding: 10px 0 0;
 
-	color: ###iframe_color_open_settings###;
+	color: var(--sg-cookie-optin-iframe_color_open_settings);
 	cursor: pointer;
 	font-size: 16px;
 	text-align: center;
