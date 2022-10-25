@@ -30,27 +30,27 @@
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper {
 	padding: 20px 70px;
-	background-color: var(--sg-cookie-optin-color_full_box);
+	background-color: var(--sg-cookie-optin-color-full-box);
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-header,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-header {
-	color: var(--sg-cookie-optin-color_full_headline);
+	color: var(--sg-cookie-optin-color-full-headline);
 }
 
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-description,
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-description {
-	color: var(--sg-cookie-optin-color_full_text);
+	color: var(--sg-cookie-optin-color-full-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-close-button,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-close-button {
-	color: var(--sg-cookie-optin-color_full_button_close_text);
-	background-color: var(--sg-cookie-optin-color_full_button_close);
+	color: var(--sg-cookie-optin-color-full-button-close-text);
+	background-color: var(--sg-cookie-optin-color-full-button-close);
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-close-button:hover {
-	background-color: var(--sg-cookie-optin-color_full_button_close_hover);
+	background-color: var(--sg-cookie-optin-color-full-button-close-hover);
 }
 
 /* Lower Part */
@@ -93,7 +93,7 @@
 	margin: 0 0 15px;
 	display: flex;
 	flex-wrap: wrap;
-	border-bottom: 1px solid var(--sg-cookie-optin-color_list);
+	border-bottom: 1px solid var(--sg-cookie-optin-color-list);
 }
 
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list:last-of-type {
@@ -194,7 +194,7 @@
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-visible .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
 	padding: 20px 0 0 0;
 	margin: 25px 0 0 0;
-	border-top: 1px solid var(--sg-cookie-optin-color_list);
+	border-top: 1px solid var(--sg-cookie-optin-color-list);
 	flex: 0 0 100%;
 }
 
@@ -221,7 +221,7 @@
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist table,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist table {
 	margin: 0;
-	border: 1px solid var(--sg-cookie-optin-color_list);
+	border: 1px solid var(--sg-cookie-optin-color-list);
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-sublist-open-more-link {
@@ -367,7 +367,7 @@
 	.sg-cookie-optin-plugin .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
 		padding: 20px 0 0 0;
 		margin: 25px 0 0 0;
-		border-top: 1px solid var(--sg-cookie-optin-color_list);
+		border-top: 1px solid var(--sg-cookie-optin-color-list);
 		flex: 0 0 100%;
 	}
 

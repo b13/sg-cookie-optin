@@ -41,6 +41,7 @@ class TemplateService implements SingletonInterface {
 	const TYPE_IFRAME_REPLACEMENT = 3;
 	const TYPE_IFRAME_WHITELIST = 4;
 	const TYPE_FINGERPRINT = 5;
+	const TYPE_MONOCHROME = 6;
 
 	const TEMPLATE_ID_DEFAULT = 0;
 	const TEMPLATE_ID_NEW = 1;
@@ -50,6 +51,7 @@ class TemplateService implements SingletonInterface {
 	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
 	const IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT = 0;
 	const IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT = 0;
+	const IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT = 0;
 
 	protected static $templateIdToNameMap = [
 		self::TYPE_TEMPLATE => [
@@ -71,6 +73,9 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_FINGERPRINT => [
 			self::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT => 'Default',
 		],
+		self::TYPE_MONOCHROME => [
+			self::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT => 'Default',
+		],
 	];
 
 	protected static $templateIdToFolderMap = [
@@ -80,6 +85,7 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_IFRAME_REPLACEMENT => 'IframeReplacement',
 		self::TYPE_IFRAME_WHITELIST => 'IframeWhitelist',
 		self::TYPE_FINGERPRINT => 'Fingerprint',
+		self::TYPE_MONOCHROME => 'MonochromeTheme',
 	];
 
 	/**

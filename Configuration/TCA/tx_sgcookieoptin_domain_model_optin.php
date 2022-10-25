@@ -73,7 +73,7 @@ $configuration = [
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
 					unified_cookie_name, --palette--;;cookie_lifetime_settings, overwrite_baseurl, minify_generated_data,
-					activate_testing_mode, disable_for_this_language, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, disable_usage_statistics',
+					activate_testing_mode, disable_for_this_language, monochrome_enabled, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, disable_usage_statistics',
 		],
 	],
 	'palettes' => [
@@ -200,7 +200,7 @@ $configuration = [
 		'multidomain' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings',
 			'showitem' => 'subdomain_support, set_cookie_for_domain, --linebreak--, domains_to_delete_cookies_for'
-		]
+		],
 	],
 	'columns' => [
 		'pid' => [
@@ -747,6 +747,16 @@ $configuration = [
 				'default' => '#373737',
 				'placeholder' => '#373737',
 				'eval' => 'trim, required'
+			],
+		],
+		'monochrome_enabled' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.monochrome_enabled.title',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.monochrome_enabled.description',
+			'config' => [
+				'type' => 'check',
+				'default' => '1',
 			],
 		],
 		'essential_title' => [
@@ -1840,7 +1850,8 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex,'
 		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
 		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
-		. 'color_fingerprint_background, color_fingerprint_image, services, iframe_replacement_background_image';
+		. 'color_fingerprint_background, color_fingerprint_image, services, iframe_replacement_background_image,'
+		. 'monochrome_enabled';
 }
 
 return $configuration;

@@ -26,7 +26,7 @@
 }
 
 .sg-cookie-optin-iframe-consent {
-	background-color: var(--sg-cookie-optin-iframe_color_consent_box_background);
+	background-color: var(--sg-cookie-optin-iframe-color-consent-box-background);
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -39,24 +39,24 @@
 	margin: 0 auto;
 	padding: 15px;
 
-	color: var(--sg-cookie-optin-iframe_color_button_load_one_text);
+	color: var(--sg-cookie-optin-iframe-color-button-load-one-text);
 	font-size: 16px;
 	text-align: center;
 	cursor: pointer;
 	border: none;
 
-	background-color: var(--sg-cookie-optin-iframe_color_button_load_one);
+	background-color: var(--sg-cookie-optin-iframe-color-button-load-one);
 }
 
 .sg-cookie-optin-iframe-consent button:hover {
-	background-color: var(--sg-cookie-optin-iframe_color_button_load_one_hover);
+	background-color: var(--sg-cookie-optin-iframe-color-button-load-one-hover);
 }
 
 .sg-cookie-optin-iframe-consent a {
 	margin: 0 auto;
 	padding: 10px 0 0;
 
-	color: var(--sg-cookie-optin-iframe_color_open_settings);
+	color: var(--sg-cookie-optin-iframe-color-open-settings);
 	cursor: pointer;
 	font-size: 16px;
 	text-align: center;

@@ -897,6 +897,14 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[Description]]></source>
 				<target><![CDATA[Beschreibung]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.title" approved="yes">
+				<source><![CDATA[Enable Monochrome Theme]]></source>
+				<target><![CDATA[Monochromes Theme aktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.description" approved="yes">
+				<source><![CDATA[If you leave this box checked, we will automatically switch to a monochrome theme if you add the class sg-cookie-optin-dark-theme to the <body> tag or if the user's browser preferences are set up to force a dark theme or a high contrast theme.]]></source>
+				<target><![CDATA[Wenn Sie dieses Kontrollkästchen aktiviert lassen, wird automatisch zu einem einfarbigen Thema gewechselt, wenn Sie die Klasse sg-cookie-optin-dark-theme zum <body>-Tag hinzufügen oder wenn die Browsereinstellungen des Benutzers ein dunkles Thema oder ein Thema mit hohem Kontrast erfordern.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

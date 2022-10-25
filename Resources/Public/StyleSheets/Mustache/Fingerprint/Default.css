@@ -17,8 +17,8 @@
 	height: 50px;
 	cursor: pointer;
 	position: fixed;
-	background-color: var(--sg-cookie-optin-color_fingerprint_background);
-	color: var(--sg-cookie-optin-color_fingerprint_image);
+	background-color: var(--sg-cookie-optin-color-fingerprint-background);
+	color: var(--sg-cookie-optin-color-fingerprint-image);
 	box-shadow: 0 0 10px #84848475;
 }
 

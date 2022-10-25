@@ -476,6 +476,13 @@ class StaticFileGenerationService implements SingletonInterface {
 			);
 		}
 
+		if ((bool) $data['monochrome_enabled']) {
+			$content .= " \n\n" . $templateService->getCSSContent(
+				TemplateService::TYPE_MONOCHROME,
+				TemplateService::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT,
+			);
+		}
+
 		$keys = $data = [];
 		foreach ($cssData as $key => $value) {
 			$keys[] = '%23###' . $key . '###';
@@ -906,6 +913,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'disable_usage_statistics' => (bool) $translatedData['disable_usage_statistics'],
 			'fingerprint_position' => (int) $translatedData['fingerprint_position'],
 			'iframe_replacement_background_image' => (string) $translatedData['iframe_replacement_background_image'],
+			'monochrome_enabled' => (bool) $translatedData['monochrome_enabled'],
 		];
 
 		$textEntries = [
