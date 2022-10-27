@@ -66,6 +66,7 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-close-button:hover {
 	background-color: var(--sg-cookie-optin-color-button-close-hover);
+	color: var(--sg-cookie-optin-color-button-close-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header,
@@ -132,12 +133,12 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label::before {
-	box-shadow: inset 0 0 0 3px #FFF;
+	box-shadow: inset 0 0 0 3px var(--sg-cookie-optin-color-checkbox-box-shadow);
 	background-color: var(--sg-cookie-optin-color-checkbox);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled + .sg-cookie-optin-checkbox-label::before {
-	box-shadow: inset 0 0 0 3px #FFF;
+	box-shadow: inset 0 0 0 3px var(--sg-cookie-optin-color-checkbox-box-shadow);
 	border-color: var(--sg-cookie-optin-color-checkbox-required);
 	background-color: var(--sg-cookie-optin-color-checkbox-required);
 
@@ -201,24 +202,29 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-all:hover {
-	background-color: var(--sg-cookie-optin-color-button-all-hover)
+	background-color: var(--sg-cookie-optin-color-button-all-hover);
+	color: var(--sg-cookie-optin-color-button-all-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific:hover,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-iframe-reject:hover {
 	background-color: var(--sg-cookie-optin-color-button-specific-hover);
+	color: var(--sg-cookie-optin-color-button-specific-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-essential:hover {
 	background-color: var(--sg-cookie-optin-color-button-essential-hover);
+	color: var(--sg-cookie-optin-color-button-essential-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-settings:hover {
 	background-color: var(--sg-cookie-optin-banner-color-button-settings-hover);
+	color: var(--sg-cookie-optin-banner-color-button-settings-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept:hover {
 	background-color: var(--sg-cookie-optin-banner-color-button-accept-hover);
+	color: var(--sg-cookie-optin-banner-color-button-accept-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-flash-message {
