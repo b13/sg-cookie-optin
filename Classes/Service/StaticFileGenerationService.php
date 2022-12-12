@@ -1044,7 +1044,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
 			'#LANG#',
-			$locale . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
+			$locale . JsonImportService::LOCALE_SEPARATOR . $languageUid,
 			self::TEMPLATE_JSON_NAME
 		);
 
