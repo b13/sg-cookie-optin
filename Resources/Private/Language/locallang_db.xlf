@@ -600,7 +600,7 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position" approved="yes">
-				<source><![CDATA[Fingerprint Icon Position]]></source>
+				<source><![CDATA[Position of the fingerprint symbol]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.0" approved="yes">
 				<source><![CDATA[None]]></source>

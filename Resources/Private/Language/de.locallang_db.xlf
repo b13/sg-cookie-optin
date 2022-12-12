@@ -814,8 +814,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Nutzungsstatistiken und Rückverfolgbarkeit deaktivieren]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position" approved="yes">
-				<source><![CDATA[Fingerprint Icon Position]]></source>
-				<target><![CDATA[Fingerabdruck-Symbol Position]]></target>
+				<source><![CDATA[Position of the fingerprint symbol]]></source>
+				<target><![CDATA[Position des Fingerabdruck-Symbols]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.0" approved="yes">
 				<source><![CDATA[None]]></source>
@@ -839,15 +839,15 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_background" approved="yes">
 				<source><![CDATA[Fingerprint Background Color]]></source>
-				<target><![CDATA[Fingerabdruck-Hintergrundfarbe]]></target>
+				<target><![CDATA[Fingerabdruck - Hintergrundfarbe]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_image" approved="yes">
 				<source><![CDATA[Fingerprint Image Color]]></source>
-				<target><![CDATA[Fingerabdruck Bildfarbe]]></target>
+				<target><![CDATA[Fingerabdruck - Bildfarbe]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_border" approved="yes">
 				<source><![CDATA[Fingerprint Border Color]]></source>
-				<target><![CDATA[Fingerabdruck Randfarbe]]></target>
+				<target><![CDATA[Fingerabdruck - Randfarbe]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint" approved="yes">
 				<source><![CDATA[Fingerprint]]></source>
@@ -867,7 +867,7 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image" approved="yes">
 				<source><![CDATA[iFrame Replacement Background Image]]></source>
-				<target><![CDATA[iFrame Ersatz Hintergrundbild]]></target>
+				<target><![CDATA[iFrame-Ersatz - Hintergrundbild]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_background_image.description" approved="yes">
 				<source><![CDATA[Enter a URL to a background image if you would like to use it instead of the background color. Please make sure the origin is allowed in your content security policy.]]></source>

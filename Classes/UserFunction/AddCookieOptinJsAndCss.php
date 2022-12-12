@@ -57,7 +57,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public function addJavaScript($content, array $configuration) {
+	public function addJavaScript(string $content, array $configuration) {
 		if (!LicenceCheckService::isInDevelopmentContext()
 			&& !LicenceCheckService::isInDemoMode()
 			&& !LicenceCheckService::hasValidLicense()
@@ -118,7 +118,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public function addCSS($content, array $configuration) {
+	public function addCSS(string $content, array $configuration) {
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0) {
 			return '';
@@ -221,13 +221,13 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	/**
 	 * Get the current CSS or JS asset file path
 	 *
-	 * @param $sitePath
-	 * @param $folder
-	 * @param $rootPageId
-	 * @param $pattern
+	 * @param string $sitePath
+	 * @param string $folder
+	 * @param int $rootPageId
+	 * @param string $pattern
 	 * @return mixed|null
 	 */
-	protected function getAssetFilePath($sitePath, $folder, $rootPageId, $pattern) {
+	protected function getAssetFilePath(string $sitePath, string $folder, int $rootPageId, string $pattern) {
 		$files = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . $pattern);
 		if (count($files) > 0) {
 			return str_replace($sitePath, '', $files[0]);
@@ -242,7 +242,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @return int
 	 * @throws AspectNotFoundException
 	 */
-	protected function getLanguage() {
+	protected function getLanguage(): int {
 		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		if ($versionNumber >= 9005000) {
 			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(

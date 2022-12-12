@@ -178,7 +178,7 @@ class JsonImportService {
 			$flatJsonData
 		);
 
-		// Add Serivices
+		// Add Services
 		$serviceIndex = 0;
 		foreach ($services as $identifier => $service) {
 			$service['identifier'] = $identifier;
@@ -580,8 +580,8 @@ class JsonImportService {
 	}
 
 	/**
-	 * @param $groupIndex
-	 * @param $group
+	 * @param int $groupIndex
+	 * @param array $group
 	 * @param int $pid
 	 * @param string $optInId
 	 * @param int|null $sysLanguageUid
@@ -590,7 +590,7 @@ class JsonImportService {
 	 * @return void
 	 */
 	protected function addGroupWithCookiesAndScripts(
-		$groupIndex, $group, int $pid, string $optInId, $sysLanguageUid, $defaultLanguageOptinId,
+		int $groupIndex, array $group, int $pid, string $optInId, $sysLanguageUid, $defaultLanguageOptinId,
 		ConnectionPool $connectionPool
 	) {
 		$groupIdentifier = $groupIndex;

@@ -19,7 +19,7 @@
 				<source><![CDATA[Cookie Opt In]]></source>
 			</trans-unit>
 			<trans-unit id="cookieListPluginDescription" approved="yes">
-				<source><![CDATA[Inserts the cookie list.]]></source>
+				<source><![CDATA[Rendering of the configured consent cookies]]></source>
 			</trans-unit>
 			<trans-unit id="cookieListPluginLabel" approved="yes">
 				<source><![CDATA[Cookie List]]></source>

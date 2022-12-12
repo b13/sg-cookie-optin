@@ -160,7 +160,6 @@ $configuration = [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.source_regex',
-//			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.source_regex.description',
 			'config' => [
 				'type' => 'text',
 				'renderType' => 't3editor',
