@@ -473,7 +473,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		if ((bool) $data['monochrome_enabled']) {
 			$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_MONOCHROME,
-				TemplateService::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT,
+				TemplateService::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT
 			);
 		}
 

@@ -1700,6 +1700,7 @@ $configuration = [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position',
 			'default' => 0,
+			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
