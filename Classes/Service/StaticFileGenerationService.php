@@ -1001,7 +1001,9 @@ class StaticFileGenerationService implements SingletonInterface {
 		];
 
 		$jsonDataArray['mustacheData']['services'] = [];
-		if (count($translatedData['services']) > 0) {
+		if ((is_countable($translatedData['services']) && (count($translatedData['services']) > 0))
+			|| (int) $translatedData['services'] > 0)
+		{
 			$templateService = GeneralUtility::makeInstance(TemplateService::class);
 			foreach ($translatedData['services'] as $service) {
 
