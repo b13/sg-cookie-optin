@@ -46,7 +46,6 @@ trait InitControllerComponents {
 	 * Initialize the demo mode check and the doc header components
 	 */
 	protected function initComponents() {
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$keyState = LicenceCheckService::checkKey();
 		$isInDemoMode = LicenceCheckService::isInDemoMode();
 		$hasValidLicense = LicenceCheckService::hasValidLicense();
@@ -68,17 +67,11 @@ trait InitControllerComponents {
 				LicenceCheckService::removeAllCookieOptInFiles();
 			}
 
-			if ($typo3Version < 9000000) {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.notSet.description',
-					'sg_cookie_optin'
-				);
-			} else {
+
 				$description = LocalizationUtility::translate(
 					'backend.licenseKey.notSet.descriptionTYPO3-9',
 					'sg_cookie_optin'
 				);
-			}
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
@@ -97,17 +90,11 @@ trait InitControllerComponents {
 				LicenceCheckService::removeAllCookieOptInFiles();
 			}
 
-			if ($typo3Version < 9000000) {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.invalid.description',
-					'sg_cookie_optin'
-				);
-			} else {
+
 				$description = LocalizationUtility::translate(
 					'backend.licenseKey.invalid.descriptionTYPO3-9',
 					'sg_cookie_optin'
 				);
-			}
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
@@ -128,7 +115,7 @@ trait InitControllerComponents {
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 
 		// the docHeaderComponent do not exist below version 7
-		if ($typo3Version > 7000000) {
+
 			$this->docHeaderComponent = GeneralUtility::makeInstance(DocHeaderComponent::class);
 			if ($pageInfo === FALSE) {
 				$pageInfo = ['uid' => $pageUid];
@@ -136,9 +123,9 @@ trait InitControllerComponents {
 			$this->docHeaderComponent->setMetaInformation($pageInfo);
 			BackendService::makeButtons($this->docHeaderComponent, $this->request);
 			$this->view->assign('docHeader', $this->docHeaderComponent->docHeaderContent());
-		}
 
-		$this->view->assign('typo3Version', $typo3Version);
+
+		$this->view->assign('typo3Version', '12');
 		$this->view->assign('pageUid', $pageUid);
 		$this->view->assign('invalidKey', !$hasValidLicense);
 		$this->view->assign('controller', $this->request->getControllerName());

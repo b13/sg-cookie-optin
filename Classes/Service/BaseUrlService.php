@@ -46,9 +46,6 @@ class BaseUrlService {
 	 * @return string
 	 */
 	public static function getSiteBaseUrl($rootPid) {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
-			return '/';
-		}
 
 		$rootPid = (int) $rootPid;
 

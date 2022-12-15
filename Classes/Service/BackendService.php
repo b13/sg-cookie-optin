@@ -50,15 +50,6 @@ class BackendService {
 	 * @throws \InvalidArgumentException
 	 */
 	public static function getPages() {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetRows(
-				'*',
-				'pages',
-				'deleted=0 AND is_siteroot=1 AND t3ver_oid=0'
-			);
-		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 			$queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
 			$queryBuilder->getRestrictions()
@@ -81,7 +72,6 @@ class BackendService {
 					)
 				);
 			$rows = $queryBuilder->execute()->fetchAll();
-		}
 
 		if (!is_array($rows)) {
 			return [];
@@ -112,15 +102,7 @@ class BackendService {
 	 * @throws \InvalidArgumentException
 	 */
 	public static function getOptins($pageUid) {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetRows(
-				'*',
-				'tx_sgcookieoptin_domain_model_optin',
-				'deleted=0 AND sys_language_uid=0 AND pid=' . $pageUid
-			);
-		} else {
+
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 			$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
 			$queryBuilder->getRestrictions()
@@ -139,7 +121,6 @@ class BackendService {
 					)
 				);
 			$rows = $queryBuilder->execute()->fetchAll();
-		}
 
 		return (is_array($rows) ? $rows : []);
 	}
@@ -178,6 +159,7 @@ class BackendService {
 			$buttonBar->addButton($refreshButton, ButtonBar::BUTTON_POSITION_RIGHT);
 
 			// shortcut button
+            /*
 			$shortcutButton = $buttonBar->makeShortcutButton()
 				->setModuleName($request->getPluginName())
 				->setGetVariables(
@@ -189,6 +171,7 @@ class BackendService {
 				->setSetVariables([]);
 
 			$buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
+            */
 		}
 	}
 }

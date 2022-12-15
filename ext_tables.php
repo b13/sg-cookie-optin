@@ -27,7 +27,7 @@
 call_user_func(
 	static function () {
 		$currentTypo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version();
-		if (TYPO3_MODE === 'BE') {
+
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
 				'tx_sgcookieoptin_domain_model_optin'
 			);
@@ -107,6 +107,5 @@ call_user_func(
 				'tx_sgcookieoptin_domain_model_cookie',
 				'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
 			);
-		}
 	}
 );

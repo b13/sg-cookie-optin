@@ -65,11 +65,7 @@ class OptinHistoryService {
 				throw new SaveOptinHistoryException('No data to save');
 			}
 
-			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
-				foreach ($insertData as $data) {
-					$GLOBALS['TYPO3_DB']->exec_INSERTquery(self::TABLE_NAME, $data);
-				}
-			} else {
+
 				$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
 					'tx_sgcookieoptin_domain_model_user_preference'
 				);
@@ -80,7 +76,6 @@ class OptinHistoryService {
 						->values($data)
 						->execute();
 				}
-			}
 
 			return [
 				'error' => 0,

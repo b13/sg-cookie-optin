@@ -228,18 +228,12 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 */
 	protected function getLanguage() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-		if ($versionNumber >= 9005000) {
+
 			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Context\Context::class
 			)->getAspect('language');
 			// no object check, because if the object is not set we don't know which language that is anyway
 			return $languageAspect->getId();
-		}
-
-		/** @var TypoScriptFrontendController $typoScriptFrontendController */
-		$typoScriptFrontendController = $GLOBALS['TSFE'];
-		return $typoScriptFrontendController->sys_language_uid;
 	}
 
 	/**
@@ -250,8 +244,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws SiteNotFoundException
 	 */
 	protected function getLanguageWithLocale() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-		if ($versionNumber >= 9005000) {
+
 			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Context\Context::class
 			)->getAspect('language');
@@ -260,12 +253,6 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
 			$language = $site->getLanguageById($languageId);
 			$returnString = $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
-		} else {
-			/** @var TypoScriptFrontendController $typoScriptFrontendController */
-			$typoScriptFrontendController = $GLOBALS['TSFE'];
-			$languageId = $typoScriptFrontendController->sys_language_uid;
-			$returnString = JsonImportService::LOCALE_SEPARATOR . $languageId;
-		}
 
 		return $returnString;
 	}

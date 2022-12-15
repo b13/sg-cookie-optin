@@ -147,17 +147,7 @@ class HandleTemplateAfterTcaSave {
 				);
 			}
 
-			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
-				/** @var DatabaseConnection $database */
-				$database = $GLOBALS['TYPO3_DB'];
-				$database->exec_UPDATEquery(self::TABLE_NAME, 'uid=' . (int) $id, [
-					'template_html' => $template,
-					'banner_html' => $bannerTemplate,
-					'iframe_html' => $iframeTemplate,
-					'iframe_replacement_html' => $iframeReplacementTemplate,
-					'iframe_whitelist_regex' => $iframeWhitelistTemplate,
-				]);
-			} else {
+
 				$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 				$queryBuilder = $connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
 				$queryBuilder
@@ -173,7 +163,6 @@ class HandleTemplateAfterTcaSave {
 							$queryBuilder->createNamedParameter((int) $id, \PDO::PARAM_INT)
 						)
 					)->execute();
-			}
 		}
 	}
 }
