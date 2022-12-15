@@ -99,6 +99,7 @@ class OptinController extends ActionController {
 		}
 
 		$this->view->assign('pages', BackendService::getPages());
+        return $this->htmlResponse();
 	}
 
 	/**
@@ -121,6 +122,7 @@ class OptinController extends ActionController {
 	 * @return void
 	 */
 	public function showAction() {
+        return $this->htmlResponse();
 	}
 
 	/**
@@ -385,6 +387,7 @@ class OptinController extends ActionController {
 	 */
 	public function statisticsAction() {
 		$this->initComponents();
+        return $this->htmlResponse();
 	}
 
 	/**
@@ -394,6 +397,7 @@ class OptinController extends ActionController {
 		$this->initComponents();
 
 		$this->view->assign('pages', BackendService::getPages());
+        return $this->htmlResponse();
 	}
 
 	/**

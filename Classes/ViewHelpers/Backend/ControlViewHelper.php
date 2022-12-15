@@ -33,12 +33,21 @@ use TYPO3\CMS\Core\Type\BitSet;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList;
+use TYPO3\CMS\Backend\RecordList\DatabaseRecordList;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class ControlViewHelper
  **/
-class ControlViewHelper extends \SgCookieAbstractViewHelper {
+class ControlViewHelper extends AbstractViewHelper {
+
+    protected DatabaseRecordList $databaseRecordList;
+
+    public function __construct(DatabaseRecordList $databaseRecordList)
+    {
+        $this->databaseRecordList = $databaseRecordList;
+    }
+
 	/**
 	 * Initialize the ViewHelper arguments
 	 */
@@ -67,12 +76,14 @@ class ControlViewHelper extends \SgCookieAbstractViewHelper {
 		if (version_compare($currentTypo3Version, '9.0.0', '<')) {
 			$languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
 		} else {
-			$languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Localization\LanguageService::class);
+			$languageService = $GLOBALS['LANG'];
 		}
 		$languageService->includeLLFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
 		/** @var DatabaseRecordList $databaseRecordList */
-		$databaseRecordList = GeneralUtility::makeInstance(DatabaseRecordList::class);
+		#$databaseRecordList = GeneralUtility::makeInstance(DatabaseRecordList::class);
+        $databaseRecordList = $this->databaseRecordList;
+        $databaseRecordList->setRequest($GLOBALS['TYPO3_REQUEST']);
 		$pageInfo = BackendUtility::readPageAccess($row['pid'], $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if (version_compare($currentTypo3Version, '11.0.0', '<')) {
 			$databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);

@@ -31,11 +31,13 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class IconViewHelper
  **/
-class IconViewHelper extends \SgCookieAbstractViewHelper {
+class IconViewHelper extends AbstractViewHelper {
 	/**
 	 * @var boolean
 	 */
@@ -66,9 +68,8 @@ class IconViewHelper extends \SgCookieAbstractViewHelper {
 		$row = $this->arguments['row'];
 		$table = $this->arguments['table'];
 		$clickMenu = $this->arguments['clickMenu'];
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '7.0.0', '<')) {
-			$iconImg = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord($table, $row);
-		} else {
+        return '';
+
 			$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 			$toolTip = BackendUtility::getRecordToolTip($row, $table);
 			$iconImg = '<span ' . $toolTip . '>'
@@ -77,7 +78,7 @@ class IconViewHelper extends \SgCookieAbstractViewHelper {
 			if ($clickMenu) {
 				return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid']);
 			}
-		}
+
 
 		return $iconImg;
 	}

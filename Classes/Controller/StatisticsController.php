@@ -67,5 +67,6 @@ class StatisticsController extends ActionController {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
 		}
+        return $this->htmlResponse();
 	}
 }

@@ -1,11 +1,12 @@
-<f:be.container
-	includeCssFiles="{
-		0: '{f:uri.resource(path:\'JavaScript/Backend/Chart.js/Chart.min.css\')}',
-		1: '{f:uri.resource(path:\'StyleSheets/Statistics.css\')}',
-		2: '{f:uri.resource(path:\'StyleSheets/Backend/backend.css\')}'
-	}"
->
-	<f:if condition="{docHeader}">
+
+
+	<f:asset.css identifier="sg-cookie-chart" href="EXT:sg_cookie_optin/Resources/Public/JavaScript/Backend/Chart.js/Chart.min.css" />
+	<f:asset.css identifier="sg-cookie-statistic" href="EXT:sg_cookie_optin/Resources/Public/StyleSheets/Statistics.css" />
+	<f:asset.css identifier="sg-cookie-backend" href="EXT:sg_cookie_optin/Resources/Public/StyleSheets/Backend/backend.css" />
+	<link rel="stylesheet"  href="{f:uri.resource(path:'EXT:sg_cookie_optin/Resources/Public/StyleSheets/Backend/backend.css')}" />
+	<link rel="stylesheet"  href="{f:uri.resource(path:'EXT:sg_cookie_optin/Resources/Public/StyleSheets/Statistics.css')}" />
+	<link rel="stylesheet"  href="{f:uri.resource(path:'EXT:sg_cookie_optin/Resources/Public/StyleSheets/Backend/Chart.js/Chart.min.css')}" />
+	<f:if condition="{docHeaderxx}">
 		<f:then>
 			<div class="module tx_sgcookieoptin-module" data-module-id="" data-module-name="">
 				<div class="module-docheader t3js-module-docheader">
@@ -48,16 +49,11 @@
 		</f:else>
 	</f:if>
 
-	<f:if condition="{typo3Version} < 11000000">
-		<f:then>
-			<div id="typo3-docbody">
-		</f:then>
-		<f:else>
+
 			<div class="module-body t3js-module-body">
-		</f:else>
-	</f:if>
+
 		<div id="typo3-inner-docbody">
 			<f:render section="content" />
 		</div>
 	</div>
-</f:be.container>
+

@@ -30,11 +30,12 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class EditLink
  **/
-class EditOnClickViewHelper extends \SgCookieAbstractViewHelper {
+class EditOnClickViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments
 	 */
