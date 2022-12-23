@@ -47,6 +47,7 @@ class BaseUrlService {
 	 */
 	public static function getSiteBaseUrl($rootPid) {
 
+        return '/';
 		$rootPid = (int) $rootPid;
 
 		try {
