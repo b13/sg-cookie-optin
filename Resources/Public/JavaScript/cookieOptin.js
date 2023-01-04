@@ -1437,7 +1437,7 @@ const SgCookieOptin = {
 		if (typeof externalContent.dataset.sgCookieOptinService !== 'undefined') {
 			service = SgCookieOptin.jsonData.mustacheData.services[
 				externalContent.dataset.sgCookieOptinService
-				];
+			];
 
 			if (service) {
 				serviceUsed = true;
@@ -1492,6 +1492,7 @@ const SgCookieOptin = {
 			}
 		}
 
+		// No service matched - use the default template and pass undefined as the service argument
 		if (!serviceUsed) {
 			SgCookieOptin.emitBeforeExternalContentReplacedEvent(parent, externalContent, container, service);
 			container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
