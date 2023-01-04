@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Controller;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\Controller;
 
 use DirectoryIterator;
 use Exception;
@@ -194,7 +194,9 @@ class OptinController extends ActionController {
 
 			if ($languageUid > 0) {
 				foreach ($cookies as &$cookie) {
-					$cookie = $pageRepository->getRecordOverlay('tx_sgcookieoptin_domain_model_cookie', $cookie, $languageUid);
+					$cookie = $pageRepository->getRecordOverlay(
+						'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageUid
+					);
 				}
 			}
 			$group['cookies'] = $cookies;
@@ -210,7 +212,6 @@ class OptinController extends ActionController {
 		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
 		$view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);
 		$view->setLayoutRootPaths(['EXT:sg_cookie_optin/Resources/Private/Layouts']);
-
 
 		$view->assign('groups', $groups);
 		$view->assign('optin', $optin);

@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Service;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +24,9 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\Service;
+
+use Doctrine\DBAL\DBALException;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -62,6 +63,7 @@ class JsonImportService {
 	 *
 	 * @param int $pid
 	 * @return \Doctrine\DBAL\Driver\Statement|int
+	 * @throws DBALException
 	 */
 	public static function getDataForExport(int $pid) {
 		$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(
@@ -85,6 +87,7 @@ class JsonImportService {
 	 * @param null|int $sysLanguageUid
 	 * @param null|int $defaultLanguageOptinId
 	 * @return string
+	 * @throws DBALException
 	 */
 	public function importJsonData($jsonData, $pid, $sysLanguageUid = NULL, $defaultLanguageOptinId = NULL) {
 		// extract group data into other variables so that we can import all the settings information with little to no
@@ -98,30 +101,24 @@ class JsonImportService {
 			$footerLinks = [];
 		}
 
-		unset($jsonData['cookieGroups']);
-		unset($jsonData['iFrameGroup']);
-		unset($jsonData['footerLinks']);
-		unset($jsonData['mustacheData']);
+		unset($jsonData['cookieGroups'], $jsonData['iFrameGroup'], $jsonData['footerLinks'], $jsonData['mustacheData']);
 
 		// flatten the data into one array to prepare it for SQL
 		$flatJsonData = [];
 		array_walk_recursive(
 			$jsonData,
-			function ($value, $key) use (&$flatJsonData) {
+			static function ($value, $key) use (&$flatJsonData) {
 				$flatJsonData[$key] = $value;
 			}
 		);
 
 		// add required system data and remove junk from the JSON
-		unset($flatJsonData['markup']);
-		unset($flatJsonData['identifier']);
-		unset($flatJsonData['save_history_webhook']);
+		unset($flatJsonData['markup'], $flatJsonData['identifier'], $flatJsonData['save_history_webhook']);
 		$flatJsonData['pid'] = $pid;
 		$flatJsonData['crdate'] = $GLOBALS['EXEC_TIME'];
 		$flatJsonData['tstamp'] = $GLOBALS['EXEC_TIME'];
 		$flatJsonData['cruser_id'] = $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column];
 		$flatJsonData['navigation'] = $this->buildNavigationFromFooterLinks($footerLinks);
-		// essential_description
 		$flatJsonData['essential_title'] = $cookieGroups[0]['label'];
 		$flatJsonData['essential_description'] = $cookieGroups[0]['description'];
 		$flatJsonData['iframe_title'] = $iframeGroup['label'];
@@ -137,44 +134,44 @@ class JsonImportService {
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_optin',
 			[
-			'pid',
-			'description',
-			'template_html',
-			'banner_html',
-			'banner_description',
-			'essential_description',
-			'iframe_description',
-			'iframe_html',
-			'iframe_replacement_html',
-			'iframe_whitelist_regex',
-			'iframe_button_load_one_description',
-			'cookiebanner_whitelist_regex',
-			'domains_to_delete_cookies_for',
-			'overwrite_baseurl',
-			'accept_all_text',
-			'accept_specific_text',
-			'accept_essential_text',
-			'extend_box_link_text',
-			'extend_box_link_text_close',
-			'extend_table_link_text',
-			'extend_table_link_text_close',
-			'cookie_name_text',
-			'cookie_provider_text',
-			'cookie_purpose_text',
-			'cookie_lifetime_text',
-			'save_confirmation_text',
-			'user_hash_text',
-			'banner_button_accept_text',
-			'banner_button_settings_text',
-			'essential_title',
-			'iframe_title',
-			'iframe_button_allow_all_text',
-			'iframe_button_allow_one_text',
-			'iframe_button_load_one_text',
-			'iframe_open_settings_text',
-			'iframe_replacement_background_image'
+				'pid',
+				'description',
+				'template_html',
+				'banner_html',
+				'banner_description',
+				'essential_description',
+				'iframe_description',
+				'iframe_html',
+				'iframe_replacement_html',
+				'iframe_whitelist_regex',
+				'iframe_button_load_one_description',
+				'cookiebanner_whitelist_regex',
+				'domains_to_delete_cookies_for',
+				'overwrite_baseurl',
+				'accept_all_text',
+				'accept_specific_text',
+				'accept_essential_text',
+				'extend_box_link_text',
+				'extend_box_link_text_close',
+				'extend_table_link_text',
+				'extend_table_link_text_close',
+				'cookie_name_text',
+				'cookie_provider_text',
+				'cookie_purpose_text',
+				'cookie_lifetime_text',
+				'save_confirmation_text',
+				'user_hash_text',
+				'banner_button_accept_text',
+				'banner_button_settings_text',
+				'essential_title',
+				'iframe_title',
+				'iframe_button_allow_all_text',
+				'iframe_button_allow_one_text',
+				'iframe_button_load_one_text',
+				'iframe_open_settings_text',
+				'iframe_replacement_background_image'
 
-		],
+			],
 			$flatJsonData
 		);
 
@@ -197,10 +194,11 @@ class JsonImportService {
 				$this->defaultLanguageIdMappingLookup['services'][$serviceIndex] = $serviceId;
 			}
 
-			$serviceIndex++;
+			++$serviceIndex;
 		}
 
 		// Add Groups
+		$groupIndex = 0;
 		foreach ($cookieGroups as $groupIndex => $group) {
 			$this->addGroupWithCookiesAndScripts(
 				$groupIndex, $group, $pid, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
@@ -218,7 +216,7 @@ class JsonImportService {
 	}
 
 	/**
-	 * Builds the navigation CSV string from the footerlinks
+	 * Builds the navigation CSV string from the footer links
 	 *
 	 * @param array $footerLinks
 	 * @return string
@@ -243,7 +241,8 @@ class JsonImportService {
 	 * @param int|null $sysLanguageUid
 	 * @param int|null $defaultLanguageOptinId
 	 * @param ConnectionPool $connectionPool
-	 * @return mixed
+	 * @return string
+	 * @throws DBALException
 	 */
 	protected function addGroup(
 		$pid,
@@ -292,6 +291,7 @@ class JsonImportService {
 	 * @param int $defaultLanguageOptinId
 	 * @param ConnectionPool $connectionPool
 	 * @return string
+	 * @throws DBALException
 	 */
 	protected function addCookie(
 		$pid,
@@ -336,14 +336,14 @@ class JsonImportService {
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_cookie',
 			[
-			'pid', 'purpose'
-		],
+				'pid', 'purpose'
+			],
 			$cookieData
 		);
 	}
 
 	/**
-	 * Inserts a data set in the table with it's initial values (that don't have default) and then updates all the rest
+	 * Inserts a data set in the table with its initial values (that don't have default) and then updates all the rest
 	 * one by one to, ignoring Exceptions if a JSON field is missing in the database
 	 *
 	 * @param ConnectionPool $connectionPool
@@ -351,7 +351,7 @@ class JsonImportService {
 	 * @param array $initialDataKeys
 	 * @param array $data
 	 * @return string
-	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws DBALException
 	 */
 	protected function flexInsert(
 		ConnectionPool $connectionPool,
@@ -403,6 +403,7 @@ class JsonImportService {
 	 * @param string $groupIdentifier
 	 * @param ConnectionPool $connectionPool
 	 * @return string
+	 * @throws DBALException
 	 */
 	protected function addScript(
 		$pid,
@@ -442,8 +443,8 @@ class JsonImportService {
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_script',
 			[
-			'pid', 'html', 'script'
-		],
+				'pid', 'html', 'script'
+			],
 			$scriptData
 		);
 	}
@@ -457,9 +458,9 @@ class JsonImportService {
 	 * @param int $optInId
 	 * @param int|null $sysLanguageUid
 	 * @param int|null $defaultLanguageOptinId
-	 * @param string $groupIdentifier
 	 * @param ConnectionPool $connectionPool
 	 * @return string
+	 * @throws DBALException
 	 */
 	protected function addService(
 		$pid,
@@ -492,8 +493,9 @@ class JsonImportService {
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_service',
 			[
-			'pid', 'identifier', 'replacement_html_overwritten', 'replacement_html', 'replacement_background_image', 'source_regex'
-		],
+				'pid', 'identifier', 'replacement_html_overwritten', 'replacement_html',
+				'replacement_background_image', 'source_regex'
+			],
 			$serviceData
 		);
 	}
