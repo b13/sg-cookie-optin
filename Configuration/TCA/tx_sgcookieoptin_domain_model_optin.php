@@ -1704,7 +1704,7 @@ $configuration = [
 			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
-				'default' => 0,
+				'default' => 1,
 				'items' => [
 					[
 						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.0',
