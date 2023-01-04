@@ -515,7 +515,7 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Other Scripts & Cookies]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes">
-				<source><![CDATA[External content]]></source>
+				<source><![CDATA[External Content]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.settings">
 				<source><![CDATA[Settings]]></source>
@@ -633,7 +633,7 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Services]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_service.identifier" approved="yes">
-				<source><![CDATA[Identifier]]></source>
+				<source><![CDATA[Identifier (Unique Name)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.services" approved="yes">
 				<source><![CDATA[Services]]></source>
@@ -667,6 +667,15 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.description" approved="yes">
 				<source><![CDATA[If you leave this box checked, we will automatically switch to a monochrome theme if you add the class sg-cookie-optin-dark-theme to the <body> tag or if the user's browser preferences are set up to force a dark theme or a high contrast theme.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.iframe_replacement_html" approved="yes">
+				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.iframe_replacement_html.description" approved="yes">
+				<source><![CDATA[Please refer to the template code used in the External Content Tab and use it as an example. The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				textEntries.iframe_button_load_one_text – The value of the Button: "Load external content" field
+				placeholders.iframe_consent_description – The description, provided for this specific element, or the global additional description, set in this tab
+				textEntries.iframe_open_settings_text – The value of the Link: "Open settings" field]]></source>
 			</trans-unit>
 		</body>
 	</file>

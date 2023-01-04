@@ -692,7 +692,7 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Weitere Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes" approved="yes">
-				<source><![CDATA[External content]]></source>
+				<source><![CDATA[External Content]]></source>
 				<target><![CDATA[Externe Inhalte]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.settings" approved="yes">
@@ -858,8 +858,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Service]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_service.identifier" approved="yes">
-				<source><![CDATA[Identifier]]></source>
-				<target><![CDATA[Identifikator]]></target>
+				<source><![CDATA[Identifier (Unique Name)]]></source>
+				<target><![CDATA[Identifikator (Eindeutiger Name)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.services" approved="yes">
 				<source><![CDATA[Services]]></source>
@@ -904,6 +904,20 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.description" approved="yes">
 				<source><![CDATA[If you leave this box checked, we will automatically switch to a monochrome theme if you add the class sg-cookie-optin-dark-theme to the <body> tag or if the user's browser preferences are set up to force a dark theme or a high contrast theme.]]></source>
 				<target><![CDATA[Wenn Sie dieses Kontrollkästchen aktiviert lassen, wird automatisch zu einem einfarbigen Thema gewechselt, wenn Sie die Klasse sg-cookie-optin-dark-theme zum <body>-Tag hinzufügen oder wenn die Browsereinstellungen des Benutzers ein dunkles Thema oder ein Thema mit hohem Kontrast erfordern.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.iframe_replacement_html" approved="yes">
+				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+				<target><![CDATA[iFrame-Ersatz Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_service.iframe_replacement_html.description" approved="yes">
+				<source><![CDATA[Please refer to the template code used in the External Content Tab and use it as an example. The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				textEntries.iframe_button_load_one_text – The value of the Button: "Load external content" field
+				placeholders.iframe_consent_description – The description, provided for this specific element, or the global additional description, set in this tab
+				textEntries.iframe_open_settings_text – The value of the Link: "Open settings" field]]></source>
+				<target><![CDATA[Bitte beachten Sie den Vorlagencode, der auf der Registerkarte "Externe Inhalte" verwendet wird und benutzen Sie ihn als Beispiel. Die Templating-Engine unterstützt Marker, die Sie innerhalb des Codes verschieben können. Diese Vorlage unterstützt die folgenden Marker:
+				textEntries.iframe_button_load_one_text – Der Wert des Feldes: "Externen Inhalt laden"
+				placeholders.iframe_consent_description – Die Beschreibung, die für dieses spezifische Element bereitgestellt wird, oder die globale zusätzliche Beschreibung, die in dieser Registerkarte festgelegt wird
+				textEntries.iframe_open_settings_text – Der Wert des Feldes Link: "Einstellungen öffnen"]]></target>
 			</trans-unit>
 		</body>
 	</file>

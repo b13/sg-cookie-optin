@@ -1510,6 +1510,7 @@ const SgCookieOptin = {
 
 		if (backgroundImage) {
 			container.style.backgroundImage = 'url(' + backgroundImage + ')';
+			container.style.backgroundSize = 'cover';
 		}
 	},
 

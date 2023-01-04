@@ -100,6 +100,7 @@ $configuration = [
 		],
 		'identifier' => [
 			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.identifier',
 			'config' => [
 				'type' => 'input',
@@ -120,13 +121,16 @@ $configuration = [
 		],
 		'replacement_html' => [
 			'exclude' => TRUE,
-			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_html',
-			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_html.description',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.iframe_replacement_html',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_service.iframe_replacement_html.description',
 			'config' => [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'format' => 'html',
-				'eval' => 'trim'
+				'eval' => 'trim',
+				'behaviour' => [
+				   'allowLanguageSynchronization' => TRUE
+				],
 			],
 		],
 		'parent_optin' => [
