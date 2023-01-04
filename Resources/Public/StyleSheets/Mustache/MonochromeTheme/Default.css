@@ -1,0 +1,68 @@
+:root {
+	--sg-cookie-optin-color-monochrome-light: #dbdbdb;
+	--sg-cookie-optin-color-monochrome-light-dark: #e1e1e1;
+	--sg-cookie-optin-color-monochrome-dark: #000000;
+	--sg-cookie-optin-color-monochrome-text: #ffffff;
+	--sg-cookie-optin-color-monochrome-background: #343434;
+}
+
+:root .sg-cookie-optin-dark-theme {
+	--sg-cookie-optin-color-text: var(--sg-cookie-optin-color-monochrome-text);
+	--sg-cookie-optin-color-text-opacity: var(--sg-cookie-optin-color-monochrome-text);
+	--sg-cookie-optin-color-box: var(--sg-cookie-optin-color-monochrome-background);
+	--sg-cookie-optin-color-full-box: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-headline: var(--sg-cookie-optin-color-monochrome-text);
+	--sg-cookie-optin-color-checkbox: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-button-all: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-table: var(--sg-cookie-optin-color-monochrome-light-dark);
+	--sg-cookie-optin-color-table-header: var(--sg-cookie-optin-color-monochrome-light-dark);
+	--sg-cookie-optin-color-button-close-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-button-all-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-button-specific-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-button-essential-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-banner-color-button-settings-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-checkbox-box-shadow: var(--sg-cookie-optin-color-monochrome-light-dark);
+	--sg-cookie-optin-color-button-all-hover: var(--sg-cookie-optin-color-button-specific-hover);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--sg-cookie-optin-color-text: var(--sg-cookie-optin-color-monochrome-text);
+		--sg-cookie-optin-color-text-opacity: var(--sg-cookie-optin-color-monochrome-text);
+		--sg-cookie-optin-color-box: var(--sg-cookie-optin-color-monochrome-background);
+		--sg-cookie-optin-color-full-box: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-headline: var(--sg-cookie-optin-color-monochrome-text);
+		--sg-cookie-optin-color-checkbox: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-all: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-table: var(--sg-cookie-optin-color-monochrome-light-dark);
+		--sg-cookie-optin-color-table-header: var(--sg-cookie-optin-color-monochrome-light-dark);
+		--sg-cookie-optin-color-button-close-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-all-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-specific-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-essential-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-banner-color-button-settings-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-checkbox-box-shadow: var(--sg-cookie-optin-color-monochrome-light-dark);
+		--sg-cookie-optin-color-button-all-hover: var(--sg-cookie-optin-color-button-specific-hover);
+	}
+}
+
+@media (prefers-contrast: more) {
+	:root {
+		--sg-cookie-optin-color-text: var(--sg-cookie-optin-color-monochrome-text);
+		--sg-cookie-optin-color-text-opacity: var(--sg-cookie-optin-color-monochrome-text);
+		--sg-cookie-optin-color-box: var(--sg-cookie-optin-color-monochrome-background);
+		--sg-cookie-optin-color-full-box: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-headline: var(--sg-cookie-optin-color-monochrome-text);
+		--sg-cookie-optin-color-checkbox: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-all: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-table: var(--sg-cookie-optin-color-monochrome-light-dark);
+		--sg-cookie-optin-color-table-header: var(--sg-cookie-optin-color-monochrome-light-dark);
+		--sg-cookie-optin-color-button-close-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-all-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-specific-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-button-essential-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-banner-color-button-settings-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-checkbox-box-shadow: var(--sg-cookie-optin-color-monochrome-light-dark);
+		--sg-cookie-optin-color-button-all-hover: var(--sg-cookie-optin-color-button-specific-hover);
+	}
+}

@@ -35,19 +35,23 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class TemplateService implements SingletonInterface {
-	public const TYPE_TEMPLATE = 0;
-	public const TYPE_BANNER = 1;
-	public const TYPE_IFRAME = 2;
-	public const TYPE_IFRAME_REPLACEMENT = 3;
-	public const TYPE_IFRAME_WHITELIST = 4;
+	const TYPE_TEMPLATE = 0;
+	const TYPE_BANNER = 1;
+	const TYPE_IFRAME = 2;
+	const TYPE_IFRAME_REPLACEMENT = 3;
+	const TYPE_IFRAME_WHITELIST = 4;
+	const TYPE_FINGERPRINT = 5;
+	const TYPE_MONOCHROME = 6;
 
-	public const TEMPLATE_ID_DEFAULT = 0;
-	public const TEMPLATE_ID_NEW = 1;
+	const TEMPLATE_ID_DEFAULT = 0;
+	const TEMPLATE_ID_NEW = 1;
 
-	public const BANNER_TEMPLATE_ID_DEFAULT = 0;
-	public const IFRAME_TEMPLATE_ID_DEFAULT = 0;
-	public const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
-	public const IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT = 0;
+	const BANNER_TEMPLATE_ID_DEFAULT = 0;
+	const IFRAME_TEMPLATE_ID_DEFAULT = 0;
+	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
+	const IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT = 0;
+	const IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT = 0;
+	const IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT = 0;
 
 	protected static $templateIdToNameMap = [
 		self::TYPE_TEMPLATE => [
@@ -66,6 +70,12 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_IFRAME_WHITELIST => [
 			self::IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT => 'Default',
 		],
+		self::TYPE_FINGERPRINT => [
+			self::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT => 'Default',
+		],
+		self::TYPE_MONOCHROME => [
+			self::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT => 'Default',
+		],
 	];
 
 	protected static $templateIdToFolderMap = [
@@ -74,6 +84,8 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_IFRAME => 'Iframe',
 		self::TYPE_IFRAME_REPLACEMENT => 'IframeReplacement',
 		self::TYPE_IFRAME_WHITELIST => 'IframeWhitelist',
+		self::TYPE_FINGERPRINT => 'Fingerprint',
+		self::TYPE_MONOCHROME => 'MonochromeTheme',
 	];
 
 	/**

@@ -38,16 +38,16 @@ class JsonImportService {
 	/**
 	 * Hardcoded default values that are reused on different places, including Import
 	 */
-	public const TEXT_BANNER_DESCRIPTION = 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.';
-	public const TEXT_ESSENTIAL_DESCRIPTION = 'Essenzielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
-	public const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
-	public const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
-	public const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
+	const TEXT_BANNER_DESCRIPTION = 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.';
+	const TEXT_ESSENTIAL_DESCRIPTION = 'Essenzielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
+	const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
+	const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
+	const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
 
 	/**
 	 * Separates the locale in the filename
 	 */
-	public const LOCALE_SEPARATOR = '--';
+	const LOCALE_SEPARATOR = '--';
 
 	/**
 	 * Stores the mapping data for the default language so that the next imported languages can have it's entities
@@ -92,6 +92,7 @@ class JsonImportService {
 		$cookieGroups = $jsonData['cookieGroups'];
 		$iframeGroup = $jsonData['iFrameGroup'];
 		$footerLinks = $jsonData['footerLinks'];
+		$services = $jsonData['mustacheData']['services'];
 
 		if (!is_array($footerLinks)) {
 			$footerLinks = [];
@@ -100,6 +101,7 @@ class JsonImportService {
 		unset($jsonData['cookieGroups']);
 		unset($jsonData['iFrameGroup']);
 		unset($jsonData['footerLinks']);
+		unset($jsonData['mustacheData']);
 
 		// flatten the data into one array to prepare it for SQL
 		$flatJsonData = [];
@@ -170,82 +172,46 @@ class JsonImportService {
 			'iframe_button_allow_one_text',
 			'iframe_button_load_one_text',
 			'iframe_open_settings_text',
+			'iframe_replacement_background_image'
 
 		],
 			$flatJsonData
 		);
 
-		// Add Groups
-		foreach ($cookieGroups as $groupIndex => $group) {
-			$groupIdentifier = $groupIndex;
-			if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
-				$groupId = $this->addGroup(
-					$pid,
-					$group,
-					$groupIndex,
-					$optInId,
-					$sysLanguageUid,
-					$defaultLanguageOptinId,
-					$connectionPool
-				);
-			} else {
-				// we use this only for the internal language mapping lookup array
-				$groupIdentifier = $group['groupName'];
-				$groupId = '';
-			}
+		// Add Services
+		$serviceIndex = 0;
+		foreach ($services as $identifier => $service) {
+			$service['identifier'] = $identifier;
+			$serviceId = $this->addService(
+				$pid,
+				$service,
+				$serviceIndex,
+				$optInId,
+				$sysLanguageUid,
+				$defaultLanguageOptinId,
+				$connectionPool
+			);
 
 			// store the mapping
 			if ($defaultLanguageOptinId === NULL) {
-				$this->defaultLanguageIdMappingLookup[$groupIdentifier] = [
-					'id' => $groupId,
-					'cookies' => [],
-					'scripts' => []
-				];
+				$this->defaultLanguageIdMappingLookup['services'][$serviceIndex] = $serviceId;
 			}
 
-			// Add Cookies
-			if (isset($group['cookieData'])) {
-				foreach ($group['cookieData'] as $cookieIndex => $cookie) {
-					if ($cookie['pseudo'] === TRUE) {
-						continue;
-					}
-					$cookieId = $this->addCookie(
-						$pid,
-						$cookie,
-						$cookieIndex,
-						$group['groupName'],
-						$optInId,
-						$groupId,
-						$sysLanguageUid,
-						$groupIdentifier,
-						$defaultLanguageOptinId,
-						$connectionPool
-					);
-					if ($defaultLanguageOptinId === NULL) {
-						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex] = $cookieId;
-					}
-				}
-			}
-			// Add Scripts
-			if (isset($group['scriptData'])) {
-				foreach ($group['scriptData'] as $scriptIndex => $script) {
-					$scriptId = $this->addScript(
-						$pid,
-						$script,
-						$scriptIndex,
-						$group['groupName'],
-						$optInId,
-						$groupId,
-						$sysLanguageUid,
-						$defaultLanguageOptinId,
-						$groupIdentifier,
-						$connectionPool
-					);
-					if ($defaultLanguageOptinId === NULL) {
-						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex] = $scriptId;
-					}
-				}
-			}
+			$serviceIndex++;
+		}
+
+		// Add Groups
+		foreach ($cookieGroups as $groupIndex => $group) {
+			$this->addGroupWithCookiesAndScripts(
+				$groupIndex, $group, $pid, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+			);
+		}
+
+		if (!$flatJsonData['iframe_enabled'] && $iframeGroup) {
+			$groupIndex++;
+			$this->addGroupWithCookiesAndScripts(
+				$groupIndex, $iframeGroup, $pid, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+			);
 		}
 
 		return $optInId;
@@ -483,6 +449,56 @@ class JsonImportService {
 	}
 
 	/**
+	 * Adds a service entry in the database
+	 *
+	 * @param int $pid
+	 * @param array $service
+	 * @param int $serviceIndex
+	 * @param int $optInId
+	 * @param int|null $sysLanguageUid
+	 * @param int|null $defaultLanguageOptinId
+	 * @param string $groupIdentifier
+	 * @param ConnectionPool $connectionPool
+	 * @return string
+	 */
+	protected function addService(
+		$pid,
+		$service,
+		$serviceIndex,
+		$optInId,
+		$sysLanguageUid,
+		$defaultLanguageOptinId,
+		$connectionPool
+	): string {
+		$serviceData = [
+			'pid' => $pid,
+			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
+			'identifier' => $service['identifier'],
+			'replacement_html' => $service['mustache'],
+			'replacement_html_overwritten' => $service['replacement_html_overwritten'],
+			'replacement_background_image' => $service['replacement_background_image'],
+			'sorting' => $serviceIndex + 1,
+			'parent_optin' => $optInId,
+			'crdate' => $GLOBALS['EXEC_TIME'],
+			'tstamp' => $GLOBALS['EXEC_TIME'],
+		];
+
+		if ($defaultLanguageOptinId !== NULL) {
+			$serviceData['sys_language_uid'] = $sysLanguageUid;
+			$serviceData['l10n_parent'] = $this->defaultLanguageIdMappingLookup['services'][$serviceIndex];
+		}
+
+		return $this->flexInsert(
+			$connectionPool,
+			'tx_sgcookieoptin_domain_model_service',
+			[
+			'pid', 'identifier', 'replacement_html_overwritten', 'replacement_html', 'replacement_background_image', 'source_regex'
+		],
+			$serviceData
+		);
+	}
+
+	/**
 	 * Parses the uploaded files, prepares and stores the data into the session
 	 *
 	 * @param array $languages
@@ -561,5 +577,91 @@ class JsonImportService {
 
 		// Save into session
 		$_SESSION['tx_sgcookieoptin']['importJsonData'] = $dataStorage;
+	}
+
+	/**
+	 * @param int $groupIndex
+	 * @param array $group
+	 * @param int $pid
+	 * @param string $optInId
+	 * @param int|null $sysLanguageUid
+	 * @param int|null $defaultLanguageOptinId
+	 * @param ConnectionPool $connectionPool
+	 * @return void
+	 */
+	protected function addGroupWithCookiesAndScripts(
+		int $groupIndex, array $group, int $pid, string $optInId, $sysLanguageUid, $defaultLanguageOptinId,
+		ConnectionPool $connectionPool
+	) {
+		$groupIdentifier = $groupIndex;
+		if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
+			$groupId = $this->addGroup(
+				$pid,
+				$group,
+				$groupIndex,
+				$optInId,
+				$sysLanguageUid,
+				$defaultLanguageOptinId,
+				$connectionPool
+			);
+		} else {
+			// we use this only for the internal language mapping lookup array
+			$groupIdentifier = $group['groupName'];
+			$groupId = '';
+		}
+
+		// store the mapping
+		if ($defaultLanguageOptinId === NULL) {
+			$this->defaultLanguageIdMappingLookup[$groupIdentifier] = [
+				'id' => $groupId,
+				'cookies' => [],
+				'scripts' => []
+			];
+		}
+
+		// Add Cookies
+		if (isset($group['cookieData'])) {
+			foreach ($group['cookieData'] as $cookieIndex => $cookie) {
+				if ($cookie['pseudo'] === TRUE) {
+					continue;
+				}
+				$cookieId = $this->addCookie(
+					$pid,
+					$cookie,
+					$cookieIndex,
+					$group['groupName'],
+					$optInId,
+					$groupId,
+					$sysLanguageUid,
+					$groupIdentifier,
+					$defaultLanguageOptinId,
+					$connectionPool
+				);
+				if ($defaultLanguageOptinId === NULL) {
+					$this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex] = $cookieId;
+				}
+			}
+		}
+
+		// Add Scripts
+		if (isset($group['scriptData'])) {
+			foreach ($group['scriptData'] as $scriptIndex => $script) {
+				$scriptId = $this->addScript(
+					$pid,
+					$script,
+					$scriptIndex,
+					$group['groupName'],
+					$optInId,
+					$groupId,
+					$sysLanguageUid,
+					$defaultLanguageOptinId,
+					$groupIdentifier,
+					$connectionPool
+				);
+				if ($defaultLanguageOptinId === NULL) {
+					$this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex] = $scriptId;
+				}
+			}
+		}
 	}
 }

@@ -10,7 +10,8 @@
 
 /* This file includes basic styles for the template */
 
-#SgCookieOptin .sg-cookie-optin-box {
+#SgCookieOptin .sg-cookie-optin-box,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box{
 	position: relative;
 	overflow: auto;
 
@@ -26,7 +27,7 @@
 	max-width: 500px;
 	max-height: 95%;
 
-	background: ###color_box###;
+	background: var(--sg-cookie-optin-color-box);
 	border-radius: 5px;
 
 	font-size: 14px;
@@ -42,10 +43,10 @@
 	max-width: 500px;
 	margin: 0 0 5px;
 	padding: 10px 20px;
-	border: solid 1px ###color_confirmation_text###;
+	border: solid 1px var(--sg-cookie-optin-color-confirmation-text);
 	border-radius: 5px;
-	color: ###color_confirmation_text###;
-	background-color: ###color_confirmation_background###;
+	color: var(--sg-cookie-optin-color-confirmation-text);
+	background-color: var(--sg-cookie-optin-color-confirmation-background);
 }
 
 /* Header */
@@ -59,33 +60,39 @@
 	font-size: 22px;
 	cursor: pointer;
 
-	color: ###color_button_close_text###;
-	background-color: ###color_button_close###;
+	color: var(--sg-cookie-optin-color-button-close-text);
+	background-color: var(--sg-cookie-optin-color-button-close);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-close-button:hover {
-	background-color: ###color_button_close_hover###;
+	background-color: var(--sg-cookie-optin-color-button-close-hover);
+	color: var(--sg-cookie-optin-color-button-close-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-header,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-description {
 	display: block;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-header {
 	margin: 0;
 	font-size: 22px;
-	color: ###color_headline###;
+	color: var(--sg-cookie-optin-color-headline);
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-description {
 	margin: 0 0 20px 0;
 	font-size: 14px;
 	line-height: 1.5;
 }
 
 /* Cookie List */
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list {
 	display: block;
 	list-style: none;
 }
@@ -118,7 +125,7 @@
 	content: "";
 
 	border-radius: 5px;
-	border: 2px solid ###color_checkbox###;
+	border: 2px solid var(--sg-cookie-optin-color-checkbox);
 
 	background-color: #FFF;
 
@@ -126,14 +133,14 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label::before {
-	box-shadow: inset 0 0 0 3px #FFF;
-	background-color: ###color_checkbox###;
+	box-shadow: inset 0 0 0 3px var(--sg-cookie-optin-color-checkbox-box-shadow);
+	background-color: var(--sg-cookie-optin-color-checkbox);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled + .sg-cookie-optin-checkbox-label::before {
-	box-shadow: inset 0 0 0 3px #FFF;
-	border-color: ###color_checkbox_required###;
-	background-color: ###color_checkbox_required###;
+	box-shadow: inset 0 0 0 3px var(--sg-cookie-optin-color-checkbox-box-shadow);
+	border-color: var(--sg-cookie-optin-color-checkbox-required);
+	background-color: var(--sg-cookie-optin-color-checkbox-required);
 
 	cursor: default;
 }
@@ -164,55 +171,60 @@
 	padding: 10px 0;
 	margin: 0 0 10px 0;
 
-	color: ###color_button_all_text###;
+	color: var(--sg-cookie-optin-color-button-all-text);
 	font-size: 16px;
 	text-align: center;
 
-	background-color: ###color_button_all###;
+	background-color: var(--sg-cookie-optin-color-button-all);
 
 	border-radius: 5px;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-iframe-reject {
-	color: ###color_button_specific_text###;
-	background-color: ###color_button_specific###;
+	color: var(--sg-cookie-optin-color-button-specific-text);
+	background-color: var(--sg-cookie-optin-color-button-specific);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-essential {
-	color: ###color_button_essential_text###;
-	background-color: ###color_button_essential###;
+	color: var(--sg-cookie-optin-color-button-essential-text);
+	background-color: var(--sg-cookie-optin-color-button-essential);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-settings {
-	color: ###banner_color_button_settings_text###;
-	background-color: ###banner_color_button_settings###;
+	color: var(--sg-cookie-optin-banner-color-button-settings-text);
+	background-color: var(--sg-cookie-optin-banner-color-button-settings);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept {
-	color: ###banner_color_button_accept_text###;
-	background-color: ###banner_color_button_accept###;
+	color: var(--sg-cookie-optin-banner-color-button-accept-text);
+	background-color: var(--sg-cookie-optin-banner-color-button-accept);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-all:hover {
-	background-color: ###color_button_all_hover###;
+	background-color: var(--sg-cookie-optin-color-button-all-hover);
+	color: var(--sg-cookie-optin-color-button-all-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific:hover,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-iframe-reject:hover {
-	background-color: ###color_button_specific_hover###;
+	background-color: var(--sg-cookie-optin-color-button-specific-hover);
+	color: var(--sg-cookie-optin-color-button-specific-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-essential:hover {
-	background-color: ###color_button_essential_hover###;
+	background-color: var(--sg-cookie-optin-color-button-essential-hover);
+	color: var(--sg-cookie-optin-color-button-essential-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-settings:hover {
-	background-color: ###banner_color_button_settings_hover###;
+	background-color: var(--sg-cookie-optin-banner-color-button-settings-hover);
+	color: var(--sg-cookie-optin-banner-color-button-settings-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept:hover {
-	background-color: ###banner_color_button_accept_hover###;
+	background-color: var(--sg-cookie-optin-banner-color-button-accept-hover);
+	color: var(--sg-cookie-optin-banner-color-button-accept-hover-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-flash-message {
@@ -237,9 +249,10 @@
 	display: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible {
 	padding: 10px 0 0 0;
-	border-top: 1px solid ###color_list###;
+	border-top: 1px solid var(--sg-cookie-optin-color-list);
 	max-height: 2000px;
 	overflow-y: auto;
 
@@ -250,34 +263,41 @@
 	scrollbar-width: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
 	margin: 0 0 10px 0;
 	padding: 10px;
 
 	border-radius: 5px;
-	background-color: ###color_list###;
+	background-color: var(--sg-cookie-optin-color-list);
+	list-style: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a {
 	display: block;
 	margin: 10px 0 0 0;
 
 	text-align: center;
-	color: ###color_list_text###;
+	color: var(--sg-cookie-optin-color-list-text);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
 	display: block;
-	color: ###color_list_text###;
+	color: var(--sg-cookie-optin-color-list-text);
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header {
 	margin: 0;
 	font-size: 18px;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
 	margin: 0 0 10px 0;
 	font-size: 14px;
 	line-height: 1.5;
@@ -315,40 +335,47 @@
 	scrollbar-width: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
 	margin: 0 0 10px 0;
 	width: 100%;
-	background-color: ###color_table###;
+	background-color: var(--sg-cookie-optin-color-table);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table td {
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table td,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table td {
 	padding: 10px;
 	vertical-align: middle;
-	border-bottom: 1px solid ###color_list###;
-	color: ###color_Table_data_text###;
+	border-bottom: 1px solid var(--sg-cookie-optin-color-list);
+	color: var(--sg-cookie-optin-color-table-data-text);
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th {
 	width: 25%;
 	font-weight: 600;
-	color: ###color_table_header_text###;
-	background-color: ###color_table_header###;
-	border-right: 1px solid ###color_list###;
+	color: var(--sg-cookie-optin-color-table-header-text);
+	background-color: var(--sg-cookie-optin-color-table-header);
+	border-right: 1px solid var(--sg-cookie-optin-color-list);
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider {
-	background-color: ###color_list###;
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider {
+	background-color: var(--sg-cookie-optin-color-list);
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider td {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider td,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table .divider td {
 	line-height: 0;
 }
 
 /* Footer */
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-footer {
 	padding: 10px 0 0;
-	border-top: 1px solid ###color_list###;
+	border-top: 1px solid var(--sg-cookie-optin-color-list);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-copyright {
@@ -356,11 +383,11 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-copyright .sg-cookie-optin-box-copyright-link {
-	color: ###color_text###60;
+	color: var(--sg-cookie-optin-color-text-opacity);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-footer-user-hash-container {
-	color: ###color_text###60;
+	color: var(--sg-cookie-optin-color-text-opacity);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-footer-links {
@@ -376,16 +403,18 @@
 }
 
 /* The Content Element */
-.sg-cookie-optin-plugin #SgCookieOptin {
+.sg-cookie-optin-plugin #SgCookieOptin,
+.sg-cookie-optin-plugin .sg-cookie-optin-plugin-cookie-list {
 	display: block;
 	position: static;
 	background: none;
 	z-index: 10;
 }
 
-.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box {
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box,
+.sg-cookie-optin-plugin .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box {
 	margin: 0;
-	border: solid 1px ###color_list###;
+	border: solid 1px var(--sg-cookie-optin-color-list);
 	border-radius: 5px;
 }
 

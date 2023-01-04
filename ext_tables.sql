@@ -38,7 +38,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	template_selection int(11) DEFAULT '0' NOT NULL,
 	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
-
+	monochrome_enabled tinyint(4) unsigned DEFAULT '1' NOT NULL,
 
 	-- banner
 	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_color_box varchar(10) DEFAULT '#DDDDDD' NOT NULL,
 	banner_color_text varchar(10) DEFAULT '#373737' NOT NULL,
 	banner_color_link_text varchar(10) DEFAULT '#373737' NOT NULL,
-	banner_color_button_settings varchar(10) DEFAULT '#888888' NOT NULL,
+	banner_color_button_settings varchar(10) DEFAULT '#575757' NOT NULL,
 	banner_color_button_settings_hover varchar(10) DEFAULT '#D7D7D7' NOT NULL,
 	banner_color_button_settings_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	banner_color_button_accept varchar(10) DEFAULT '#143D59' NOT NULL,
@@ -68,17 +68,17 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_confirmation_background varchar(10) DEFAULT '#C9FFC9' NOT NULL,
 	color_confirmation_text varchar(10) DEFAULT '#208A20' NOT NULL,
 	color_checkbox varchar(10) DEFAULT '#143D59' NOT NULL,
-	color_checkbox_required varchar(10) DEFAULT '#888888' NOT NULL,
+	color_checkbox_required varchar(10) DEFAULT '#575757' NOT NULL,
 	color_button_all varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_button_all_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	color_button_all_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
-	color_button_specific varchar(10) DEFAULT '#888888' NOT NULL,
+	color_button_specific varchar(10) DEFAULT '#575757' NOT NULL,
 	color_button_specific_hover varchar(10) DEFAULT '#D7D7D7' NOT NULL,
 	color_button_specific_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
-	color_button_essential varchar(10) DEFAULT '#888888' NOT NULL,
+	color_button_essential varchar(10) DEFAULT '#575757' NOT NULL,
 	color_button_essential_hover varchar(10) DEFAULT '#D7D7D7' NOT NULL,
 	color_button_essential_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
-	color_list varchar(10) DEFAULT '#888888' NOT NULL,
+	color_list varchar(10) DEFAULT '#575757' NOT NULL,
 	color_list_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_table varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_Table_data_text varchar(10) DEFAULT '#373737' NOT NULL,
@@ -95,6 +95,11 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_full_button_close varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_full_button_close_hover varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_full_button_close_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
+
+	-- Fingerpring settings
+	color_fingerprint_background varchar(10) DEFAULT '#143D59' NOT NULL,
+	color_fingerprint_image varchar(10) DEFAULT '#FFFFFF' NOT NULL,
+	fingerprint_position int(6) DEFAULT 0 NOT NULL,
 
 	-- Essential group specific columns
 	essential_title text NOT NULL,
@@ -115,6 +120,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_replacement_html text NOT NULL,
 	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_replacement_selection int(11) DEFAULT '0' NOT NULL,
+	iframe_replacement_background_image text NOT NULL,
 
 	iframe_whitelist_regex text NOT NULL,
 	iframe_whitelist_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -132,6 +138,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	iframe_color_button_load_one_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(10) DEFAULT '#373737' NOT NULL,
+	services int(11) DEFAULT '0' NOT NULL,
 
 	-- Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
@@ -282,4 +289,34 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	KEY consent (pid, user_hash, item_type, item_identifier, date),
     KEY statistics (pid, item_type, item_identifier, is_accepted, version, date),
     KEY version (version, pid)
+);
+
+--
+-- Table structure for table 'tx_sgcookieoptin_domain_model_service'
+--
+CREATE TABLE tx_sgcookieoptin_domain_model_service (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) unsigned DEFAULT '0' NOT NULL,
+
+	identifier varchar(255) DEFAULT '' NOT NULL,
+	replacement_html_overwritten tinyint(4) DEFAULT '0' NOT NULL,
+	replacement_html text NOT NULL,
+	replacement_background_image text NOT NULL,
+	source_regex text NOT NULL,
+	parent_optin int(11) DEFAULT '0' NOT NULL,
+
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY parent_optin (parent_optin),
+	KEY language (l10n_parent,sys_language_uid)
 );

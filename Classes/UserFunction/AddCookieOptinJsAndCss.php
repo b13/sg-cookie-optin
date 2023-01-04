@@ -57,7 +57,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public function addJavaScript($content, array $configuration) {
+	public function addJavaScript(string $content, array $configuration) {
 		if (!LicenceCheckService::isInDevelopmentContext()
 			&& !LicenceCheckService::isInDemoMode()
 			&& !LicenceCheckService::hasValidLicense()
@@ -105,7 +105,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
 			}
 
-			$fileUrl = $overwrittenBaseUrl ?? $siteBaseUrl . $file . '?' . $cacheBuster;
+			$fileUrl = ($overwrittenBaseUrl ?? $siteBaseUrl) . $file;
 			return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) . '</script>
 					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
 					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"></script>';
@@ -123,7 +123,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public function addCSS($content, array $configuration) {
+	public function addCSS(string $content, array $configuration) {
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0) {
 			return '';
@@ -219,6 +219,24 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		return $jsonFile;
+	}
+
+	/**
+	 * Get the current CSS or JS asset file path
+	 *
+	 * @param string $sitePath
+	 * @param string $folder
+	 * @param int $rootPageId
+	 * @param string $pattern
+	 * @return mixed|null
+	 */
+	protected function getAssetFilePath(string $sitePath, string $folder, int $rootPageId, string $pattern) {
+		$files = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . $pattern);
+		if (count($files) > 0) {
+			return str_replace($sitePath, '', $files[0]);
+		}
+
+		return NULL;
 	}
 
 	/**

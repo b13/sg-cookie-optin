@@ -48,19 +48,19 @@ use TYPO3\CMS\Frontend\Page\PageGenerator;
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class StaticFileGenerationService implements SingletonInterface {
-	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
+	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
 
-	public const FOLDER_SITEROOT = 'siteroot-#PID#/';
+	const FOLDER_SITEROOT = 'siteroot-#PID#/';
 
-	public const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
-	public const TEMPLATE_JAVA_SCRIPT_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/JavaScript/';
-	public const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
+	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
+	const TEMPLATE_JAVA_SCRIPT_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/JavaScript/';
+	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
 
-	public const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
+	const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
 
-	public const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
-	public const TEMPLATE_STYLE_SHEET_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/StyleSheets/';
-	public const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
+	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
+	const TEMPLATE_STYLE_SHEET_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/StyleSheets/';
+	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
 
 	/** @var int */
 	protected $siteRoot;
@@ -191,6 +191,8 @@ class StaticFileGenerationService implements SingletonInterface {
 			'banner_color_button_accept' => $fullData['banner_color_button_accept'],
 			'banner_color_button_accept_hover' => $fullData['banner_color_button_accept_hover'],
 			'banner_color_button_accept_text' => $fullData['banner_color_button_accept_text'],
+			'color_fingerprint_image' => $fullData['color_fingerprint_image'],
+			'color_fingerprint_background' => $fullData['color_fingerprint_background'],
 		];
 		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 
@@ -458,6 +460,20 @@ class StaticFileGenerationService implements SingletonInterface {
 			$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_IFRAME_REPLACEMENT,
 				$data['iframe_replacement_selection']
+			);
+		}
+
+		if ($data['fingerprint_position'] > 0) {
+			$content .= " \n\n" . $templateService->getCSSContent(
+				TemplateService::TYPE_FINGERPRINT,
+				TemplateService::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT
+			);
+		}
+
+		if ((bool) $data['monochrome_enabled']) {
+			$content .= " \n\n" . $templateService->getCSSContent(
+				TemplateService::TYPE_MONOCHROME,
+				TemplateService::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT
 			);
 		}
 
@@ -732,46 +748,46 @@ class StaticFileGenerationService implements SingletonInterface {
 			];
 		}
 
-		if ((bool) $translatedData['iframe_enabled']) {
-			$pseudoElements = 0;
-			$groupIndex = 0;
-			foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
-				$iframeCookieData[] = [
-					'Name' => $cookieData['name'],
-					'Provider' => $cookieData['provider'],
-					'Purpose' => $cookieData['purpose'],
-					'Lifetime' => $cookieData['lifetime'],
-					'index' => $groupIndex,
-					'crdate' => $cookieData['crdate'],
-					'tstamp' => $cookieData['tstamp'],
-					'pseudo' => FALSE,
-				];
-				++$groupIndex;
-				$pseudoElements = $groupIndex % 3;
-			}
-
-			for ($index = 1; $index < $pseudoElements; ++$index) {
-				$iframeCookieData[] = [
-					'Name' => '',
-					'Provider' => '',
-					'Purpose' => '',
-					'Lifetime' => '',
-					'index' => $groupIndex,
-					'crdate' => '',
-					'tstamp' => '',
-					'pseudo' => TRUE,
-				];
-				++$groupIndex;
-			}
-
-			$iFrameGroup = [
-				'groupName' => 'iframes',
-				'label' => $translatedData['iframe_title'],
-				'description' => $translatedData['iframe_description'],
-				'required' => FALSE,
-				'cookieData' => $iframeCookieData,
+		$pseudoElements = 0;
+		$groupIndex = 0;
+		foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
+			$iframeCookieData[] = [
+				'Name' => $cookieData['name'],
+				'Provider' => $cookieData['provider'],
+				'Purpose' => $cookieData['purpose'],
+				'Lifetime' => $cookieData['lifetime'],
+				'index' => $groupIndex,
+				'crdate' => $cookieData['crdate'],
+				'tstamp' => $cookieData['tstamp'],
+				'pseudo' => FALSE,
 			];
+			++$groupIndex;
+			$pseudoElements = $groupIndex % 3;
+		}
 
+		for ($index = 1; $index < $pseudoElements; ++$index) {
+			$iframeCookieData[] = [
+				'Name' => '',
+				'Provider' => '',
+				'Purpose' => '',
+				'Lifetime' => '',
+				'index' => $groupIndex,
+				'crdate' => '',
+				'tstamp' => '',
+				'pseudo' => TRUE,
+			];
+			++$groupIndex;
+		}
+
+		$iFrameGroup = [
+			'groupName' => 'iframes',
+			'label' => $translatedData['iframe_title'],
+			'description' => $translatedData['iframe_description'],
+			'required' => FALSE,
+			'cookieData' => $iframeCookieData,
+		];
+
+		if ((bool) $translatedData['iframe_enabled']) {
 			$cookieGroups[] = $iFrameGroup;
 		}
 
@@ -782,6 +798,8 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$footerLinks = [];
 		$index = 0;
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+		$parsedSiteBaseUrl = parse_url($siteBaseUrl);
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
@@ -816,6 +834,10 @@ class StaticFileGenerationService implements SingletonInterface {
 				$url = substr($url, 1);
 			}
 
+			if (!$parsedSiteBaseUrl['path'] || $parsedSiteBaseUrl['path'] === '/') {
+				$url = '/' . str_replace($siteBaseUrl, '', $url);
+			}
+
 			$footerLinks[$index] = [
 				'url' => $url,
 				'name' => $name,
@@ -829,7 +851,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		if ($translatedData['overwrite_baseurl']) {
 			$baseUri = $translatedData['overwrite_baseurl'];
 		} else {
-			$baseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+			$baseUrl = $siteBaseUrl;
 			if ((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000)) {
 				$baseUri = $baseUrl;
 			} else {
@@ -869,6 +891,9 @@ class StaticFileGenerationService implements SingletonInterface {
 			'overwrite_baseurl' => (string) $translatedData['overwrite_baseurl'],
 			'unified_cookie_name' => (bool) $translatedData['unified_cookie_name'],
 			'disable_usage_statistics' => (bool) $translatedData['disable_usage_statistics'],
+			'fingerprint_position' => (int) $translatedData['fingerprint_position'],
+			'iframe_replacement_background_image' => (string) $translatedData['iframe_replacement_background_image'],
+			'monochrome_enabled' => (bool) $translatedData['monochrome_enabled'],
 		];
 
 		$textEntries = [
@@ -906,7 +931,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'cookieGroups' => $cookieGroups,
 			'cssData' => $cssData,
 			'footerLinks' => $footerLinks,
-			'iFrameGroup' => $iFrameGroup ?? NULL,
+			'iFrameGroup' => $iFrameGroup,
 			'settings' => $settings,
 			'textEntries' => $textEntries,
 			'placeholders' => $placeholders
@@ -974,6 +999,29 @@ class StaticFileGenerationService implements SingletonInterface {
 				),
 			],
 		];
+
+		$jsonDataArray['mustacheData']['services'] = [];
+		if ((is_countable($translatedData['services']) && (count($translatedData['services']) > 0))
+			|| (int) $translatedData['services'] > 0)
+		{
+			$templateService = GeneralUtility::makeInstance(TemplateService::class);
+			foreach ($translatedData['services'] as $service) {
+
+				if ($service['replacement_html_overwritten']) {
+					$rendered = $templateService->renderTemplate($service['replacement_html'], $jsonDataArray);
+				} else {
+					$rendered = $jsonDataArray['mustacheData']['iframeReplacement']['markup'];
+				}
+
+				$jsonDataArray['mustacheData']['services'][$service['identifier']] = [
+					'rendered' => $rendered,
+					'mustache' => $service['replacement_html'],
+					'replacement_html_overwritten' => $service['replacement_html_overwritten'],
+					'replacement_background_image' => $service['replacement_background_image'],
+					'regex' => $service['source_regex'],
+				];
+			}
+		}
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(

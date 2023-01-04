@@ -18,6 +18,15 @@
 			<trans-unit id="optInPluginTitle">
 				<source><![CDATA[Cookie Opt In]]></source>
 			</trans-unit>
+			<trans-unit id="cookieListPluginDescription" approved="yes">
+				<source><![CDATA[Rendering of the configured consent cookies]]></source>
+			</trans-unit>
+			<trans-unit id="cookieListPluginLabel" approved="yes">
+				<source><![CDATA[Cookie List]]></source>
+			</trans-unit>
+			<trans-unit id="cookieListPluginTitle" approved="yes">
+				<source><![CDATA[Cookie List]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

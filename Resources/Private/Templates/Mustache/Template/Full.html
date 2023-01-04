@@ -1,5 +1,5 @@
 <!--googleoff: index-->
-<div class="sg-cookie-optin-box sg-cookie-optin-box-new">
+<div data-nosnippet class="sg-cookie-optin-box sg-cookie-optin-box-new">
 	<div class="sg-cookie-optin-box-new-upper">
 		{{#settings.show_button_close}}
 			<span class="sg-cookie-optin-box-close-button">✕</span>
@@ -14,7 +14,7 @@
 			{{#cookieGroups}}
 				<li class="sg-cookie-optin-box-cookie-list-item">
 					<label >
-						<input tabindex="1" class="sg-cookie-optin-checkbox"
+						<input  class="sg-cookie-optin-checkbox"
 						   type="checkbox"
 						   name="cookies[]"
 						   value="{{groupName}}"
@@ -57,18 +57,25 @@
 			{{/cookieGroups}}
 		</ul>
 
-		<a tabindex="1" class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>
+		<a  class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}
+			<span>
+				<svg fill='currentColor' xmlns='http://www.w3.org/2000/svg'
+					 viewBox='0 0 512 512'>
+					<path d='M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zM273 369.9l135.5-135.5c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L256 285.1 154.4 183.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L239 369.9c9.4 9.4 24.6 9.4 34 0z'/>
+				</svg>
+			</span>
+		</a>
 
 		<div class="sg-cookie-optin-box-button">
-			<button tabindex="1" class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
-			<button tabindex="1" class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
-			<button tabindex="1" class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
+			<button  class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
+			<button  class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
+			<button  class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
 		</div>
 
 		<div class="sg-cookie-optin-box-footer">
 			<div class="sg-cookie-optin-box-footer-links">
 				<div class="sg-cookie-optin-box-copyright{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}">
-					<a tabindex="1" class="sg-cookie-optin-box-copyright-link"
+					<a  class="sg-cookie-optin-box-copyright-link"
 					   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
 					   rel="noopener"
 					   target="_blank">
@@ -82,7 +89,7 @@
 						<span class="sg-cookie-optin-box-footer-divider"> | </span>
 					{{/index}}
 
-					<a tabindex="1" class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
+					<a  class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
 				{{/footerLinks}}
 			</div>
 

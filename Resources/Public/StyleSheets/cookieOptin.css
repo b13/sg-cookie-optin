@@ -10,6 +10,64 @@
 
 /* This file includes basic styles for each template */
 
+:root {
+	--sg-cookie-optin-color-text: ###color_text###;
+	--sg-cookie-optin-color-text-opacity: ###color_text###60;
+	--sg-cookie-optin-color-box: ###color_box###;
+	--sg-cookie-optin-banner-color-box: ###banner_color_box###;
+	--sg-cookie-optin-banner-color-text: ###banner_color_text###;
+	--sg-cookie-optin-banner-color-link-text: ###banner_color_link_text###;
+	--sg-cookie-optin-color-fingerprint-background: ###color_fingerprint_background###;
+	--sg-cookie-optin-color-fingerprint-image: ###color_fingerprint_image###;
+	--sg-cookie-optin-iframe-color-consent-box-background: ###iframe_color_consent_box_background###;
+	--sg-cookie-optin-iframe-color-button-load-one-text: ###iframe_color_button_load_one_text###;
+	--sg-cookie-optin-iframe-color-button-load-one: ###iframe_color_button_load_one###;
+	--sg-cookie-optin-iframe-color-button-load-one-hover: ###iframe_color_button_load_one_hover###;
+	--sg-cookie-optin-iframe-color-open-settings: ###iframe_color_open_settings###;
+	--sg-cookie-optin-color-confirmation-text: ###color_confirmation_text###;
+	--sg-cookie-optin-color-confirmation-background: ###color_confirmation_background###;
+	--sg-cookie-optin-color-button-close-text: ###color_button_close_text###;
+	--sg-cookie-optin-color-button-close-hover-text: ###color_button_close_text###;
+	--sg-cookie-optin-color-button-close: ###color_button_close###;
+	--sg-cookie-optin-color-button-close-hover: ###color_button_close_hover###;
+	--sg-cookie-optin-color-headline: ###color_headline###;
+	--sg-cookie-optin-color-checkbox: ###color_checkbox###;
+	--sg-cookie-optin-color-checkbox-required: ###color_checkbox_required###;
+	--sg-cookie-optin-color-button-all-text: ###color_button_all_text###;
+	--sg-cookie-optin-color-button-all-hover-text: ###color_button_all_text###;
+	--sg-cookie-optin-color-button-all: ###color_button_all###;
+	--sg-cookie-optin-color-button-all-hover: ###color_button_all_hover###;
+	--sg-cookie-optin-color-button-specific-text: ###color_button_specific_text###;
+	--sg-cookie-optin-color-button-specific-hover-text: ###color_button_specific_text###;
+	--sg-cookie-optin-color-button-specific-hover: ###color_button_specific_hover###;
+	--sg-cookie-optin-color-button-specific: ###color_button_specific###;
+	--sg-cookie-optin-color-button-essential-text: ###color_button_essential_text###;
+	--sg-cookie-optin-color-button-essential-hover-text: ###color_button_essential_text###;
+	--sg-cookie-optin-color-button-essential-hover: ###color_button_essential_hover###;
+	--sg-cookie-optin-color-button-essential: ###color_button_essential###;
+	--sg-cookie-optin-banner-color-button-settings-text: ###banner_color_button_settings_text###;
+	--sg-cookie-optin-banner-color-button-settings-hover-text: ###banner_color_button_settings_text###;
+	--sg-cookie-optin-banner-color-button-settings-hover: ###banner_color_button_settings_hover###;
+	--sg-cookie-optin-banner-color-button-settings: ###banner_color_button_settings###;
+	--sg-cookie-optin-banner-color-button-accept-text: ###banner_color_button_accept_text###;
+	--sg-cookie-optin-banner-color-button-accept-hover-text: ###banner_color_button_accept_text###;
+	--sg-cookie-optin-banner-color-button-accept-hover: ###banner_color_button_accept_hover###;
+	--sg-cookie-optin-banner-color-button-accept: ###banner_color_button_accept###;
+	--sg-cookie-optin-color-list: ###color_list###;
+	--sg-cookie-optin-color-list-text: ###color_list_text###;
+	--sg-cookie-optin-color-table: ###color_table###;
+	--sg-cookie-optin-color-table-header: ###color_table_header###;
+	--sg-cookie-optin-color-table-header-text: ###color_table_header_text###;
+	--sg-cookie-optin-color-table-data-text: ###color_Table_data_text###;
+	--sg-cookie-optin-color-full-box: ###color_full_box###;
+	--sg-cookie-optin-color-full-headline: ###color_full_headline###;
+	--sg-cookie-optin-color-full-text: ###color_full_text###;
+	--sg-cookie-optin-color-full-button-close: ###color_full_button_close###;
+	--sg-cookie-optin-color-full-button-close-text: ###color_full_button_close_text###;
+	--sg-cookie-optin-color-full-button-close-hover: ###color_full_button_close_hover###;
+	--sg-cookie-optin-color-checkbox-box-shadow: #FFF;
+}
+
 #SgCookieOptin,
 #SgCookieOptin * table,
 #SgCookieOptin * tbody,
@@ -24,7 +82,22 @@
 #SgCookieOptin * li,
 #SgCookieOptin * button,
 #SgCookieOptin * input,
-#SgCookieOptin * label {
+#SgCookieOptin * label,
+.sg-cookie-optin-plugin-cookie-list,
+.sg-cookie-optin-plugin-cookie-list * table,
+.sg-cookie-optin-plugin-cookie-list * tbody,
+.sg-cookie-optin-plugin-cookie-list * tr,
+.sg-cookie-optin-plugin-cookie-list * th,
+.sg-cookie-optin-plugin-cookie-list * td,
+.sg-cookie-optin-plugin-cookie-list * div,
+.sg-cookie-optin-plugin-cookie-list * strong,
+.sg-cookie-optin-plugin-cookie-list * p,
+.sg-cookie-optin-plugin-cookie-list * a,
+.sg-cookie-optin-plugin-cookie-list * ul,
+.sg-cookie-optin-plugin-cookie-list * li,
+.sg-cookie-optin-plugin-cookie-list * button,
+.sg-cookie-optin-plugin-cookie-list * input,
+.sg-cookie-optin-plugin-cookie-list * label {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -32,7 +105,7 @@
 	font-size: 100%;
 	vertical-align: baseline;
 	background: none;
-	color: ###color_text###;
+	color: var(--sg-cookie-optin-color-text);
 	line-height: 1.6;
 }
 

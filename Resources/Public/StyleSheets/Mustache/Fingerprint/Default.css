@@ -1,0 +1,50 @@
+/*
+ * Copyright notice
+ *
+ * (c) sgalinski Internet Services (https://www.sgalinski.de)
+ *
+ * Commercial license
+ * You can buy a license key on the following site:
+ * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
+ */
+
+/* This file includes basic styles for the fingerprint templates */
+.sg-cookie-optin-fingerprint {
+	display: none;
+	border-radius: 50%;
+	z-index: 2147483640;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+	position: fixed;
+	background-color: var(--sg-cookie-optin-color-fingerprint-background);
+	color: var(--sg-cookie-optin-color-fingerprint-image);
+	box-shadow: 0 0 10px #84848475;
+}
+
+.sg-cookie-optin-fingerprint-icon {
+	height: inherit;
+	padding: 6px;
+	/*margin-left: 1px;*/
+	/*margin-top: -1px;*/
+}
+
+.sg-cookie-optin-fingerprint.sg-cookie-optin-fingerprint-top-left {
+	top: 40px;
+	left: 40px;
+}
+
+.sg-cookie-optin-fingerprint.sg-cookie-optin-fingerprint-top-right {
+	top: 40px;
+	right: 40px;
+}
+
+.sg-cookie-optin-fingerprint.sg-cookie-optin-fingerprint-bottom-left {
+	bottom: 40px;
+	left: 40px;
+}
+
+.sg-cookie-optin-fingerprint.sg-cookie-optin-fingerprint-bottom-right {
+	bottom: 40px;
+	right: 40px;
+}
