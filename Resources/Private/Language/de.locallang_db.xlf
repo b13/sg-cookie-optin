@@ -109,9 +109,25 @@
 				<source><![CDATA[Accept Button Text]]></source>
 				<target><![CDATA[Akzeptieren-Button Text]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_essential_text" approved="yes">
+				<source><![CDATA[Essential Button Text]]></source>
+				<target><![CDATA[Essentiel-Button Text]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_settings_text" approved="yes">
 				<source><![CDATA[Settings Button Text]]></source>
 				<target><![CDATA[Einstellungs-Button Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential" approved="yes">
+				<source><![CDATA[Background Color Essential Button]]></source>
+				<target><![CDATA[Hintergrundfarbe Essentiel-Button]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_hover" approved="yes">
+				<source><![CDATA[Hover Color Essential Button]]></source>
+				<target><![CDATA[Hover-Farbe Essentiel-Button]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_text" approved="yes">
+				<source><![CDATA[Text Color Essential Button]]></source>
+				<target><![CDATA[Textfarbe Essentiel-Button]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_box" approved="yes">
 				<source><![CDATA[Background]]></source>
@@ -812,6 +828,10 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
 				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
 				<target><![CDATA[Nutzungsstatistiken und Rückverfolgbarkeit deaktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_fingerprint" approved="yes">
+				<source><![CDATA[Show fingerprint symbol]]></source>
+				<target><![CDATA[Fingerabdruck-Symbol anzeigen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position" approved="yes">
 				<source><![CDATA[Position of the fingerprint symbol]]></source>

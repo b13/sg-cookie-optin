@@ -84,6 +84,18 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text">
 				<source><![CDATA[Accept Button Text]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_essential_text" approved="yes">
+				<source><![CDATA[Essential Button Text]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential" approved="yes">
+				<source><![CDATA[Background Color Essential Button]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_hover" approved="yes">
+				<source><![CDATA[Hover Color Essential Button]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_text" approved="yes">
+				<source><![CDATA[Text Color Essential Button]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_settings_text">
 				<source><![CDATA[Settings Button Text]]></source>
 			</trans-unit>
@@ -598,6 +610,9 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
 				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_fingerprint" approved="yes">
+				<source><![CDATA[Show fingerprint symbol]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position" approved="yes">
 				<source><![CDATA[Position of the fingerprint symbol]]></source>

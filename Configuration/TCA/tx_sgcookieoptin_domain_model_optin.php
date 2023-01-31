@@ -65,7 +65,7 @@ $configuration = [
 					services,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.banner,
 					--palette--;;banner_general, --palette--;;banner_general_colors,
-					--palette--;;banner_settings_button, --palette--;;banner_accept_button,
+					--palette--;;banner_settings_button, --palette--;;banner_accept_essential_button, --palette--;;banner_accept_button,
 					--palette--;;banner_template,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential,
 					essential_title, essential_description, essential_scripts, essential_cookies,
@@ -117,7 +117,7 @@ $configuration = [
 		],
 		'fingerprint' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint',
-			'showitem' => 'fingerprint_position, --linebreak--,
+			'showitem' => 'show_fingerprint, fingerprint_position, --linebreak--,
 			color_fingerprint_background, color_fingerprint_image'
 		],
 		'color_table' => [
@@ -181,6 +181,11 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button',
 			'showitem' => 'banner_button_accept_text, --linebreak--,
 				banner_color_button_accept, banner_color_button_accept_hover, banner_color_button_accept_text'
+		],
+		'banner_accept_essential_button' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_accept_essential_button',
+			'showitem' => 'banner_button_accept_essential_text, --linebreak--,
+				banner_color_button_accept_essential, banner_color_button_accept_essential_hover, banner_color_button_accept_essential_text'
 		],
 		'banner_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_template',
@@ -1477,6 +1482,53 @@ $configuration = [
 				'eval' => 'trim, required'
 			],
 		],
+		'banner_color_button_accept_essential' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#575757',
+				'placeholder' => '#575757',
+				'eval' => 'trim, required'
+			],
+		],
+		'banner_color_button_accept_essential_hover' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_hover',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#D7D7D7',
+				'placeholder' => '#D7D7D7',
+				'eval' => 'trim, required'
+			],
+		],
+		'banner_color_button_accept_essential_text' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_text',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'banner_button_accept_essential_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_button_accept_essential_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Essentiel',
+				'placeholder' => 'Essentiel',
+				'eval' => 'trim, required'
+			],
+		],
 		'banner_button_settings_text' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_button_settings_text',
@@ -1696,10 +1748,19 @@ $configuration = [
 				'default' => '0',
 			],
 		],
+		'show_fingerprint' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.show_fingerprint',
+			'config' => [
+				'type' => 'check',
+				'default' => '0',
+			],
+		],
 		'fingerprint_position' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position',
-			'default' => 0,
+			'default' => 1,
 			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'select',
@@ -1852,7 +1913,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
 		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
 		. 'color_fingerprint_background, color_fingerprint_image, services, iframe_replacement_background_image,'
-		. 'monochrome_enabled';
+		. 'monochrome_enabled, show_fingerprint';
 }
 
 return $configuration;

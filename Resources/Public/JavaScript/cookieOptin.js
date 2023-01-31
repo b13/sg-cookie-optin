@@ -798,7 +798,7 @@ const SgCookieOptin = {
 			}
 		});
 
-		const acceptEssentialButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-essential');
+		const acceptEssentialButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-essential, .sg-cookie-optin-banner-button-accept-essential');
 		SgCookieOptin.addEventListenerToList(acceptEssentialButtons, 'click', function() {
 			SgCookieOptin.acceptEssentialCookies();
 			SgCookieOptin.updateCookieList();
@@ -2138,7 +2138,11 @@ const SgCookieOptin = {
 	 * Shows the fingerprint and creates the element if necessary
 	 */
 	showFingerprint: function() {
-		if (!(SgCookieOptin.jsonData.settings.fingerprint_position > 0) || !SgCookieOptin.shouldShowOptinBanner()) {
+		// noinspection EqualityComparisonWithCoercionJS
+		if ((SgCookieOptin.jsonData.settings.activate_testing_mode && SgCookieOptin.getParameterByName('showOptIn') != true)
+			|| !SgCookieOptin.jsonData.settings.show_fingerprint
+			|| (!(SgCookieOptin.jsonData.settings.fingerprint_position > 0)
+			|| !SgCookieOptin.shouldShowOptinBanner())) {
 			return;
 		}
 

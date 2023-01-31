@@ -188,6 +188,9 @@ class StaticFileGenerationService implements SingletonInterface {
 			'banner_color_button_settings' => $fullData['banner_color_button_settings'],
 			'banner_color_button_settings_hover' => $fullData['banner_color_button_settings_hover'],
 			'banner_color_button_settings_text' => $fullData['banner_color_button_settings_text'],
+			'banner_color_button_accept_essential' => $fullData['banner_color_button_accept_essential'],
+			'banner_color_button_accept_essential_hover' => $fullData['banner_color_button_accept_essential_hover'],
+			'banner_color_button_accept_essential_text' => $fullData['banner_color_button_accept_essential_text'],
 			'banner_color_button_accept' => $fullData['banner_color_button_accept'],
 			'banner_color_button_accept_hover' => $fullData['banner_color_button_accept_hover'],
 			'banner_color_button_accept_text' => $fullData['banner_color_button_accept_text'],
@@ -894,6 +897,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'fingerprint_position' => (int) $translatedData['fingerprint_position'],
 			'iframe_replacement_background_image' => (string) $translatedData['iframe_replacement_background_image'],
 			'monochrome_enabled' => (bool) $translatedData['monochrome_enabled'],
+			'show_fingerprint' => (bool) $translatedData['show_fingerprint'],
 		];
 
 		$textEntries = [
@@ -917,6 +921,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'iframe_open_settings_text' => $translatedData['iframe_open_settings_text'],
 			'iframe_button_load_one_description' => $translatedData['iframe_button_load_one_description'],
 			'banner_button_accept_text' => $translatedData['banner_button_accept_text'],
+			'banner_button_accept_essential_text' => $translatedData['banner_button_accept_essential_text'],
 			'banner_button_settings_text' => $translatedData['banner_button_settings_text'],
 			'banner_description' => $translatedData['banner_description'],
 			'save_confirmation_text' => $translatedData['save_confirmation_text'],
