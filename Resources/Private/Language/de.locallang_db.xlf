@@ -611,6 +611,10 @@
 				<source><![CDATA[Accept Button]]></source>
 				<target><![CDATA[Akzeptieren-Button]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_essential_button" approved="yes">
+				<source><![CDATA[Essential Button]]></source>
+				<target><![CDATA[Essentiel-Button]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings">
 				<source><![CDATA[Multidomain Settings]]></source>
 				<target><![CDATA[Multidomain-Einstellungen]]></target>
