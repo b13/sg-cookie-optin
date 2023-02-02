@@ -2139,10 +2139,12 @@ const SgCookieOptin = {
 	 */
 	showFingerprint: function() {
 		// noinspection EqualityComparisonWithCoercionJS
-		if ((SgCookieOptin.jsonData.settings.activate_testing_mode && SgCookieOptin.getParameterByName('showOptIn') != true)
-			|| !SgCookieOptin.jsonData.settings.show_fingerprint
-			|| (!(SgCookieOptin.jsonData.settings.fingerprint_position > 0)
-			|| !SgCookieOptin.shouldShowOptinBanner())) {
+		if (
+			// not in testing mode
+			(!SgCookieOptin.jsonData.settings.activate_testing_mode && SgCookieOptin.getParameterByName('showOptIn') != true)
+			// checkbox and position must be set properly
+			|| !(SgCookieOptin.jsonData.settings.show_fingerprint && SgCookieOptin.jsonData.settings.fingerprint_position > 0)
+			|| !SgCookieOptin.shouldShowOptinBanner()) {
 			return;
 		}
 
