@@ -1524,8 +1524,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Essentiel',
-				'placeholder' => 'Essentiel',
+				'default' => 'Essenziel',
+				'placeholder' => 'Essenziel',
 				'eval' => 'trim, required'
 			],
 		],
