@@ -153,12 +153,6 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_position.1">
 				<source><![CDATA[Top]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_selection">
-				<source><![CDATA[Select Banner Base Design Template (This form will be saved and reloaded when this setting changes.)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_selection.0">
-				<source><![CDATA[Default]]></source>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_again_interval">
 				<source><![CDATA[Show the cookie banner again if not all groups were selected after: (in days)]]></source>
 			</trans-unit>
@@ -404,20 +398,8 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten">
 				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection">
-				<source><![CDATA[Select a Base Design for the iFrame Replacement Template (This form will be saved and reloaded when this setting changes.)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection.0">
-				<source><![CDATA[Default]]></source>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_template">
 				<source><![CDATA[iFrame Replacement Design Template]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection">
-				<source><![CDATA[Select a Base Design for the Settings Window Template (This form will be saved and reloaded when this setting changes.)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection.0">
-				<source><![CDATA[Default]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_template">
 				<source><![CDATA[External Content Settings Window Design Template]]></source>
@@ -434,17 +416,11 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten">
 				<source><![CDATA[Overwrite Whitelist (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex">
-				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex" approved="yes">
+				<source><![CDATA[Whitelist for external content.]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex.description">
-				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label.]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection">
-				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection.0">
-				<source><![CDATA[Default]]></source>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex.description" approved="yes">
+				<source><![CDATA[Whitelist all external content that matches the following regular expressions. Each new line is interpreted as a new regular expression. Syntax errors in this expression can cause errors on your website! Therefore, please always check your website after changing this value. You can also test the syntax on https://regex101.com.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.link_texts">
 				<source><![CDATA[Link Texts]]></source>
@@ -694,6 +670,9 @@ Without this setting, this configuration only applies to the domain where it is 
 				textEntries.iframe_button_load_one_text – The value of the Button: "Load external content" field
 				placeholders.iframe_consent_description – The description, provided for this specific element, or the global additional description, set in this tab
 				textEntries.iframe_open_settings_text – The value of the Link: "Open settings" field]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.name.description" approved="yes">
+				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label. You can also test the syntax on https://regex101.com. We enforce exact matches. If your regular expression does not include the ^ and $ symbols, we will automatically add them to the regular expression when evaluating it.]]></source>
 			</trans-unit>
 		</body>
 	</file>

@@ -451,18 +451,18 @@ class StaticFileGenerationService implements SingletonInterface {
 		if ((bool) $data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
 			$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_BANNER,
-				$data['banner_selection']
+				0
 			);
 		}
 
 		if ((bool) $data['iframe_enabled']) {
 			$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_IFRAME,
-				$data['iframe_selection']
+				0
 			);
 			$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_IFRAME_REPLACEMENT,
-				$data['iframe_replacement_selection']
+				0
 			);
 		}
 
@@ -958,11 +958,10 @@ class StaticFileGenerationService implements SingletonInterface {
 			'banner' => [
 				'banner_html' => $translatedData['banner_html'],
 				'banner_overwritten' => $translatedData['banner_overwritten'],
-				'banner_selection' => $translatedData['banner_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
 					$translatedData['banner_overwritten'],
 					$translatedData['banner_html'],
-					$translatedData['banner_selection'],
+					0,
 					TemplateService::TYPE_BANNER,
 					$jsonDataArray
 				),
@@ -970,11 +969,10 @@ class StaticFileGenerationService implements SingletonInterface {
 			'iframe' => [
 				'iframe_html' => $translatedData['iframe_html'],
 				'iframe_overwritten' => $translatedData['iframe_overwritten'],
-				'iframe_selection' => $translatedData['iframe_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
 					$translatedData['iframe_overwritten'],
 					$translatedData['iframe_html'],
-					$translatedData['iframe_selection'],
+					0,
 					TemplateService::TYPE_IFRAME,
 					$jsonDataArray
 				),
@@ -982,26 +980,17 @@ class StaticFileGenerationService implements SingletonInterface {
 			'iframeReplacement' => [
 				'iframe_replacement_html' => $translatedData['iframe_replacement_html'],
 				'iframe_replacement_overwritten' => $translatedData['iframe_replacement_overwritten'],
-				'iframe_replacement_selection' => $translatedData['iframe_replacement_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
 					$translatedData['iframe_replacement_overwritten'],
 					$translatedData['iframe_replacement_html'],
-					$translatedData['iframe_replacement_selection'],
+					0,
 					TemplateService::TYPE_IFRAME_REPLACEMENT,
 					$jsonDataArray
 				),
 			],
 			'iframeWhitelist' => [
 				'iframe_whitelist_regex' => $translatedData['iframe_whitelist_regex'],
-				'iframe_whitelist_overwritten' => $translatedData['iframe_whitelist_overwritten'],
-				'iframe_whitelist_selection' => $translatedData['iframe_whitelist_selection'],
-				'markup' => $this->getRenderedMustacheTemplate(
-					$translatedData['iframe_whitelist_overwritten'],
-					$translatedData['iframe_whitelist_regex'],
-					$translatedData['iframe_whitelist_selection'],
-					TemplateService::TYPE_IFRAME_WHITELIST,
-					$jsonDataArray
-				),
+				'markup' => $translatedData['iframe_whitelist_regex']
 			],
 		];
 

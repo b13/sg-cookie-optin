@@ -39,7 +39,6 @@ class TemplateService implements SingletonInterface {
 	const TYPE_BANNER = 1;
 	const TYPE_IFRAME = 2;
 	const TYPE_IFRAME_REPLACEMENT = 3;
-	const TYPE_IFRAME_WHITELIST = 4;
 	const TYPE_FINGERPRINT = 5;
 	const TYPE_MONOCHROME = 6;
 
@@ -49,7 +48,6 @@ class TemplateService implements SingletonInterface {
 	const BANNER_TEMPLATE_ID_DEFAULT = 0;
 	const IFRAME_TEMPLATE_ID_DEFAULT = 0;
 	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT = 0;
 	const IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT = 0;
 	const IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT = 0;
 
@@ -67,9 +65,6 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_IFRAME_REPLACEMENT => [
 			self::IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT => 'Default',
 		],
-		self::TYPE_IFRAME_WHITELIST => [
-			self::IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT => 'Default',
-		],
 		self::TYPE_FINGERPRINT => [
 			self::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT => 'Default',
 		],
@@ -83,7 +78,6 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_BANNER => 'Banner',
 		self::TYPE_IFRAME => 'Iframe',
 		self::TYPE_IFRAME_REPLACEMENT => 'IframeReplacement',
-		self::TYPE_IFRAME_WHITELIST => 'IframeWhitelist',
 		self::TYPE_FINGERPRINT => 'Fingerprint',
 		self::TYPE_MONOCHROME => 'MonochromeTheme',
 	];

@@ -46,7 +46,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	banner_show_settings_button tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	banner_position int(11) DEFAULT '0' NOT NULL,
-	banner_selection int(11) DEFAULT '0' NOT NULL,
 	banner_color_box varchar(10) DEFAULT '#DDDDDD' NOT NULL,
 	banner_color_text varchar(10) DEFAULT '#373737' NOT NULL,
 	banner_color_link_text varchar(10) DEFAULT '#373737' NOT NULL,
@@ -120,16 +119,12 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	iframe_html text NOT NULL,
 	iframe_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_selection int(11) DEFAULT '0' NOT NULL,
 
 	iframe_replacement_html text NOT NULL,
 	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_replacement_selection int(11) DEFAULT '0' NOT NULL,
 	iframe_replacement_background_image text NOT NULL,
 
 	iframe_whitelist_regex text NOT NULL,
-	iframe_whitelist_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_whitelist_selection int(11) DEFAULT '0' NOT NULL,
 
 	iframe_button_allow_all_text text NOT NULL,
 	iframe_button_allow_one_text text NOT NULL,

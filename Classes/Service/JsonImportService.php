@@ -44,6 +44,7 @@ class JsonImportService {
 	const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
 	const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
 	const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
+	const DEFAULT_IFRAME_WHITELIST = '^https:\/\/www\.google\.com\/recaptcha\/'."\n";
 
 	/**
 	 * Separates the locale in the filename
@@ -476,7 +477,6 @@ class JsonImportService {
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'identifier' => $service['identifier'],
 			'replacement_html' => $service['mustache'],
-			'replacement_html_overwritten' => $service['replacement_html_overwritten'],
 			'replacement_background_image' => $service['replacement_background_image'],
 			'sorting' => $serviceIndex + 1,
 			'parent_optin' => $optInId,
@@ -493,7 +493,7 @@ class JsonImportService {
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_service',
 			[
-				'pid', 'identifier', 'replacement_html_overwritten', 'replacement_html',
+				'pid', 'identifier', 'replacement_html',
 				'replacement_background_image', 'source_regex'
 			],
 			$serviceData

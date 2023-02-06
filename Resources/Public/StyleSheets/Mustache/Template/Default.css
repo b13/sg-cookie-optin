@@ -427,3 +427,8 @@
 .sg-cookie-optin-plugin-initialized .sg-cookie-optin-box-close-button {
 	display: none;
 }
+
+.sg-cookie-optin-box-sublist-open-more-symbol {
+	width: 20px;
+	height: 20px;
+}
