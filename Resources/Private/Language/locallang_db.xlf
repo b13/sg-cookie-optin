@@ -578,8 +578,11 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.hidden">
 				<source><![CDATA[Deactivate]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_script.html">
-				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Do not use "document.write" as this will cause errors on the website)]]></source>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.html" approved="yes">
+				<source><![CDATA[HTML that shall be loaded if the user accepts this group]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.html.description" approved="yes">
+				<source><![CDATA[Do not use "document.write" as this will cause errors on the website]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_group">
 				<source><![CDATA[Group]]></source>
@@ -654,7 +657,7 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Enter a URL to a background image if you would like to use it instead of the background color. Please make sure the origin is allowed in your content security policy.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.replacement_html_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
+				<source><![CDATA[Overwrite Template]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
 				<source><![CDATA[Services]]></source>

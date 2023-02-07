@@ -127,6 +127,7 @@ $configuration = [
 		'html' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_script.html',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_script.html.description',
 			'config' => [
 				'type' => 'text',
 				'renderType' => 't3editor',

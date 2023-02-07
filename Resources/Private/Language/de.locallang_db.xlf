@@ -794,8 +794,12 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Deaktivieren]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.html" approved="yes">
-				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Do not use "document.write" as this will cause errors on the website)]]></source>
-				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert (Benutze nicht "document.write", denn dies verursacht Fehler auf der Website)]]></target>
+				<source><![CDATA[HTML that shall be loaded if the user accepts this group]]></source>
+				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.html.description" approved="yes">
+				<source><![CDATA[Do not use "document.write" as this will cause errors on the website]]></source>
+				<target><![CDATA[Benutze nicht "document.write", denn dies verursacht Fehler auf der Website]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_group" approved="yes">
 				<source><![CDATA[Group]]></source>
@@ -898,8 +902,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Automatisch allen externen Inhaltselementen, deren Quelle mit den folgenden regulären Ausdrücken übereinstimmt, die Dienstvorlage zuweisen. Jede neue Zeile wird als neuer regulärer Ausdruck interpretiert. Syntaxfehler können zu Problemen auf Ihrer Website führen!]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.replacement_html_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
-				<target><![CDATA[Vorlage überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen.)]]></target>
+				<source><![CDATA[Overwrite Template]]></source>
+				<target><![CDATA[Vorlage überschreiben]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
 				<source><![CDATA[Services]]></source>
