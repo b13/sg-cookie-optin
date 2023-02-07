@@ -429,6 +429,12 @@
 }
 
 .sg-cookie-optin-box-sublist-open-more-symbol {
-	width: 20px;
-	height: 20px;
+	width: 15px;
+	height: 15px;
+	position: relative;
+	top: 3px;
+}
+
+.sg-cookie-optin-box-sublist-open-more-symbol.sg-cookie-optin-flipped {
+	transform: scale(1, -1);
 }

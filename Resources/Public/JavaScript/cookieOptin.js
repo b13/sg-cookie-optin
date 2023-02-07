@@ -945,7 +945,13 @@ const SgCookieOptin = {
 	openCookieDetails: function(event) {
 		event.preventDefault();
 
-		const openMoreElement = event.target.parentNode;
+		let link = event.target;
+		if (link.tagName !== 'A') {
+			link = link.closest('a');
+		}
+
+		const openMoreElement = link.parentNode;
+		const symbolElement = link.parentElement.querySelector('.sg-cookie-optin-box-sublist-open-more-symbol');
 		if (!openMoreElement) {
 			return;
 		}
@@ -957,10 +963,16 @@ const SgCookieOptin = {
 
 		if (cookieDetailList.classList.contains('sg-cookie-optin-visible')) {
 			cookieDetailList.classList.remove('sg-cookie-optin-visible');
-			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
+			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
+			if (symbolElement) {
+				symbolElement.classList.remove('sg-cookie-optin-flipped');
+			}
 		} else {
 			cookieDetailList.classList.add('sg-cookie-optin-visible');
-			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
+			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
+			if (symbolElement) {
+				symbolElement.classList.add('sg-cookie-optin-flipped');
+			}
 		}
 	},
 
@@ -974,11 +986,17 @@ const SgCookieOptin = {
 	openSubList: function(event, contentElement) {
 		event.preventDefault();
 
+		let link = event.target;
+		if (link.tagName !== 'A') {
+			link = link.closest('a');
+		}
+
 		// todo remove redundant code.
 		let height = 0;
-		const cookieSubList = event.target.previousElementSibling;
+		const cookieSubList = link.previousElementSibling;
+		const symbolElement = link.parentElement.querySelector('.sg-cookie-optin-box-sublist-open-more-symbol');
 		if (!cookieSubList || !cookieSubList.classList.contains('sg-cookie-optin-box-cookie-detail-sublist')) {
-			const cookieOptin = event.target.closest('#SgCookieOptin');
+			const cookieOptin = link.closest('#SgCookieOptin');
 			const cookieBoxes = cookieOptin.querySelectorAll('.sg-cookie-optin-box-new');
 			for (const index in cookieBoxes) {
 				if (!cookieBoxes.hasOwnProperty(index)) {
@@ -991,12 +1009,18 @@ const SgCookieOptin = {
 					visible = false;
 					cookieBox.classList.remove('sg-cookie-optin-visible');
 					cookieBox.classList.add('sg-cookie-optin-invisible');
-					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+					if (symbolElement) {
+						symbolElement.classList.remove('sg-cookie-optin-flipped');
+					}
 				} else {
 					cookieBox.classList.remove('sg-cookie-optin-invisible');
 					cookieBox.classList.add('sg-cookie-optin-visible');
 					SgCookieOptin.adjustReasonHeight(cookieOptin, contentElement);
-					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
+					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
+					if (symbolElement) {
+						symbolElement.classList.add('sg-cookie-optin-flipped');
+					}
 				}
 
 				const descriptions = cookieBox.querySelectorAll('.sg-cookie-optin-checkbox-description');
@@ -1018,19 +1042,25 @@ const SgCookieOptin = {
 			if (cookieSubList.classList.contains('sg-cookie-optin-visible')) {
 				cookieSubList.classList.remove('sg-cookie-optin-visible');
 				cookieSubList.style.height = '';
-				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+				link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+				if (symbolElement) {
+					symbolElement.classList.remove('sg-cookie-optin-flipped');
+				}
 			} else {
 				cookieSubList.classList.add('sg-cookie-optin-visible');
 				cookieSubList.style.height = 'auto';
 				height = cookieSubList.getBoundingClientRect().height + 'px';
 				cookieSubList.style.height = '';
+				if (symbolElement) {
+					symbolElement.classList.add('sg-cookie-optin-flipped');
+				}
 				requestAnimationFrame(function() {
 					setTimeout(function() {
 						cookieSubList.style.height = height;
 					}, 10);
 				});
 
-				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
+				link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 			}
 		}
 	},
