@@ -632,8 +632,8 @@
 				<target><![CDATA[CSS- und JavaScript-Inhalte inline rendern]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline.description" approved="yes">
-				<source><![CDATA[Mmay impact the performance negatively]]></source>
-				<target><![CDATA[Kann sich negativ auf die Performance auswirken]]></target>
+				<source><![CDATA[May impact the performance]]></source>
+				<target><![CDATA[Kann sich auf die Performance auswirken]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text" approved="yes">
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
