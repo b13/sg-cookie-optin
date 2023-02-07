@@ -158,7 +158,7 @@ class LicenceCheckService {
 	/**
 	 * The current extension version
 	 */
-	const CURRENT_VERSION = '5.0.0';
+	const CURRENT_VERSION = '5.1.0';
 
 	/**
 	 * @param mixed $validUntil A timestamp, which says the lifetime of this key.
