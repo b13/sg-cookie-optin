@@ -88,16 +88,16 @@
 				<source><![CDATA[Accept Button Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_essential_text" approved="yes">
-				<source><![CDATA[Essential Button Text]]></source>
+				<source><![CDATA[Reject Button Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential" approved="yes">
-				<source><![CDATA[Background Color Essential Button]]></source>
+				<source><![CDATA[Background Color Reject Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_hover" approved="yes">
-				<source><![CDATA[Hover Color Essential Button]]></source>
+				<source><![CDATA[Hover Color Reject Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_text" approved="yes">
-				<source><![CDATA[Text Color Essential Button]]></source>
+				<source><![CDATA[Text Color Reject Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_essential_button" approved="yes">
 				<source><![CDATA[Essential Button]]></source>

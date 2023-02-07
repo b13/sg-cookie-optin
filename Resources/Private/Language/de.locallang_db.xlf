@@ -114,24 +114,24 @@
 				<target><![CDATA[Akzeptieren-Button Text]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_essential_text" approved="yes">
-				<source><![CDATA[Essential Button Text]]></source>
-				<target><![CDATA[Essenziel-Button Text]]></target>
+				<source><![CDATA[Reject Button Text]]></source>
+				<target><![CDATA[Ablehnen-Button Text]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_settings_text" approved="yes">
 				<source><![CDATA[Settings Button Text]]></source>
 				<target><![CDATA[Einstellungs-Button Text]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential" approved="yes">
-				<source><![CDATA[Background Color Essential Button]]></source>
-				<target><![CDATA[Hintergrundfarbe Essenziel-Button]]></target>
+				<source><![CDATA[Background Color Reject Button]]></source>
+				<target><![CDATA[Hintergrundfarbe Ablehnen-Button]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_hover" approved="yes">
-				<source><![CDATA[Hover Color Essential Button]]></source>
-				<target><![CDATA[Hover-Farbe Essenziel-Button]]></target>
+				<source><![CDATA[Hover Color Reject Button]]></source>
+				<target><![CDATA[Hover-Farbe Ablehnen-Button]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_text" approved="yes">
-				<source><![CDATA[Text Color Essential Button]]></source>
-				<target><![CDATA[Textfarbe Essenziel-Button]]></target>
+				<source><![CDATA[Text Color Reject Button]]></source>
+				<target><![CDATA[Textfarbe Ablehnen-Button]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_box" approved="yes">
 				<source><![CDATA[Background]]></source>

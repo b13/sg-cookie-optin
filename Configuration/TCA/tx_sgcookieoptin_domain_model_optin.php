@@ -1485,8 +1485,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Essenziel',
-				'placeholder' => 'Essenziel',
+				'default' => 'Ablehnen',
+				'placeholder' => 'Ablehnen',
 				'eval' => 'trim, required'
 			],
 		],

@@ -59,7 +59,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_color_button_accept_essential_hover varchar(10) DEFAULT '#D7D7D7' NOT NULL,
 	banner_color_button_accept_essential_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	banner_button_accept_text text NOT NULL,
-	banner_button_accept_essential_text varchar(255) DEFAULT 'Essenziel' NOT NULL,
+	banner_button_accept_essential_text varchar(255) DEFAULT 'Reject' NOT NULL,
 	banner_button_settings_text text NOT NULL,
 	banner_description text NOT NULL,
 	banner_force_min_width int(11) DEFAULT '0' NOT NULL,
