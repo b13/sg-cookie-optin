@@ -696,11 +696,11 @@ const SgCookieOptin = {
 							continue;
 						}
 
-						if (!regExString.includes('^')) {
+						if (regExString.charAt(0) !== '^') {
 							regExString = '^' + regExString;
 						}
 
-						if (!regExString.includes('$')) {
+						if (regExString.charAt(regExString.length - 1) !== '$') {
 							regExString += '$';
 						}
 
