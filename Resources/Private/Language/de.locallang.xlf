@@ -46,16 +46,16 @@
 				<target><![CDATA[https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/#c17080]]></target>
 			</trans-unit>
 			<trans-unit id="backend.exportConfig" approved="yes">
-				<source><![CDATA[Export Configuration]]></source>
-				<target><![CDATA[Konfiguration exportieren]]></target>
+				<source><![CDATA[Export]]></source>
+				<target><![CDATA[Export]]></target>
 			</trans-unit>
 			<trans-unit id="backend.fileUploadLabel" approved="yes">
 				<source><![CDATA[JSON Configuration File]]></source>
 				<target><![CDATA[JSON-Konfigurationsdatei]]></target>
 			</trans-unit>
 			<trans-unit id="backend.importConfig" approved="yes">
-				<source><![CDATA[Import Configuration]]></source>
-				<target><![CDATA[Konfiguration importieren]]></target>
+				<source><![CDATA[Import]]></source>
+				<target><![CDATA[Import]]></target>
 			</trans-unit>
 			<trans-unit id="backend.jsonExport.error" approved="yes">
 				<source><![CDATA[Could not export the configuration because of the following error:]]></source>

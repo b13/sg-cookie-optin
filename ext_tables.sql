@@ -102,8 +102,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	-- Fingerpring settings
 	color_fingerprint_background varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_fingerprint_image varchar(10) DEFAULT '#FFFFFF' NOT NULL,
-	fingerprint_position int(6) DEFAULT 1 NOT NULL,
-	show_fingerprint int(4) DEFAULT 1 NOT NULL,
+	fingerprint_position tinyint(1) DEFAULT '1' NOT NULL,
+	show_fingerprint tinyint(1) DEFAULT '1' NOT NULL,
 
 	-- Essential group specific columns
 	essential_title text NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
 	-- IFrame group specific columns
-	iframe_enabled tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	iframe_enabled tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	iframe_title text NOT NULL,
 	iframe_description text NOT NULL,
 	iframe_cookies int(11) DEFAULT '0' NOT NULL,

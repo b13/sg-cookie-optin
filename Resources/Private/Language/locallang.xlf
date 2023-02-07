@@ -37,13 +37,13 @@
 				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/#c17080]]></source>
 			</trans-unit>
 			<trans-unit id="backend.exportConfig">
-				<source><![CDATA[Export Configuration]]></source>
+				<source><![CDATA[Export]]></source>
 			</trans-unit>
 			<trans-unit id="backend.fileUploadLabel">
 				<source><![CDATA[JSON Configuration File]]></source>
 			</trans-unit>
 			<trans-unit id="backend.importConfig">
-				<source><![CDATA[Import Configuration]]></source>
+				<source><![CDATA[Import]]></source>
 			</trans-unit>
 			<trans-unit id="backend.jsonExport.error">
 				<source><![CDATA[Could not export the configuration because of the following error:]]></source>
