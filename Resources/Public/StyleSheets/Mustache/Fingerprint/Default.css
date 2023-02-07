@@ -23,6 +23,7 @@
 }
 
 .sg-cookie-optin-fingerprint-icon {
+	height: inherit;
 	padding: 6px;
 }
 
