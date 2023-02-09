@@ -111,6 +111,7 @@ $configuration = [
 		'replacement_html_overwritten' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.replacement_html_overwritten',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_overwritten.description',
 			'config' => [
 				'type' => 'check',
 				'default' => '0',

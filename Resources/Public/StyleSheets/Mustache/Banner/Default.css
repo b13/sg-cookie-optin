@@ -59,6 +59,7 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-settings,
+#SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept-essential,
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept {
 	display: inline-block;
 	padding: 10px;
@@ -77,6 +78,7 @@
 	}
 
 	#SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-settings,
+	#SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept-essential,
 	#SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept {
 		margin: 10px 10px 0 0;
 	}

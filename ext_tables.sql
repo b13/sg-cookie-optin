@@ -46,7 +46,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	banner_show_settings_button tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	banner_position int(11) DEFAULT '0' NOT NULL,
-	banner_selection int(11) DEFAULT '0' NOT NULL,
 	banner_color_box varchar(10) DEFAULT '#DDDDDD' NOT NULL,
 	banner_color_text varchar(10) DEFAULT '#373737' NOT NULL,
 	banner_color_link_text varchar(10) DEFAULT '#373737' NOT NULL,
@@ -56,7 +55,11 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_color_button_accept varchar(10) DEFAULT '#143D59' NOT NULL,
 	banner_color_button_accept_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	banner_color_button_accept_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
+	banner_color_button_accept_essential varchar(10) DEFAULT '#575757' NOT NULL,
+	banner_color_button_accept_essential_hover varchar(10) DEFAULT '#D7D7D7' NOT NULL,
+	banner_color_button_accept_essential_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	banner_button_accept_text text NOT NULL,
+	banner_button_accept_essential_text varchar(255) DEFAULT 'Reject' NOT NULL,
 	banner_button_settings_text text NOT NULL,
 	banner_description text NOT NULL,
 	banner_force_min_width int(11) DEFAULT '0' NOT NULL,
@@ -99,7 +102,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	-- Fingerpring settings
 	color_fingerprint_background varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_fingerprint_image varchar(10) DEFAULT '#FFFFFF' NOT NULL,
-	fingerprint_position int(6) DEFAULT 1 NOT NULL,
+	fingerprint_position tinyint(1) DEFAULT '1' NOT NULL,
+	show_fingerprint tinyint(1) DEFAULT '1' NOT NULL,
 
 	-- Essential group specific columns
 	essential_title text NOT NULL,
@@ -108,23 +112,19 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
 	-- IFrame group specific columns
-	iframe_enabled tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	iframe_enabled tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	iframe_title text NOT NULL,
 	iframe_description text NOT NULL,
 	iframe_cookies int(11) DEFAULT '0' NOT NULL,
 
 	iframe_html text NOT NULL,
 	iframe_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_selection int(11) DEFAULT '0' NOT NULL,
 
 	iframe_replacement_html text NOT NULL,
 	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_replacement_selection int(11) DEFAULT '0' NOT NULL,
 	iframe_replacement_background_image text NOT NULL,
 
 	iframe_whitelist_regex text NOT NULL,
-	iframe_whitelist_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_whitelist_selection int(11) DEFAULT '0' NOT NULL,
 
 	iframe_button_allow_all_text text NOT NULL,
 	iframe_button_allow_one_text text NOT NULL,

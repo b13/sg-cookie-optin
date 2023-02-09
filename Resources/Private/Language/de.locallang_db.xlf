@@ -102,16 +102,36 @@
 				<target><![CDATA[Button zum Akzeptieren ausgewählter Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode" approved="yes">
-				<source><![CDATA[Activate TEST mode (dialog not active, add "?showOptIn=1" to the URL to get the dialog.)]]></source>
-				<target><![CDATA[Aktiviere den TEST-Modus (Dialog nicht aktiv, der Parameter "?showOptIn=1" muss an die URL angefügt werden um den Dialog anzuzeigen)]]></target>
+				<source><![CDATA[Activate TEST Mode]]></source>
+				<target><![CDATA[Aktiviere den TEST-Modus]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode.description" approved="yes">
+				<source><![CDATA[Dialog not active, add "?showOptIn=1" to the URL to get the dialog]]></source>
+				<target><![CDATA[Dialog nicht aktiv, der Parameter "?showOptIn=1" muss an die URL angefügt werden um den Dialog anzuzeigen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text" approved="yes">
 				<source><![CDATA[Accept Button Text]]></source>
 				<target><![CDATA[Akzeptieren-Button Text]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_essential_text" approved="yes">
+				<source><![CDATA[Reject Button Text]]></source>
+				<target><![CDATA[Ablehnen-Button Text]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_settings_text" approved="yes">
 				<source><![CDATA[Settings Button Text]]></source>
 				<target><![CDATA[Einstellungs-Button Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential" approved="yes">
+				<source><![CDATA[Background Color Reject Button]]></source>
+				<target><![CDATA[Hintergrundfarbe Ablehnen-Button]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_hover" approved="yes">
+				<source><![CDATA[Hover Color Reject Button]]></source>
+				<target><![CDATA[Hover-Farbe Ablehnen-Button]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_text" approved="yes">
+				<source><![CDATA[Text Color Reject Button]]></source>
+				<target><![CDATA[Textfarbe Ablehnen-Button]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_box" approved="yes">
 				<source><![CDATA[Background]]></source>
@@ -166,8 +186,8 @@
 				<target><![CDATA[Banner-Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe https://mustache.github.io/mustache.5.html) ]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
-				<target><![CDATA[Vorlage überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
+				<source><![CDATA[Overwrite Template]]></source>
+				<target><![CDATA[Vorlage überschreiben]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_position" approved="yes">
 				<source><![CDATA[The Position of the Banner on the Website]]></source>
@@ -181,21 +201,17 @@
 				<source><![CDATA[Top]]></source>
 				<target><![CDATA[Oben]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_selection" approved="yes">
-				<source><![CDATA[Select Banner Base Design Template (This form will be saved and reloaded when this setting changes.)]]></source>
-				<target><![CDATA[Banner-Basis-Designvorlage auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_selection.0" approved="yes">
-				<source><![CDATA[Default]]></source>
-				<target><![CDATA[Standard]]></target>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_again_interval" approved="yes">
 				<source><![CDATA[Show the cookie banner again if not all groups were selected after: (in days)]]></source>
 				<target><![CDATA[Das Cookie-Banner erneut anzeigen, wenn nicht alle Gruppen ausgewählt wurden, nach: (in Tage)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_settings_button" approved="yes">
-				<source><![CDATA[Show the Settings Button within the Banner (Should be enabled if the website uses cookies.)]]></source>
-				<target><![CDATA[Einstellungs-Button im Banner anzeigen (Dies sollte aktiviert werden, falls die Website Cookies verwendet)]]></target>
+				<source><![CDATA[Show the Settings Button within the Banner]]></source>
+				<target><![CDATA[Einstellungs-Button im Banner anzeigen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_settings_button.description" approved="yes">
+				<source><![CDATA[Should be enabled if the website uses cookies]]></source>
+				<target><![CDATA[Dies sollte aktiviert werden, falls die Website Cookies verwendet]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
 				<source><![CDATA[Text Color - Data]]></source>
@@ -386,8 +402,12 @@
 				<target><![CDATA[Beschreibung (erklärt die Verwendung dieser Skripte & Cookies)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_scripts" approved="yes">
-				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
-				<target><![CDATA[Skripte (Für Übersetzungen: Es werden nur "übersetzte" Skripte berücksichtigt. Hinzugefügte Skripte ohne übergeordnete Standardsprache werden ignoriert)]]></target>
+				<source><![CDATA[Scripts]]></source>
+				<target><![CDATA[Skripte]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_scripts.description" approved="yes">
+				<source><![CDATA[For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored]]></source>
+				<target><![CDATA[Für Übersetzungen: Es werden nur "übersetzte" Skripte berücksichtigt. Hinzugefügte Skripte ohne übergeordnete Standardsprache werden ignoriert]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title" approved="yes">
 				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
@@ -502,8 +522,12 @@
 				<target><![CDATA[Link: "Einstellungen öffnen"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Iframe Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
-				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
+				<source><![CDATA[Overwrite Iframe Template]]></source>
+				<target><![CDATA[Template des Einstellungsfensters überschreiben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten.description" approved="yes">
+				<source><![CDATA[Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below]]></source>
+				<target><![CDATA[Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
@@ -520,28 +544,12 @@
 				textEntries.iframe_open_settings_text – Der Wert des Feldes Link: "Einstellungen öffnen"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten" approved="yes">
-				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
-				<target><![CDATA[ iFrame-Ersatz-Template überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection" approved="yes">
-				<source><![CDATA[Select a Base Design for the iFrame Replacement Template (This form will be saved and reloaded when this setting changes.)]]></source>
-				<target><![CDATA[Basis-Designvorlage für den iFrame-Ersatz auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection.0" approved="yes">
-				<source><![CDATA[Default]]></source>
-				<target><![CDATA[Standard]]></target>
+				<source><![CDATA[Overwrite iFrame Replacement Template]]></source>
+				<target><![CDATA[ iFrame-Ersatz-Template überschreiben]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_template" approved="yes">
 				<source><![CDATA[iFrame Replacement Design Template]]></source>
 				<target><![CDATA[iFrame-Ersatz Designvorlage]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection" approved="yes">
-				<source><![CDATA[Select a Base Design for the Settings Window Template (This form will be saved and reloaded when this setting changes.)]]></source>
-				<target><![CDATA[Basis-Designvorlage für das Einstellungsfenster auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection.0" approved="yes">
-				<source><![CDATA[Default]]></source>
-				<target><![CDATA[Standard]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_template" approved="yes">
 				<source><![CDATA[External Content Settings Window Design Template]]></source>
@@ -559,25 +567,17 @@
 				<source><![CDATA[External content whitelist. (Object sources matching these regular expressions will not be replaced.)]]></source>
 				<target><![CDATA[Externe Inhalte whitelisten. (Objekte, deren Quelle diese reguläre Ausdrücke entspricht, werden nicht ersetzt)]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Whitelist (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
-				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex" approved="yes">
-				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
-				<target><![CDATA[Externe Inhalte whitelisten. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>
+				<source><![CDATA[Whitelist for external content]]></source>
+				<target><![CDATA[Whiteliste für externe Inhalte]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex.description" approved="yes">
-				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label.]]></source>
-				<target><![CDATA[Dieses Feld wird als regulärer Ausdruck interpretiert. Syntaxfehler in diesem Ausdruck können zu Fehlern auf Ihrer Website führen. Testen Sie daher bitte immer Ihre Website, nachdem Sie diesen Wert geändert haben. Für weitere Informationen fahren Sie mit dem Mauszeiger über die Feldbezeichnung.]]></target>
+				<source><![CDATA[Whitelist all external content that matches the following regular expressions. Each new line is interpreted as a new regular expression. Syntax errors in this expression can cause errors on your website! Therefore, please always check your website after changing this value. You can also test the syntax on https://regex101.com.]]></source>
+				<target><![CDATA[Alle externen Inhalte whitelisten, die mit folgenden regulären Ausdrücken übereinstimmen. Jede neue Zeile wird als ein neuer regulärer Ausdruck interpretiert. Syntaxfehler in diesem Ausdruck können zu Fehlern auf Ihrer Website führen! Überprüfen Sie daher bitte immer Ihre Website, nachdem Sie diesen Wert geändert haben. Sie können die Syntax zudem auf https://regex101.com testen.]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection" approved="yes">
-				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
-				<target><![CDATA[Basis-Vorlage für Ihre Whiteliste auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection.0" approved="yes">
-				<source><![CDATA[Default]]></source>
-				<target><![CDATA[Standard]]></target>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.name.description" approved="yes">
+				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label. We enforce exact matches. You can also test the syntax on https://regex101.com. If your regular expression does not include the ^ and $ symbols, we will automatically add them to the regular expression when evaluating it.]]></source>
+				<target><![CDATA[Dieses Feld wird als regulärer Ausdruck interpretiert. Syntaxfehler in diesem Ausdruck können zu Fehlern auf Ihrer Website führen. Testen Sie daher bitte immer Ihre Website, nachdem Sie diesen Wert geändert haben. Für weitere Informationen fahren Sie mit dem Mauszeiger über die Feldbezeichnung. Sie können die Syntax zudem auf regex101.com testen. Wenn Ihr regulärer Ausdruck keine ^- und $-Symbole enthält, werden sie bei der Auswertung des Ausdrucks automatisch hinzugefügt.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.link_texts" approved="yes">
 				<source><![CDATA[Link Texts]]></source>
@@ -594,6 +594,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button" approved="yes">
 				<source><![CDATA[Accept Button]]></source>
 				<target><![CDATA[Akzeptieren-Button]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_essential_button" approved="yes">
+				<source><![CDATA[Essential Button]]></source>
+				<target><![CDATA[Essenziel-Button]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings">
 				<source><![CDATA[Multidomain Settings]]></source>
@@ -624,8 +628,12 @@
 				<target><![CDATA[Versionskontrolle]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline" approved="yes">
-				<source><![CDATA[Render CSS and JavaScript contents inline (may impact the performance negatively)]]></source>
-				<target><![CDATA[CSS- und JavaScript-Inhalte inline rendern (kann sich negativ auf die Performance auswirken)]]></target>
+				<source><![CDATA[Render CSS and JavaScript contents inline]]></source>
+				<target><![CDATA[CSS- und JavaScript-Inhalte inline rendern]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline.description" approved="yes">
+				<source><![CDATA[May impact the performance]]></source>
+				<target><![CDATA[Kann sich auf die Performance auswirken]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text" approved="yes">
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
@@ -645,7 +653,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl" approved="yes">
 				<source><![CDATA[Overwrite Base-URL]]></source>
-				<target><![CDATA[Base-URL überschreiben.]]></target>
+				<target><![CDATA[Base-URL überschreiben]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl.description" approved="yes">
 				<source><![CDATA[You can use this field to overwrite the URL from which the files are loaded in your website. If it is on another (sub)domain, please make sure to include it in your CORS policy headers.]]></source>
@@ -742,12 +750,20 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				footerLinks (name) – Eine Liste der Footer-Links mit ihrem jeweiligen Namen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
-				<target><![CDATA[Vorlage überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
+				<source><![CDATA[Overwrite Template]]></source>
+				<target><![CDATA[Vorlage überschreiben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten.description" approved="yes">
+				<source><![CDATA[Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below]]></source>
+				<target><![CDATA[Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_selection" approved="yes">
-				<source><![CDATA[Select a Base Design Template (This form will be saved and reloaded when this setting changes.)]]></source>
-				<target><![CDATA[Basis-Designvorlage auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
+				<source><![CDATA[Select a Base Design Template]]></source>
+				<target><![CDATA[Basis-Designvorlage auswählen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_selection.description" approved="yes">
+				<source><![CDATA[This form will be saved and reloaded when this setting changes]]></source>
+				<target><![CDATA[Dieses Formular wird bei Änderung gespeichert und neu geladen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_selection.0" approved="yes">
 				<source><![CDATA[Compact]]></source>
@@ -778,8 +794,12 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Deaktivieren]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.html" approved="yes">
-				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Do not use "document.write" as this will cause errors on the website)]]></source>
-				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert (Benutze nicht "document.write", denn dies verursacht Fehler auf der Website)]]></target>
+				<source><![CDATA[HTML that shall be loaded if the user accepts this group]]></source>
+				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.html.description" approved="yes">
+				<source><![CDATA[Do not use "document.write" as this will cause errors on the website]]></source>
+				<target><![CDATA[Benutze nicht "document.write", denn dies verursacht Fehler auf der Website]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_group" approved="yes">
 				<source><![CDATA[Group]]></source>
@@ -812,6 +832,10 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
 				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
 				<target><![CDATA[Nutzungsstatistiken und Rückverfolgbarkeit deaktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_fingerprint" approved="yes">
+				<source><![CDATA[Show fingerprint symbol]]></source>
+				<target><![CDATA[Fingerabdruck-Symbol anzeigen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position" approved="yes">
 				<source><![CDATA[Position of the fingerprint symbol]]></source>
@@ -878,8 +902,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Automatisch allen externen Inhaltselementen, deren Quelle mit den folgenden regulären Ausdrücken übereinstimmt, die Dienstvorlage zuweisen. Jede neue Zeile wird als neuer regulärer Ausdruck interpretiert. Syntaxfehler können zu Problemen auf Ihrer Website führen!]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.replacement_html_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
-				<target><![CDATA[Vorlage überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen.)]]></target>
+				<source><![CDATA[Overwrite Template]]></source>
+				<target><![CDATA[Vorlage überschreiben]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframe_settings" approved="yes">
 				<source><![CDATA[Services]]></source>

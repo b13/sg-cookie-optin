@@ -89,7 +89,9 @@ const SgCookieOptin = {
 		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		} else {
-			SgCookieOptin.showFingerprint();
+			if (!SgCookieOptin.jsonData.settings.activate_testing_mode) {
+				SgCookieOptin.showFingerprint();
+			}
 		}
 	},
 
@@ -687,11 +689,19 @@ const SgCookieOptin = {
 						}
 
 						const cookieName = documentCookies[documentCookieIndex].split('=')[0];
-						const regExString = SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
+						let regExString = SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
 							.Name.trim();
 
 						if (!regExString) {
 							continue;
+						}
+
+						if (regExString.charAt(0) !== '^') {
+							regExString = '^' + regExString;
+						}
+
+						if (regExString.charAt(regExString.length - 1) !== '$') {
+							regExString += '$';
 						}
 
 						const regEx = new RegExp(regExString);
@@ -798,7 +808,7 @@ const SgCookieOptin = {
 			}
 		});
 
-		const acceptEssentialButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-essential');
+		const acceptEssentialButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-essential, .sg-cookie-optin-banner-button-accept-essential');
 		SgCookieOptin.addEventListenerToList(acceptEssentialButtons, 'click', function() {
 			SgCookieOptin.acceptEssentialCookies();
 			SgCookieOptin.updateCookieList();
@@ -863,6 +873,7 @@ const SgCookieOptin = {
 			});
 			parentNode.dispatchEvent(cookieOptinHiddenEvent);
 		}
+
 		SgCookieOptin.showFingerprint();
 	},
 
@@ -934,7 +945,13 @@ const SgCookieOptin = {
 	openCookieDetails: function(event) {
 		event.preventDefault();
 
-		const openMoreElement = event.target.parentNode;
+		let link = event.target;
+		if (link.tagName !== 'A') {
+			link = link.closest('a');
+		}
+
+		const openMoreElement = link.parentNode;
+		const symbolElement = link.parentElement.querySelector('.sg-cookie-optin-box-sublist-open-more-symbol');
 		if (!openMoreElement) {
 			return;
 		}
@@ -946,10 +963,16 @@ const SgCookieOptin = {
 
 		if (cookieDetailList.classList.contains('sg-cookie-optin-visible')) {
 			cookieDetailList.classList.remove('sg-cookie-optin-visible');
-			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
+			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
+			if (symbolElement) {
+				symbolElement.classList.remove('sg-cookie-optin-flipped');
+			}
 		} else {
 			cookieDetailList.classList.add('sg-cookie-optin-visible');
-			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
+			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
+			if (symbolElement) {
+				symbolElement.classList.add('sg-cookie-optin-flipped');
+			}
 		}
 	},
 
@@ -963,11 +986,17 @@ const SgCookieOptin = {
 	openSubList: function(event, contentElement) {
 		event.preventDefault();
 
+		let link = event.target;
+		if (link.tagName !== 'A') {
+			link = link.closest('a');
+		}
+
 		// todo remove redundant code.
 		let height = 0;
-		const cookieSubList = event.target.previousElementSibling;
+		const cookieSubList = link.previousElementSibling;
+		const symbolElement = link.parentElement.querySelector('.sg-cookie-optin-box-sublist-open-more-symbol');
 		if (!cookieSubList || !cookieSubList.classList.contains('sg-cookie-optin-box-cookie-detail-sublist')) {
-			const cookieOptin = event.target.closest('#SgCookieOptin');
+			const cookieOptin = link.closest('#SgCookieOptin');
 			const cookieBoxes = cookieOptin.querySelectorAll('.sg-cookie-optin-box-new');
 			for (const index in cookieBoxes) {
 				if (!cookieBoxes.hasOwnProperty(index)) {
@@ -980,12 +1009,18 @@ const SgCookieOptin = {
 					visible = false;
 					cookieBox.classList.remove('sg-cookie-optin-visible');
 					cookieBox.classList.add('sg-cookie-optin-invisible');
-					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+					if (symbolElement) {
+						symbolElement.classList.remove('sg-cookie-optin-flipped');
+					}
 				} else {
 					cookieBox.classList.remove('sg-cookie-optin-invisible');
 					cookieBox.classList.add('sg-cookie-optin-visible');
 					SgCookieOptin.adjustReasonHeight(cookieOptin, contentElement);
-					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
+					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
+					if (symbolElement) {
+						symbolElement.classList.add('sg-cookie-optin-flipped');
+					}
 				}
 
 				const descriptions = cookieBox.querySelectorAll('.sg-cookie-optin-checkbox-description');
@@ -1007,19 +1042,25 @@ const SgCookieOptin = {
 			if (cookieSubList.classList.contains('sg-cookie-optin-visible')) {
 				cookieSubList.classList.remove('sg-cookie-optin-visible');
 				cookieSubList.style.height = '';
-				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+				link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
+				if (symbolElement) {
+					symbolElement.classList.remove('sg-cookie-optin-flipped');
+				}
 			} else {
 				cookieSubList.classList.add('sg-cookie-optin-visible');
 				cookieSubList.style.height = 'auto';
 				height = cookieSubList.getBoundingClientRect().height + 'px';
 				cookieSubList.style.height = '';
+				if (symbolElement) {
+					symbolElement.classList.add('sg-cookie-optin-flipped');
+				}
 				requestAnimationFrame(function() {
 					setTimeout(function() {
 						cookieSubList.style.height = height;
 					}, 10);
 				});
 
-				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
+				link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 			}
 		}
 	},
@@ -2138,7 +2179,10 @@ const SgCookieOptin = {
 	 * Shows the fingerprint and creates the element if necessary
 	 */
 	showFingerprint: function() {
-		if (!(SgCookieOptin.jsonData.settings.fingerprint_position > 0) || !SgCookieOptin.shouldShowOptinBanner()) {
+		// noinspection EqualityComparisonWithCoercionJS
+		// checkbox and position must be set properly
+		if (!(SgCookieOptin.jsonData.settings.show_fingerprint
+			&& SgCookieOptin.jsonData.settings.fingerprint_position > 0)) {
 			return;
 		}
 
@@ -2186,87 +2230,10 @@ const SgCookieOptin = {
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint');
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint-' + iconPositionClass);
 		fingerprintContainer.addEventListener('click', function(e) {
-			SgCookieOptin.openCookieOptin();
+			SgCookieOptin.openCookieOptin(null, {hideBanner: true});
 		});
 
-		fingerprintContainer.innerHTML = '<svg fill="currentColor" class="sg-cookie-optin-fingerprint-icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n' +
-			'\t viewBox="0 0 512 512" xml:space="preserve">\n' +
-			'<g transform="translate(1 1)">\n' +
-			'\t\t\t\t<g>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M275.334,511L275.334,511c-5.207,0-8.678-4.339-8.678-8.678\n' +
-			'\t\t\t\t\t\tc6.075-182.237-16.488-256.868-17.356-257.736c-1.736-4.339,0.868-9.546,5.207-11.281c4.339-1.736,9.546,0.868,11.281,5.207\n' +
-			'\t\t\t\t\t\tc0.868,3.471,24.298,77.234,17.356,262.942C284.012,507.529,279.673,511,275.334,511z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M491.415,294.051c-4.339,0-7.81-3.471-8.678-7.81c-6.075-58.142-14.753-104.136-25.166-128.434\n' +
-			'\t\t\t\t\t\tC423.727,77.102,345.625,25.034,257.978,25.034c-28.637,0-57.275,5.207-83.308,16.488c-14.753,6.075-28.637,13.885-41.654,21.695\n' +
-			'\t\t\t\t\t\tc-4.339,2.603-9.546,1.736-12.149-2.603c-2.603-4.339-1.736-9.546,2.603-12.149c13.885-8.678,28.637-16.488,45.125-23.431\n' +
-			'\t\t\t\t\t\tc27.769-11.281,58.142-17.356,89.383-17.356c94.59,0,178.766,56.407,216.081,143.186c13.885,33.844,22.563,91.119,26.034,133.641\n' +
-			'\t\t\t\t\t\tC500.961,289.712,497.489,293.183,491.415,294.051C492.283,294.051,491.415,294.051,491.415,294.051z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M43.632,363.475c-3.471,0-6.942-2.603-8.678-6.075c-43.39-145.79,2.603-231.702,49.464-277.695\n' +
-			'\t\t\t\t\t\tc3.471-3.471,8.678-3.471,12.149,0s3.471,8.678,0,12.149C34.086,152.6,18.466,242.851,51.442,352.193\n' +
-			'\t\t\t\t\t\tc1.736,4.339-0.868,9.546-6.075,10.414C45.367,363.475,44.5,363.475,43.632,363.475z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M100.906,450.254c-5.207,0-8.678-3.471-8.678-8.678c0-61.614,0-101.532-3.471-122.359\n' +
-			'\t\t\t\t\t\tc-1.736-9.546-4.339-19.092-6.075-27.769C57.517,202.932,102.642,109.21,187.686,73.631\n' +
-			'\t\t\t\t\t\tc24.298-10.414,50.332-14.753,77.234-13.885c69.424,2.603,144.922,60.746,168.353,130.169\n' +
-			'\t\t\t\t\t\tc19.092,56.407,19.092,150.129,17.356,234.305c0,5.207-4.339,8.678-8.678,8.678c-5.207,0-8.678-4.339-8.678-8.678\n' +
-			'\t\t\t\t\t\tc2.603-82.441,1.736-174.427-16.488-228.23c-20.827-62.481-91.119-116.285-152.732-118.888\n' +
-			'\t\t\t\t\t\tc-24.298-0.868-47.729,3.471-69.424,13.017c-77.234,32.108-118.02,117.153-95.458,196.99c2.603,9.546,5.207,19.959,6.942,29.505\n' +
-			'\t\t\t\t\t\tc3.471,22.563,3.471,62.481,3.471,124.963C109.584,446.783,106.113,450.254,100.906,450.254z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M388.147,476.288L388.147,476.288c-5.207,0-8.678-4.339-8.678-8.678\n' +
-			'\t\t\t\t\t\tc5.207-139.715,3.471-219.553-17.356-269.017c-17.356-41.654-58.142-68.556-104.136-68.556c-7.81,0-16.488,0.868-24.298,2.603\n' +
-			'\t\t\t\t\t\tc-4.339,0.868-9.546-1.736-10.414-6.942c-0.868-4.339,1.736-9.546,6.942-10.414c9.546-1.736,18.224-2.603,27.77-2.603\n' +
-			'\t\t\t\t\t\tc52.068,0,99.797,31.241,119.756,79.837c22.563,52.936,24.298,131.905,19.092,276.827\n' +
-			'\t\t\t\t\t\tC396.825,472.817,392.486,476.288,388.147,476.288z M161.652,458.932c-5.207,0-8.678-3.471-8.678-8.678\n' +
-			'\t\t\t\t\t\tc0-99.797-17.356-164.014-18.224-164.881c-15.62-58.142,3.471-118.888,48.597-150.129c4.339-2.603,9.546-1.736,12.149,1.736\n' +
-			'\t\t\t\t\t\tc2.603,4.339,1.736,9.546-1.736,12.149c-39.051,26.902-55.539,79.837-41.654,131.037c0.868,2.603,18.224,66.82,18.224,169.22\n' +
-			'\t\t\t\t\t\tC170.33,455.461,166.859,458.932,161.652,458.932z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M336.079,502.322L336.079,502.322c-5.207,0-8.678-4.339-8.678-8.678c0-11.281,0-27.77,0-42.522\n' +
-			'\t\t\t\t\t\tc0-10.414-0.868-19.959,0-26.902c0-4.339,4.339-8.678,8.678-8.678l0,0c5.207,0,8.678,4.339,8.678,8.678c0,6.075,0,15.62,0,26.034\n' +
-			'\t\t\t\t\t\tc0,14.753,0.868,32.108,0,43.39C344.757,498.851,340.418,502.322,336.079,502.322z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M213.72,502.322c-5.207,0-8.678-3.471-8.678-8.678c0-103.268-5.207-207.403-12.149-227.363\n' +
-			'\t\t\t\t\t\tc-12.149-36.447,4.339-74.631,38.183-88.515c8.678-3.471,17.356-5.207,26.902-5.207c27.77,0,52.936,16.488,64.217,42.522\n' +
-			'\t\t\t\t\t\tc17.356,40.786,22.563,112.814,23.431,165.749c0,5.207-3.471,8.678-8.678,8.678l0,0c-4.339,0-8.678-3.471-8.678-8.678\n' +
-			'\t\t\t\t\t\tc-0.868-51.2-6.075-120.624-22.563-158.807c-7.81-19.959-26.902-32.108-47.729-32.108c-6.942,0-13.885,1.736-19.959,4.339\n' +
-			'\t\t\t\t\t\tc-25.166,10.414-37.315,39.051-28.637,66.82c7.81,24.298,13.017,139.715,13.017,232.569\n' +
-			'\t\t\t\t\t\tC222.398,498.851,218.927,502.322,213.72,502.322z"/>\n' +
-			'\t\t\t\t</g>\n' +
-			'\t\t\t\t<g>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M267.523,511L267.523,511c-5.207,0-8.678-4.339-8.678-8.678\n' +
-			'\t\t\t\t\t\tc6.075-183.105-16.488-265.546-17.356-266.414c-1.736-4.339,1.736-9.546,6.075-10.414c4.339-1.736,9.546,1.736,10.414,6.075\n' +
-			'\t\t\t\t\t\tc0.868,3.471,24.298,85.912,17.356,271.62C276.201,507.529,271.862,511,267.523,511z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M483.605,285.373c-4.339,0-7.81-3.471-8.678-7.81c-3.471-33.844-11.281-95.458-25.166-128.434\n' +
-			'\t\t\t\t\t\tC415.917,68.424,337.815,16.356,250.167,16.356c-28.637,0-57.275,5.207-83.308,16.488c-14.753,6.075-28.637,13.885-41.654,21.695\n' +
-			'\t\t\t\t\t\tc-4.339,2.603-9.546,1.736-12.149-2.603c-2.603-4.339-1.736-9.546,2.603-12.149c13.885-8.678,28.637-16.488,45.125-23.431\n' +
-			'\t\t\t\t\t\tC188.554,5.075,218.927-1,250.167-1c94.59,0,178.766,56.407,216.081,143.186c13.885,33.844,22.563,91.119,26.034,133.641\n' +
-			'\t\t\t\t\t\tC492.283,281.034,488.811,284.505,483.605,285.373C484.473,285.373,483.605,285.373,483.605,285.373z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M35.822,354.797c-3.471,0-6.942-2.603-8.678-6.075c-43.39-145.79,2.603-231.702,49.464-277.695\n' +
-			'\t\t\t\t\t\tc3.471-3.471,8.678-3.471,12.149,0c3.471,3.471,3.471,8.678,0,12.149c-62.481,60.746-78.102,150.997-45.125,260.339\n' +
-			'\t\t\t\t\t\tc1.736,4.339-0.868,9.546-6.075,10.414C37.557,354.797,36.689,354.797,35.822,354.797z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M93.096,441.576c-5.207,0-8.678-3.471-8.678-8.678c0-61.614,0-101.532-3.471-122.359\n' +
-			'\t\t\t\t\t\tc-1.736-9.546-3.471-18.224-6.075-27.77C49.706,194.254,94.832,100.532,179.876,64.953c24.298-10.414,50.332-14.753,77.234-13.885\n' +
-			'\t\t\t\t\t\tc69.424,2.603,144.922,60.746,168.353,130.169c19.092,56.407,19.092,150.129,17.356,234.305c0,5.207-4.339,8.678-8.678,8.678\n' +
-			'\t\t\t\t\t\tc-5.207,0-8.678-4.339-8.678-8.678c2.603-82.441,1.736-174.427-16.488-228.23c-20.827-62.481-91.119-116.285-152.732-118.888\n' +
-			'\t\t\t\t\t\tc-24.298-0.868-47.729,3.471-69.424,13.017c-77.234,32.108-118.02,117.153-95.458,196.99c2.603,9.546,5.207,19.959,6.942,29.505\n' +
-			'\t\t\t\t\t\tc3.471,22.563,3.471,62.481,3.471,124.963C101.774,438.105,98.303,441.576,93.096,441.576z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M380.337,467.61L380.337,467.61c-5.207,0-8.678-4.339-8.678-8.678\n' +
-			'\t\t\t\t\t\tc5.207-139.715,3.471-219.553-17.356-269.017c-17.356-41.654-58.142-68.556-104.136-68.556c-7.81,0-16.488,0.868-24.298,2.603\n' +
-			'\t\t\t\t\t\tc-4.339,0.868-9.546-1.736-10.414-6.942c-0.868-4.339,1.736-9.546,6.942-10.414c9.546-1.736,18.224-2.603,27.77-2.603\n' +
-			'\t\t\t\t\t\tc52.068,0,99.797,31.241,119.756,79.837c22.563,52.936,24.298,131.905,19.092,276.827\n' +
-			'\t\t\t\t\t\tC389.015,464.139,384.676,467.61,380.337,467.61z M153.842,450.254c-5.207,0-8.678-3.471-8.678-8.678\n' +
-			'\t\t\t\t\t\tc0-99.797-17.356-164.014-18.224-164.881c-15.62-58.142,3.471-118.888,48.597-150.129c4.339-2.603,9.546-1.736,12.149,1.736\n' +
-			'\t\t\t\t\t\tc2.603,4.339,1.736,9.546-1.736,12.149c-39.051,26.902-55.539,79.837-41.654,131.037c0.868,3.471,18.224,67.688,18.224,170.088\n' +
-			'\t\t\t\t\t\tC162.52,446.783,159.049,450.254,153.842,450.254z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M328.269,493.644L328.269,493.644c-5.207,0-8.678-4.339-8.678-8.678c0-11.281,0-27.77,0-42.522\n' +
-			'\t\t\t\t\t\tc0-10.414-0.868-19.959,0-26.034c0-4.339,4.339-8.678,8.678-8.678l0,0c5.207,0,8.678,4.339,8.678,8.678c0,6.075,0,15.62,0,26.034\n' +
-			'\t\t\t\t\t\tc0,15.62,0.868,32.108,0,43.39C336.947,490.173,332.608,493.644,328.269,493.644z"/>\n' +
-			'\t\t\t\t\t<path style="fill:currentColor;" d="M205.91,493.644c-5.207,0-8.678-3.471-8.678-8.678c0-103.268-5.207-207.403-12.149-227.363\n' +
-			'\t\t\t\t\t\tc-12.149-36.447,4.339-74.631,38.183-88.515c8.678-3.471,17.356-5.207,26.902-5.207c27.769,0,52.936,16.488,64.217,42.522\n' +
-			'\t\t\t\t\t\tc17.356,40.786,22.563,112.814,23.431,165.749c0,5.207-3.471,8.678-8.678,8.678l0,0c-4.339,0-8.678-3.471-8.678-8.678\n' +
-			'\t\t\t\t\t\tc-0.868-51.2-6.075-120.624-22.563-159.675c-7.81-19.092-26.902-32.108-47.729-32.108c-6.942,0-13.885,1.736-19.959,4.339\n' +
-			'\t\t\t\t\t\tc-25.166,10.414-37.315,39.051-28.637,66.82c7.81,25.166,13.017,140.583,13.017,233.437\n' +
-			'\t\t\t\t\t\tC214.588,490.173,211.117,493.644,205.91,493.644z"/>\n' +
-			'\t\t\t\t</g>\n' +
-			'\t\t\t</g>' +
-			'</svg>';
+		fingerprintContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="currentColor" class="sg-cookie-optin-fingerprint-icon" viewBox="0 0 512 512"><path d="M275.334 511c-5.207 0-8.678-4.339-8.678-8.678 6.075-182.237-16.488-256.868-17.356-257.736-1.736-4.339.868-9.546 5.207-11.281 4.339-1.736 9.546.868 11.281 5.207.868 3.471 24.298 77.234 17.356 262.942.868 6.075-3.471 9.546-7.81 9.546zM491.415 294.051c-4.339 0-7.81-3.471-8.678-7.81-6.075-58.142-14.753-104.136-25.166-128.434C423.727 77.102 345.625 25.034 257.978 25.034c-28.637 0-57.275 5.207-83.308 16.488-14.753 6.075-28.637 13.885-41.654 21.695-4.339 2.603-9.546 1.736-12.149-2.603-2.603-4.339-1.736-9.546 2.603-12.149 13.885-8.678 28.637-16.488 45.125-23.431 27.769-11.281 58.142-17.356 89.383-17.356 94.59 0 178.766 56.407 216.081 143.186 13.885 33.844 22.563 91.119 26.034 133.641.868 5.207-2.604 8.678-8.678 9.546.868 0 0 0 0 0zM43.632 363.475c-3.471 0-6.942-2.603-8.678-6.075-43.39-145.79 2.603-231.702 49.464-277.695 3.471-3.471 8.678-3.471 12.149 0s3.471 8.678 0 12.149C34.086 152.6 18.466 242.851 51.442 352.193c1.736 4.339-.868 9.546-6.075 10.414 0 .868-.867.868-1.735.868z" style="fill:currentColor" transform="translate(1 1)"/><path d="M100.906 450.254c-5.207 0-8.678-3.471-8.678-8.678 0-61.614 0-101.532-3.471-122.359-1.736-9.546-4.339-19.092-6.075-27.769-25.165-88.516 19.96-182.238 105.004-217.817 24.298-10.414 50.332-14.753 77.234-13.885 69.424 2.603 144.922 60.746 168.353 130.169 19.092 56.407 19.092 150.129 17.356 234.305 0 5.207-4.339 8.678-8.678 8.678-5.207 0-8.678-4.339-8.678-8.678 2.603-82.441 1.736-174.427-16.488-228.23-20.827-62.481-91.119-116.285-152.732-118.888-24.298-.868-47.729 3.471-69.424 13.017-77.234 32.108-118.02 117.153-95.458 196.99 2.603 9.546 5.207 19.959 6.942 29.505 3.471 22.563 3.471 62.481 3.471 124.963 0 5.206-3.471 8.677-8.678 8.677z" style="fill:currentColor" transform="translate(1 1)"/><path d="M388.147 476.288c-5.207 0-8.678-4.339-8.678-8.678 5.207-139.715 3.471-219.553-17.356-269.017-17.356-41.654-58.142-68.556-104.136-68.556-7.81 0-16.488.868-24.298 2.603-4.339.868-9.546-1.736-10.414-6.942-.868-4.339 1.736-9.546 6.942-10.414 9.546-1.736 18.224-2.603 27.77-2.603 52.068 0 99.797 31.241 119.756 79.837 22.563 52.936 24.298 131.905 19.092 276.827 0 3.472-4.339 6.943-8.678 6.943zm-226.495-17.356c-5.207 0-8.678-3.471-8.678-8.678 0-99.797-17.356-164.014-18.224-164.881-15.62-58.142 3.471-118.888 48.597-150.129 4.339-2.603 9.546-1.736 12.149 1.736 2.603 4.339 1.736 9.546-1.736 12.149-39.051 26.902-55.539 79.837-41.654 131.037.868 2.603 18.224 66.82 18.224 169.22 0 6.075-3.471 9.546-8.678 9.546zM336.079 502.322c-5.207 0-8.678-4.339-8.678-8.678v-42.522c0-10.414-.868-19.959 0-26.902 0-4.339 4.339-8.678 8.678-8.678 5.207 0 8.678 4.339 8.678 8.678v26.034c0 14.753.868 32.108 0 43.39 0 5.207-4.339 8.678-8.678 8.678z" style="fill:currentColor" transform="translate(1 1)"/><path d="M213.72 502.322c-5.207 0-8.678-3.471-8.678-8.678 0-103.268-5.207-207.403-12.149-227.363-12.149-36.447 4.339-74.631 38.183-88.515 8.678-3.471 17.356-5.207 26.902-5.207 27.77 0 52.936 16.488 64.217 42.522 17.356 40.786 22.563 112.814 23.431 165.749 0 5.207-3.471 8.678-8.678 8.678-4.339 0-8.678-3.471-8.678-8.678-.868-51.2-6.075-120.624-22.563-158.807-7.81-19.959-26.902-32.108-47.729-32.108-6.942 0-13.885 1.736-19.959 4.339-25.166 10.414-37.315 39.051-28.637 66.82 7.81 24.298 13.017 139.715 13.017 232.569-.001 5.208-3.472 8.679-8.679 8.679z" style="fill:currentColor" transform="translate(1 1)"/><path d="M267.523 511c-5.207 0-8.678-4.339-8.678-8.678 6.075-183.105-16.488-265.546-17.356-266.414-1.736-4.339 1.736-9.546 6.075-10.414 4.339-1.736 9.546 1.736 10.414 6.075.868 3.471 24.298 85.912 17.356 271.62.867 4.34-3.472 7.811-7.811 7.811zM483.605 285.373c-4.339 0-7.81-3.471-8.678-7.81-3.471-33.844-11.281-95.458-25.166-128.434C415.917 68.424 337.815 16.356 250.167 16.356c-28.637 0-57.275 5.207-83.308 16.488-14.753 6.075-28.637 13.885-41.654 21.695-4.339 2.603-9.546 1.736-12.149-2.603-2.603-4.339-1.736-9.546 2.603-12.149 13.885-8.678 28.637-16.488 45.125-23.431C188.554 5.075 218.927-1 250.167-1c94.59 0 178.766 56.407 216.081 143.186 13.885 33.844 22.563 91.119 26.034 133.641.001 5.207-3.471 8.678-8.677 9.546.868 0 0 0 0 0zM35.822 354.797c-3.471 0-6.942-2.603-8.678-6.075-43.39-145.79 2.603-231.702 49.464-277.695 3.471-3.471 8.678-3.471 12.149 0 3.471 3.471 3.471 8.678 0 12.149-62.481 60.746-78.102 150.997-45.125 260.339 1.736 4.339-.868 9.546-6.075 10.414 0 .868-.868.868-1.735.868z" style="fill:currentColor" transform="translate(1 1)"/><path d="M93.096 441.576c-5.207 0-8.678-3.471-8.678-8.678 0-61.614 0-101.532-3.471-122.359-1.736-9.546-3.471-18.224-6.075-27.77-25.166-88.515 19.96-182.237 105.004-217.816 24.298-10.414 50.332-14.753 77.234-13.885 69.424 2.603 144.922 60.746 168.353 130.169 19.092 56.407 19.092 150.129 17.356 234.305 0 5.207-4.339 8.678-8.678 8.678-5.207 0-8.678-4.339-8.678-8.678 2.603-82.441 1.736-174.427-16.488-228.23-20.827-62.481-91.119-116.285-152.732-118.888-24.298-.868-47.729 3.471-69.424 13.017-77.234 32.108-118.02 117.153-95.458 196.99 2.603 9.546 5.207 19.959 6.942 29.505 3.471 22.563 3.471 62.481 3.471 124.963 0 5.206-3.471 8.677-8.678 8.677z" style="fill:currentColor" transform="translate(1 1)"/><path d="M380.337 467.61c-5.207 0-8.678-4.339-8.678-8.678 5.207-139.715 3.471-219.553-17.356-269.017-17.356-41.654-58.142-68.556-104.136-68.556-7.81 0-16.488.868-24.298 2.603-4.339.868-9.546-1.736-10.414-6.942-.868-4.339 1.736-9.546 6.942-10.414 9.546-1.736 18.224-2.603 27.77-2.603 52.068 0 99.797 31.241 119.756 79.837 22.563 52.936 24.298 131.905 19.092 276.827 0 3.472-4.339 6.943-8.678 6.943zm-226.495-17.356c-5.207 0-8.678-3.471-8.678-8.678 0-99.797-17.356-164.014-18.224-164.881-15.62-58.142 3.471-118.888 48.597-150.129 4.339-2.603 9.546-1.736 12.149 1.736 2.603 4.339 1.736 9.546-1.736 12.149-39.051 26.902-55.539 79.837-41.654 131.037.868 3.471 18.224 67.688 18.224 170.088 0 5.207-3.471 8.678-8.678 8.678zM328.269 493.644c-5.207 0-8.678-4.339-8.678-8.678v-42.522c0-10.414-.868-19.959 0-26.034 0-4.339 4.339-8.678 8.678-8.678 5.207 0 8.678 4.339 8.678 8.678v26.034c0 15.62.868 32.108 0 43.39 0 4.339-4.339 7.81-8.678 7.81z" style="fill:currentColor" transform="translate(1 1)"/><path d="M205.91 493.644c-5.207 0-8.678-3.471-8.678-8.678 0-103.268-5.207-207.403-12.149-227.363-12.149-36.447 4.339-74.631 38.183-88.515 8.678-3.471 17.356-5.207 26.902-5.207 27.769 0 52.936 16.488 64.217 42.522 17.356 40.786 22.563 112.814 23.431 165.749 0 5.207-3.471 8.678-8.678 8.678-4.339 0-8.678-3.471-8.678-8.678-.868-51.2-6.075-120.624-22.563-159.675-7.81-19.092-26.902-32.108-47.729-32.108-6.942 0-13.885 1.736-19.959 4.339-25.166 10.414-37.315 39.051-28.637 66.82 7.81 25.166 13.017 140.583 13.017 233.437-.001 5.208-3.472 8.679-8.679 8.679z" style="fill:currentColor" transform="translate(1 1)"/></svg>';
 		document.body.appendChild(fingerprintContainer);
 
 		// Emit event

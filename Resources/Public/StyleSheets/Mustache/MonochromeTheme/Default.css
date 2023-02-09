@@ -23,6 +23,8 @@
 	--sg-cookie-optin-banner-color-button-settings-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
 	--sg-cookie-optin-color-checkbox-box-shadow: var(--sg-cookie-optin-color-monochrome-light-dark);
 	--sg-cookie-optin-color-button-all-hover: var(--sg-cookie-optin-color-button-specific-hover);
+	--sg-cookie-optin-color-fingerprint-image: var(--sg-cookie-optin-color-monochrome-dark);
+	--sg-cookie-optin-color-fingerprint-background: var(--sg-cookie-optin-color-monochrome-text);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,6 +45,8 @@
 		--sg-cookie-optin-banner-color-button-settings-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
 		--sg-cookie-optin-color-checkbox-box-shadow: var(--sg-cookie-optin-color-monochrome-light-dark);
 		--sg-cookie-optin-color-button-all-hover: var(--sg-cookie-optin-color-button-specific-hover);
+		--sg-cookie-optin-color-fingerprint-image: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-fingerprint-background: var(--sg-cookie-optin-color-monochrome-text);
 	}
 }
 
@@ -64,5 +68,7 @@
 		--sg-cookie-optin-banner-color-button-settings-hover-text: var(--sg-cookie-optin-color-monochrome-dark);
 		--sg-cookie-optin-color-checkbox-box-shadow: var(--sg-cookie-optin-color-monochrome-light-dark);
 		--sg-cookie-optin-color-button-all-hover: var(--sg-cookie-optin-color-button-specific-hover);
+		--sg-cookie-optin-color-fingerprint-image: var(--sg-cookie-optin-color-monochrome-dark);
+		--sg-cookie-optin-color-fingerprint-background: var(--sg-cookie-optin-color-monochrome-text);
 	}
 }

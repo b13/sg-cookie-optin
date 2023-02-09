@@ -513,7 +513,7 @@ class OptinController extends ActionController {
 			'iframe_description' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
 			'iframe_html' => '',
 			'iframe_replacement_html' => '',
-			'iframe_whitelist_regex' => '',
+			'iframe_whitelist_regex' => JsonImportService::DEFAULT_IFRAME_WHITELIST,
 			'banner_description' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 			'banner_html' => '',
 			'essential_description' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,

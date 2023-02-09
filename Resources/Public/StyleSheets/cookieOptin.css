@@ -52,7 +52,11 @@
 	--sg-cookie-optin-banner-color-button-accept-text: ###banner_color_button_accept_text###;
 	--sg-cookie-optin-banner-color-button-accept-hover-text: ###banner_color_button_accept_text###;
 	--sg-cookie-optin-banner-color-button-accept-hover: ###banner_color_button_accept_hover###;
+	--sg-cookie-optin-banner-color-button-accept-essential-text: ###banner_color_button_accept_essential_text###;
+	--sg-cookie-optin-banner-color-button-accept-essential-hover-text: ###banner_color_button_accept_essential_text###;
+	--sg-cookie-optin-banner-color-button-accept-essential-hover: ###banner_color_button_accept_essential_hover###;
 	--sg-cookie-optin-banner-color-button-accept: ###banner_color_button_accept###;
+	--sg-cookie-optin-banner-color-button-accept-essential: ###banner_color_button_accept_essential###;
 	--sg-cookie-optin-color-list: ###color_list###;
 	--sg-cookie-optin-color-list-text: ###color_list_text###;
 	--sg-cookie-optin-color-table: ###color_table###;

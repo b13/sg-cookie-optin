@@ -300,6 +300,10 @@
 	list-style: none;
 }
 
+.sg-cookie-optin-box-sublist-open-more-symbol {
+	top: -2px;
+}
+
 /* Responsive */
 
 @media only screen and (max-width: 1250px) {

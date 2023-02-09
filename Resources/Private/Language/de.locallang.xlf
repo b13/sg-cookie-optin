@@ -46,16 +46,16 @@
 				<target><![CDATA[https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/#c17080]]></target>
 			</trans-unit>
 			<trans-unit id="backend.exportConfig" approved="yes">
-				<source><![CDATA[Export Configuration]]></source>
-				<target><![CDATA[Konfiguration exportieren]]></target>
+				<source><![CDATA[Export]]></source>
+				<target><![CDATA[Export]]></target>
 			</trans-unit>
 			<trans-unit id="backend.fileUploadLabel" approved="yes">
 				<source><![CDATA[JSON Configuration File]]></source>
 				<target><![CDATA[JSON-Konfigurationsdatei]]></target>
 			</trans-unit>
 			<trans-unit id="backend.importConfig" approved="yes">
-				<source><![CDATA[Import Configuration]]></source>
-				<target><![CDATA[Konfiguration importieren]]></target>
+				<source><![CDATA[Import]]></source>
+				<target><![CDATA[Import]]></target>
 			</trans-unit>
 			<trans-unit id="backend.jsonExport.error" approved="yes">
 				<source><![CDATA[Could not export the configuration because of the following error:]]></source>
@@ -254,8 +254,20 @@
 				<target><![CDATA[Zu viele Einträge entdeckt]]></target>
 			</trans-unit>
 			<trans-unit id="backend.toolForCookies" approved="yes">
-				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed. URL]]></source>
-				<target><![CDATA[Das nachfolgende Tool liefert Informationen zu verwendeten Cookies auf ihrer Website. Nutzen Sie diese für die Cookie-Instruktionen in der Konfiguration. Beachten Sie, dass die Liste nicht vollständig sein könnte. URL]]></target>
+				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed.]]></source>
+				<target><![CDATA[Das nachfolgende Tool liefert Informationen zu verwendeten Cookies auf ihrer Website. Nutzen Sie diese für die Cookie-Instruktionen in der Konfiguration. Beachten Sie, dass die Liste nicht vollständig sein könnte.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.toolForCookies.button" approved="yes">
+				<source><![CDATA[Cookie Tool]]></source>
+				<target><![CDATA[Cookie-Tool]]></target>
+			</trans-unit>
+			<trans-unit id="backend.checkStats" approved="yes">
+				<source><![CDATA[Click this button to access the statistics of your opt-in data.]]></source>
+				<target><![CDATA[Klicken Sie auf diese Taste, um auf die Statistik Ihrer Opt-in-Daten zuzugreifen.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.checkStats.button" approved="yes">
+				<source><![CDATA[Statistics]]></source>
+				<target><![CDATA[Statistiken]]></target>
 			</trans-unit>
 			<trans-unit id="backend.upload" approved="yes">
 				<source><![CDATA[Upload]]></source>
