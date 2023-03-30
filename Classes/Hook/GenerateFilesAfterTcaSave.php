@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Hook;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\Hook;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\Hook;
 
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\StaticFileGenerationService;
@@ -91,7 +91,9 @@ class GenerateFilesAfterTcaSave {
 			}
 		}
 
-		$this->siteRoot = (int) $dataHandler->getPID(StaticFileGenerationService::TABLE_NAME, $originalRecord['uid']);
+		$this->siteRoot = (int) $dataHandler->getPID(
+			StaticFileGenerationService::TABLE_NAME, $originalRecord['uid'] || 0
+		);
 		if ($this->siteRoot <= 0) {
 			return;
 		}
