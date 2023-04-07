@@ -110,6 +110,11 @@ call_user_func(
 				'tx_sgcookieoptin_domain_model_cookie',
 				'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
 			);
+
+			$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables']['tx_sgcookieoptin_domain_model_user_preference'] = [
+				'dateField' => 'time_micro',
+				'expirePeriod' => 540
+			];
 		}
 	}
 );
