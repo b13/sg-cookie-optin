@@ -112,7 +112,7 @@ call_user_func(
 			);
 
 			$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables']['tx_sgcookieoptin_domain_model_user_preference'] = [
-				'dateField' => 'time_micro',
+				'dateField' => 'tstamp',
 				'expirePeriod' => 540
 			];
 		}
