@@ -112,7 +112,7 @@ call_user_func(
 			\SGalinski\SgCookieOptin\Hook\LicenceCheckHook::class . '->performLicenseCheck';
 
 		// Register Icons
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7000000) {
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version ) >= 7000000) {
 			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Imaging\IconRegistry::class
 			);
@@ -134,7 +134,7 @@ call_user_func(
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['sg_cookie_optin_saveOptinHistory'] = \SGalinski\SgCookieOptin\Endpoints\OptinHistoryController::class . '::saveOptinHistory';
 
 		if (!class_exists('SgCookieAbstractViewHelper')) {
-			$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+			$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
 			if ($typo3Version >= 10000000) {
 				class_alias('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
 			} else {

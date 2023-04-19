@@ -517,7 +517,7 @@ class LicenceCheckService {
 	 * @return bool
 	 */
 	public static function isInDevelopmentContext() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		if ($versionNumber >= 9000000) {
 			// Since TYPO3 9LTS
 			$context = \TYPO3\CMS\Core\Core\Environment::getContext();
@@ -534,7 +534,7 @@ class LicenceCheckService {
 	 * @return bool
 	 */
 	public static function isTYPO3VersionSupported() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		return $versionNumber >= self::EARLIEST_SUPPORTED_VERSION;
 	}
 

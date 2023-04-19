@@ -65,7 +65,7 @@ class OptinHistoryService {
 				throw new SaveOptinHistoryException('No data to save');
 			}
 
-			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
+			if (VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version()) < 9000000) {
 				foreach ($insertData as $data) {
 					$GLOBALS['TYPO3_DB']->exec_INSERTquery(self::TABLE_NAME, $data);
 				}

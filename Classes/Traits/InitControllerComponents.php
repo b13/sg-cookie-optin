@@ -46,7 +46,7 @@ trait InitControllerComponents {
 	 * Initialize the demo mode check and the doc header components
 	 */
 	protected function initComponents() {
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		$keyState = LicenceCheckService::checkKey();
 		$isInDemoMode = LicenceCheckService::isInDemoMode();
 		$hasValidLicense = LicenceCheckService::hasValidLicense();

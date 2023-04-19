@@ -246,7 +246,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 */
 	protected function getLanguage() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		if ($versionNumber >= 9005000) {
 			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Context\Context::class
@@ -268,7 +268,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws SiteNotFoundException
 	 */
 	protected function getLanguageWithLocale() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		if ($versionNumber >= 9005000) {
 			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Context\Context::class

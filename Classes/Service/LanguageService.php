@@ -43,7 +43,7 @@ class LanguageService {
 	 * @throws SiteNotFoundException
 	 */
 	public static function getLanguages($siteRootUid) {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
+        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0', '<')) {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows('uid', 'sys_language', '');

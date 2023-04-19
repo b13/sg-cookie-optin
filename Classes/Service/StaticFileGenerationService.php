@@ -99,7 +99,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		GeneralUtility::rmdir($sitePath . $folderName, TRUE);
 		GeneralUtility::mkdir_deep($sitePath . $folderName);
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 
 		if ($currentVersion < 9000000) {
 			/** @var TypoScriptFrontendController $typoScriptFrontendController */
@@ -343,7 +343,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function getDataForInlineField($table, $field, $parentUid, $language = 0) {
 		$languageField = $this->getTCALanguageField($table);
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version()) <= 9000000) {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
@@ -388,7 +388,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$translatedRows = [];
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		if ($currentVersion >= 11000000) {
 			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		} else {
@@ -803,7 +803,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		$index = 0;
 		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
 		$parsedSiteBaseUrl = parse_url($siteBaseUrl);
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($navigationEntries as $pageData) {
@@ -855,7 +855,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			$baseUri = $translatedData['overwrite_baseurl'];
 		} else {
 			$baseUrl = $siteBaseUrl;
-			if ((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000)) {
+			if ((VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version()) < 9000000)) {
 				$baseUri = $baseUrl;
 			} else {
 				$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
@@ -881,7 +881,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'disable_for_this_language' => (bool) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
 			'save_history_webhook' => $baseUri .
-				((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) ?
+				((VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version()) < 9000000) ?
 					'?eID=sg_cookie_optin_saveOptinHistory' : '?saveOptinHistory'),
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
@@ -1096,7 +1096,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$records = [];
 		$navigationEntries = GeneralUtility::trimExplode(',', $navigationData);
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		if ($versionNumber >= 11000000) {
 			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		} else {
