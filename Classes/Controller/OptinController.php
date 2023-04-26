@@ -54,10 +54,13 @@ use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+
 
 /**
  * Optin Controller
  */
+#[Controller]
 class OptinController extends ActionController {
 	use InitControllerComponents;
 
@@ -67,6 +70,11 @@ class OptinController extends ActionController {
 	 * @var DocHeaderComponent
 	 */
 	protected $docHeaderComponent;
+
+    public function __construct(
+         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+     ) {
+     }
 
 	/**
 	 * Starts the module, even opens up a TCEForm, or shows where the domain root is.
@@ -111,6 +119,12 @@ class OptinController extends ActionController {
         if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '<')) {
             return NULL;
         }
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+       // Adding title, menus, buttons, etc. using $moduleTemplate ...
+        $content = $this->view->render();
+       $moduleTemplate->setContent($content);
+       return $this->htmlResponse($moduleTemplate->renderContent());
+
         return $this->htmlResponse();
 	}
 
