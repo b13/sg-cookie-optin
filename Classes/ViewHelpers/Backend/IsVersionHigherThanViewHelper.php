@@ -27,16 +27,15 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\ViewHelpers\Backend\Traits\IsVersionHigherThanViewHelperTrait;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
-$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
-$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
-if ($typo3Version >= 10000000) {
-    class IsVersionHigherThanViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
+if (class_exists('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper')) {
+    class IsVersionHigherThanViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+    {
         use IsVersionHigherThanViewHelperTrait;
     }
 } else {
-    class IsVersionHigherThanViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+    class IsVersionHigherThanViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+    {
         use IsVersionHigherThanViewHelperTrait;
     }
 }

@@ -26,19 +26,16 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use SGalinski\SgCookieOptin\ViewHelpers\Backend\Traits\EditOnClickViewHelper;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use SGalinski\SgCookieOptin\ViewHelpers\Backend\Traits\EditOnClickViewHelperTrait;
 
-if (!class_exists(EditOnClickViewHelper::class)) {
-    if (class_exists(\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper::class)) {
-        class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
-        {
-            use EditOnClickViewHelperTrait;
-        }
-    } else {
-        class EditOnClickViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
-        {
-            use EditOnClickViewHelperTrait;
-        }
+if (class_exists('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper')) {
+    class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+    {
+        use EditOnClickViewHelperTrait;
+    }
+} else {
+    class EditOnClickViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+    {
+        use EditOnClickViewHelperTrait;
     }
 }

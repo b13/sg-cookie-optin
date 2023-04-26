@@ -37,16 +37,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  **/
 trait IconViewHelperTrait {
     /**
-     * @var boolean
-     */
-    protected $escapeOutput = FALSE;
-
-    /**
-     * @var boolean
-     */
-    protected $escapeChildren = FALSE;
-
-    /**
      * Register the ViewHelper arguments
      */
     public function initializeArguments() {
