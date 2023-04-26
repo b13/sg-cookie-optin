@@ -29,7 +29,7 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 use SGalinski\SgCookieOptin\ViewHelpers\Backend\Traits\EditOnClickViewHelper;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
-if (class_exists(EditOnClickViewHelper::class)) {
+if (!class_exists(EditOnClickViewHelper::class)) {
     if (class_exists(\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper::class)) {
         class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
         {
