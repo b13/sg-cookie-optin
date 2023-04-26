@@ -8,7 +8,7 @@ return [
         'labels' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf',
         'workspaces' => 'live',
         'path' => '/module/web/sg-cookie-optin',
-        'extensionName' => 'Extkey',
+        'extensionName' => 'SgCookieOptin',
         'controllerActions' => [
             \SGalinski\SgCookieOptin\Controller\OptinController::class => ['index', 'activateDemoMode', 'create', 'uploadJson', 'importJson', 'previewImport', 'exportJson'],
             \SGalinski\SgCookieOptin\Controller\StatisticsController::class => ['index'],

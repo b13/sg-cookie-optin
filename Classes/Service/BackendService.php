@@ -158,14 +158,9 @@ class BackendService {
 
 		/** @var IconFactory $iconFactory */
 		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $locallangPath = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:';
 
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '<')) {
-			$locallangPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:';
-		} else {
-			$locallangPath = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:';
-		}
-
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '8.0.0', '>=')) {
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
 			// Refresh
 			$refreshButton = $buttonBar->makeLinkButton()
 				->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
@@ -189,6 +184,30 @@ class BackendService {
 				->setSetVariables([]);
 
 			$buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
-		}
+		} else {
+            // Refresh
+            $refreshButton = $buttonBar->makeLinkButton()
+                ->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
+                ->setTitle(
+                    LocalizationUtility::translate(
+                        $locallangPath . 'labels.reload'
+                    )
+                )
+                ->setIcon($iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL));
+            $buttonBar->addButton($refreshButton, ButtonBar::BUTTON_POSITION_RIGHT);
+
+            // shortcut button
+            $shortcutButton = $buttonBar->makeShortcutButton()
+                ->setRouteIdentifier($request->getPluginName())
+                ->setDisplayName('test')
+                ->setArguments(
+                    [
+                        'id',
+                        'M'
+                    ]
+                );
+
+            $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
+        }
 	}
 }

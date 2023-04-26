@@ -103,7 +103,15 @@ class OptinController extends ActionController {
 			$this->view->assign('optins', $optIns);
 		}
 
+        $currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
+        $typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
+        $this->view->assign('typo3_version', $typo3Version);
+
 		$this->view->assign('pages', BackendService::getPages());
+        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '<')) {
+            return NULL;
+        }
+        return $this->htmlResponse();
 	}
 
 	/**
@@ -117,7 +125,7 @@ class OptinController extends ActionController {
 		}
 
 		LicenceCheckService::activateDemoMode();
-		$this->redirect('index');
+        $this->redirect('index');
 	}
 
 	/**
@@ -218,7 +226,11 @@ class OptinController extends ActionController {
 		$view->assign('headline', $this->settings['headline'] ?? '');
 		$view->assign('description', $this->settings['description'] ?? '');
 
-		return $view->render();
+        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '<')) {
+            return $view->render();
+        } else {
+            return $this->htmlResponse();
+        }
 	}
 
 	/**

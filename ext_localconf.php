@@ -132,14 +132,5 @@ call_user_func(
 
 		// Ajax Endpoint
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['sg_cookie_optin_saveOptinHistory'] = \SGalinski\SgCookieOptin\Endpoints\OptinHistoryController::class . '::saveOptinHistory';
-
-		if (!class_exists('SgCookieAbstractViewHelper')) {
-			$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
-			if ($typo3Version >= 10000000) {
-				class_alias('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
-			} else {
-				class_alias('\TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
-			}
-		}
-	}
+    }
 );
