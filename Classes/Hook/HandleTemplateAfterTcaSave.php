@@ -128,7 +128,7 @@ class HandleTemplateAfterTcaSave {
 				);
 			}
 
-			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+			if (VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getCurrentTypo3Version()) <= 9000000) {
 				/** @var DatabaseConnection $database */
 				$database = $GLOBALS['TYPO3_DB'];
 				$database->exec_UPDATEquery(self::TABLE_NAME, 'uid=' . (int) $id, [

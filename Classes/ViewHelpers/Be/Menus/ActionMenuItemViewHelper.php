@@ -27,6 +27,8 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Be\Menus;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
@@ -43,7 +45,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 */
 	protected $tagName = 'option';
 
-	/**
+    /**
 	 * Register the ViewHelper arguments
 	 */
 	public function initializeArguments() {
@@ -79,10 +81,10 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		$controller = $this->arguments['controller'];
 		$action = $this->arguments['action'];
 		$arguments = $this->arguments['arguments'];
-		$uriBuilder = $this->renderingContext->getControllerContext()->getUriBuilder();
-		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller);
+		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
 		$this->tag->addAttribute('value', $uri);
-		$currentRequest = $this->renderingContext->getControllerContext()->getRequest();
+		$currentRequest = $this->renderingContext->getRequest();
 		$requestArguments = $currentRequest->getArguments();
 		unset($requestArguments['filters']);
 		$requestArguments = ArrayUtility::flatten(

@@ -4,11 +4,13 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend\Traits;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList;
+use TYPO3\CMS\Backend\RecordList\DatabaseRecordList;
 
+/**
+ * Trade for code sharing between versions
+ */
 trait ControlViewHelperTrait {
     /**
      * Initialize the ViewHelper arguments
@@ -35,11 +37,7 @@ trait ControlViewHelperTrait {
         $pageRenderer->addInlineLanguageLabelFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
         $currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
-        if (version_compare($currentTypo3Version, '9.0.0', '<')) {
-            $languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
-        } else {
-            $languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Localization\LanguageService::class);
-        }
+         $languageService = $GLOBALS['LANG'];
         $languageService->includeLLFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
         /** @var DatabaseRecordList $databaseRecordList */
@@ -51,16 +49,12 @@ trait ControlViewHelperTrait {
             $permission = GeneralUtility::makeInstance(Permission::class);
             $permission->set($GLOBALS['BE_USER']->calcPerms($pageInfo));
             $databaseRecordList->calcPerms = $permission;
+
+            if (version_compare($currentTypo3Version, '12.0.0', '>=')) {
+                $databaseRecordList->setRequest($GLOBALS['TYPO3_REQUEST']);
+            }
         }
 
-        if (version_compare($currentTypo3Version, '7.0.0', '<')
-            && ExtensionManagementUtility::isLoaded('gridelements')) {
-            // in old versions of gridelements the "makeControl" function
-            // was xclassed with a 3rd (mandatory) parameter "$level"
-            // @see gridelements/Classes/Xclass/DatabaseRecordList.php
-            return $databaseRecordList->makeControl($table, $row, 0);
-        } else {
-            return $databaseRecordList->makeControl($table, $row);
-        }
+        return $databaseRecordList->makeControl($table, $row);
     }
 }

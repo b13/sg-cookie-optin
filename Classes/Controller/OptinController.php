@@ -38,6 +38,7 @@ use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -45,6 +46,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
@@ -81,8 +83,9 @@ class OptinController extends ActionController {
 	 *
 	 */
 	public function indexAction() {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 		$this->initComponents();
-		$this->checkLicenseStatus();
+		$this->checkLicenseStatus($moduleTemplate);
 
 		session_start();
 		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
@@ -107,25 +110,23 @@ class OptinController extends ActionController {
 				);
 			}
 
-			$this->view->assign('isSiteRoot', TRUE);
-			$this->view->assign('optins', $optIns);
+            $moduleTemplate->assign('isSiteRoot', TRUE);
+            $moduleTemplate->assign('optins', $optIns);
 		}
 
         $currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
         $typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
-        $this->view->assign('typo3_version', $typo3Version);
+        $moduleTemplate->assign('typo3Version', $typo3Version);
 
-		$this->view->assign('pages', BackendService::getPages());
+        $moduleTemplate->assign('pages', BackendService::getPages());
         if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '<')) {
             return NULL;
         }
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-       // Adding title, menus, buttons, etc. using $moduleTemplate ...
-        $content = $this->view->render();
-       $moduleTemplate->setContent($content);
-       return $this->htmlResponse($moduleTemplate->renderContent());
 
-        return $this->htmlResponse();
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
+
+        return $moduleTemplate->renderResponse('Optin/Index');
 	}
 
 	/**
@@ -159,7 +160,7 @@ class OptinController extends ActionController {
 		$rootPageId = $GLOBALS['TSFE']->rootLine[0]['uid'] ?? 0;
 		$languageUid = $GLOBALS['TSFE']->getLanguage()->getLanguageId();
 
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getCurrentTypo3Version());
 		if ($versionNumber >= 11000000) {
 			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		} else {
@@ -324,6 +325,7 @@ class OptinController extends ActionController {
 	public function previewImportAction() {
 		session_start();
 		$this->initComponents();
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
@@ -343,16 +345,15 @@ class OptinController extends ActionController {
 				);
 			}
 
-			$this->view->assign('isSiteRoot', TRUE);
-			$this->view->assign('optins', $optIns);
+			$moduleTemplate->assign('isSiteRoot', TRUE);
+			$moduleTemplate->assign('optins', $optIns);
 		}
 		try {
 			$languages = LanguageService::getLanguages($pageUid);
 		} catch (SiteNotFoundException $e) {
 			$languages = [];
 		}
-		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-		$jsonImportService = $objectManager->get(JsonImportService::class);
+        $jsonImportService = GeneralUtility::makeInstance(JsonImportService::class);
 		try {
 			if (!isset($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin'])) {
 				throw new JsonImportException(
@@ -442,17 +443,18 @@ class OptinController extends ActionController {
 					'flagIdentifier' => $language['flagIdentifier']
 				];
 			}
-			$this->view->assign('dataSummary', $dataSummary);
-			$this->view->assign('warningGroups', $warningGroups);
-			$this->view->assign('warningScripts', $warningScripts);
-			$this->view->assign('warningCookies', $warningCookies);
+			$moduleTemplate->assign('dataSummary', $dataSummary);
+			$moduleTemplate->assign('warningGroups', $warningGroups);
+			$moduleTemplate->assign('warningScripts', $warningScripts);
+			$moduleTemplate->assign('warningCookies', $warningCookies);
+            $moduleTemplate->renderResponse();
 		} catch (Exception $exception) {
 			$this->addFlashMessage(
 				$exception->getMessage(),
 				'',
 				AbstractMessage::ERROR
 			);
-			$this->redirect('uploadJson', 'Optin', 'sg_cookie_optin');
+			return $this->redirect('uploadJson', 'Optin', 'sg_cookie_optin');
 		}
 	}
 
@@ -516,8 +518,9 @@ class OptinController extends ActionController {
 	 */
 	public function uploadJsonAction() {
 		$this->initComponents();
-
-		$this->view->assign('pages', BackendService::getPages());
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+		$moduleTemplate->assign('pages', BackendService::getPages());
+        return $moduleTemplate->renderResponse('Optin/UploadJson');
 	}
 
 	/**
@@ -582,15 +585,17 @@ class OptinController extends ActionController {
 		$this->redirect('index');
 	}
 
-	/**
-	 * Checks the license status and displays it
-	 */
-	protected function checkLicenseStatus() {
+    /**
+     * Checks the license status and displays it
+     * @param \TYPO3\CMS\Backend\Template\ModuleTemplate $moduleTemplate
+     */
+	protected function checkLicenseStatus(ModuleTemplate $moduleTemplate): void
+    {
 		if (LicenceCheckService::isTYPO3VersionSupported() && !LicenceCheckService::isInDevelopmentContext()) {
 			$licenseStatus = LicenceCheckService::getLicenseCheckResponseData();
-			$this->view->assign('licenseError', $licenseStatus['error']);
-			$this->view->assign('licenseMessage', $licenseStatus['message']);
-			$this->view->assign('licenseTitle', $licenseStatus['title']);
+            $moduleTemplate->assign('licenseError', $licenseStatus['error']);
+            $moduleTemplate->assign('licenseMessage', $licenseStatus['message']);
+            $moduleTemplate->assign('licenseTitle', $licenseStatus['title']);
 		}
 	}
 }

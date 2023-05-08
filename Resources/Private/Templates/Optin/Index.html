@@ -1,5 +1,4 @@
 {namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
-
 <f:layout name="Default" />
 
 <f:section name="Content">
@@ -37,7 +36,7 @@
 											</f:link.action>
 										</f:then>
 										<f:else>
-											<a href="#" class="btn btn-default form-group" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
+											<a href="#" class="btn btn-default form-group sg-cookie-optin-edit-record-link" data-edit-href="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
 												<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
 													<span class="icon-markup">
 														<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
@@ -66,7 +65,7 @@
 									</td>
 
 									<td nowrap="nowrap">
-										<a href="#" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: optin.uid)}">
+										<a href="#" class="sg-cookie-optin-edit-record-link" data-edit-href="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: optin.uid)}">
 											<span>{optin.header}</span>
 										</a>
 									</td>
@@ -165,7 +164,7 @@
 									<tr data-uid="{page.pid}">
 										<td nowrap="nowrap" class="col-title">
 											<f:link.action action="index" additionalParams="{id: page.uid}">
-												<sg:backend.icon table="pages" row="{page}" clickMenu="0" />
+												<f:format.raw><sg:backend.icon table="pages" row="{page}" clickMenu="0" /></f:format.raw>
 												{page._thePathFull}
 											</f:link.action>
 										</td>

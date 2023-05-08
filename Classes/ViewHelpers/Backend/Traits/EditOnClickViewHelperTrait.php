@@ -53,14 +53,29 @@ trait EditOnClickViewHelperTrait {
 	public function render() {
 		$params = '&edit[' . $this->arguments['table'] . '][' . $this->arguments['uid'] . ']='
 			. ($this->arguments['new'] ? 'new' : 'edit');
-		if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '>=')) {
+        if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '12.0.0', '>=')) {
+            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+            $uriParameters =
+               [
+                  'edit' =>
+                     [
+                         $this->arguments['table'] =>
+                           [
+                               $this->arguments['uid'] => 'edit'
+                           ]
+                     ],
+               ];
+            return $uriBuilder->buildUriFromRoute('record_edit', $uriParameters);
+        }
+
+        if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '>=')) {
 			$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 			$onclickScript = 'window.location.href=\'' . $uriBuilder->buildUriFromRoute(
 				'record_edit'
 			) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
-		} else {
-			$onclickScript = BackendUtility::editOnClick($params, '', -1);
+            return $onclickScript;
 		}
-		return $onclickScript;
+
+        return BackendUtility::editOnClick($params, '', -1);
 	}
 }

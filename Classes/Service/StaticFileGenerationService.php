@@ -39,7 +39,6 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
@@ -100,48 +99,6 @@ class StaticFileGenerationService implements SingletonInterface {
 		GeneralUtility::mkdir_deep($sitePath . $folderName);
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
-
-		if ($currentVersion < 9000000) {
-			/** @var TypoScriptFrontendController $typoScriptFrontendController */
-			$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
-			if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
-				$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
-					$GLOBALS['TYPO3_CONF_VARS'],
-					$this->siteRoot,
-					0
-				);
-			}
-
-			// required in order to generate the menu links later on
-			if (!is_object($GLOBALS['TT'])) {
-				$GLOBALS['TT'] = new NullTimeTracker();
-			}
-
-			if ($currentVersion < 8000000) {
-				// prevents a possible crash
-				$typoScriptFrontendController->getPageRenderer()->setBackPath('');
-			}
-
-			$typoScriptFrontendController->initFEuser();
-			$typoScriptFrontendController->initUserGroups();
-			$typoScriptFrontendController->fetch_the_id();
-			$typoScriptFrontendController->getPageAndRootline();
-			$typoScriptFrontendController->initTemplate();
-			$typoScriptFrontendController->no_cache = TRUE;
-
-			if ($currentVersion < 8000000) {
-				// prevents a possible crash, where the whole backend is loaded within the same frame and the files
-				// aren't generated.
-				$typoScriptFrontendController->getConfigArray();
-			}
-
-			$typoScriptFrontendController->settingLanguage();
-			$typoScriptFrontendController->settingLocale();
-			$typoScriptFrontendController->convPOSTCharset();
-			$typoScriptFrontendController->absRefPrefix = '/';
-			PageGenerator::pagegenInit();
-			$typoScriptFrontendController->newCObj();
-		}
 
 		$fullData = $this->getFullData($originalRecord, self::TABLE_NAME);
 		$minifyFiles = (bool) $fullData['minify_generated_data'];
@@ -804,8 +761,6 @@ class StaticFileGenerationService implements SingletonInterface {
 		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
 		$parsedSiteBaseUrl = parse_url($siteBaseUrl);
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
-		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($navigationEntries as $pageData) {
 			$uid = (int) $pageData['uid'];
 			if ($uid <= 0) {
@@ -819,14 +774,6 @@ class StaticFileGenerationService implements SingletonInterface {
 				$url = $this->removeCHashFromUrl(
 					(string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, '_language' => $languageUid])
 				);
-			} else {
-				try {
-					$url = $contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid);
-					$url = '/' . $this->removeCHashFromUrl($url);
-				} catch (\Exception $exception) {
-					// Occurs on the first creation of the translation.
-					continue;
-				}
 			}
 
 			if (strpos($url, '?') === 0) {
