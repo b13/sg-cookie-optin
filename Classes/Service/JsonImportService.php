@@ -509,9 +509,19 @@ class JsonImportService {
 	public function parseAndStoreImportedData(array $languages) {
 		$dataStorage = [];
 		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
+        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
+            $fileName = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'];
+            $fileType = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'];
+            $fileError = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'];
+        } else {
+            $fileName = $_FILES['file']['tmp_name'];
+            $fileType = $_FILES['file']['type'];
+            $fileError = $_FILES['file']['error'];
+        }
+
 		// get and import the default language
-		if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'] !== 'application/json'
-			|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'] !== 0) {
+		if ($fileType !== 'application/json'
+			|| $fileError !== 0) {
 			throw new JsonImportException(
 				LocalizationUtility::translate('frontend.error.theFileCouldNotBeUploaded', 'sg_cookie_optin'),
 				102
@@ -519,7 +529,7 @@ class JsonImportService {
 		}
 
 		$languagesJson = json_decode(
-			file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file']),
+			file_get_contents($fileName),
 			TRUE
 		);
 

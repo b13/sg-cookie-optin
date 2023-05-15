@@ -71,9 +71,9 @@ call_user_func(
 						'Optin',
 						'',
 						[
-							\SGalinski\SgCookieOptin\Controller\OptinController::class => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
-							\SGalinski\SgCookieOptin\Controller\StatisticsController::class => 'index',
-							\SGalinski\SgCookieOptin\Controller\ConsentController::class => 'index',
+							\SGalinski\SgCookieOptin\Controller\V9OptinController::class => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
+							\SGalinski\SgCookieOptin\Controller\V9StatisticsController::class => 'index',
+							\SGalinski\SgCookieOptin\Controller\V9ConsentController::class => 'index',
 						],
 						[
 							'access' => 'user,group',
@@ -88,9 +88,9 @@ call_user_func(
 						'Optin',
 						'',
 						[
-							'Optin' => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
-							'Statistics' => 'index',
-							'Consent' => 'index',
+							'V9Optin' => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
+							'V9Statistics' => 'index',
+							'V9Consent' => 'index',
 						],
 						[
 							'access' => 'user,group',

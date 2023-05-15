@@ -29,27 +29,39 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 call_user_func(
 	static function () {
 		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
-		if (version_compare($currentTypo3Version, '11.0.0', '>=')) {
+        if (version_compare($currentTypo3Version, '12.0.0', '>=')) {
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+                'sg_cookie_optin',
+                'CookieList',
+                [
+                    \SGalinski\SgCookieOptin\Controller\OptinController::class => 'cookieList',
+                ],
+                // non-cacheable actions
+                [
+                    \SGalinski\SgCookieOptin\Controller\OptinController::class => '',
+                ]
+            );
+        } else if (version_compare($currentTypo3Version, '11.0.0', '>=')) {
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'sg_cookie_optin',
 				'OptIn',
 				[
-					\SGalinski\SgCookieOptin\Controller\OptinController::class => 'show',
+					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => 'show',
 				],
 				// non-cacheable actions
 				[
-					\SGalinski\SgCookieOptin\Controller\OptinController::class => '',
+					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => '',
 				]
 			);
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'sg_cookie_optin',
 				'CookieList',
 				[
-					\SGalinski\SgCookieOptin\Controller\OptinController::class => 'cookieList',
+					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => 'cookieList',
 				],
 				// non-cacheable actions
 				[
-					\SGalinski\SgCookieOptin\Controller\OptinController::class => '',
+					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => '',
 				]
 			);
 		} else {
@@ -57,22 +69,22 @@ call_user_func(
 				'SGalinski.sg_cookie_optin',
 				'OptIn',
 				[
-					'Optin' => 'show',
+					'V9Optin' => 'show',
 				],
 				// non-cacheable actions
 				[
-					'Optin' => '',
+					'V9Optin' => '',
 				]
 			);
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'SGalinski.sg_cookie_optin',
 				'CookieList',
 				[
-					'Optin' => 'cookieList',
+					'V9Optin' => 'cookieList',
 				],
 				// non-cacheable actions
 				[
-					'Optin' => '',
+					'V9Optin' => '',
 				]
 			);
 		}
@@ -132,5 +144,15 @@ call_user_func(
 
 		// Ajax Endpoint
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['sg_cookie_optin_saveOptinHistory'] = \SGalinski\SgCookieOptin\Endpoints\OptinHistoryController::class . '::saveOptinHistory';
+
+		// Polyfill for older versions
+		if (!class_exists('SgCookieAbstractViewHelper')) {
+			$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
+			if ($typo3Version >= 10000000) {
+				class_alias('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
+			} else {
+				class_alias('\TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
+			}
+		}
     }
 );

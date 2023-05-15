@@ -1,0 +1,54 @@
+<f:layout name="Frontend" />
+
+<f:section name="main">
+	<div class="sg-cookie-optin-plugin">
+		<div class="sg-cookie-optin-plugin-cookie-list">
+			<div class="sg-cookie-optin-box sg-cookie-optin-box-new sg-cookie-optin-visible">
+				<div class="sg-cookie-optin-box-new-upper">
+					<strong class="sg-cookie-optin-box-header">{headline}</strong>
+					<p class="sg-cookie-optin-box-description">{description}</p>
+				</div>
+				<div class="sg-cookie-optin-box-new-lower">
+					<ul class="sg-cookie-optin-box-cookie-list">
+						<f:for each="{groups}" as="group">
+							<li class="sg-cookie-optin-box-cookie-list-item">
+								<label>
+									<span class="sg-cookie-optin-checkbox-label">{group.title}</span>
+								</label>
+
+								<p class="sg-cookie-optin-checkbox-description">{group.description}</p>
+
+								<div class="sg-cookie-optin-box-cookie-detail-sublist">
+									<f:for each="{group.cookies}" as="cookie">
+										<div class="sg-cookie-optin-box-cookie-detail-sublist-item">
+												<table>
+													<tbody>
+														<tr>
+															<th>{optin.cookie_name_text}</th>
+															<td>{cookie.name}</td>
+														</tr>
+														<tr>
+															<th>{optin.cookie_provider_text}</th>
+															<td>{cookie.provider}</td>
+														</tr>
+														<tr>
+															<th>{optin.cookie_lifetime_text}</th>
+															<td>{cookie.lifetime}</td>
+														</tr>
+														<tr>
+															<th>{optin.cookie_purpose_text}</th>
+															<td class="sg-cookie-optin-box-table-reason">{cookie.purpose}</td>
+														</tr>
+													</tbody>
+												</table>
+										</div>
+									</f:for>
+								</div>
+							</li>
+						</f:for>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</f:section>

@@ -1,8 +1,8 @@
-{namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
+{namespace sg=SGalinski\SgCookieOptin\ViewHelpers\V9}
 
-<f:layout name="Default"/>
+<f:layout name="V9Default"/>
 
-<f:section name="Content">
+<f:section name="content">
 	<f:if condition="{isSiteRoot}">
 		<f:then>
 			<f:flashMessages/>
@@ -104,7 +104,7 @@
 									<tr data-uid="{page.pid}">
 										<td nowrap="nowrap" class="col-title">
 											<f:link.action action="index" additionalParams="{id: page.uid}">
-												<f:format.raw><sg:backend.icon table="pages" row="{page}" clickMenu="0"/></f:format.raw>
+												<sg:backend.icon table="pages" row="{page}" clickMenu="0"/>
 												{page._thePathFull}
 											</f:link.action>
 										</td>

@@ -29,7 +29,6 @@ namespace SGalinski\SgCookieOptin\Controller;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
-use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -37,8 +36,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * Consent Controller
  */
-#[Controller]
-class ConsentController extends ActionController {
+class V9ConsentController extends ActionController {
 	use InitControllerComponents;
 
 	/**
@@ -47,24 +45,17 @@ class ConsentController extends ActionController {
 	 * @var DocHeaderComponent
 	 */
 	protected $docHeaderComponent;
-    
-    public function __construct(
-        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-    )
-    {
-    }
 
 	/**
 	 * Displays the user preference consent history
 	 *
 	 */
 	public function indexAction() {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-		$this->initComponents($moduleTemplate);
-		$this->initPageUidSelection($moduleTemplate);
+		$this->initComponents();
+		$this->initPageUidSelection();
 
 		$pageUid = (int) GeneralUtility::_GP('id');
-        $moduleTemplate->assign(
+		$this->view->assign(
 			'identifiers',
 			OptinHistoryService::getItemIdentifiers(
 				[
@@ -77,7 +68,5 @@ class ConsentController extends ActionController {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
 		}
-
-        return $moduleTemplate->renderResponse('Consent/Index');
 	}
 }

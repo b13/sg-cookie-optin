@@ -244,7 +244,7 @@ class OptinHistoryService {
 			}
 		}
 
-		$return = $connection->fetchAll($query, $queryParameters, $queryParamTypes);
+		$return = $connection->fetchAllAssociative($query, $queryParameters, $queryParamTypes);
 		return $return;
 	}
 

@@ -29,7 +29,6 @@ namespace SGalinski\SgCookieOptin\Controller;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
-use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -37,8 +36,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * Consent Controller
  */
-#[Controller]
-class ConsentController extends ActionController {
+class V9StatisticsController extends ActionController {
 	use InitControllerComponents;
 
 	/**
@@ -47,26 +45,18 @@ class ConsentController extends ActionController {
 	 * @var DocHeaderComponent
 	 */
 	protected $docHeaderComponent;
-    
-    public function __construct(
-        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-    )
-    {
-    }
 
 	/**
-	 * Displays the user preference consent history
-	 *
+	 * Displays the user preference statistics
 	 */
 	public function indexAction() {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-		$this->initComponents($moduleTemplate);
-		$this->initPageUidSelection($moduleTemplate);
+		$this->initComponents();
+		$this->initPageUidSelection();
 
 		$pageUid = (int) GeneralUtility::_GP('id');
-        $moduleTemplate->assign(
-			'identifiers',
-			OptinHistoryService::getItemIdentifiers(
+		$this->view->assign(
+			'versions',
+			OptinHistoryService::getVersions(
 				[
 				'pid' => $pageUid
 			]
@@ -75,9 +65,7 @@ class ConsentController extends ActionController {
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
 		}
-
-        return $moduleTemplate->renderResponse('Consent/Index');
 	}
 }

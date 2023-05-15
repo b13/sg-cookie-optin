@@ -12,7 +12,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	groups int(11) DEFAULT '0' NOT NULL,
 
   -- TYPO3 8 only (this fields are not visible in the TCA)
-	iframe_warning text NOT NULL,
+	iframe_warning varchar(255) NOT NULL DEFAULT '',
 	iframe_whitelist_warning text NOT NULL,
 	iframe_replacement_warning text NOT NULL,
 	banner_warning text NOT NULL,
