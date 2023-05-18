@@ -34,11 +34,11 @@ call_user_func(
                 'sg_cookie_optin',
                 'CookieList',
                 [
-                    \SGalinski\SgCookieOptin\Controller\OptinController::class => 'cookieList',
+                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => 'cookieList',
                 ],
                 // non-cacheable actions
                 [
-                    \SGalinski\SgCookieOptin\Controller\OptinController::class => '',
+                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
                 ]
             );
         } else if (version_compare($currentTypo3Version, '11.0.0', '>=')) {

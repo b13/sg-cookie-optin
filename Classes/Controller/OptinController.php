@@ -211,6 +211,7 @@ class OptinController extends ActionController
             ->from('tx_sgcookieoptin_domain_model_group')
             ->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
             ->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
+            ->andWhere($queryBuilder->expr()->eq('pid', $rootPageId))
             ->execute()
             ->fetchAll();
 
@@ -234,6 +235,7 @@ class OptinController extends ActionController
                 ->from('tx_sgcookieoptin_domain_model_cookie')
                 ->where($queryBuilder->expr()->eq('parent_group', $defaultLanguageGroupUid))
                 ->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
+                ->andWhere($queryBuilder->expr()->eq('pid', $rootPageId))
                 ->execute()
                 ->fetchAll();
 
