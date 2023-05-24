@@ -92,13 +92,6 @@ class OptinController extends ActionController
     }
 
     /**
-     * Assign default variables to ModuleTemplate view
-     */
-    protected function initializeView(): void
-    {
-    }
-
-    /**
      * Starts the module, even opens up a TCEForm, or shows where the domain root is.
      *
      */

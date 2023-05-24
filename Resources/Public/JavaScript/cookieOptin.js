@@ -963,12 +963,14 @@ const SgCookieOptin = {
 
 		if (cookieDetailList.classList.contains('sg-cookie-optin-visible')) {
 			cookieDetailList.classList.remove('sg-cookie-optin-visible');
+			cookieDetailList.setAttribute('aria-hidden', 'true');
 			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
 			if (symbolElement) {
 				symbolElement.classList.remove('sg-cookie-optin-flipped');
 			}
 		} else {
 			cookieDetailList.classList.add('sg-cookie-optin-visible');
+			cookieDetailList.setAttribute('aria-hidden', 'false');
 			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
 			if (symbolElement) {
 				symbolElement.classList.add('sg-cookie-optin-flipped');
@@ -1008,6 +1010,7 @@ const SgCookieOptin = {
 				if (cookieBox.classList.contains('sg-cookie-optin-visible')) {
 					visible = false;
 					cookieBox.classList.remove('sg-cookie-optin-visible');
+					cookieBox.setAttribute('aria-hidden', 'true');
 					cookieBox.classList.add('sg-cookie-optin-invisible');
 					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 					if (symbolElement) {
@@ -1016,6 +1019,7 @@ const SgCookieOptin = {
 				} else {
 					cookieBox.classList.remove('sg-cookie-optin-invisible');
 					cookieBox.classList.add('sg-cookie-optin-visible');
+					cookieBox.setAttribute('aria-hidden', 'false');
 					SgCookieOptin.adjustReasonHeight(cookieOptin, contentElement);
 					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 					if (symbolElement) {
@@ -1041,6 +1045,7 @@ const SgCookieOptin = {
 		} else {
 			if (cookieSubList.classList.contains('sg-cookie-optin-visible')) {
 				cookieSubList.classList.remove('sg-cookie-optin-visible');
+				cookieSubList.setAttribute('aria-hidden', 'true');
 				cookieSubList.style.height = '';
 				link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 				if (symbolElement) {
@@ -1048,6 +1053,7 @@ const SgCookieOptin = {
 				}
 			} else {
 				cookieSubList.classList.add('sg-cookie-optin-visible');
+				cookieSubList.setAttribute('aria-hidden', 'false');
 				cookieSubList.style.height = 'auto';
 				height = cookieSubList.getBoundingClientRect().height + 'px';
 				cookieSubList.style.height = '';
