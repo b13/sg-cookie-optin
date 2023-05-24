@@ -587,8 +587,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
@@ -623,8 +623,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1379,8 +1379,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1462,8 +1462,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
