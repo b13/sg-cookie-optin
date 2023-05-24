@@ -18,10 +18,15 @@ services:
       - name: 'console.command'
         command: 'sg_cookie_optin:delete_usage_history'
         description: 'Deletes the optin usage history entries older than X days'
-        
+
   SGalinski\SgCookieOptin\ViewHelpers:
     public: true
 
   TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper:
     public: true
-    
+
+  SGalinski\SgCookieOptin\Backend\TCAWarningField:
+    autowire: false
+
+  SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard:
+    autowire: false
