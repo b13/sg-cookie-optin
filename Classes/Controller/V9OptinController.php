@@ -34,7 +34,7 @@ use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
-use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use SGalinski\SgCookieOptin\Traits\V9InitControllerComponents;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
@@ -46,7 +46,6 @@ use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -59,7 +58,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * Optin Controller
  */
 class V9OptinController extends ActionController {
-	use InitControllerComponents;
+	use V9InitControllerComponents;
 
 	/**
 	 * DocHeaderComponent

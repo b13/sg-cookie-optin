@@ -27,7 +27,7 @@ namespace SGalinski\SgCookieOptin\Controller;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
-use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use SGalinski\SgCookieOptin\Traits\V9InitControllerComponents;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -37,7 +37,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Consent Controller
  */
 class V9StatisticsController extends ActionController {
-	use InitControllerComponents;
+	use V9InitControllerComponents;
 
 	/**
 	 * DocHeaderComponent
