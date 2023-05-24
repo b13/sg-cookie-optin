@@ -25,16 +25,16 @@
 
 <f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
 	<f:if condition="{isSiteRoot}">
-		<f:link.action class="btn btn-default btn-sm" action="uploadJson">
+		<f:link.action class="btn btn-default btn-sm" action="uploadJson" controller="V9Optin">
 			<f:translate key="backend.importConfig" />
 		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="exportJson">
+		<f:link.action class="btn btn-default btn-sm" action="exportJson" controller="V9Optin">
 			<f:translate key="backend.exportConfig" />
 		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="index" controller="Statistics">
+		<f:link.action class="btn btn-default btn-sm" action="index" controller="V9Statistics">
 			<f:translate key="backend.statistics_action" />
 		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="index" controller="Consent">
+		<f:link.action class="btn btn-default btn-sm" action="index" controller="V9Consent">
 			<f:translate key="backend.consent_action" />
 		</f:link.action>
 	</f:if>
