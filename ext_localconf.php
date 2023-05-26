@@ -41,6 +41,17 @@ call_user_func(
                     \SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
                 ]
             );
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+                'sg_cookie_optin',
+                'OptIn',
+                [
+                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => 'show',
+                ],
+                // non-cacheable actions
+                [
+                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
+                ]
+            );
         } else if (version_compare($currentTypo3Version, '11.0.0', '>=')) {
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'sg_cookie_optin',

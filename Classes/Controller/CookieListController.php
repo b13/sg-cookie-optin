@@ -80,7 +80,7 @@ class CookieListController extends ActionController
     /**
      * Renders the cookie list.
      *
-     * @return void
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function cookieListAction()
     {
@@ -172,9 +172,22 @@ class CookieListController extends ActionController
         $view->assign('headline', $this->settings['headline'] ?? '');
         $view->assign('description', $this->settings['description'] ?? '');
 
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '<')) {
-            return $view->render();
-        }
+        return $this->htmlResponse($view->render());
+    }
+
+    /**
+     * Renders the cookie opt in.
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function showAction()
+    {
+        // Set template
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Show.html';
+        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
+        $view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);
+        $view->setLayoutRootPaths(['EXT:sg_cookie_optin/Resources/Private/Layouts']);
 
         return $this->htmlResponse($view->render());
     }

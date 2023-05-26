@@ -157,15 +157,6 @@ class OptinController extends ActionController
     }
 
     /**
-     * Renders the cookie opt in.
-     *
-     * @return void
-     */
-    public function showAction()
-    {
-    }
-
-    /**
      * Imports JSON configuration
      *
      */
