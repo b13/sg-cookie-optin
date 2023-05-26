@@ -1,30 +1,20 @@
-<f:be.pageRenderer
+<f:be.container
 	includeCssFiles="{
 		0: '{f:uri.resource(path:\'JavaScript/Backend/Chart.js/Chart.min.css\')}',
 		1: '{f:uri.resource(path:\'StyleSheets/Statistics.css\')}',
 		2: '{f:uri.resource(path:\'StyleSheets/Backend/backend.css\')}'
 	}"
- />
+>
 	<f:if condition="{docHeader}">
 		<f:then>
 			<div class="module tx_sgcookieoptin-module" data-module-id="" data-module-name="">
 				<div class="module-docheader t3js-module-docheader">
 					<div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation">
 						<div class="module-docheader-bar-column-left">
-							<f:if condition="{typo3Version} < 12000000">
-								<f:then>
-									<f:render
-										partial="Legacy/DocHeader"
-										section="actionMenu"
-										arguments="" />
-								</f:then>
-								<f:else>
-									<f:render
-										partial="DocHeader"
-										section="actionMenu"
-										arguments="" />
-								</f:else>
-							</f:if>
+							<f:render
+								partial="Legacy/DocHeader"
+								section="actionMenu"
+								arguments="" />
 						</div>
 						<div class="module-docheader-bar-column-right">
 							<span class="typo3-docheader-pagePath">
@@ -43,11 +33,11 @@
 
 					<div class="module-docheader-bar module-docheader-bar-buttons t3js-module-docheader-bar t3js-module-docheader-bar-buttons">
 						<div class="module-docheader-bar-column-left">
-							<f:render partial="License" arguments="{_all}" />
+							<f:render partial="Legacy/License" arguments="{_all}" />
 						</div>
 
 						<div class="module-docheader-bar-column-right">
-							<f:render partial="ButtonBar" arguments="{buttons: docHeader.buttons.right}" />
+							<f:render partial="Legacy/ButtonBar" arguments="{buttons: docHeader.buttons.right}" />
 						</div>
 					</div>
 				</div>
@@ -67,7 +57,7 @@
 		</f:else>
 	</f:if>
 		<div id="typo3-inner-docbody">
-			<f:render section="Content" />
+			<f:render section="content" />
 		</div>
 	</div>
-
+</f:be.container>

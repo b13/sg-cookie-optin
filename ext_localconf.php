@@ -46,22 +46,22 @@ call_user_func(
 				'sg_cookie_optin',
 				'OptIn',
 				[
-					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => 'show',
+					\SGalinski\SgCookieOptin\Controller\LegacyOptinController::class => 'show',
 				],
 				// non-cacheable actions
 				[
-					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => '',
+					\SGalinski\SgCookieOptin\Controller\LegacyOptinController::class => '',
 				]
 			);
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'sg_cookie_optin',
 				'CookieList',
 				[
-					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => 'cookieList',
+					\SGalinski\SgCookieOptin\Controller\LegacyOptinController::class => 'cookieList',
 				],
 				// non-cacheable actions
 				[
-					\SGalinski\SgCookieOptin\Controller\V9OptinController::class => '',
+					\SGalinski\SgCookieOptin\Controller\LegacyOptinController::class => '',
 				]
 			);
 		} else {
@@ -69,22 +69,22 @@ call_user_func(
 				'SGalinski.sg_cookie_optin',
 				'OptIn',
 				[
-					'V9Optin' => 'show',
+					'LegacyOptin' => 'show',
 				],
 				// non-cacheable actions
 				[
-					'V9Optin' => '',
+					'LegacyOptin' => '',
 				]
 			);
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'SGalinski.sg_cookie_optin',
 				'CookieList',
 				[
-					'V9Optin' => 'cookieList',
+					'LegacyOptin' => 'cookieList',
 				],
 				// non-cacheable actions
 				[
-					'V9Optin' => '',
+					'LegacyOptin' => '',
 				]
 			);
 		}
