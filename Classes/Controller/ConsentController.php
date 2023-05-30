@@ -41,13 +41,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class ConsentController extends ActionController {
 	use InitControllerComponents;
 
-	/**
-	 * DocHeaderComponent
-	 *
-	 * @var DocHeaderComponent
-	 */
-	protected $docHeaderComponent;
-
 	public function __construct(
 		protected readonly ModuleTemplateFactory $moduleTemplateFactory,
     )

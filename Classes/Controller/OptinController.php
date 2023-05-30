@@ -64,13 +64,6 @@ class OptinController extends ActionController
 {
     use InitControllerComponents;
 
-    /**
-     * DocHeaderComponent
-     *
-     * @var DocHeaderComponent
-     */
-    protected $docHeaderComponent;
-
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
     )

@@ -11,31 +11,14 @@
 				<div class="module-docheader t3js-module-docheader">
 					<div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation">
 						<div class="module-docheader-bar-column-left">
-							<f:if condition="{typo3Version} < 12000000">
-								<f:then>
-									<f:render
-										partial="Legacy/DocHeader"
-										section="actionMenu"
-										arguments="" />
-								</f:then>
-								<f:else>
-									<f:render
-										partial="DocHeader"
-										section="actionMenu"
-										arguments="" />
-								</f:else>
-							</f:if>
+							<f:render
+								partial="DocHeader"
+								section="actionMenu"
+								arguments="" />
 						</div>
 						<div class="module-docheader-bar-column-right">
 							<span class="typo3-docheader-pagePath">
-								<f:if condition="{typo3Version} < 9000000">
-									<f:then>
-										<f:translate key="LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.path" />: <f:format.raw>{docHeader.metaInformation.path}</f:format.raw>
-									</f:then>
-									<f:else>
-										<f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.path" />: <f:format.raw>{docHeader.metaInformation.path}</f:format.raw>
-									</f:else>
-								</f:if>
+								<f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.path" />: <f:format.raw>{docHeader.metaInformation.path}</f:format.raw>
 							</span>
 							<f:format.raw>{docHeader.metaInformation.recordInformation}</f:format.raw>
 						</div>
@@ -58,14 +41,7 @@
 		</f:else>
 	</f:if>
 
-	<f:if condition="{typo3Version} < 11000000">
-		<f:then>
-			<div id="typo3-docbody">
-		</f:then>
-		<f:else>
-			<div class="module-body t3js-module-body">
-		</f:else>
-	</f:if>
+		<div class="module-body t3js-module-body">
 		<div id="typo3-inner-docbody">
 			<f:render section="Content" />
 		</div>
