@@ -52,6 +52,7 @@ class StatisticsController extends ActionController {
      * @var ModuleTemplateFactory
      */
     protected $moduleTemplateFactory;
+
     public function initializeAction(): void
     {
         $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);

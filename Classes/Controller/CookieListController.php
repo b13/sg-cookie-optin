@@ -64,6 +64,11 @@ class CookieListController extends ActionController
 {
     use InitControllerComponents;
 
+    /**
+     * @var ModuleTemplateFactory
+     */
+    protected $moduleTemplateFactory;
+
     public function initializeAction(): void
     {
         $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
