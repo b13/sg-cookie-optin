@@ -68,7 +68,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_box varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_headline varchar(10) DEFAULT '#373737' NOT NULL,
 	color_text varchar(10) DEFAULT '#373737' NOT NULL,
-	color_confirmation_background varchar(10) DEFAULT '#28A745' NOT NULL,
+	color_confirmation_background varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	color_confirmation_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_checkbox varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_checkbox_required varchar(10) DEFAULT '#575757' NOT NULL,

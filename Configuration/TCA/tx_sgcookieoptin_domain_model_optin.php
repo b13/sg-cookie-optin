@@ -491,8 +491,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#28A745',
-				'placeholder' => '#28A745',
+				'default' => '#2E6B96',
+				'placeholder' => '#2E6B96',
 				'eval' => 'trim, required'
 			]
 		],
