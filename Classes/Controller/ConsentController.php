@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Controller;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +24,8 @@ namespace SGalinski\SgCookieOptin\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\Controller;
+
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
@@ -47,29 +47,29 @@ class ConsentController extends ActionController {
 	 * @var DocHeaderComponent
 	 */
 	protected $docHeaderComponent;
-    
-    public function __construct(
-        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+
+	public function __construct(
+		protected readonly ModuleTemplateFactory $moduleTemplateFactory,
     )
     {
-    }
+	}
 
 	/**
 	 * Displays the user preference consent history
 	 *
 	 */
 	public function indexAction() {
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+		$moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 		$this->initComponents($moduleTemplate);
 		$this->initPageUidSelection($moduleTemplate);
 
 		$pageUid = (int) GeneralUtility::_GP('id');
-        $moduleTemplate->assign(
+		$moduleTemplate->assign(
 			'identifiers',
 			OptinHistoryService::getItemIdentifiers(
 				[
-				'pid' => $pageUid
-			]
+					'pid' => $pageUid
+				]
 			)
 		);
 
@@ -78,6 +78,6 @@ class ConsentController extends ActionController {
 			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
 		}
 
-        return $moduleTemplate->renderResponse('Consent/Index');
+		return $moduleTemplate->renderResponse('Consent/Index');
 	}
 }

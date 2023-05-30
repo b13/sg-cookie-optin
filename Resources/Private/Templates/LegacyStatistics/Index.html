@@ -54,7 +54,7 @@
 			</form>
 		</f:then>
 		<f:else>
-			<f:flashMessages/>
+			<f:flashMessages />
 			<f:if condition="{pages}">
 				<f:then>
 					<h3>{f:translate(key:'backend.no_site_root')}</h3>
@@ -67,7 +67,7 @@
 									<tr data-uid="{page.pid}">
 										<td nowrap="nowrap" class="col-title">
 											<f:link.action action="index" additionalParams="{id: page.uid}">
-												<sg:backend.icon table="pages" row="{page}" clickMenu="0"/>
+												<f:format.raw><sg:backend.icon table="pages" row="{page}" clickMenu="0" /></f:format.raw>
 												{page._thePathFull}
 											</f:link.action>
 										</td>
