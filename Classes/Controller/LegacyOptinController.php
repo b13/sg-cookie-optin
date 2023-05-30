@@ -120,7 +120,7 @@ class LegacyOptinController extends ActionController {
 	}
 
 	/**
-	 * Renders the cookie opt in.
+	 * Renders the cookie consent.
 	 *
 	 * @return void
 	 */

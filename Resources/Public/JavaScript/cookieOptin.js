@@ -844,7 +844,7 @@ const SgCookieOptin = {
 	},
 
 	/**
-	 * Hides the cookie opt in.
+	 * Hides the cookie consent.
 	 *
 	 * @return {void}
 	 */

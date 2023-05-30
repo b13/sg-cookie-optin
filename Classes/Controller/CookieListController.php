@@ -176,7 +176,7 @@ class CookieListController extends ActionController
     }
 
     /**
-     * Renders the cookie opt in.
+     * Renders the cookie consent.
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
