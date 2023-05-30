@@ -23,19 +23,17 @@
 	<f:translate key="backend.documentation" />
 </a>
 
-<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
-	<f:if condition="{isSiteRoot}">
-		<f:link.action class="btn btn-default btn-sm" action="uploadJson" controller="Optin">
-			<f:translate key="backend.importConfig" />
-		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="exportJson" controller="Optin">
-			<f:translate key="backend.exportConfig" />
-		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="index" controller="Statistics">
-			<f:translate key="backend.statistics_action" />
-		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="index" controller="Consent">
-			<f:translate key="backend.consent_action" />
-		</f:link.action>
-	</f:if>
+<f:if condition="{isSiteRoot}">
+	<f:link.action class="btn btn-default btn-sm" action="uploadJson" controller="Optin">
+		<f:translate key="backend.importConfig" />
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-sm" action="exportJson" controller="Optin">
+		<f:translate key="backend.exportConfig" />
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-sm" action="index" controller="Statistics">
+		<f:translate key="backend.statistics_action" />
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-sm" action="index" controller="Consent">
+		<f:translate key="backend.consent_action" />
+	</f:link.action>
 </f:if>

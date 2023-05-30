@@ -130,12 +130,7 @@ class OptinController extends ActionController
         $currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
         $typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
         $this->moduleTemplate->assign('typo3Version', $typo3Version);
-
         $this->moduleTemplate->assign('pages', BackendService::getPages());
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '<')) {
-            return NULL;
-        }
-
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
 
@@ -262,14 +257,7 @@ class OptinController extends ActionController
         }
         $jsonImportService = GeneralUtility::makeInstance(JsonImportService::class);
         try {
-            if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
-                if (!isset($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin'])) {
-                    throw new JsonImportException(
-                        LocalizationUtility::translate('frontend.error.noFileUploaded', 'sg_cookie_optin'),
-                        104
-                    );
-                }
-            } elseif (!isset($_FILES['file'])) {
+            if (!isset($_FILES['file'])) {
                 throw new JsonImportException(
                     LocalizationUtility::translate('frontend.error.noFileUploaded', 'sg_cookie_optin'),
                     104

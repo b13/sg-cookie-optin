@@ -51,16 +51,7 @@ class ExtensionSettingsService {
 	 * @return mixed
 	 */
 	public static function getSetting($settingKey) {
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0', '<')) {
-			// the "options" parameter of unserialize exists since PHP 7.0.0
-			if (version_compare(phpversion(), '7.0.0', '>=')) {
-				$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin'], [FALSE]);
-			} else {
-				$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin']);
-			}
-		} else {
-			$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'] ?? [];
-		}
+        $configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'] ?? [];
 
 		$setting = '';
 		if (isset(self::$defaultValueMap[$settingKey])) {

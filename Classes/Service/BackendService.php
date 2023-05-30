@@ -50,38 +50,29 @@ class BackendService {
 	 * @throws \InvalidArgumentException
 	 */
 	public static function getPages() {
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0', '<')) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetRows(
-				'*',
-				'pages',
-				'deleted=0 AND is_siteroot=1 AND t3ver_oid=0'
-			);
-		} else {
-			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-			$queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
-			$queryBuilder->getRestrictions()
-				->removeAll()
-				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-			$queryBuilder->select('*')
-				->from('pages')
-				->where(
-					$queryBuilder->expr()->eq(
-						'is_siteroot',
-						1
-					),
-					$queryBuilder->expr()->eq(
-						't3ver_oid',
-						0
-					),
-					$queryBuilder->expr()->eq(
-						'sys_language_uid',
-						0
-					)
-				);
-			$rows = $queryBuilder->execute()->fetchAll();
-		}
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
+        $queryBuilder->getRestrictions()
+            ->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->select('*')
+            ->from('pages')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'is_siteroot',
+                    1
+                ),
+                $queryBuilder->expr()->eq(
+                    't3ver_oid',
+                    0
+                ),
+                $queryBuilder->expr()->eq(
+                    'sys_language_uid',
+                    0
+                )
+            );
+        $rows = $queryBuilder->execute()->fetchAll();
+
 
 		if (!is_array($rows)) {
 			return [];
@@ -112,34 +103,24 @@ class BackendService {
 	 * @throws \InvalidArgumentException
 	 */
 	public static function getOptins($pageUid) {
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0', '<')) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetRows(
-				'*',
-				'tx_sgcookieoptin_domain_model_optin',
-				'deleted=0 AND sys_language_uid=0 AND pid=' . $pageUid
-			);
-		} else {
-			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-			$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
-			$queryBuilder->getRestrictions()
-				->removeAll()
-				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-			$queryBuilder->select('*')
-				->from('tx_sgcookieoptin_domain_model_optin')
-				->where(
-					$queryBuilder->expr()->eq(
-						'pid',
-						$pageUid
-					),
-					$queryBuilder->expr()->eq(
-						'sys_language_uid',
-						0
-					)
-				);
-			$rows = $queryBuilder->execute()->fetchAll();
-		}
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
+        $queryBuilder->getRestrictions()
+            ->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->select('*')
+            ->from('tx_sgcookieoptin_domain_model_optin')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'pid',
+                    $pageUid
+                ),
+                $queryBuilder->expr()->eq(
+                    'sys_language_uid',
+                    0
+                )
+            );
+        $rows = $queryBuilder->execute()->fetchAll();
 
 		return (is_array($rows) ? $rows : []);
 	}

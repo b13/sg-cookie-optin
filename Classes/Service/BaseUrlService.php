@@ -46,10 +46,6 @@ class BaseUrlService {
 	 * @return string
 	 */
 	public static function getSiteBaseUrl($rootPid) {
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0', '<')) {
-			return '/';
-		}
-
 		$rootPid = (int) $rootPid;
 
 		try {

@@ -43,33 +43,16 @@ class LanguageService {
 	 * @throws SiteNotFoundException
 	 */
 	public static function getLanguages($siteRootUid) {
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '9.0', '<')) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetRows('uid', 'sys_language', '');
-
-			// Add the default language because it's not in the table
-			if (is_array($rows)) {
-				$rows[] = [
-					'uid' => 0,
-				];
-			} else {
-				$rows = [[
-					'uid' => 0,
-				]];
-			}
-		} else {
-			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
-			$rows = [];
-			foreach ($site->getAllLanguages() as $siteLanguage) {
-				$rows[] = [
-					'uid' => $siteLanguage->getLanguageId(),
-					'locale' => $siteLanguage->getLocale(),
-					'title' => $siteLanguage->getTitle(),
-					'flagIdentifier' => $siteLanguage->getFlagIdentifier(),
-				];
-			}
-		}
+        $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
+        $rows = [];
+        foreach ($site->getAllLanguages() as $siteLanguage) {
+            $rows[] = [
+                'uid' => $siteLanguage->getLanguageId(),
+                'locale' => $siteLanguage->getLocale(),
+                'title' => $siteLanguage->getTitle(),
+                'flagIdentifier' => $siteLanguage->getFlagIdentifier(),
+            ];
+        }
 
 		return $rows;
 	}
