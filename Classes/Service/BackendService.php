@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Service;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +24,8 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\Service;
+
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -44,35 +44,34 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class BackendService {
 	/**
-	 * Get all pages the be user has access to
+	 * Get all pages the backend user has access to
 	 *
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
 	 */
 	public static function getPages() {
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
-        $queryBuilder->getRestrictions()
-            ->removeAll()
-            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $queryBuilder->select('*')
-            ->from('pages')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'is_siteroot',
-                    1
-                ),
-                $queryBuilder->expr()->eq(
-                    't3ver_oid',
-                    0
-                ),
-                $queryBuilder->expr()->eq(
-                    'sys_language_uid',
-                    0
-                )
-            );
-        $rows = $queryBuilder->execute()->fetchAll();
-
+		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+		$queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
+		$queryBuilder->getRestrictions()
+			->removeAll()
+			->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+		$queryBuilder->select('*')
+			->from('pages')
+			->where(
+				$queryBuilder->expr()->eq(
+					'is_siteroot',
+					1
+				),
+				$queryBuilder->expr()->eq(
+					't3ver_oid',
+					0
+				),
+				$queryBuilder->expr()->eq(
+					'sys_language_uid',
+					0
+				)
+			);
+		$rows = $queryBuilder->execute()->fetchAll();
 
 		if (!is_array($rows)) {
 			return [];
@@ -100,27 +99,27 @@ class BackendService {
 	 *
 	 * @param int $pageUid
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
 	 */
 	public static function getOptins($pageUid) {
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
-        $queryBuilder->getRestrictions()
-            ->removeAll()
-            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $queryBuilder->select('*')
-            ->from('tx_sgcookieoptin_domain_model_optin')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'pid',
-                    $pageUid
-                ),
-                $queryBuilder->expr()->eq(
-                    'sys_language_uid',
-                    0
-                )
-            );
-        $rows = $queryBuilder->execute()->fetchAll();
+		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
+		$queryBuilder->getRestrictions()
+			->removeAll()
+			->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+		$queryBuilder->select('*')
+			->from('tx_sgcookieoptin_domain_model_optin')
+			->where(
+				$queryBuilder->expr()->eq(
+					'pid',
+					$pageUid
+				),
+				$queryBuilder->expr()->eq(
+					'sys_language_uid',
+					0
+				)
+			);
+		$rows = $queryBuilder->execute()->fetchAll();
 
 		return (is_array($rows) ? $rows : []);
 	}
@@ -139,7 +138,7 @@ class BackendService {
 
 		/** @var IconFactory $iconFactory */
 		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-        $locallangPath = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:';
+		$locallangPath = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:';
 
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
 			// Refresh
@@ -166,29 +165,29 @@ class BackendService {
 
 			$buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
 		} else {
-            // Refresh
-            $refreshButton = $buttonBar->makeLinkButton()
-                ->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
-                ->setTitle(
-                    LocalizationUtility::translate(
-                        $locallangPath . 'labels.reload'
-                    )
-                )
-                ->setIcon($iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL));
-            $buttonBar->addButton($refreshButton, ButtonBar::BUTTON_POSITION_RIGHT);
+			// Refresh
+			$refreshButton = $buttonBar->makeLinkButton()
+				->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
+				->setTitle(
+					LocalizationUtility::translate(
+						$locallangPath . 'labels.reload'
+					)
+				)
+				->setIcon($iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL));
+			$buttonBar->addButton($refreshButton, ButtonBar::BUTTON_POSITION_RIGHT);
 
-            // shortcut button
-            $shortcutButton = $buttonBar->makeShortcutButton()
-                ->setRouteIdentifier($request->getPluginName())
-                ->setDisplayName('test')
-                ->setArguments(
-                    [
-                        'id',
-                        'M'
-                    ]
-                );
+			// shortcut button
+			$shortcutButton = $buttonBar->makeShortcutButton()
+				->setRouteIdentifier($request->getPluginName())
+				->setDisplayName('test')
+				->setArguments(
+					[
+						'id',
+						'M'
+					]
+				);
 
-            $buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
-        }
+			$buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
+		}
 	}
 }

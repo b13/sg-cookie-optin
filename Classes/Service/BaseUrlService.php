@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Service;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,10 +24,11 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\Service;
+
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Class BaseUrlService
@@ -52,7 +51,7 @@ class BaseUrlService {
 			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
 			$site = $siteFinder->getSiteByPageId($rootPid);
 			$basePath = (string) $site->getBase();
-		} catch (SiteNotFoundException $e) {
+		} catch (SiteNotFoundException $exception) {
 			$basePath = '/';
 		}
 
