@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * Copyright notice
@@ -29,30 +30,30 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 call_user_func(
 	static function () {
 		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
-        if (version_compare($currentTypo3Version, '12.0.0', '>=')) {
-            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-                'sg_cookie_optin',
-                'CookieList',
-                [
-                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => 'cookieList',
-                ],
-                // non-cacheable actions
-                [
-                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
-                ]
-            );
-            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-                'sg_cookie_optin',
-                'OptIn',
-                [
-                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => 'show',
-                ],
-                // non-cacheable actions
-                [
-                    \SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
-                ]
-            );
-        } else if (version_compare($currentTypo3Version, '11.0.0', '>=')) {
+		if (version_compare($currentTypo3Version, '12.0.0', '>=')) {
+			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+				'sg_cookie_optin',
+				'OptIn',
+				[
+					\SGalinski\SgCookieOptin\Controller\CookieListController::class => 'show',
+				],
+				// non-cacheable actions
+				[
+					\SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
+				]
+			);
+			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+				'sg_cookie_optin',
+				'CookieList',
+				[
+					\SGalinski\SgCookieOptin\Controller\CookieListController::class => 'cookieList',
+				],
+				// non-cacheable actions
+				[
+					\SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
+				]
+			);
+		} elseif (version_compare($currentTypo3Version, '11.0.0', '>=')) {
 			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 				'sg_cookie_optin',
 				'OptIn',
@@ -100,7 +101,7 @@ call_user_func(
 			);
 		}
 
-		// Add warning render type
+		// Add a warning render type
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
 			'nodeName' => 'SgCookieOptinTCAWarningField',
 			'priority' => 40,
@@ -135,7 +136,9 @@ call_user_func(
 			\SGalinski\SgCookieOptin\Hook\LicenceCheckHook::class . '->performLicenseCheck';
 
 		// Register Icons
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version ) >= 7000000) {
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
+				$currentTypo3Version
+			) >= 7000000) {
 			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Imaging\IconRegistry::class
 			);
@@ -158,12 +161,16 @@ call_user_func(
 
 		// Polyfill for older versions
 		if (!class_exists('SgCookieAbstractViewHelper')) {
-			$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($currentTypo3Version);
+			$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
+				$currentTypo3Version
+			);
 			if ($typo3Version >= 10000000) {
+				/** @noinspection PhpIgnoredClassAliasDeclaration */
 				class_alias('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
 			} else {
+				/** @noinspection PhpIgnoredClassAliasDeclaration */
 				class_alias('\TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
 			}
 		}
-    }
+	}
 );

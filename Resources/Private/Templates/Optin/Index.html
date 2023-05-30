@@ -12,42 +12,14 @@
 				<f:if condition="{isSiteRoot}">
 					<f:if condition="{optins -> f:count()} <= 0">
 						<div class="form-group">
-							<f:if condition="{sg:backend.isVersionHigherThan(version: '10.0.0')}">
-								<f:then>
-									<f:link.action action="create" class="btn btn-default form-group ">
-										<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new" data-identifier="actions-document-new">
-											<span class="icon-markup">
-												<svg class="icon-color" role="img"><use xlink:href="/typo3/sysext/core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-document-add"></use></svg>
-											</span>
-										</span>
-										<f:translate key="backend.createRecord" />
-									</f:link.action>
-								</f:then>
-								<f:else>
-									<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
-										<f:then>
-											<f:link.action action="create" class="btn btn-default form-group ">
-												<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
-													<span class="icon-markup">
-														<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
-													</span>
-												</span>
-												<f:translate key="backend.createRecord" />
-											</f:link.action>
-										</f:then>
-										<f:else>
-											<a href="#" class="btn btn-default form-group sg-cookie-optin-edit-record-link" data-edit-href="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
-												<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
-													<span class="icon-markup">
-														<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
-													</span>
-												</span>
-												<f:translate key="backend.createRecord" />
-											</a>
-										</f:else>
-									</f:if>
-								</f:else>
-							</f:if>
+							<f:link.action action="create" class="btn btn-default form-group ">
+								<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-plus" data-identifier="actions-plus">
+									<span class="icon-markup">
+										<svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-plus')}"></use></svg>
+									</span>
+								</span>
+								<f:translate key="backend.createRecord" />
+							</f:link.action>
 						</div>
 					</f:if>
 				</f:if>
@@ -98,13 +70,23 @@
 					</f:if>
 						<div class="media">
 							<div class="media-left">
-								<span class="fa-stack fa-lg">
-									<i class="fa fa-circle fa-stack-2x"></i>
+								<span class="icon-emphasized">
 									<f:if condition="{licenseError} == '1'">
-										<f:then><i class="fa fa-times fa-stack-1x"></i></f:then>
-										<f:else><i class="fa fa-info fa-stack-1x"></i></f:else>
+										<f:then>
+											<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-close" data-identifier="actions-close">
+											  <span class="icon-markup">
+												 <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-close')}"></use></svg>
+											  </span>
+										   </span>
+										</f:then>
+										<f:else>
+											<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-info" data-identifier="actions-info">
+											  <span class="icon-markup">
+												 <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-info')}"></use></svg>
+											  </span>
+										   </span>
+										</f:else>
 									</f:if>
-
 								</span>
 							</div>
 							<div class="media-body">

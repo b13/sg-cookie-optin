@@ -9,7 +9,6 @@ mod {
 					CType = list
 					list_type = sgcookieoptin_optin
 				}
-
 			}
 
 			cookieList {
@@ -20,7 +19,6 @@ mod {
 					CType = list
 					list_type = sgcookieoptin_cookielist
 				}
-
 			}
 		}
 

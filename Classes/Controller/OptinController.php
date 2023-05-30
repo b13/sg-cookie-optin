@@ -269,7 +269,7 @@ class OptinController extends ActionController
                         104
                     );
                 }
-            } else if (!isset($_FILES['file'])) {
+            } elseif (!isset($_FILES['file'])) {
                 throw new JsonImportException(
                     LocalizationUtility::translate('frontend.error.noFileUploaded', 'sg_cookie_optin'),
                     104
