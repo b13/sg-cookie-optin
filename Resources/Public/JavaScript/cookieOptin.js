@@ -263,7 +263,7 @@ const SgCookieOptin = {
 	},
 
 	/**
-	 * Opens the cookie optin box.
+	 * Opens the cookie consent box.
 	 *
 	 * Supported options:
 	 * {boolean} hideBanner Whether to show the cookie banner or not, if it's enabled
@@ -320,7 +320,7 @@ const SgCookieOptin = {
 			});
 			document.body.dispatchEvent(cookieOptinShownEvent);
 
-			// check if there is a cookie optin plugin on the page - then don't focus the checkboxes
+			// check if there is a cookie consent plugin on the page - then don't focus the checkboxes
 			if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
 				return;
 			}
@@ -349,7 +349,7 @@ const SgCookieOptin = {
 			return false;
 		}
 
-		// check if there is a cookie optin plugin on the page
+		// check if there is a cookie consent plugin on the page
 		if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
 			return false;
 		}
@@ -849,7 +849,7 @@ const SgCookieOptin = {
 	 * @return {void}
 	 */
 	hideCookieOptIn: function() {
-		// The content element cookie optins aren't removed, because querySelector gets only the first entry and it's
+		// The content element cookie consents aren't removed, because querySelector gets only the first entry and it's
 		// always the modular one.
 		const optins = document.querySelectorAll('#SgCookieOptin');
 		for (const index in optins) {
@@ -1491,7 +1491,7 @@ const SgCookieOptin = {
 				SgCookieOptin.emitBeforeExternalContentReplacedEvent(parent, externalContent, container, service);
 				container.insertAdjacentHTML('afterbegin', service.rendered);
 			} else {
-				console.log('Sg Cookie Optin: Template ' + externalContent.dataset.sgCookieOptinReplacementTemplate
+				console.log('Sg Cookie Consent: Template ' + externalContent.dataset.sgCookieOptinReplacementTemplate
 					+ ' not found!');
 			}
 		} else {

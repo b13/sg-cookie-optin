@@ -81,7 +81,7 @@ class JsonImportService {
 	}
 
 	/**
-	 * Imports the cookie OptIn data
+	 * Imports the Cookie Consent data
 	 *
 	 * @param array $jsonData
 	 * @param int $pid

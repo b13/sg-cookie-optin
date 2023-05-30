@@ -40,14 +40,14 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
- * Adds the Cookie Optin JavaScript if it's generated for the current page.
+ * Adds the Cookie Consent JavaScript if it's generated for the current page.
  */
 class AddCookieOptinJsAndCss implements SingletonInterface {
 	/** @var int|null */
 	protected $rootpage = NULL;
 
 	/**
-	 * Adds the Cookie Optin JavaScript if it's generated for the current page.
+	 * Adds the Cookie Consent JavaScript if it's generated for the current page.
 	 *
 	 * Example line: fileadmin/sg_cookie_optin/siteroot-1/cookieOptin_0_v2.js
 	 *
@@ -113,7 +113,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	}
 
 	/**
-	 * Adds the Cookie Optin CSS if it's generated for the current page.
+	 * Adds the Cookie Consent CSS if it's generated for the current page.
 	 *
 	 * Example line: fileadmin/sg_cookie_optin/siteroot-1/cookieOptin.css
 	 *

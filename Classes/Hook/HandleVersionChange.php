@@ -35,7 +35,7 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
- * Adds the Cookie Optin JavaScript if it's generated for the current page.
+ * Adds the Cookie Consent JavaScript if it's generated for the current page.
  */
 class HandleVersionChange {
 	/**

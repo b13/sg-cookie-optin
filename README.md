@@ -7,14 +7,14 @@
 2. Go to the extension configuration and set your license key and output folder. You must set this folder accordingly in
 case your TYPO3 installation is in a subdirectory relative to the web server document root.
 
-3. Add the static TypoScript named "Cookie Optin" to your instance with the "Template" backend module.
+3. Add the static TypoScript named "Cookie Consent" to your instance with the "Template" backend module.
 
     - Open up the "Template" module in the backend of TYPO3.
     - Go to your root site page within the page tree.
     - Choose "Info/Modify" at the select on the top.
     - Click on the button "Edit the whole template record".
     - Select the tab "Includes".
-    - Choose the template "Cookie Optin (sg_cookie_optin)" on the multi select box with the name "Include static (from extensions)"
+    - Choose the template "Cookie Consent (sg_cookie_optin)" on the multi select box with the name "Include static (from extensions)"
     - Save
 
 4. Go into the "Cookie Consent" backend module, configure it and save it once.
