@@ -263,7 +263,7 @@ const SgCookieOptin = {
 	},
 
 	/**
-	 * Opens the cookie optin box.
+	 * Opens the cookie consent box.
 	 *
 	 * Supported options:
 	 * {boolean} hideBanner Whether to show the cookie banner or not, if it's enabled
@@ -320,7 +320,7 @@ const SgCookieOptin = {
 			});
 			document.body.dispatchEvent(cookieOptinShownEvent);
 
-			// check if there is a cookie optin plugin on the page - then don't focus the checkboxes
+			// check if there is a cookie consent plugin on the page - then don't focus the checkboxes
 			if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
 				return;
 			}
@@ -349,7 +349,7 @@ const SgCookieOptin = {
 			return false;
 		}
 
-		// check if there is a cookie optin plugin on the page
+		// check if there is a cookie consent plugin on the page
 		if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
 			return false;
 		}
@@ -844,12 +844,12 @@ const SgCookieOptin = {
 	},
 
 	/**
-	 * Hides the cookie opt in.
+	 * Hides the cookie consent.
 	 *
 	 * @return {void}
 	 */
 	hideCookieOptIn: function() {
-		// The content element cookie optins aren't removed, because querySelector gets only the first entry and it's
+		// The content element cookie consents aren't removed, because querySelector gets only the first entry and it's
 		// always the modular one.
 		const optins = document.querySelectorAll('#SgCookieOptin');
 		for (const index in optins) {
@@ -963,12 +963,14 @@ const SgCookieOptin = {
 
 		if (cookieDetailList.classList.contains('sg-cookie-optin-visible')) {
 			cookieDetailList.classList.remove('sg-cookie-optin-visible');
+			cookieDetailList.setAttribute('aria-hidden', 'true');
 			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
 			if (symbolElement) {
 				symbolElement.classList.remove('sg-cookie-optin-flipped');
 			}
 		} else {
 			cookieDetailList.classList.add('sg-cookie-optin-visible');
+			cookieDetailList.setAttribute('aria-hidden', 'false');
 			link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
 			if (symbolElement) {
 				symbolElement.classList.add('sg-cookie-optin-flipped');
@@ -1008,6 +1010,7 @@ const SgCookieOptin = {
 				if (cookieBox.classList.contains('sg-cookie-optin-visible')) {
 					visible = false;
 					cookieBox.classList.remove('sg-cookie-optin-visible');
+					cookieBox.setAttribute('aria-hidden', 'true');
 					cookieBox.classList.add('sg-cookie-optin-invisible');
 					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 					if (symbolElement) {
@@ -1016,6 +1019,7 @@ const SgCookieOptin = {
 				} else {
 					cookieBox.classList.remove('sg-cookie-optin-invisible');
 					cookieBox.classList.add('sg-cookie-optin-visible');
+					cookieBox.setAttribute('aria-hidden', 'false');
 					SgCookieOptin.adjustReasonHeight(cookieOptin, contentElement);
 					link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 					if (symbolElement) {
@@ -1041,6 +1045,7 @@ const SgCookieOptin = {
 		} else {
 			if (cookieSubList.classList.contains('sg-cookie-optin-visible')) {
 				cookieSubList.classList.remove('sg-cookie-optin-visible');
+				cookieSubList.setAttribute('aria-hidden', 'true');
 				cookieSubList.style.height = '';
 				link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 				if (symbolElement) {
@@ -1048,6 +1053,7 @@ const SgCookieOptin = {
 				}
 			} else {
 				cookieSubList.classList.add('sg-cookie-optin-visible');
+				cookieSubList.setAttribute('aria-hidden', 'false');
 				cookieSubList.style.height = 'auto';
 				height = cookieSubList.getBoundingClientRect().height + 'px';
 				cookieSubList.style.height = '';
@@ -1485,7 +1491,7 @@ const SgCookieOptin = {
 				SgCookieOptin.emitBeforeExternalContentReplacedEvent(parent, externalContent, container, service);
 				container.insertAdjacentHTML('afterbegin', service.rendered);
 			} else {
-				console.log('Sg Cookie Optin: Template ' + externalContent.dataset.sgCookieOptinReplacementTemplate
+				console.log('Sg Cookie Consent: Template ' + externalContent.dataset.sgCookieOptinReplacementTemplate
 					+ ' not found!');
 			}
 		} else {

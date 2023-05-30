@@ -153,12 +153,13 @@ class LicenceCheckService {
 		'4.6.0' => 1661785282, // Mon Aug 29 2022 18:01:22 GMT+0300
 		'5.0.0' => 1672837572, // Wed Jan 04 2023 14:45:57 GMT+0200
 		'5.1.0' => 1675793649, // Tue, 07 Feb 2023 18:11:50 GMT
+		'5.2.0' => 1684970210, // Wed, 24 May 2023 23:11:50 GMT
 	];
 
 	/**
 	 * The current extension version
 	 */
-	const CURRENT_VERSION = '5.1.0';
+	const CURRENT_VERSION = '5.2.0';
 
 	/**
 	 * @param mixed $validUntil A timestamp, which says the lifetime of this key.
@@ -517,7 +518,7 @@ class LicenceCheckService {
 	 * @return bool
 	 */
 	public static function isInDevelopmentContext() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		if ($versionNumber >= 9000000) {
 			// Since TYPO3 9LTS
 			$context = \TYPO3\CMS\Core\Core\Environment::getContext();
@@ -534,7 +535,7 @@ class LicenceCheckService {
 	 * @return bool
 	 */
 	public static function isTYPO3VersionSupported() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		return $versionNumber >= self::EARLIEST_SUPPORTED_VERSION;
 	}
 

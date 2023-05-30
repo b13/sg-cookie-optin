@@ -88,7 +88,7 @@
 				<source><![CDATA[Step 2/2 - Preview]]></source>
 			</trans-unit>
 			<trans-unit id="backend.jsonImport.tooManyRecorsException.description">
-				<source><![CDATA[Your site root already contains a cookie optin configuration for this site. Please make sure to clean up and keep only one configuration after the import.]]></source>
+				<source><![CDATA[Your site root already contains a cookie consent configuration for this site. Please make sure to clean up and keep only one configuration after the import.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.jsonImport.tooManyRecorsException.header">
 				<source><![CDATA[You already have a Cookie Opt-In configuration]]></source>
@@ -115,10 +115,10 @@
 				<source><![CDATA[License Check: Error!]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message">
-				<source><![CDATA[Your Cookie Optin Extension license has expired. Please buy a new one from %s.]]></source>
+				<source><![CDATA[Your Cookie Consent Extension license has expired. Please buy a new one from %s.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message">
-				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
+				<source><![CDATA[Your Cookie Consent Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.hasChanges.message" approved="yes">
 				<source><![CDATA[You have changed your configuration. Please clear the frontend cache to make sure your new configuration changes effect. If you have deleted your configuration. please delete the files sg-cookie-optin files in your fileadmin directory.]]></source>
@@ -127,7 +127,7 @@
 				<source><![CDATA[Your configuration has changed]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey">
-				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it in the extension configuration.]]></source>
+				<source><![CDATA[You have not entered a license key for the Cookie Consent Extension. Please purchase a key from %s and enter it in the extension configuration.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink">
 				<source><![CDATA[our shop]]></source>

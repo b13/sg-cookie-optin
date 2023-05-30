@@ -491,8 +491,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#C9FFC9',
-				'placeholder' => '#208A20',
+				'default' => '#2E6B96',
+				'placeholder' => '#2E6B96',
 				'eval' => 'trim, required'
 			]
 		],
@@ -503,8 +503,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#208A20',
-				'placeholder' => '#208A20',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			]
 		],
@@ -587,8 +587,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
@@ -623,8 +623,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1379,8 +1379,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1462,8 +1462,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#929292',
+				'placeholder' => '#929292',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1762,57 +1762,6 @@ $configuration = [
 		],
 	],
 ];
-
-// The color picker isn't available in TYPO3 7.X
-if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 8000000) {
-	unset(
-		$configuration['columns']['color_box']['config']['renderType'],
-		$configuration['columns']['color_headline']['config']['renderType'],
-		$configuration['columns']['color_text']['config']['renderType'],
-		$configuration['columns']['color_confirmation_background']['config']['renderType'],
-		$configuration['columns']['color_confirmation_text']['config']['renderType'],
-		$configuration['columns']['color_checkbox']['config']['renderType'],
-		$configuration['columns']['color_checkbox_required']['config']['renderType'],
-		$configuration['columns']['color_button_all']['config']['renderType'],
-		$configuration['columns']['color_button_all_hover']['config']['renderType'],
-		$configuration['columns']['color_button_all_text']['config']['renderType'],
-		$configuration['columns']['color_button_specific']['config']['renderType'],
-		$configuration['columns']['color_button_specific_hover']['config']['renderType'],
-		$configuration['columns']['color_button_specific_text']['config']['renderType'],
-		$configuration['columns']['color_button_essential']['config']['renderType'],
-		$configuration['columns']['color_button_essential_hover']['config']['renderType'],
-		$configuration['columns']['color_button_essential_text']['config']['renderType'],
-		$configuration['columns']['color_button_close']['config']['renderType'],
-		$configuration['columns']['color_button_close_hover']['config']['renderType'],
-		$configuration['columns']['color_button_close_text']['config']['renderType'],
-		$configuration['columns']['color_list']['config']['renderType'],
-		$configuration['columns']['color_list_text']['config']['renderType'],
-		$configuration['columns']['color_table']['config']['renderType'],
-		$configuration['columns']['color_table_header']['config']['renderType'],
-		$configuration['columns']['color_table_header_text']['config']['renderType'],
-		$configuration['columns']['color_Table_data_text']['config']['renderType'],
-		$configuration['columns']['color_full_box']['config']['renderType'],
-		$configuration['columns']['color_full_headline']['config']['renderType'],
-		$configuration['columns']['color_full_text']['config']['renderType'],
-		$configuration['columns']['color_full_button_close']['config']['renderType'],
-		$configuration['columns']['color_full_button_close_hover']['config']['renderType'],
-		$configuration['columns']['color_full_button_close_text']['config']['renderType'],
-		$configuration['columns']['iframe_color_consent_box_background']['config']['renderType'],
-		$configuration['columns']['iframe_color_button_load_one']['config']['renderType'],
-		$configuration['columns']['iframe_color_button_load_one_hover']['config']['renderType'],
-		$configuration['columns']['iframe_color_button_load_one_text']['config']['renderType'],
-		$configuration['columns']['iframe_color_open_settings']['config']['renderType'],
-		$configuration['columns']['banner_color_box']['config']['renderType'],
-		$configuration['columns']['banner_color_text']['config']['renderType'],
-		$configuration['columns']['banner_color_link_text']['config']['renderType'],
-		$configuration['columns']['banner_color_button_settings']['config']['renderType'],
-		$configuration['columns']['banner_color_button_settings_hover']['config']['renderType'],
-		$configuration['columns']['banner_color_button_settings_text']['config']['renderType'],
-		$configuration['columns']['banner_color_button_accept']['config']['renderType'],
-		$configuration['columns']['banner_color_button_accept_hover']['config']['renderType'],
-		$configuration['columns']['banner_color_button_accept_text']['config']['renderType']
-	);
-}
 
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
 	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, header,'

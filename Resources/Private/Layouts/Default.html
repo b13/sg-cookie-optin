@@ -1,10 +1,10 @@
-<f:be.container
+<f:be.pageRenderer
 	includeCssFiles="{
 		0: '{f:uri.resource(path:\'JavaScript/Backend/Chart.js/Chart.min.css\')}',
 		1: '{f:uri.resource(path:\'StyleSheets/Statistics.css\')}',
 		2: '{f:uri.resource(path:\'StyleSheets/Backend/backend.css\')}'
 	}"
->
+ />
 	<f:if condition="{docHeader}">
 		<f:then>
 			<div class="module tx_sgcookieoptin-module" data-module-id="" data-module-name="">
@@ -18,14 +18,7 @@
 						</div>
 						<div class="module-docheader-bar-column-right">
 							<span class="typo3-docheader-pagePath">
-								<f:if condition="{typo3Version} < 9000000">
-									<f:then>
-										<f:translate key="LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.path" />: <f:format.raw>{docHeader.metaInformation.path}</f:format.raw>
-									</f:then>
-									<f:else>
-										<f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.path" />: <f:format.raw>{docHeader.metaInformation.path}</f:format.raw>
-									</f:else>
-								</f:if>
+								<f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.path" />: <f:format.raw>{docHeader.metaInformation.path}</f:format.raw>
 							</span>
 							<f:format.raw>{docHeader.metaInformation.recordInformation}</f:format.raw>
 						</div>
@@ -48,16 +41,9 @@
 		</f:else>
 	</f:if>
 
-	<f:if condition="{typo3Version} < 11000000">
-		<f:then>
-			<div id="typo3-docbody">
-		</f:then>
-		<f:else>
-			<div class="module-body t3js-module-body">
-		</f:else>
-	</f:if>
+		<div class="module-body t3js-module-body">
 		<div id="typo3-inner-docbody">
-			<f:render section="content" />
+			<f:render section="Content" />
 		</div>
 	</div>
-</f:be.container>
+

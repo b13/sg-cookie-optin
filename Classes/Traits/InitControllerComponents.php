@@ -28,7 +28,7 @@ namespace SGalinski\SgCookieOptin\Traits;
 
 use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
-use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -45,8 +45,8 @@ trait InitControllerComponents {
 	/**
 	 * Initialize the demo mode check and the doc header components
 	 */
-	protected function initComponents() {
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+	protected function initComponents(ModuleTemplate $moduleTemplate) {
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
 		$keyState = LicenceCheckService::checkKey();
 		$isInDemoMode = LicenceCheckService::isInDemoMode();
 		$hasValidLicense = LicenceCheckService::hasValidLicense();
@@ -68,17 +68,11 @@ trait InitControllerComponents {
 				LicenceCheckService::removeAllCookieOptInFiles();
 			}
 
-			if ($typo3Version < 9000000) {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.notSet.description',
-					'sg_cookie_optin'
-				);
-			} else {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.notSet.descriptionTYPO3-9',
-					'sg_cookie_optin'
-				);
-			}
+
+            $description = LocalizationUtility::translate(
+                'backend.licenseKey.notSet.descriptionTYPO3-9',
+                'sg_cookie_optin'
+            );
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
@@ -97,17 +91,10 @@ trait InitControllerComponents {
 				LicenceCheckService::removeAllCookieOptInFiles();
 			}
 
-			if ($typo3Version < 9000000) {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.invalid.description',
-					'sg_cookie_optin'
-				);
-			} else {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.invalid.descriptionTYPO3-9',
-					'sg_cookie_optin'
-				);
-			}
+            $description = LocalizationUtility::translate(
+                'backend.licenseKey.invalid.descriptionTYPO3-9',
+                'sg_cookie_optin'
+            );
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
@@ -128,33 +115,30 @@ trait InitControllerComponents {
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 
 		// the docHeaderComponent do not exist below version 7
-		if ($typo3Version > 7000000) {
-			$this->docHeaderComponent = GeneralUtility::makeInstance(DocHeaderComponent::class);
-			if ($pageInfo === FALSE) {
-				$pageInfo = ['uid' => $pageUid];
-			}
-			$this->docHeaderComponent->setMetaInformation($pageInfo);
-			BackendService::makeButtons($this->docHeaderComponent, $this->request);
-			$this->view->assign('docHeader', $this->docHeaderComponent->docHeaderContent());
-		}
+        if ($pageInfo === FALSE) {
+            $pageInfo = ['uid' => $pageUid];
+        }
+        $moduleTemplate->getDocHeaderComponent()->setMetaInformation($pageInfo);
+        BackendService::makeButtons($moduleTemplate->getDocHeaderComponent(), $this->request);
+        $moduleTemplate->assign('docHeader', $moduleTemplate->getDocHeaderComponent()->docHeaderContent());
 
-		$this->view->assign('typo3Version', $typo3Version);
-		$this->view->assign('pageUid', $pageUid);
-		$this->view->assign('invalidKey', !$hasValidLicense);
-		$this->view->assign('controller', $this->request->getControllerName());
-		$this->view->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
+        $moduleTemplate->assign('typo3Version', $typo3Version);
+        $moduleTemplate->assign('pageUid', $pageUid);
+        $moduleTemplate->assign('invalidKey', !$hasValidLicense);
+        $moduleTemplate->assign('controller', $this->request->getControllerName());
+        $moduleTemplate->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
 	}
 
 	/**
 	 * Initializes the root page selection
 	 */
-	protected function initPageUidSelection() {
+	protected function initPageUidSelection(ModuleTemplate $moduleTemplate) {
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
-		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
-			$this->view->assign('isSiteRoot', TRUE);
+		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
+            $moduleTemplate->assign('isSiteRoot', TRUE);
 		} else {
-			$this->view->assign('pages', BackendService::getPages());
+            $moduleTemplate->assign('pages', BackendService::getPages());
 		}
 	}
 }

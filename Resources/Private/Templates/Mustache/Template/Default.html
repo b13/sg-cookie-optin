@@ -11,13 +11,13 @@
 		{{#cookieGroups}}
 			<li class="sg-cookie-optin-box-cookie-list-item">
 				<label >
-					<input  class="sg-cookie-optin-checkbox"
+					<input class="sg-cookie-optin-checkbox"
 					   type="checkbox"
 					   name="cookies[]"
 					   value="{{groupName}}"
 					   {{#required}}checked="1"{{/required}}
 					   {{#required}}disabled="1"{{/required}}>
-					<span class="sg-cookie-optin-checkbox-label">{{{label}}}</span>
+					<span class="sg-cookie-optin-checkbox-label" role="checkbox">{{{label}}}</span>
 				</label>
 			</li>
 		{{/cookieGroups}}
@@ -29,13 +29,13 @@
 		<button  class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
 	</div>
 
-	<ul class="sg-cookie-optin-box-cookie-detail-list">
+	<ul class="sg-cookie-optin-box-cookie-detail-list" aria-hidden="true">
 		{{#cookieGroups}}
 			<li class="sg-cookie-optin-box-cookie-detail-list-item">
 				<strong class="sg-cookie-optin-box-cookie-detail-header">{{{label}}}</strong>
 				<p class="sg-cookie-optin-box-cookie-detail-description">{{{description}}}</p>
 
-				<div class="sg-cookie-optin-box-cookie-detail-sublist">
+				<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
 					<table>
 						<tbody>
 							{{#cookieData}}
@@ -64,7 +64,7 @@
 				</div>
 
 				{{#cookieData}}
-					{{^index}}<a  class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}
+					{{^index}}<a role="button" class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}
 						<span>
 							<svg class="sg-cookie-optin-box-sublist-open-more-symbol" fill='currentColor' xmlns='http://www.w3.org/2000/svg'
 								 viewBox='0 0 512 512'>
@@ -94,7 +94,7 @@
 			   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
 			   rel="noopener"
 			   target="_blank">
-				Powered by<br>sgalinski Cookie Opt In
+				Powered by<br>sgalinski Cookie Consent
 			</a>
 		</div>
 

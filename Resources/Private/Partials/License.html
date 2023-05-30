@@ -2,12 +2,12 @@
 
 <f:if condition="{invalidKey}">
 	<f:then>
-		<a href="{f:translate(key: 'backend.buyLicense.url')}" target="_bĺank" class="btn btn-default btn-sm btn-danger btn-sm">
+		<a href="{f:translate(key: 'backend.buyLicense.url')}" target="_bĺank" class="btn btn-sm btn-danger btn-sm">
 			<f:translate key="backend.buyLicense" />
 		</a>
 
 		<f:if condition="{showDemoButton}">
-			<f:link.action class="btn btn-default btn-sm btn-info text-white" action="activateDemoMode">
+			<f:link.action class="btn btn-sm btn-info text-white" action="activateDemoMode" controller="Optin">
 				<f:translate key="backend.activateDemoMode" />
 			</f:link.action>
 		</f:if>
@@ -23,19 +23,17 @@
 	<f:translate key="backend.documentation" />
 </a>
 
-<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
-	<f:if condition="{isSiteRoot}">
-		<f:link.action class="btn btn-default btn-sm" action="uploadJson">
-			<f:translate key="backend.importConfig" />
-		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="exportJson">
-			<f:translate key="backend.exportConfig" />
-		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="index" controller="Statistics">
-			<f:translate key="backend.statistics_action" />
-		</f:link.action>
-		<f:link.action class="btn btn-default btn-sm" action="index" controller="Consent">
-			<f:translate key="backend.consent_action" />
-		</f:link.action>
-	</f:if>
+<f:if condition="{isSiteRoot}">
+	<f:link.action class="btn btn-default btn-sm" action="uploadJson" controller="Optin">
+		<f:translate key="backend.importConfig" />
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-sm" action="exportJson" controller="Optin">
+		<f:translate key="backend.exportConfig" />
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-sm" action="index" controller="Statistics">
+		<f:translate key="backend.statistics_action" />
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-sm" action="index" controller="Consent">
+		<f:translate key="backend.consent_action" />
+	</f:link.action>
 </f:if>

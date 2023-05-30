@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Service;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +24,8 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\Service;
+
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -33,15 +33,14 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
@@ -99,49 +98,9 @@ class StaticFileGenerationService implements SingletonInterface {
 		GeneralUtility::rmdir($sitePath . $folderName, TRUE);
 		GeneralUtility::mkdir_deep($sitePath . $folderName);
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-
-		if ($currentVersion < 9000000) {
-			/** @var TypoScriptFrontendController $typoScriptFrontendController */
-			$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
-			if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
-				$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
-					$GLOBALS['TYPO3_CONF_VARS'],
-					$this->siteRoot,
-					0
-				);
-			}
-
-			// required in order to generate the menu links later on
-			if (!is_object($GLOBALS['TT'])) {
-				$GLOBALS['TT'] = new NullTimeTracker();
-			}
-
-			if ($currentVersion < 8000000) {
-				// prevents a possible crash
-				$typoScriptFrontendController->getPageRenderer()->setBackPath('');
-			}
-
-			$typoScriptFrontendController->initFEuser();
-			$typoScriptFrontendController->initUserGroups();
-			$typoScriptFrontendController->fetch_the_id();
-			$typoScriptFrontendController->getPageAndRootline();
-			$typoScriptFrontendController->initTemplate();
-			$typoScriptFrontendController->no_cache = TRUE;
-
-			if ($currentVersion < 8000000) {
-				// prevents a possible crash, where the whole backend is loaded within the same frame and the files
-				// aren't generated.
-				$typoScriptFrontendController->getConfigArray();
-			}
-
-			$typoScriptFrontendController->settingLanguage();
-			$typoScriptFrontendController->settingLocale();
-			$typoScriptFrontendController->convPOSTCharset();
-			$typoScriptFrontendController->absRefPrefix = '/';
-			PageGenerator::pagegenInit();
-			$typoScriptFrontendController->newCObj();
-		}
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 
 		$fullData = $this->getFullData($originalRecord, self::TABLE_NAME);
 		$minifyFiles = (bool) $fullData['minify_generated_data'];
@@ -215,7 +174,7 @@ class StaticFileGenerationService implements SingletonInterface {
 				} else {
 					$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 				}
-				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid);
+				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid, '1');
 			}
 
 			$translatedFullData = $this->getFullData($translatedRecord, self::TABLE_NAME, $languageUid);
@@ -236,11 +195,6 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
-
-		if ($currentVersion < 9000000) {
-			// reset the TSFE to it's previous state to not influence remaining code
-			$GLOBALS['TSFE'] = $originalTSFE;
-		}
 	}
 
 	/**
@@ -267,6 +221,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	protected function getFullData(array $data, $table, $language = 0) {
 		$fullData = [];
 		$parentUid = (!empty($data['l10n_parent']) ? (int) $data['l10n_parent'] : (int) $data['uid']);
+
 		foreach ($data as $fieldName => $value) {
 			$tcaConfig = $this->getTCAConfigForInlineField($table, $fieldName);
 			if (count($tcaConfig) <= 0) {
@@ -343,7 +298,9 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function getDataForInlineField($table, $field, $parentUid, $language = 0) {
 		$languageField = $this->getTCALanguageField($table);
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(
+				VersionNumberUtility::getCurrentTypo3Version()
+			) <= 9000000) {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
@@ -388,14 +345,16 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$translatedRows = [];
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 		if ($currentVersion >= 11000000) {
 			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		} else {
 			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 		}
 		foreach ($rows as $row) {
-			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language);
+			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
 		}
 
 		return $translatedRows;
@@ -435,7 +394,9 @@ class StaticFileGenerationService implements SingletonInterface {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-			$file = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_STYLE_SHEET_PATH_EXT . self::TEMPLATE_STYLE_SHEET_NAME);
+			$file = $resourceFactory->retrieveFileOrFolderObject(
+				self::TEMPLATE_STYLE_SHEET_PATH_EXT . self::TEMPLATE_STYLE_SHEET_NAME
+			);
 			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
 				file_get_contents($sitePath . $file->getPublicUrl());
 		} else {
@@ -445,39 +406,39 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		$content .= " \n\n" . $templateService->getCSSContent(
-			TemplateService::TYPE_TEMPLATE,
-			$data['template_selection']
-		);
+				TemplateService::TYPE_TEMPLATE,
+				$data['template_selection']
+			);
 		if ((bool) $data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
 			$content .= " \n\n" . $templateService->getCSSContent(
-				TemplateService::TYPE_BANNER,
-				0
-			);
+					TemplateService::TYPE_BANNER,
+					0
+				);
 		}
 
 		if ((bool) $data['iframe_enabled']) {
 			$content .= " \n\n" . $templateService->getCSSContent(
-				TemplateService::TYPE_IFRAME,
-				0
-			);
+					TemplateService::TYPE_IFRAME,
+					0
+				);
 			$content .= " \n\n" . $templateService->getCSSContent(
-				TemplateService::TYPE_IFRAME_REPLACEMENT,
-				0
-			);
+					TemplateService::TYPE_IFRAME_REPLACEMENT,
+					0
+				);
 		}
 
 		if ($data['fingerprint_position'] > 0) {
 			$content .= " \n\n" . $templateService->getCSSContent(
-				TemplateService::TYPE_FINGERPRINT,
-				TemplateService::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT
-			);
+					TemplateService::TYPE_FINGERPRINT,
+					TemplateService::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT
+				);
 		}
 
 		if ((bool) $data['monochrome_enabled']) {
 			$content .= " \n\n" . $templateService->getCSSContent(
-				TemplateService::TYPE_MONOCHROME,
-				TemplateService::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT
-			);
+					TemplateService::TYPE_MONOCHROME,
+					TemplateService::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT
+				);
 		}
 
 		$keys = $data = [];
@@ -578,6 +539,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @param bool $minifyFile
 	 *
 	 * @return void
+	 * @throws ResourceDoesNotExistException
 	 */
 	protected function createJavaScriptFile($folder, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
@@ -585,8 +547,12 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-			$fileExt = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_JAVA_SCRIPT_PATH_EXT . self::TEMPLATE_JAVA_SCRIPT_NAME);
-			copy($sitePath . $fileExt->getPublicUrl(), $file);
+			$fileExt = $resourceFactory->retrieveFileOrFolderObject(
+				self::TEMPLATE_JAVA_SCRIPT_PATH_EXT . self::TEMPLATE_JAVA_SCRIPT_NAME
+			);
+			if ($fileExt) {
+				copy($sitePath . $fileExt->getPublicUrl(), $file);
+			}
 		} else {
 			copy($sitePath . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
 		}
@@ -803,31 +769,16 @@ class StaticFileGenerationService implements SingletonInterface {
 		$index = 0;
 		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
 		$parsedSiteBaseUrl = parse_url($siteBaseUrl);
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($navigationEntries as $pageData) {
 			$uid = (int) $pageData['uid'];
 			if ($uid <= 0) {
-				// can be happen if the page is not accessible
+				// can be happened if the page is not accessible
 				continue;
 			}
 
 			$name = $pageData['title'];
-			if ($currentVersion >= 9000000) {
-				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
-				$url = $this->removeCHashFromUrl(
-					(string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, '_language' => $languageUid])
-				);
-			} else {
-				try {
-					$url = $contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid);
-					$url = '/' . $this->removeCHashFromUrl($url);
-				} catch (\Exception $exception) {
-					// Occurs on the first creation of the translation.
-					continue;
-				}
-			}
+			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
+			$url = (string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, '_language' => $languageUid]);
 
 			if (strpos($url, '?') === 0) {
 				$url = '/' . $url;
@@ -837,8 +788,10 @@ class StaticFileGenerationService implements SingletonInterface {
 				$url = substr($url, 1);
 			}
 
-			if (!$parsedSiteBaseUrl['path'] || $parsedSiteBaseUrl['path'] === '/') {
-				$url = '/' . str_replace($siteBaseUrl, '', $url);
+			if ($siteBaseUrl !== '/') {
+				if (!$parsedSiteBaseUrl['path'] || $parsedSiteBaseUrl['path'] === '/') {
+					$url = '/' . str_replace($siteBaseUrl, '', $url);
+				}
 			}
 
 			$footerLinks[$index] = [
@@ -854,15 +807,10 @@ class StaticFileGenerationService implements SingletonInterface {
 		if ($translatedData['overwrite_baseurl']) {
 			$baseUri = $translatedData['overwrite_baseurl'];
 		} else {
-			$baseUrl = $siteBaseUrl;
-			if ((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000)) {
-				$baseUri = $baseUrl;
-			} else {
-				$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-				$site = $siteFinder->getSiteByPageId($this->siteRoot);
-				$pageRouter = GeneralUtility::makeInstance(PageRouter::class, $site);
-				$baseUri = $pageRouter->generateUri($this->siteRoot, ['_language' => $languageUid]);
-			}
+			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+			$site = $siteFinder->getSiteByPageId($this->siteRoot);
+			$pageRouter = GeneralUtility::makeInstance(PageRouter::class, $site);
+			$baseUri = $pageRouter->generateUri($this->siteRoot, ['_language' => $languageUid]);
 		}
 
 		$settings = [
@@ -880,9 +828,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'disable_powered_by' => (bool) $translatedData['disable_powered_by'],
 			'disable_for_this_language' => (bool) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
-			'save_history_webhook' => $baseUri .
-				((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) ?
-					'?eID=sg_cookie_optin_saveOptinHistory' : '?saveOptinHistory'),
+			'save_history_webhook' => $baseUri . '?saveOptinHistory',
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
@@ -996,8 +942,8 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$jsonDataArray['mustacheData']['services'] = [];
 		if ((is_countable($translatedData['services']) && (count($translatedData['services']) > 0))
-			|| (int) $translatedData['services'] > 0)
-		{
+			|| (int) $translatedData['services'] > 0
+		) {
 			$templateService = GeneralUtility::makeInstance(TemplateService::class);
 			foreach ($translatedData['services'] as $service) {
 
@@ -1019,10 +965,10 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-			'#LANG#',
-			$locale . JsonImportService::LOCALE_SEPARATOR . $languageUid,
-			self::TEMPLATE_JSON_NAME
-		);
+				'#LANG#',
+				$locale . JsonImportService::LOCALE_SEPARATOR . $languageUid,
+				self::TEMPLATE_JSON_NAME
+			);
 
 		$mask = JSON_PRETTY_PRINT;
 		if (defined('JSON_THROW_ON_ERROR')) {
@@ -1031,13 +977,15 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		// Call pre-processing function for constructor:
 		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']) &&
-			is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'])
+			is_array(
+				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']
+			)
 		) {
 			$_params = [
-			   'pObj' => &$this,
-			   'data' => &$jsonDataArray,
-			   'languageUid' => $languageUid
-		   ];
+				'pObj' => &$this,
+				'data' => &$jsonDataArray,
+				'languageUid' => $languageUid
+			];
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'] as $_funcRef) {
 				GeneralUtility::callUserFunction($_funcRef, $_params, $this);
 			}
@@ -1096,7 +1044,9 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$records = [];
 		$navigationEntries = GeneralUtility::trimExplode(',', $navigationData);
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 		if ($versionNumber >= 11000000) {
 			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		} else {
@@ -1114,7 +1064,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 			if ($languageUid > 0) {
 				if ($versionNumber >= 9000000) {
-					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid);
+					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
 				} else {
 					$record = $pageRepository->getPageOverlay($record, $languageUid);
 				}
@@ -1124,15 +1074,5 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		return $records;
-	}
-
-	/**
-	 * Remove the cHash parameter from URL
-	 *
-	 * @param string $url
-	 * @return string|string[]|null
-	 */
-	protected function removeCHashFromUrl($url) {
-		return preg_replace('/([?&])' . 'cHash' . '=[^&^#]+(&|#|$)/', '$2', $url);
 	}
 }

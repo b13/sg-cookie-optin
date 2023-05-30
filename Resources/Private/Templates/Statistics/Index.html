@@ -2,7 +2,7 @@
 
 <f:layout name="Default"/>
 
-<f:section name="content">
+<f:section name="Content">
 	<f:if condition="{isSiteRoot}">
 		<f:then>
 			<f:flashMessages/>
@@ -67,7 +67,7 @@
 									<tr data-uid="{page.pid}">
 										<td nowrap="nowrap" class="col-title">
 											<f:link.action action="index" additionalParams="{id: page.uid}">
-												<sg:backend.icon table="pages" row="{page}" clickMenu="0"/>
+												<f:format.raw><sg:backend.icon table="pages" row="{page}" clickMenu="0" /></f:format.raw>
 												{page._thePathFull}
 											</f:link.action>
 										</td>

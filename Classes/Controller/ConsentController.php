@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Controller;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,9 +24,12 @@ namespace SGalinski\SgCookieOptin\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\Controller;
+
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -36,31 +37,36 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * Consent Controller
  */
+#[Controller]
 class ConsentController extends ActionController {
 	use InitControllerComponents;
 
-	/**
-	 * DocHeaderComponent
-	 *
-	 * @var DocHeaderComponent
-	 */
-	protected $docHeaderComponent;
+    /**
+     * @var ModuleTemplateFactory
+     */
+    protected $moduleTemplateFactory;
+
+    public function initializeAction(): void
+    {
+        $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+    }
 
 	/**
 	 * Displays the user preference consent history
 	 *
 	 */
 	public function indexAction() {
-		$this->initComponents();
-		$this->initPageUidSelection();
+		$moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+		$this->initComponents($moduleTemplate);
+		$this->initPageUidSelection($moduleTemplate);
 
 		$pageUid = (int) GeneralUtility::_GP('id');
-		$this->view->assign(
+		$moduleTemplate->assign(
 			'identifiers',
 			OptinHistoryService::getItemIdentifiers(
 				[
-				'pid' => $pageUid
-			]
+					'pid' => $pageUid
+				]
 			)
 		);
 
@@ -68,5 +74,7 @@ class ConsentController extends ActionController {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
 		}
+
+		return $moduleTemplate->renderResponse('Consent/Index');
 	}
 }
