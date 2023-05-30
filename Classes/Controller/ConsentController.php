@@ -41,11 +41,10 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class ConsentController extends ActionController {
 	use InitControllerComponents;
 
-	public function __construct(
-		protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-    )
+    public function initializeAction(): void
     {
-	}
+        $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+    }
 
 	/**
 	 * Displays the user preference consent history

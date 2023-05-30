@@ -64,11 +64,10 @@ class OptinController extends ActionController
 {
     use InitControllerComponents;
 
-    public function __construct(
-        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-    )
-    {
-    }
+    /**
+     * @var ModuleTemplateFactory
+     */
+    protected $moduleTemplateFactory;
 
     /**
      * Init module state.
@@ -78,6 +77,7 @@ class OptinController extends ActionController
      */
     public function initializeAction(): void
     {
+        $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
         $this->moduleData = $this->request->getAttribute('moduleData');
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 //        $this->moduleTemplate->setTitle(LocalizationUtility::translate('LLL:EXT:beuser/Resources/Private/Language/locallang_mod.xlf:mlang_tabs_tab'));
