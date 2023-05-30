@@ -8,7 +8,7 @@ $EM_CONF[$_EXTKEY] = [
 		For more details visit https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/.
 	',
 	'category' => 'module',
-	'version' => '5.1.0',
+	'version' => '5.2.0',
 	'state' => 'stable',
 	'uploadfolder' => FALSE,
 	'createDirs' => '',
