@@ -116,38 +116,45 @@ call_user_func(
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 			\SGalinski\SgCookieOptin\Hook\HandleVersionChange::class;
 
-		// User TSConfig
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig">'
-		);
+		if (version_compare($currentTypo3Version, '12.0.0', '>=')) {
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
+				'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig\''
+			);
 
-		// Page TSConfig
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig">'
-		);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+				'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig\'
+				@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig\''
+			);
+		} else {
+			// User TSConfig
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
+				'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig">'
+			);
 
-		// External Content Frame Class TSConfig
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig">'
-		);
+			// Page TSConfig
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+				'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig">'
+			);
 
-		// Licence check
-		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess'][] =
-			\SGalinski\SgCookieOptin\Hook\LicenceCheckHook::class . '->performLicenseCheck';
+			// External Content Frame Class TSConfig
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+				'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig">'
+			);
 
-		// Register Icons
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
-				$currentTypo3Version
-			) >= 7000000) {
+			// Register Icons
 			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Imaging\IconRegistry::class
 			);
 			$iconRegistry->registerIcon(
-				'extension-sg_cookie_optin',
+				'ext-sg_cookie_optin',
 				\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
 				['source' => 'EXT:sg_cookie_optin/Resources/Public/Icons/extension-sg_cookie_optin.svg']
 			);
 		}
+
+		// Licence check
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess'][] =
+			\SGalinski\SgCookieOptin\Hook\LicenceCheckHook::class . '->performLicenseCheck';
 
 		// Wizard Registration
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
