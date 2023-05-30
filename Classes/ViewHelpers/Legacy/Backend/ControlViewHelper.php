@@ -72,11 +72,7 @@ if (!class_exists('\SgCookieAbstractViewHelper')) {
             $pageRenderer->addInlineLanguageLabelFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
             $currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
-            if (version_compare($currentTypo3Version, '9.0.0', '<')) {
-                $languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
-            } else {
-                $languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Localization\LanguageService::class);
-            }
+            $languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Localization\LanguageService::class);
             $languageService->includeLLFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
             /** @var DatabaseRecordList $databaseRecordList */
@@ -90,15 +86,7 @@ if (!class_exists('\SgCookieAbstractViewHelper')) {
                 $databaseRecordList->calcPerms = $permission;
             }
 
-            if (version_compare($currentTypo3Version, '7.0.0', '<')
-                && ExtensionManagementUtility::isLoaded('gridelements')) {
-                // in old versions of gridelements the "makeControl" function
-                // was xclassed with a 3rd (mandatory) parameter "$level"
-                // @see gridelements/Classes/Xclass/DatabaseRecordList.php
-                return $databaseRecordList->makeControl($table, $row, 0);
-            } else {
-                return $databaseRecordList->makeControl($table, $row);
-            }
+            return $databaseRecordList->makeControl($table, $row);
         }
     }
 }

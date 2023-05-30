@@ -56,17 +56,14 @@ trait IconViewHelperTrait {
         $row = $this->arguments['row'];
         $table = $this->arguments['table'];
         $clickMenu = $this->arguments['clickMenu'];
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '7.0.0', '<')) {
-            $iconImg = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord($table, $row);
-        } else {
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-            $toolTip = BackendUtility::getRecordToolTip($row, $table);
-            $iconImg = '<span ' . $toolTip . '>'
-                . $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()
-                . '</span>';
-            if ($clickMenu) {
-                return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid']);
-            }
+
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $toolTip = BackendUtility::getRecordToolTip($row, $table);
+        $iconImg = '<span ' . $toolTip . '>'
+            . $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()
+            . '</span>';
+        if ($clickMenu) {
+            return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid']);
         }
 
         return $iconImg;
