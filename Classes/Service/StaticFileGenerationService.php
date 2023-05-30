@@ -195,11 +195,6 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
-
-		if ($currentVersion < 9000000) {
-			// reset the TSFE to its previous state to not influence the remaining code
-			$GLOBALS['TSFE'] = $originalTSFE;
-		}
 	}
 
 	/**
