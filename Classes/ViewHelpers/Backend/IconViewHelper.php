@@ -26,16 +26,43 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use SGalinski\SgCookieOptin\ViewHelpers\Backend\Traits\IconViewHelperTrait;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-if (class_exists('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper')) {
-    class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
-    {
-        use IconViewHelperTrait;
+class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Register the ViewHelper arguments
+     */
+    public function initializeArguments() {
+        parent::initializeArguments();
+        $this->registerArgument('table', 'string', 'The table for the icon', TRUE);
+        $this->registerArgument('row', 'array', 'The row of the record', TRUE);
+        $this->registerArgument('clickMenu', 'bool', 'Render a clickMenu around the icon', FALSE, TRUE);
     }
-} else {
-    class IconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
-    {
-        use IconViewHelperTrait;
+
+    /**
+     * Renders the icon for the specified record
+     *
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public function render() {
+        $row = $this->arguments['row'];
+        $table = $this->arguments['table'];
+        $clickMenu = $this->arguments['clickMenu'];
+
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $toolTip = BackendUtility::getRecordToolTip($row, $table);
+        $iconImg = '<span ' . $toolTip . '>'
+            . $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()
+            . '</span>';
+        if ($clickMenu) {
+            return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid']);
+        }
+
+        return $iconImg;
     }
 }
