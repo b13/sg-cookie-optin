@@ -38,6 +38,7 @@ use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
@@ -173,7 +174,7 @@ class StaticFileGenerationService implements SingletonInterface {
 				} else {
 					$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 				}
-				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid);
+				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid, '1');
 			}
 
 			$translatedFullData = $this->getFullData($translatedRecord, self::TABLE_NAME, $languageUid);
@@ -225,6 +226,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	protected function getFullData(array $data, $table, $language = 0) {
 		$fullData = [];
 		$parentUid = (!empty($data['l10n_parent']) ? (int) $data['l10n_parent'] : (int) $data['uid']);
+
 		foreach ($data as $fieldName => $value) {
 			$tcaConfig = $this->getTCAConfigForInlineField($table, $fieldName);
 			if (count($tcaConfig) <= 0) {
@@ -357,7 +359,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 		}
 		foreach ($rows as $row) {
-			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language);
+			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
 		}
 
 		return $translatedRows;
@@ -1067,7 +1069,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 			if ($languageUid > 0) {
 				if ($versionNumber >= 9000000) {
-					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid);
+					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
 				} else {
 					$record = $pageRepository->getPageOverlay($record, $languageUid);
 				}

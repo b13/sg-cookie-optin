@@ -26,166 +26,149 @@
 
 namespace SGalinski\SgCookieOptin\Controller;
 
-use DirectoryIterator;
-use Exception;
-use SGalinski\SgCookieOptin\Exception\JsonImportException;
-use SGalinski\SgCookieOptin\Service\BackendService;
-use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
-use SGalinski\SgCookieOptin\Service\JsonImportService;
-use SGalinski\SgCookieOptin\Service\LanguageService;
-use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Optin Controller
  */
 #[Controller]
-class CookieListController extends ActionController
-{
-    use InitControllerComponents;
+class CookieListController extends ActionController {
+	use InitControllerComponents;
 
-    /**
-     * @var ModuleTemplateFactory
-     */
-    protected $moduleTemplateFactory;
+	/**
+	 * @var ModuleTemplateFactory
+	 */
+	protected $moduleTemplateFactory;
 
-    public function initializeAction(): void
-    {
-        $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
-    }
+	public function initializeAction(): void {
+		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+	}
 
-    /**
-     * Renders the cookie list.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function cookieListAction()
-    {
-        $rootPageId = $GLOBALS['TSFE']->rootLine[0]['uid'] ?? 0;
-        $languageUid = $GLOBALS['TSFE']->getLanguage()->getLanguageId();
+	/**
+	 * Renders the cookie list.
+	 *
+	 * @return \Psr\Http\Message\ResponseInterface
+	 */
+	public function cookieListAction() {
+		/** @var TypoScriptFrontendController $tsfe */
+		$tsfe = $GLOBALS['TSFE'];
+		$rootPageId = $tsfe->rootLine[0]['uid'] ?? 0;
+		$languageUid = $tsfe->getLanguage()->getLanguageId();
 
-//        $moduleTemplate = GeneralUtility::makeInstance(ModuleTemplate::class);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
+		if ($versionNumber >= 11000000) {
+			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+		} else {
+			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+		}
 
-        $versionNumber = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getCurrentTypo3Version());
-        if ($versionNumber >= 11000000) {
-            $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-        } else {
-            $pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
-        }
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+			'tx_sgcookieoptin_domain_model_optin'
+		);
+		$optin = $queryBuilder->select('*')
+			->from('tx_sgcookieoptin_domain_model_optin')
+			->where($queryBuilder->expr()->eq('pid', $rootPageId))
+			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
+			->execute()
+			->fetchAssociative();
+		$defaultLanguageOptinId = $optin['uid'];
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
-            'tx_sgcookieoptin_domain_model_optin'
-        );
-        $optin = $queryBuilder->select('*')
-            ->from('tx_sgcookieoptin_domain_model_optin')
-            ->where($queryBuilder->expr()->eq('pid', $rootPageId))
-            ->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-            ->execute()
-            ->fetchAssociative();
-        $defaultLanguageOptinId = $optin['uid'];
+		if ($languageUid > 0) {
+			$optin = $pageRepository->getRecordOverlay(
+				'tx_sgcookieoptin_domain_model_optin', $optin, $languageUid, $tsfe->getLanguage()->getFallbackType()
+			);
+		}
 
-        if ($languageUid > 0) {
-            $optin = $pageRepository->getRecordOverlay('tx_sgcookieoptin_domain_model_optin', $optin, $languageUid);
-        }
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+			'tx_sgcookieoptin_domain_model_group'
+		);
+		$groups = $queryBuilder->select('*')
+			->from('tx_sgcookieoptin_domain_model_group')
+			->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
+			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
+			->andWhere($queryBuilder->expr()->eq('pid', $rootPageId))
+			->execute()
+			->fetchAll();
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
-            'tx_sgcookieoptin_domain_model_group'
-        );
-        $groups = $queryBuilder->select('*')
-            ->from('tx_sgcookieoptin_domain_model_group')
-            ->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
-            ->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-            ->andWhere($queryBuilder->expr()->eq('pid', $rootPageId))
-            ->execute()
-            ->fetchAll();
+		array_unshift($groups, [
+			'uid' => 0,
+			'title' => $optin['essential_title'],
+			'description' => $optin['essential_description'],
+			'cookies' => 0
+		]);
 
-        array_unshift($groups, [
-            'uid' => 0,
-            'title' => $optin['essential_title'],
-            'description' => $optin['essential_description'],
-            'cookies' => 0
-        ]);
+		foreach ($groups as &$group) {
+			$defaultLanguageGroupUid = $group['uid'];
+			if ($group['uid'] > 0 && $languageUid > 0) {
+				// fix language first
+				$group = $pageRepository->getRecordOverlay(
+					'tx_sgcookieoptin_domain_model_group', $group, $languageUid, $tsfe->getLanguage()->getFallbackType()
+				);
+			}
+			$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+				'tx_sgcookieoptin_domain_model_cookie'
+			);
+			$cookies = $queryBuilder->select('*')
+				->from('tx_sgcookieoptin_domain_model_cookie')
+				->where($queryBuilder->expr()->eq('parent_group', $defaultLanguageGroupUid))
+				->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
+				->andWhere($queryBuilder->expr()->eq('pid', $rootPageId))
+				->execute()
+				->fetchAll();
 
-        foreach ($groups as &$group) {
-            $defaultLanguageGroupUid = $group['uid'];
-            if ($group['uid'] > 0 && $languageUid > 0) {
-                // fix language first
-                $group = $pageRepository->getRecordOverlay('tx_sgcookieoptin_domain_model_group', $group, $languageUid);
-            }
-            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
-                'tx_sgcookieoptin_domain_model_cookie'
-            );
-            $cookies = $queryBuilder->select('*')
-                ->from('tx_sgcookieoptin_domain_model_cookie')
-                ->where($queryBuilder->expr()->eq('parent_group', $defaultLanguageGroupUid))
-                ->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-                ->andWhere($queryBuilder->expr()->eq('pid', $rootPageId))
-                ->execute()
-                ->fetchAll();
+			if ($languageUid > 0) {
+				foreach ($cookies as &$cookie) {
+					$cookie = $pageRepository->getRecordOverlay(
+						'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageUid,
+						$tsfe->getLanguage()->getFallbackType()
+					);
+				}
+			}
+			$group['cookies'] = $cookies;
+		}
 
-            if ($languageUid > 0) {
-                foreach ($cookies as &$cookie) {
-                    $cookie = $pageRepository->getRecordOverlay(
-                        'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageUid
-                    );
-                }
-            }
-            $group['cookies'] = $cookies;
-        }
+		// Set template
+		$view = GeneralUtility::makeInstance(StandaloneView::class);
+		if ($optin['template_selection'] === 1) {
+			$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Full.html';
+		} else {
+			$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Default.html';
+		}
+		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
+		$view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);
+		$view->setLayoutRootPaths(['EXT:sg_cookie_optin/Resources/Private/Layouts']);
 
-        // Set template
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        if ($optin['template_selection'] === 1) {
-            $templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Full.html';
-        } else {
-            $templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Default.html';
-        }
-        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
-        $view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);
-        $view->setLayoutRootPaths(['EXT:sg_cookie_optin/Resources/Private/Layouts']);
+		$view->assign('groups', $groups);
+		$view->assign('optin', $optin);
+		$view->assign('headline', $this->settings['headline'] ?? '');
+		$view->assign('description', $this->settings['description'] ?? '');
 
-        $view->assign('groups', $groups);
-        $view->assign('optin', $optin);
-        $view->assign('headline', $this->settings['headline'] ?? '');
-        $view->assign('description', $this->settings['description'] ?? '');
+		return $this->htmlResponse($view->render());
+	}
 
-        return $this->htmlResponse($view->render());
-    }
+	/**
+	 * Renders the cookie consent.
+	 *
+	 * @return \Psr\Http\Message\ResponseInterface
+	 */
+	public function showAction() {
+		// Set template
+		$view = GeneralUtility::makeInstance(StandaloneView::class);
+		$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Show.html';
+		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
+		$view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);
+		$view->setLayoutRootPaths(['EXT:sg_cookie_optin/Resources/Private/Layouts']);
 
-    /**
-     * Renders the cookie consent.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function showAction()
-    {
-        // Set template
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Show.html';
-        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
-        $view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);
-        $view->setLayoutRootPaths(['EXT:sg_cookie_optin/Resources/Private/Layouts']);
-
-        return $this->htmlResponse($view->render());
-    }
+		return $this->htmlResponse($view->render());
+	}
 }
