@@ -60,10 +60,13 @@ class HandleVersionChange {
 				WHERE deleted = 0 AND pid = (SELECT pid FROM tx_sgcookieoptin_domain_model_optin WHERE uid = ?)";
 			$connection = GeneralUtility::makeInstance(ConnectionPool::class)
 				->getConnectionForTable($table);
-            list($currentVersion, $pid) = array_values($connection->executeQuery(
-                $currentVersionQuery,
-                [$id]
-            )->fetchAssociative());
+			$resultObject = $connection->executeQuery($currentVersionQuery, [$id]);
+			if (method_exists($resultObject, 'fetchAssociative')) {
+				$result = $resultObject->fetchAssociative();
+			} else {
+				$result = $resultObject->fetch();
+			}
+            list($currentVersion, $pid) = array_values($result);
 
 			$sqlQuery = "UPDATE tx_sgcookieoptin_domain_model_optin SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";
 			$connection->executeQuery($sqlQuery);

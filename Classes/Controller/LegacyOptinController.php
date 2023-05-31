@@ -146,12 +146,16 @@ class LegacyOptinController extends ActionController {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_optin'
 		);
-		$optin = $queryBuilder->select('*')
+		$resultObject = $queryBuilder->select('*')
 			->from('tx_sgcookieoptin_domain_model_optin')
 			->where($queryBuilder->expr()->eq('pid', $rootPageId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-			->execute()
-			->fetchAssociative();
+			->execute();
+		if (method_exists($resultObject, 'fetchAssociative')) {
+			$optin = $resultObject->fetchAssociative();
+		} else {
+			$optin = $resultObject->fetch();
+		}
 		$defaultLanguageOptinId = $optin['uid'];
 
 		if ($languageUid > 0) {
