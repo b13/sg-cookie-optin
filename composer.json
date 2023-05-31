@@ -4,7 +4,7 @@
     "description": "This extensions adds a cookie consent for the frontend.",
     "homepage": "https://www.sgalinski.de",
     "license": "GPL-2.0-or-later",
-    "version": "5.2.0",
+    "version": "5.2.1",
     "support": {
         "issues": "https://gitlab.sgalinski.de/typo3/sg_cookie_optin"
     },
