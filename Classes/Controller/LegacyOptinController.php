@@ -191,10 +191,14 @@ class LegacyOptinController extends ActionController {
 			$cookies = $queryBuilder->select('*')
 				->from('tx_sgcookieoptin_domain_model_cookie')
 				->where($queryBuilder->expr()->eq('parent_group', $defaultLanguageGroupUid))
-				->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
+				->andWhere(
+					$queryBuilder->expr()->andX(
+						$queryBuilder->expr()->eq('sys_language_uid', 0),
+						$queryBuilder->expr()->eq('pid', $rootPageId)
+					)
+				)
 				->execute()
 				->fetchAll();
-
 			if ($languageUid > 0) {
 				foreach ($cookies as &$cookie) {
 					$cookie = $pageRepository->getRecordOverlay(
