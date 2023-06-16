@@ -92,7 +92,7 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$this->siteRoot = (int) $dataHandler->getPID(
-			StaticFileGenerationService::TABLE_NAME, $originalRecord['uid'] || 0
+			StaticFileGenerationService::TABLE_NAME, $originalRecord['uid'] ?? 0
 		);
 		if ($this->siteRoot <= 0) {
 			return;

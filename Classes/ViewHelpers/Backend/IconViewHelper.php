@@ -59,7 +59,7 @@ class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelpe
 			. $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()
 			. '</span>';
 		if ($clickMenu) {
-			return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid'] || 0);
+			return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid'] ?? 0);
 		}
 
 		return $iconImg;
