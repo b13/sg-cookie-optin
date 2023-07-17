@@ -55,7 +55,6 @@ class LicenceCheckHook {
 	 */
 	public function performLicenseCheck(array $configuration, BackendController $parentBackendController) {
 		if (!LicenceCheckService::isTYPO3VersionSupported()
-			|| !LicenceCheckService::isTimeForNextCheck()
 			|| LicenceCheckService::isInDevelopmentContext()
 		) {
 			return;
