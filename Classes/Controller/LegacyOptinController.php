@@ -211,10 +211,14 @@ class LegacyOptinController extends ActionController {
 
 		// Set template
 		$view = GeneralUtility::makeInstance(StandaloneView::class);
-		if ($optin['template_selection'] === 1) {
-			$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Full.html';
+		if ($this->settings['template_path'] && file_exists(GeneralUtility::getFileAbsFileName($this->settings['template_path']))) {
+			$templateNameAndPath = $this->settings['template_path'];
 		} else {
-			$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Default.html';
+			if ($optin['template_selection'] === 1) {
+				$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Full.html';
+			} else {
+				$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Default.html';
+			}
 		}
 		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
 		$view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);

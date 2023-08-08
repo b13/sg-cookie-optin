@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Command;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\Command;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\Command;
 
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use Symfony\Component\Console\Command\Command;

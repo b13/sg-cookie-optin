@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Wizards;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\Wizards;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\Wizards;
 
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;

@@ -1,9 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
-
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -28,6 +24,9 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
+
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class IsVersionHigherThanViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
