@@ -7,7 +7,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	-- general columns
 	header varchar(255) DEFAULT 'Datenschutzeinstellungen' NOT NULL,
-	description text NOT NULL,
+	description text DEFAULT '' NOT NULL,
 	navigation varchar(255) DEFAULT '' NOT NULL,
 	groups int(11) DEFAULT '0' NOT NULL,
 
@@ -19,22 +19,22 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_warning varchar(255) NOT NULL DEFAULT '',
 
 	-- general texts
-	accept_all_text text NOT NULL,
-	accept_specific_text text NOT NULL,
-	accept_essential_text text NOT NULL,
-	extend_box_link_text text NOT NULL,
-	extend_box_link_text_close text NOT NULL,
-	extend_table_link_text text NOT NULL,
-	extend_table_link_text_close text NOT NULL,
-	cookie_name_text text NOT NULL,
-	cookie_provider_text text NOT NULL,
-	cookie_purpose_text text NOT NULL,
-	cookie_lifetime_text text NOT NULL,
-	save_confirmation_text text NOT NULL,
+	accept_all_text text DEFAULT '' NOT NULL,
+	accept_specific_text text DEFAULT '' NOT NULL,
+	accept_essential_text text DEFAULT '' NOT NULL,
+	extend_box_link_text text DEFAULT '' NOT NULL,
+	extend_box_link_text_close text DEFAULT '' NOT NULL,
+	extend_table_link_text text DEFAULT '' NOT NULL,
+	extend_table_link_text_close text DEFAULT '' NOT NULL,
+	cookie_name_text text DEFAULT '' NOT NULL,
+	cookie_provider_text text DEFAULT '' NOT NULL,
+	cookie_purpose_text text DEFAULT '' NOT NULL,
+	cookie_lifetime_text text DEFAULT '' NOT NULL,
+	save_confirmation_text text DEFAULT '' NOT NULL,
 	user_hash_text varchar(255) DEFAULT 'User-Hash' NOT NULL,
 
 	-- template
-	template_html text NOT NULL,
+	template_html text DEFAULT '' NOT NULL,
 	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	template_selection int(11) DEFAULT '0' NOT NULL,
 	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	-- banner
 	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	banner_html text NOT NULL,
+	banner_html text DEFAULT '' NOT NULL,
 	banner_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	banner_show_settings_button tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	banner_position int(11) DEFAULT '0' NOT NULL,
@@ -58,10 +58,10 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_color_button_accept_essential varchar(10) DEFAULT '#575757' NOT NULL,
 	banner_color_button_accept_essential_hover varchar(10) DEFAULT '#929292' NOT NULL,
 	banner_color_button_accept_essential_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
-	banner_button_accept_text text NOT NULL,
-	banner_button_accept_essential_text varchar(255) DEFAULT 'Reject' NOT NULL,
-	banner_button_settings_text text NOT NULL,
-	banner_description text NOT NULL,
+	banner_button_accept_text text DEFAULT '' NOT NULL,
+	banner_button_accept_essential_text text DEFAULT 'Reject' NOT NULL,
+	banner_button_settings_text text DEFAULT '' NOT NULL,
+	banner_description text DEFAULT '' NOT NULL,
 	banner_force_min_width int(11) DEFAULT '0' NOT NULL,
 
 	-- template colors
@@ -106,32 +106,32 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	show_fingerprint tinyint(1) DEFAULT '1' NOT NULL,
 
 	-- Essential group specific columns
-	essential_title text NOT NULL,
-	essential_description text NOT NULL,
+	essential_title text DEFAULT '' NOT NULL,
+	essential_description text DEFAULT '' NOT NULL,
 	essential_scripts int(11) DEFAULT '0' NOT NULL,
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
 	-- IFrame group specific columns
 	iframe_enabled tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	iframe_title text NOT NULL,
-	iframe_description text NOT NULL,
+	iframe_title text DEFAULT '' NOT NULL,
+	iframe_description text DEFAULT '' NOT NULL,
 	iframe_cookies int(11) DEFAULT '0' NOT NULL,
 
-	iframe_html text NOT NULL,
+	iframe_html text DEFAULT '' NOT NULL,
 	iframe_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
-	iframe_replacement_html text NOT NULL,
+	iframe_replacement_html text DEFAULT '' NOT NULL,
 	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_replacement_background_image text NOT NULL,
+	iframe_replacement_background_image text DEFAULT '' NOT NULL,
 
-	iframe_whitelist_regex text NOT NULL,
+	iframe_whitelist_regex text DEFAULT '' NOT NULL,
 
-	iframe_button_allow_all_text text NOT NULL,
-	iframe_button_allow_one_text text NOT NULL,
-    iframe_button_reject_text text NOT NULL,
-	iframe_button_load_one_text text NOT NULL,
-	iframe_open_settings_text text NOT NULL,
-	iframe_button_load_one_description text NOT NULL,
+	iframe_button_allow_all_text text DEFAULT '' NOT NULL,
+	iframe_button_allow_one_text text DEFAULT '' NOT NULL,
+    iframe_button_reject_text text DEFAULT '' NOT NULL,
+	iframe_button_load_one_text text DEFAULT '' NOT NULL,
+	iframe_open_settings_text text DEFAULT '' NOT NULL,
+	iframe_button_load_one_description text DEFAULT '' NOT NULL,
 
 	iframe_color_consent_box_background varchar(10) DEFAULT '#D6D6D6' NOT NULL,
 	iframe_color_button_load_one varchar(10) DEFAULT '#143D59' NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_show_again_interval int(11) unsigned DEFAULT '14' NOT NULL,
 	disable_for_this_language tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	set_cookie_for_domain varchar(255) DEFAULT '' NOT NULL,
-	cookiebanner_whitelist_regex TEXT NOT NULL,
+	cookiebanner_whitelist_regex text DEFAULT '' NOT NULL,
 	version int(11) unsigned DEFAULT '1' NOT NULL,
 	update_version_checkbox tinyint(4) unsigned DEFAULT '0' NOT NULL,
     render_assets_inline tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -184,7 +184,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	group_name varchar(30) DEFAULT '' NOT NULL,
-	description text NOT NULL,
+	description text DEFAULT '' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 	scripts int(11) DEFAULT '0' NOT NULL,
 	cookies int(11) DEFAULT '0' NOT NULL,
@@ -214,8 +214,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
-	script text NOT NULL,
-	html text NOT NULL,
+	script text DEFAULT '' NOT NULL,
+	html text DEFAULT '' NOT NULL,
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 
@@ -245,7 +245,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	provider varchar(255) DEFAULT '' NOT NULL,
-	purpose text NOT NULL,
+	purpose text DEFAULT '' NOT NULL,
 	lifetime varchar(255) DEFAULT '' NOT NULL,
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
@@ -300,9 +300,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_service (
 
 	identifier varchar(255) DEFAULT '' NOT NULL,
 	replacement_html_overwritten tinyint(4) DEFAULT '0' NOT NULL,
-	replacement_html text NOT NULL,
-	replacement_background_image text NOT NULL,
-	source_regex text NOT NULL,
+	replacement_html text DEFAULT '' NOT NULL,
+	replacement_background_image text DEFAULT '' NOT NULL,
+	source_regex text DEFAULT '' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,

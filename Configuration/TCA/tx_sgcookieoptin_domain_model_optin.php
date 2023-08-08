@@ -1036,6 +1036,7 @@ $configuration = [
 				'renderType' => 't3editor',
 				'format' => 'html',
 				'eval' => 'trim',
+				'default' => '',
 				'behaviour' => [
 				   'allowLanguageSynchronization' => TRUE
 				],
@@ -1130,6 +1131,7 @@ $configuration = [
 						'renderType' => 'templatePreviewLinkWizard',
 					],
 				],
+				'default' => '',
 				'behaviour' => [
 				   'allowLanguageSynchronization' => TRUE
 				],
@@ -1269,6 +1271,7 @@ $configuration = [
 				'renderType' => 't3editor',
 				'format' => 'html',
 				'eval' => 'trim',
+				'default' => '',
 				'fieldWizard' => [
 					'templatePreviewLinkWizard' => [
 						'renderType' => 'templatePreviewLinkWizard'
