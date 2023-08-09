@@ -210,26 +210,17 @@ class LegacyOptinController extends ActionController {
 		}
 
 		// Set template
-		$view = GeneralUtility::makeInstance(StandaloneView::class);
-		if ($this->settings['template_path'] && file_exists(GeneralUtility::getFileAbsFileName($this->settings['template_path']))) {
-			$templateNameAndPath = $this->settings['template_path'];
-		} else {
-			if ($optin['template_selection'] === 1) {
-				$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Full.html';
-			} else {
-				$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Default.html';
-			}
+		if ($optin['template_selection'] === 1) {
+			$templatePath = $this->settings['templates']['CookieList']['full'];
+			$templateRootPaths = $this->view->getRenderingContext()->getTemplatePaths()->getTemplateRootPaths();
+			$templateRootPaths[0] = $templatePath;
+			$this->view->setTemplateRootPaths($templateRootPaths);
 		}
-		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateNameAndPath));
-		$view->setPartialRootPaths(['EXT:sg_cookie_optin/Resources/Private/Partials']);
-		$view->setLayoutRootPaths(['EXT:sg_cookie_optin/Resources/Private/Layouts']);
 
-		$view->assign('groups', $groups);
-		$view->assign('optin', $optin);
-		$view->assign('headline', $this->settings['headline'] ?? '');
-		$view->assign('description', $this->settings['description'] ?? '');
-
-		return $view->render();
+		$this->view->assign('groups', $groups);
+		$this->view->assign('optin', $optin);
+		$this->view->assign('headline', $this->settings['headline'] ?? '');
+		$this->view->assign('description', $this->settings['description'] ?? '');
 	}
 
 	/**

@@ -1,4 +1,26 @@
-// NOTE: There are 2(!) setup files with the same content, because of TYPO3 6!
+plugin.tx_sgcookieoptin {
+	view {
+		templateRootPaths {
+			0 = {$plugin.tx_sgcookieoptin.view.templateRootPath}
+		}
+
+		partialRootPaths {
+			0 = {$plugin.tx_sgcookieoptin.view.partialRootPath}
+		}
+
+		layoutRootPaths {
+			0 = {$plugin.tx_sgcookieoptin.view.layoutRootPath}
+		}
+	}
+
+	settings {
+		templates {
+			CookieList {
+				full = {$plugin.tx_sgcookieoptin.view.templateRootPath}/CookieList/Full/
+			}
+		}
+	}
+}
 
 page.headerData {
 	935 = USER
