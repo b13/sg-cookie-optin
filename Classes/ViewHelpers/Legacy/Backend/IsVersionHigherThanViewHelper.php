@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\ViewHelpers\Legacy\Backend;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Legacy\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\ViewHelpers\Legacy\Backend;
 
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 

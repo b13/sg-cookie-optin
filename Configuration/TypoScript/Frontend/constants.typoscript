@@ -1,0 +1,12 @@
+plugin.tx_sgcookieoptin {
+	view {
+		# cat=plugin.tx_tx_extensionskeleton/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:sg_cookie_optin/Resources/Private/Templates/
+
+		# cat=plugin.tx_tx_extensionskeleton/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:sg_cookie_optin/Resources/Private/Partials/
+
+		# cat=plugin.tx_tx_extensionskeleton/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:sg_cookie_optin/Resources/Private/Layouts/
+	}
+}

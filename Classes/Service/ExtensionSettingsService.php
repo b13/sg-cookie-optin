@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Service;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\Service;
 
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
@@ -82,8 +82,6 @@ class ExtensionSettingsService {
 		}
 
 		// TYPO3 6 stores all settings as strings, some are expected to be booleans, though.
-		$value = ($value === 'FALSE') ? FALSE : $value;
-
-		return $value;
+		return ($value === 'FALSE') ? FALSE : $value;
 	}
 }

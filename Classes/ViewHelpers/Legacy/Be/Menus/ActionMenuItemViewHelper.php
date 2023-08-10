@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\ViewHelpers\Legacy\Be\Menus;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Legacy\Be\Menus;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\ViewHelpers\Legacy\Be\Menus;
 
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;

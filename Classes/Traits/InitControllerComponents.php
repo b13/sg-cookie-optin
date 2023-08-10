@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Traits;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\Traits;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\Traits;
 
 use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;

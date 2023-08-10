@@ -1266,6 +1266,10 @@ const SgCookieOptin = {
 	 * @return {boolean}
 	 */
 	isContentWhiteListed: function(externalContent) {
+		if (!SgCookieOptin.jsonData.mustacheData.iframeWhitelist.markup.trim()) {
+			return false;
+		}
+
 		const regularExpressions = SgCookieOptin.jsonData.mustacheData.iframeWhitelist.markup.trim()
 			.split(/\r?\n/).map(function(value) {
 				return new RegExp(value);

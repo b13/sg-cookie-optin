@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Exception;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace SGalinski\SgCookieOptin\Exception;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace SGalinski\SgCookieOptin\Exception;
 
 class SearchOptinHistoryException extends \RuntimeException {
 }

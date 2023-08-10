@@ -55,7 +55,7 @@ class OptinHistoryService {
 		try {
 			$jsonInput = json_decode($preferences, TRUE);
 
-			if (!self::validateInput($jsonInput)) {
+			if (!is_array($jsonInput) || !self::validateInput($jsonInput)) {
 				throw new SaveOptinHistoryException('Invalid input');
 			}
 
@@ -134,7 +134,7 @@ class OptinHistoryService {
 		$tstamp = date('Y-m-d H:i:s', $GLOBALS['EXEC_TIME']);
 		$date = substr($tstamp, 0, 10);
 		foreach ($cookieValuePairs as $pair) {
-			list($groupName, $value) = explode(':', $pair);
+			[$groupName, $value] = explode(':', $pair);
 
 			if (!in_array($groupName, $allowedGroupNames)) {
 				continue;
