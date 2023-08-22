@@ -435,7 +435,7 @@ class LicenceCheckService {
 		}
 
 		$caseControl = strtoupper($licenseKey);
-		return $licenseKey === $caseControl && strlen($licenseKey) === 27;
+		return $licenseKey === $caseControl && mb_strlen($licenseKey) === 27;
 	}
 
 	/**
