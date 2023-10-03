@@ -22,29 +22,36 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-return static function (\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator $containerConfigurator): void {
+use SGalinski\SgCookieOptin\Backend\TCAWarningField;
+use SGalinski\SgCookieOptin\Command\DeleteUsageHistoryCommand;
+use SGalinski\SgCookieOptin\Command\GenerateStaticFilesCommand;
+use SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
 	$services = $containerConfigurator->services();
 	$services->defaults()
 		->private()
 		->autowire()
 		->autoconfigure();
 	$services->load('SGalinski\\SgCookieOptin\\', __DIR__ . '/../Classes/');
-	$services->set(\SGalinski\SgCookieOptin\Command\GenerateStaticFilesCommand::class)
+	$services->set(GenerateStaticFilesCommand::class)
 		->tag('console.command', [
 			'command' => 'sg_cookie_optin:generate_static_files',
 			'description' => 'Generates the necessary JavaScript, JSON and CSS files.'
 		]);
-	$services->set(\SGalinski\SgCookieOptin\Command\DeleteUsageHistoryCommand::class)
+	$services->set(DeleteUsageHistoryCommand::class)
 		->tag('console.command', [
 			'command' => 'sg_cookie_optin:delete_usage_history',
 			'description' => 'Deletes the optin usage history entries older than X days'
 		]);
 	$services->set('SGalinski\\SgCookieOptin\\ViewHelpers')
 		->public();
-	$services->set(\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper::class)
+	$services->set(AbstractViewHelper::class)
 		->public();
-	$services->set(\SGalinski\SgCookieOptin\Backend\TCAWarningField::class)
+	$services->set(TCAWarningField::class)
 		->autowire(FALSE);
-	$services->set(\SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard::class)
+	$services->set(TemplatePreviewLinkWizard::class)
 		->autowire(FALSE);
 };
