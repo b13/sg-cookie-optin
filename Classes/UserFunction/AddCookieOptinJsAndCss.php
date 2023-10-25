@@ -246,9 +246,11 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 */
 	protected function getLanguage() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 		if ($versionNumber >= 9005000) {
-			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+			$languageAspect = GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Context\Context::class
 			)->getAspect('language');
 			// no object check, because if the object is not set we don't know which language that is anyway
@@ -268,9 +270,11 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws SiteNotFoundException
 	 */
 	protected function getLanguageWithLocale() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 		if ($versionNumber >= 9005000) {
-			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+			$languageAspect = GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Context\Context::class
 			)->getAspect('language');
 			// no object check, because if the object is not set we don't know which language that is anyway

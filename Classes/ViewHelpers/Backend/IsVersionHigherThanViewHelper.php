@@ -28,24 +28,23 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
-class IsVersionHigherThanViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
-{
-    /**
-     * Register the ViewHelper arguments
-     */
-    public function initializeArguments() {
-        parent::initializeArguments();
-        $this->registerArgument('version', 'string', 'The version number to compare with', TRUE);
-    }
+class IsVersionHigherThanViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
+	/**
+	 * Register the ViewHelper arguments
+	 */
+	public function initializeArguments() {
+		parent::initializeArguments();
+		$this->registerArgument('version', 'string', 'The version number to compare with', TRUE);
+	}
 
-    /**
-     * Checks if the O3 version meets the requirements
-     *
-     * @return string
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
-     */
-    public function render() {
-        $version = $this->arguments['version'];
-        return version_compare(VersionNumberUtility::getNumericTypo3Version(), $version, '>=');
-    }
+	/**
+	 * Checks if the O3 version meets the requirements
+	 *
+	 * @return string
+	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+	 */
+	public function render() {
+		$version = $this->arguments['version'];
+		return version_compare(VersionNumberUtility::getNumericTypo3Version(), $version, '>=');
+	}
 }

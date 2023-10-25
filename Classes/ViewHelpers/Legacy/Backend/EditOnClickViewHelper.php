@@ -35,42 +35,39 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Class EditLink
  **/
 if (!class_exists('\SgCookieAbstractViewHelper')) {
-    class EditOnClickViewHelper {
+	class EditOnClickViewHelper {
 
-    }
+	}
 } else {
-    class EditOnClickViewHelper extends \SgCookieAbstractViewHelper
-    {
-        /**
-         * Register the ViewHelper arguments
-         */
-        public function initializeArguments()
-        {
-            parent::initializeArguments();
-            $this->registerArgument('table', 'string', 'The table for the clickenlarge link', TRUE);
-            $this->registerArgument('uid', 'int', 'The uid of the record to clickenlarge', TRUE);
-            $this->registerArgument('new', 'bool', 'Open a new record in the popup', FALSE, FALSE);
-        }
+	class EditOnClickViewHelper extends \SgCookieAbstractViewHelper {
+		/**
+		 * Register the ViewHelper arguments
+		 */
+		public function initializeArguments() {
+			parent::initializeArguments();
+			$this->registerArgument('table', 'string', 'The table for the clickenlarge link', TRUE);
+			$this->registerArgument('uid', 'int', 'The uid of the record to clickenlarge', TRUE);
+			$this->registerArgument('new', 'bool', 'Open a new record in the popup', FALSE, FALSE);
+		}
 
-        /**
-         * Renders the onclick script for editing a record
-         *
-         * @return string
-         * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
-         */
-        public function render()
-        {
-            $params = '&edit[' . $this->arguments['table'] . '][' . $this->arguments['uid'] . ']='
-                . ($this->arguments['new'] ? 'new' : 'edit');
-            if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '>=')) {
-                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-                $onclickScript = 'window.location.href=\'' . $uriBuilder->buildUriFromRoute(
-                        'record_edit'
-                    ) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
-            } else {
-                $onclickScript = BackendUtility::editOnClick($params, '', -1);
-            }
-            return $onclickScript;
-        }
-    }
+		/**
+		 * Renders the onclick script for editing a record
+		 *
+		 * @return string
+		 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+		 */
+		public function render() {
+			$params = '&edit[' . $this->arguments['table'] . '][' . $this->arguments['uid'] . ']='
+				. ($this->arguments['new'] ? 'new' : 'edit');
+			if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '>=')) {
+				$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+				$onclickScript = 'window.location.href=\'' . $uriBuilder->buildUriFromRoute(
+						'record_edit'
+					) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
+			} else {
+				$onclickScript = BackendUtility::editOnClick($params, '', -1);
+			}
+			return $onclickScript;
+		}
+	}
 }

@@ -31,7 +31,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -47,7 +46,9 @@ class GenerateStaticFilesCommand extends Command {
 	 * Configure the command by defining the name, options and arguments
 	 */
 	protected function configure() {
-		$this->setHelp('Generates the necessary JavaScript, JSON and CSS files.' . LF . 'If you want to get more detailed information, use the --verbose option.');
+		$this->setHelp(
+			'Generates the necessary JavaScript, JSON and CSS files.' . LF . 'If you want to get more detailed information, use the --verbose option.'
+		);
 		$this->setDescription('Generates the necessary JavaScript, JSON and CSS files.')
 			->addArgument(
 				'siteRootId',
@@ -110,12 +111,16 @@ class GenerateStaticFilesCommand extends Command {
 		}
 
 		if (!$uid) {
-			throw new RuntimeException('Unable to generate files. There is no configuration for this site root. #' . $siteRootId);
+			throw new RuntimeException(
+				'Unable to generate files. There is no configuration for this site root. #' . $siteRootId
+			);
 		}
 
 		$originalRecord = BackendUtility::getRecord(StaticFileGenerationService::TABLE_NAME, $uid);
 		if (isset($originalRecord['l10n_parent']) && (int) $originalRecord['l10n_parent'] > 0) {
-			$originalRecord = BackendUtility::getRecord(StaticFileGenerationService::TABLE_NAME, (int) $originalRecord['l10n_parent']);
+			$originalRecord = BackendUtility::getRecord(
+				StaticFileGenerationService::TABLE_NAME, (int) $originalRecord['l10n_parent']
+			);
 		}
 
 		return $originalRecord;

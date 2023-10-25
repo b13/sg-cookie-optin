@@ -116,7 +116,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -127,13 +127,13 @@ $configuration = [
 			'config' => [
 				'type' => 'text',
 				'renderType' => 't3editor',
-                'default' => '<button class="sg-cookie-optin-iframe-consent-accept">{{{textEntries.iframe_button_load_one_text}}}</button>
+				'default' => '<button class="sg-cookie-optin-iframe-consent-accept">{{{textEntries.iframe_button_load_one_text}}}</button>
 {{{placeholders.iframe_consent_description}}}
 <a class="sg-cookie-optin-iframe-consent-link">{{{textEntries.iframe_open_settings_text}}}</a>',
 				'format' => 'html',
 				'eval' => 'trim',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -159,7 +159,7 @@ $configuration = [
 				'type' => 'input',
 				'eval' => 'trim',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 				'default' => '',
 			],

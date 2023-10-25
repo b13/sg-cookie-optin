@@ -30,51 +30,52 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
-class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
-{
-    /**
-     * Register the ViewHelper arguments
-     */
-    public function initializeArguments() {
-        parent::initializeArguments();
-        $this->registerArgument('table', 'string', 'The table for the edit link', TRUE);
-        $this->registerArgument('uid', 'int', 'The uid of the record to edit', TRUE);
-        $this->registerArgument('pid', 'int', 'The pid of the record to edit', TRUE);
-        $this->registerArgument('new', 'bool', 'Open a new record in the popup', FALSE, FALSE);
-    }
+class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
+	/**
+	 * Register the ViewHelper arguments
+	 */
+	public function initializeArguments() {
+		parent::initializeArguments();
+		$this->registerArgument('table', 'string', 'The table for the edit link', TRUE);
+		$this->registerArgument('uid', 'int', 'The uid of the record to edit', TRUE);
+		$this->registerArgument('pid', 'int', 'The pid of the record to edit', TRUE);
+		$this->registerArgument('new', 'bool', 'Open a new record in the popup', FALSE, FALSE);
+	}
 
-    /**
-     * Renders the onclick script for editing a record
-     *
-     * @return string
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
-     */
-    public function render() {
-        $params = '&edit[' . $this->arguments['table'] . '][' . $this->arguments['uid'] . ']='
-            . ($this->arguments['new'] ? 'new' : 'edit');
-        if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '12.0.0', '>=')) {
-            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-            // For some reason TYPO3 has two different URI Builders..
-            $indexUrl = (string)$uriBuilder->buildUriFromRoutePath('/module/web/sg-cookie-optin', ['id' => $this->arguments['pid']]);
-            $uriParameters =
-               [
-                  'edit' =>
-                     [
-                         $this->arguments['table'] =>
-                           [
-                               $this->arguments['uid'] => 'edit'
-                           ],
-                     ],
-                   'returnUrl' => $indexUrl
-               ];
-            return $uriBuilder->buildUriFromRoute('record_edit', $uriParameters);
-        }
+	/**
+	 * Renders the onclick script for editing a record
+	 *
+	 * @return string
+	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+	 */
+	public function render() {
+		$params = '&edit[' . $this->arguments['table'] . '][' . $this->arguments['uid'] . ']='
+			. ($this->arguments['new'] ? 'new' : 'edit');
+		if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '12.0.0', '>=')) {
+			$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+			// For some reason TYPO3 has two different URI Builders..
+			$indexUrl = (string) $uriBuilder->buildUriFromRoutePath(
+				'/module/web/sg-cookie-optin', ['id' => $this->arguments['pid']]
+			);
+			$uriParameters =
+				[
+					'edit' =>
+						[
+							$this->arguments['table'] =>
+								[
+									$this->arguments['uid'] => 'edit'
+								],
+						],
+					'returnUrl' => $indexUrl
+				];
+			return $uriBuilder->buildUriFromRoute('record_edit', $uriParameters);
+		}
 
-        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        $onclickScript = 'window.location.href=\'' . $uriBuilder->buildUriFromRoute(
-            'record_edit'
-        ) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
-        return $onclickScript;
+		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+		$onclickScript = 'window.location.href=\'' . $uriBuilder->buildUriFromRoute(
+				'record_edit'
+			) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
+		return $onclickScript;
 
-    }
+	}
 }

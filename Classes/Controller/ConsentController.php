@@ -28,7 +28,6 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
-use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -41,15 +40,14 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class ConsentController extends ActionController {
 	use InitControllerComponents;
 
-    /**
-     * @var ModuleTemplateFactory
-     */
-    protected $moduleTemplateFactory;
+	/**
+	 * @var ModuleTemplateFactory
+	 */
+	protected $moduleTemplateFactory;
 
-    public function initializeAction(): void
-    {
-        $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
-    }
+	public function initializeAction(): void {
+		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+	}
 
 	/**
 	 * Displays the user preference consent history

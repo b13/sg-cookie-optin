@@ -26,8 +26,6 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-
 /**
  * Class SGalinski\SgCookieOptin\Service\ExtensionSettingsService
  */
@@ -51,7 +49,7 @@ class ExtensionSettingsService {
 	 * @return mixed
 	 */
 	public static function getSetting($settingKey) {
-        $configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'] ?? [];
+		$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'] ?? [];
 
 		$setting = '';
 		if (isset(self::$defaultValueMap[$settingKey])) {

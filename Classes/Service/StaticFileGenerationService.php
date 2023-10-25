@@ -38,7 +38,6 @@ use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
-use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
@@ -174,7 +173,9 @@ class StaticFileGenerationService implements SingletonInterface {
 				} else {
 					$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 				}
-				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid, '1');
+				$translatedRecord = $pageRepository->getRecordOverlay(
+					self::TABLE_NAME, $originalRecord, $languageUid, '1'
+				);
 			}
 
 			$translatedFullData = $this->getFullData($translatedRecord, self::TABLE_NAME, $languageUid);

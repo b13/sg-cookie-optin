@@ -59,8 +59,8 @@ class LegacyConsentController extends ActionController {
 			'identifiers',
 			OptinHistoryService::getItemIdentifiers(
 				[
-				'pid' => $pageUid
-			]
+					'pid' => $pageUid
+				]
 			)
 		);
 

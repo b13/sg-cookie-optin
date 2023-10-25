@@ -44,7 +44,7 @@ class JsonImportService {
 	const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
 	const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
 	const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
-	const DEFAULT_IFRAME_WHITELIST = '^https:\/\/www\.google\.com\/recaptcha\/'."\n";
+	const DEFAULT_IFRAME_WHITELIST = '^https:\/\/www\.google\.com\/recaptcha\/' . "\n";
 
 	/**
 	 * Separates the locale in the filename
@@ -509,15 +509,15 @@ class JsonImportService {
 	public function parseAndStoreImportedData(array $languages) {
 		$dataStorage = [];
 		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
-        if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
-            $fileName = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'];
-            $fileType = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'];
-            $fileError = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'];
-        } else {
-            $fileName = $_FILES['file']['tmp_name'];
-            $fileType = $_FILES['file']['type'];
-            $fileError = $_FILES['file']['error'];
-        }
+		if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
+			$fileName = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'];
+			$fileType = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'];
+			$fileError = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'];
+		} else {
+			$fileName = $_FILES['file']['tmp_name'];
+			$fileType = $_FILES['file']['type'];
+			$fileError = $_FILES['file']['error'];
+		}
 
 		// get and import the default language
 		if ($fileType !== 'application/json'

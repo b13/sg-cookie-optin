@@ -1001,7 +1001,7 @@ $configuration = [
 				'format' => 'html',
 				'eval' => 'trim',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1014,7 +1014,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1038,7 +1038,7 @@ $configuration = [
 				'eval' => 'trim',
 				'default' => '',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1051,7 +1051,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 
@@ -1073,7 +1073,7 @@ $configuration = [
 				'type' => 'input',
 				'eval' => 'trim',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 				'default' => '',
 			],
@@ -1133,7 +1133,7 @@ $configuration = [
 				],
 				'default' => '',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1146,7 +1146,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1174,7 +1174,7 @@ $configuration = [
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.1', 1],
 				],
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1278,7 +1278,7 @@ $configuration = [
 					],
 				],
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1291,7 +1291,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],

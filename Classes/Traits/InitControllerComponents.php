@@ -46,7 +46,9 @@ trait InitControllerComponents {
 	 * Initialize the demo mode check and the doc header components
 	 */
 	protected function initComponents(ModuleTemplate $moduleTemplate) {
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version());
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 		$keyState = LicenceCheckService::checkKey();
 		$isInDemoMode = LicenceCheckService::isInDemoMode();
 		$hasValidLicense = LicenceCheckService::hasValidLicense();
@@ -68,17 +70,16 @@ trait InitControllerComponents {
 				LicenceCheckService::removeAllCookieOptInFiles();
 			}
 
-
-            $description = LocalizationUtility::translate(
-                'backend.licenseKey.notSet.descriptionTYPO3-9',
-                'sg_cookie_optin'
-            );
+			$description = LocalizationUtility::translate(
+				'backend.licenseKey.notSet.descriptionTYPO3-9',
+				'sg_cookie_optin'
+			);
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
-					'backend.licenseKey.error.dev',
-					'sg_cookie_optin'
-				);
+						'backend.licenseKey.error.dev',
+						'sg_cookie_optin'
+					);
 			}
 
 			$this->addFlashMessage(
@@ -91,16 +92,16 @@ trait InitControllerComponents {
 				LicenceCheckService::removeAllCookieOptInFiles();
 			}
 
-            $description = LocalizationUtility::translate(
-                'backend.licenseKey.invalid.descriptionTYPO3-9',
-                'sg_cookie_optin'
-            );
+			$description = LocalizationUtility::translate(
+				'backend.licenseKey.invalid.descriptionTYPO3-9',
+				'sg_cookie_optin'
+			);
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
-					'backend.licenseKey.error.dev',
-					'sg_cookie_optin'
-				);
+						'backend.licenseKey.error.dev',
+						'sg_cookie_optin'
+					);
 			}
 
 			$this->addFlashMessage(
@@ -115,18 +116,18 @@ trait InitControllerComponents {
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 
 		// the docHeaderComponent do not exist below version 7
-        if ($pageInfo === FALSE) {
-            $pageInfo = ['uid' => $pageUid];
-        }
-        $moduleTemplate->getDocHeaderComponent()->setMetaInformation($pageInfo);
-        BackendService::makeButtons($moduleTemplate->getDocHeaderComponent(), $this->request);
-        $moduleTemplate->assign('docHeader', $moduleTemplate->getDocHeaderComponent()->docHeaderContent());
+		if ($pageInfo === FALSE) {
+			$pageInfo = ['uid' => $pageUid];
+		}
+		$moduleTemplate->getDocHeaderComponent()->setMetaInformation($pageInfo);
+		BackendService::makeButtons($moduleTemplate->getDocHeaderComponent(), $this->request);
+		$moduleTemplate->assign('docHeader', $moduleTemplate->getDocHeaderComponent()->docHeaderContent());
 
-        $moduleTemplate->assign('typo3Version', $typo3Version);
-        $moduleTemplate->assign('pageUid', $pageUid);
-        $moduleTemplate->assign('invalidKey', !$hasValidLicense);
-        $moduleTemplate->assign('controller', $this->request->getControllerName());
-        $moduleTemplate->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
+		$moduleTemplate->assign('typo3Version', $typo3Version);
+		$moduleTemplate->assign('pageUid', $pageUid);
+		$moduleTemplate->assign('invalidKey', !$hasValidLicense);
+		$moduleTemplate->assign('controller', $this->request->getControllerName());
+		$moduleTemplate->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
 	}
 
 	/**
@@ -136,9 +137,9 @@ trait InitControllerComponents {
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
-            $moduleTemplate->assign('isSiteRoot', TRUE);
+			$moduleTemplate->assign('isSiteRoot', TRUE);
 		} else {
-            $moduleTemplate->assign('pages', BackendService::getPages());
+			$moduleTemplate->assign('pages', BackendService::getPages());
 		}
 	}
 }

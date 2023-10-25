@@ -58,8 +58,8 @@ class LegacyStatisticsController extends ActionController {
 			'versions',
 			OptinHistoryService::getVersions(
 				[
-				'pid' => $pageUid
-			]
+					'pid' => $pageUid
+				]
 			)
 		);
 

@@ -31,7 +31,6 @@ use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Backend\Controller\BackendController;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class BackendControllerHook

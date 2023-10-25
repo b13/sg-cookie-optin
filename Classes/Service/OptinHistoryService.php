@@ -30,7 +30,6 @@ use Exception;
 use PDO;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -65,7 +64,9 @@ class OptinHistoryService {
 				throw new SaveOptinHistoryException('No data to save');
 			}
 
-			if (VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version()) < 9000000) {
+			if (VersionNumberUtility::convertVersionNumberToInteger(
+					VersionNumberUtility::getCurrentTypo3Version()
+				) < 9000000) {
 				foreach ($insertData as $data) {
 					$GLOBALS['TYPO3_DB']->exec_INSERTquery(self::TABLE_NAME, $data);
 				}

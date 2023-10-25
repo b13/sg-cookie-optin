@@ -45,7 +45,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 */
 	protected $tagName = 'option';
 
-    /**
+	/**
 	 * Register the ViewHelper arguments
 	 */
 	public function initializeArguments() {

@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -71,8 +72,8 @@ try {
 						', ',
 						array_map(
 							function ($paramKey) {
-							return ':' . $paramKey;
-						},
+								return ':' . $paramKey;
+							},
 							$keys
 						)
 					) . ')';

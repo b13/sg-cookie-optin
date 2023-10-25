@@ -48,15 +48,14 @@ class StatisticsController extends ActionController {
 	 */
 	protected $docHeaderComponent;
 
-    /**
-     * @var ModuleTemplateFactory
-     */
-    protected $moduleTemplateFactory;
+	/**
+	 * @var ModuleTemplateFactory
+	 */
+	protected $moduleTemplateFactory;
 
-    public function initializeAction(): void
-    {
-        $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
-    }
+	public function initializeAction(): void {
+		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+	}
 
 	/**
 	 * Displays the user preference statistics

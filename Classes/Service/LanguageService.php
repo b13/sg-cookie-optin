@@ -29,7 +29,6 @@ namespace SGalinski\SgCookieOptin\Service;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Class SGalinski\SgCookieOptin\Service\LanguageService
@@ -43,16 +42,16 @@ class LanguageService {
 	 * @throws SiteNotFoundException
 	 */
 	public static function getLanguages($siteRootUid) {
-        $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
-        $rows = [];
-        foreach ($site->getAllLanguages() as $siteLanguage) {
-            $rows[] = [
-                'uid' => $siteLanguage->getLanguageId(),
-                'locale' => $siteLanguage->getLocale(),
-                'title' => $siteLanguage->getTitle(),
-                'flagIdentifier' => $siteLanguage->getFlagIdentifier(),
-            ];
-        }
+		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
+		$rows = [];
+		foreach ($site->getAllLanguages() as $siteLanguage) {
+			$rows[] = [
+				'uid' => $siteLanguage->getLanguageId(),
+				'locale' => $siteLanguage->getLocale(),
+				'title' => $siteLanguage->getTitle(),
+				'flagIdentifier' => $siteLanguage->getFlagIdentifier(),
+			];
+		}
 
 		return $rows;
 	}

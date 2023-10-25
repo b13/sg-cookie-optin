@@ -82,9 +82,9 @@ trait LegacyInitControllerComponents {
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
-					'backend.licenseKey.error.dev',
-					'sg_cookie_optin'
-				);
+						'backend.licenseKey.error.dev',
+						'sg_cookie_optin'
+					);
 			}
 
 			$this->addFlashMessage(
@@ -111,9 +111,9 @@ trait LegacyInitControllerComponents {
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
-					'backend.licenseKey.error.dev',
-					'sg_cookie_optin'
-				);
+						'backend.licenseKey.error.dev',
+						'sg_cookie_optin'
+					);
 			}
 
 			$this->addFlashMessage(

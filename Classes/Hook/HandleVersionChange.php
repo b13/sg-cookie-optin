@@ -31,7 +31,6 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
@@ -66,7 +65,7 @@ class HandleVersionChange {
 			} else {
 				$result = $resultObject->fetch();
 			}
-            list($currentVersion, $pid) = array_values($result);
+			[$currentVersion, $pid] = array_values($result);
 
 			$sqlQuery = "UPDATE tx_sgcookieoptin_domain_model_optin SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";
 			$connection->executeQuery($sqlQuery);
