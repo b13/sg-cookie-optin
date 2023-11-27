@@ -513,22 +513,12 @@ class LicenceCheckService {
 	}
 
 	/**
-	 * Checks whether we are in development context
+	 * Checks whether we are in the development context
 	 *
 	 * @return bool
 	 */
 	public static function isInDevelopmentContext() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-		if ($versionNumber >= 9000000) {
-			// Since TYPO3 9LTS
-			$context = Environment::getContext();
-		} else {
-			// Prior to TYPO3 9LTS
-			$context = GeneralUtility::getApplicationContext();
-		}
-		return $context->isDevelopment();
+		return Environment::getContext()->isDevelopment();
 	}
 
 	/**

@@ -44,13 +44,13 @@ class BaseUrlService {
 	 * @param int $rootPid
 	 * @return string
 	 */
-	public static function getSiteBaseUrl($rootPid) {
+	public static function getSiteBaseUrl($rootPid, int $languageId = 0) {
 		$rootPid = (int) $rootPid;
 
 		try {
 			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
 			$site = $siteFinder->getSiteByPageId($rootPid);
-			$basePath = (string) $site->getBase();
+			$basePath = (string) $site->getLanguageById($languageId)->getBase();
 		} catch (SiteNotFoundException $exception) {
 			$basePath = '/';
 		}

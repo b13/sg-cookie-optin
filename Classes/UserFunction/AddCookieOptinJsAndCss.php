@@ -30,13 +30,13 @@ use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -76,7 +76,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			return '';
 		}
 
-		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
+		$languageId = $this->getLanguage();
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage, $languageId);
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
@@ -105,7 +106,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
 			}
 
-			$fileUrl = ($overwrittenBaseUrl ?? $siteBaseUrl) . $file;
+			$fileUrl = ($overwrittenBaseUrl ?? $siteBaseUrl) . $file . '?' . $cacheBuster;
 			return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) . '</script>
 					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
 					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"></script>';
@@ -158,7 +159,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			}
 		}
 
-		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage);
+		$languageId = $this->getLanguage();
+		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage, $languageId);
 		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n"
 			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n";
 	}
@@ -246,49 +248,21 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 */
 	protected function getLanguage() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-		if ($versionNumber >= 9005000) {
-			$languageAspect = GeneralUtility::makeInstance(
-				\TYPO3\CMS\Core\Context\Context::class
-			)->getAspect('language');
-			// no object check, because if the object is not set we don't know which language that is anyway
-			return $languageAspect->getId();
-		}
-
-		/** @var TypoScriptFrontendController $typoScriptFrontendController */
-		$typoScriptFrontendController = $GLOBALS['TSFE'];
-		return $typoScriptFrontendController->sys_language_uid;
+		$languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+		// no object check, because if the object is not set, we don't know which language that is anyway
+		return $languageAspect->getId();
 	}
 
 	/**
-	 * Returns the current Language Id with locale
+	 * Returns the current Language id with locale
 	 *
-	 * @return array|false|int|mixed|string
+	 * @return string
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
 	protected function getLanguageWithLocale() {
-		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-		if ($versionNumber >= 9005000) {
-			$languageAspect = GeneralUtility::makeInstance(
-				\TYPO3\CMS\Core\Context\Context::class
-			)->getAspect('language');
-			// no object check, because if the object is not set we don't know which language that is anyway
-			$languageId = $languageAspect->getId();
-			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
-			$language = $site->getLanguageById($languageId);
-			$returnString = $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
-		} else {
-			/** @var TypoScriptFrontendController $typoScriptFrontendController */
-			$typoScriptFrontendController = $GLOBALS['TSFE'];
-			$languageId = $typoScriptFrontendController->sys_language_uid;
-			$returnString = JsonImportService::LOCALE_SEPARATOR . $languageId;
-		}
-
-		return $returnString;
+		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
+		$language = $site->getLanguageById($this->getLanguage());
+		return $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
 	}
 }

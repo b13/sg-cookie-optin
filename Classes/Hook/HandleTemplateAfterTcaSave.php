@@ -31,7 +31,6 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Handles the template related changes in the TCA.
@@ -128,33 +127,20 @@ class HandleTemplateAfterTcaSave {
 				);
 			}
 
-			if (VersionNumberUtility::convertVersionNumberToInteger(
-					VersionNumberUtility::getCurrentTypo3Version()
-				) <= 9000000) {
-				/** @var DatabaseConnection $database */
-				$database = $GLOBALS['TYPO3_DB'];
-				$database->exec_UPDATEquery(self::TABLE_NAME, 'uid=' . (int) $id, [
-					'template_html' => $template,
-					'banner_html' => $bannerTemplate,
-					'iframe_html' => $iframeTemplate,
-					'iframe_replacement_html' => $iframeReplacementTemplate,
-				]);
-			} else {
-				$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-				$queryBuilder = $connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
-				$queryBuilder
-					->update(self::TABLE_NAME)
-					->set('template_html', $template)
-					->set('banner_html', $bannerTemplate)
-					->set('iframe_html', $iframeTemplate)
-					->set('iframe_replacement_html', $iframeReplacementTemplate)
-					->where(
-						$queryBuilder->expr()->eq(
-							'uid',
-							$queryBuilder->createNamedParameter((int) $id, \PDO::PARAM_INT)
-						)
-					)->execute();
-			}
+			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+			$queryBuilder = $connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
+			$queryBuilder
+				->update(self::TABLE_NAME)
+				->set('template_html', $template)
+				->set('banner_html', $bannerTemplate)
+				->set('iframe_html', $iframeTemplate)
+				->set('iframe_replacement_html', $iframeReplacementTemplate)
+				->where(
+					$queryBuilder->expr()->eq(
+						'uid',
+						$queryBuilder->createNamedParameter((int) $id, \PDO::PARAM_INT)
+					)
+				)->execute();
 		}
 	}
 }

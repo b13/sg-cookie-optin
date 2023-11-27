@@ -299,48 +299,32 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function getDataForInlineField($table, $field, $parentUid, $language = 0) {
 		$languageField = $this->getTCALanguageField($table);
-		if (VersionNumberUtility::convertVersionNumberToInteger(
-				VersionNumberUtility::getCurrentTypo3Version()
-			) <= 9000000) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetRows(
-				'*',
-				$table,
-				'deleted=0 AND hidden=0 AND ' . $field . '=' . $parentUid .
-				($languageField ? ' AND ' . $languageField . '=0' : ''),
-				'',
-				'sorting ASC'
+		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+		$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
+		$queryBuilder->getRestrictions()
+			->removeAll()
+			->add(GeneralUtility::makeInstance(HiddenRestriction::class))
+			->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+		$queryBuilder->select('*')
+			->from($table)
+			->orderBy('sorting', 'ASC')
+			->where(
+				$queryBuilder->expr()->eq(
+					$field,
+					$parentUid
+				)
 			);
-		} else {
-			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
-			$queryBuilder->getRestrictions()
-				->removeAll()
-				->add(GeneralUtility::makeInstance(HiddenRestriction::class))
-				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-			$queryBuilder->select('*')
-				->from($table)
-				->orderBy('sorting', 'ASC')
-				->where(
-					$queryBuilder->expr()->eq(
-						$field,
-						$parentUid
-					)
-				);
 
-			if ($languageField) {
-				$queryBuilder->andWhere(
-					$queryBuilder->expr()->eq(
-						$languageField,
-						0
-					)
-				);
-			}
-
-			$rows = $queryBuilder->execute()->fetchAll();
+		if ($languageField) {
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq(
+					$languageField,
+					0
+				)
+			);
 		}
 
+		$rows = $queryBuilder->execute()->fetchAll();
 		if (!is_array($rows)) {
 			return [];
 		}
@@ -354,6 +338,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		} else {
 			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 		}
+
 		foreach ($rows as $row) {
 			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
 		}
@@ -365,7 +350,6 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * Returns the language field of the given table.
 	 *
 	 * @param string $table
-	 *
 	 * @return string
 	 */
 	protected function getTCALanguageField($table) {
@@ -390,6 +374,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @param boolean $minifyFile
 	 *
 	 * @return void
+	 * @throws ResourceDoesNotExistException
 	 */
 	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
@@ -466,7 +451,6 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * Creates a html string out of the given scripts.
 	 *
 	 * @param array $scripts
-	 *
 	 * @return string
 	 */
 	protected function getActivationHTML(array $scripts) {
@@ -492,7 +476,6 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @param int $languageUid
 	 * @param bool $minifyFile
 	 * @param string $overwrittenBaseUrl
-	 *
 	 * @return string
 	 */
 	protected function createActivationScriptFile(
@@ -538,7 +521,6 @@ class StaticFileGenerationService implements SingletonInterface {
 	 *
 	 * @param string $folder
 	 * @param bool $minifyFile
-	 *
 	 * @return void
 	 * @throws ResourceDoesNotExistException
 	 */
@@ -576,7 +558,6 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @param bool $minifyFiles
 	 * @param int $languageUid
 	 * @param string $locale
-	 *
 	 * @return void
 	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
 	 * @throws \JsonException
@@ -1064,11 +1045,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			}
 
 			if ($languageUid > 0) {
-				if ($versionNumber >= 9000000) {
-					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
-				} else {
-					$record = $pageRepository->getPageOverlay($record, $languageUid);
-				}
+				$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
 			}
 
 			$records[] = $record;
