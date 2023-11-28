@@ -76,8 +76,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			return '';
 		}
 
-		$languageId = $this->getLanguage();
-		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage, $languageId);
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
@@ -159,8 +158,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			}
 		}
 
-		$languageId = $this->getLanguage();
-		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage, $languageId);
+		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage);
 		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n"
 			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n";
 	}
