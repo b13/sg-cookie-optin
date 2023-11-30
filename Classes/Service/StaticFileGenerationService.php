@@ -34,6 +34,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
+use TYPO3\CMS\Core\Routing\InvalidRouteArgumentsException;
 use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -378,13 +379,16 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$content = '';
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 			$file = $resourceFactory->retrieveFileOrFolderObject(
 				self::TEMPLATE_STYLE_SHEET_PATH_EXT . self::TEMPLATE_STYLE_SHEET_NAME
 			);
-			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
-				file_get_contents($sitePath . $file->getPublicUrl());
+			if ($file) {
+				$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
+					file_get_contents($sitePath . $file->getPublicUrl());
+			}
 		} else {
 			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
 				file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
@@ -396,32 +400,25 @@ class StaticFileGenerationService implements SingletonInterface {
 				$data['template_selection']
 			);
 		if ((bool) $data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
-			$content .= " \n\n" . $templateService->getCSSContent(
-					TemplateService::TYPE_BANNER,
-					0
-				);
+			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_BANNER, 0);
 		}
 
 		if ((bool) $data['iframe_enabled']) {
-			$content .= " \n\n" . $templateService->getCSSContent(
-					TemplateService::TYPE_IFRAME,
-					0
-				);
-			$content .= " \n\n" . $templateService->getCSSContent(
-					TemplateService::TYPE_IFRAME_REPLACEMENT,
-					0
-				);
+			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_IFRAME, 0);
+			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_IFRAME_REPLACEMENT, 0);
 		}
 
 		if ($data['fingerprint_position'] > 0) {
-			$content .= " \n\n" . $templateService->getCSSContent(
+			$content .= " \n\n" .
+				$templateService->getCSSContent(
 					TemplateService::TYPE_FINGERPRINT,
 					TemplateService::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT
 				);
 		}
 
 		if ((bool) $data['monochrome_enabled']) {
-			$content .= " \n\n" . $templateService->getCSSContent(
+			$content .= " \n\n" .
+				$templateService->getCSSContent(
 					TemplateService::TYPE_MONOCHROME,
 					TemplateService::IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT
 				);
@@ -513,7 +510,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		GeneralUtility::fixPermissions($groupFile);
 		// $this->siteRoot cannot be null here, because this always gets called after the DataHandler logic where
 		// it is being set
-		return ($overwrittenBaseUrl ?: BaseUrlService::getSiteBaseUrl($this->siteRoot)) . $file;
+		return ($overwrittenBaseUrl ?: BaseUrlService::getSiteBaseUrl($this->siteRoot, $languageUid)) . $file;
 	}
 
 	/**
@@ -561,6 +558,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @return void
 	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
 	 * @throws \JsonException
+	 * @throws InvalidRouteArgumentsException
 	 */
 	protected function createJsonFile(
 		$folder,
@@ -923,8 +921,8 @@ class StaticFileGenerationService implements SingletonInterface {
 		];
 
 		$jsonDataArray['mustacheData']['services'] = [];
-		if ((is_countable($translatedData['services']) && (count($translatedData['services']) > 0))
-			|| (int) $translatedData['services'] > 0
+		if ((int) $translatedData['services'] > 0 ||
+			(is_countable($translatedData['services']) && (count($translatedData['services']) > 0))
 		) {
 			$templateService = GeneralUtility::makeInstance(TemplateService::class);
 			foreach ($translatedData['services'] as $service) {

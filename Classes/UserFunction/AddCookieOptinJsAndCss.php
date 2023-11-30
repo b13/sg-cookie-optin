@@ -30,7 +30,6 @@ use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
@@ -76,8 +75,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			return '';
 		}
 
-		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
-
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage, BaseUrlService::getLanguage());
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
@@ -158,13 +156,15 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			}
 		}
 
-		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage);
+		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl(
+			$this->rootpage, BaseUrlService::getLanguage()
+		);
 		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n"
 			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n";
 	}
 
 	/**
-	 * Returns always the first page within the rootline
+	 * Returns always the first page within the "rootline"
 	 *
 	 * @return int
 	 */
@@ -240,19 +240,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	}
 
 	/**
-	 * Returns the current language id
-	 *
-	 * @return int
-	 * @throws AspectNotFoundException
-	 */
-	protected function getLanguage() {
-		$languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
-		// no object check, because if the object is not set, we don't know which language that is anyway
-		return $languageAspect->getId();
-	}
-
-	/**
-	 * Returns the current Language id with locale
+	 * Returns the current language id with locale
 	 *
 	 * @return string
 	 * @throws AspectNotFoundException
@@ -260,7 +248,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 */
 	protected function getLanguageWithLocale() {
 		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
-		$language = $site->getLanguageById($this->getLanguage());
+		$language = $site->getLanguageById(BaseUrlService::getLanguage());
 		return $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
 	}
 }

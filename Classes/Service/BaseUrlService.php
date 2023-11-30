@@ -26,6 +26,8 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -42,6 +44,7 @@ class BaseUrlService {
 	 * Gets the base Url for this site root
 	 *
 	 * @param int $rootPid
+	 * @param int $languageId
 	 * @return string
 	 */
 	public static function getSiteBaseUrl($rootPid, int $languageId = 0) {
@@ -50,7 +53,17 @@ class BaseUrlService {
 		try {
 			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
 			$site = $siteFinder->getSiteByPageId($rootPid);
-			$basePath = (string) $site->getLanguageById($languageId)->getBase();
+			$basePath = $site->getLanguageById($languageId)->getBase();
+			if ($languageId > 0) {
+				$defaultBasePath = $site->getLanguageById(0)->getBase();
+				// only use the translated host if it differs from the default host
+				if ($basePath->getHost() === $defaultBasePath->getHost()) {
+					$basePath = $defaultBasePath;
+				}
+			}
+
+			$basePath = (string) $basePath;
+
 		} catch (SiteNotFoundException $exception) {
 			$basePath = '/';
 		}
@@ -60,5 +73,17 @@ class BaseUrlService {
 		}
 
 		return $basePath;
+	}
+
+	/**
+	 * Returns the current language id. Only in frontend context usable.
+	 *
+	 * @return int
+	 * @throws AspectNotFoundException
+	 */
+	public static function getLanguage() {
+		$languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+		// no object check, because if the object is not set, we don't know which language that is anyway
+		return $languageAspect->getId();
 	}
 }
