@@ -209,7 +209,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$this->getLanguageWithLocale() . '.json';
 		if (!file_exists($sitePath . $jsonFile)) {
 			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
-				$this->getLanguage() . '.json';
+				BaseUrlService::getLanguage() . '.json';
 			if (!file_exists($sitePath . $jsonFile)) {
 				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
 				if (!file_exists($sitePath . $jsonFile)) {
