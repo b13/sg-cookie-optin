@@ -747,7 +747,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$footerLinks = [];
 		$index = 0;
-		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot, $languageUid, FALSE);
 		$parsedSiteBaseUrl = parse_url($siteBaseUrl);
 		foreach ($navigationEntries as $pageData) {
 			$uid = (int) $pageData['uid'];

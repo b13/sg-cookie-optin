@@ -41,28 +41,25 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class BaseUrlService {
 	/**
-	 * Gets the base Url for this site root
+	 * Gets the base URL for this site root
 	 *
 	 * @param int $rootPid
 	 * @param int $languageId
+	 * @param bool $usedAsFilePath
 	 * @return string
 	 */
-	public static function getSiteBaseUrl($rootPid, int $languageId = 0) {
+	public static function getSiteBaseUrl($rootPid, int $languageId = 0, $usedAsFilePath = TRUE) {
 		$rootPid = (int) $rootPid;
 
 		try {
 			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
 			$site = $siteFinder->getSiteByPageId($rootPid);
 			$basePath = $site->getLanguageById($languageId)->getBase();
-			if ($languageId > 0) {
-				$defaultBasePath = $site->getLanguageById(0)->getBase();
-				// only use the translated host if it differs from the default host
-				if ($basePath->getHost() === $defaultBasePath->getHost()) {
-					$basePath = $defaultBasePath;
-				}
+			if ($usedAsFilePath) {
+				$basePath = (string) $basePath->withPath('/');
+			} else {
+				$basePath = (string) $basePath;
 			}
-
-			$basePath = (string) $basePath;
 
 		} catch (SiteNotFoundException $exception) {
 			$basePath = '/';
