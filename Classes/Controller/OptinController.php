@@ -64,6 +64,16 @@ class OptinController extends ActionController {
 	protected $moduleTemplateFactory;
 
 	/**
+	 * @var array
+	 */
+	protected $moduleData;
+
+	/**
+	 * @var ModuleTemplate
+	 */
+	protected $moduleTemplate;
+
+	/**
 	 * Init module state.
 	 * This isn't done within __construct() since the controller
 	 * object is only created once in extbase when multiple actions are called in
