@@ -396,7 +396,7 @@ class OptinController extends ActionController {
 				LocalizationUtility::translate('backend.exportConfig', 'sg_cookie_optin'),
 				AbstractMessage::ERROR
 			);
-			$this->redirect('index');
+			return $this->redirect('index');
 		}
 	}
 

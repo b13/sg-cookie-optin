@@ -69,6 +69,8 @@ class JSqueeze {
 	protected $str1;
 	protected $argFreq;
 	protected $specialVarRx;
+	protected $local_tree;
+	protected $used_tree;
 	protected $keepImportantComments;
 	protected $varRx = '(?:[a-zA-Z_$])[a-zA-Z0-9_$]*';
 	protected $reserved = [
