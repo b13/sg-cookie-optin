@@ -95,7 +95,11 @@ class OptinController extends ActionController {
 		$this->initComponents($this->moduleTemplate);
 		$this->checkLicenseStatus($this->moduleTemplate);
 
-		session_start();
+		session_start([
+			'cookie_secure' => TRUE,
+			'cookie_httponly' => TRUE,
+			'cookie_samesite' => 'Strict'
+		]);
 		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
 			unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
 			$this->addFlashMessage(
@@ -152,7 +156,11 @@ class OptinController extends ActionController {
 	 *
 	 */
 	public function importJsonAction() {
-		session_start();
+		session_start([
+			'cookie_secure' => TRUE,
+			'cookie_httponly' => TRUE,
+			'cookie_samesite' => 'Strict'
+		]);
 		$pid = (int) GeneralUtility::_GP('id');
 		try {
 			if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['defaultLanguageId'])) {
@@ -218,7 +226,11 @@ class OptinController extends ActionController {
 	 * @throws \TYPO3\CMS\Extbase\Object\Exception
 	 */
 	public function previewImportAction() {
-		session_start();
+		session_start([
+			'cookie_secure' => TRUE,
+			'cookie_httponly' => TRUE,
+			'cookie_samesite' => 'Strict'
+		]);
 		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 		$this->initComponents($this->moduleTemplate);
 		$pageUid = (int) GeneralUtility::_GP('id');

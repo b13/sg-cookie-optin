@@ -74,7 +74,11 @@ class LegacyOptinController extends ActionController {
 		$this->initComponents();
 		$this->checkLicenseStatus();
 
-		session_start();
+		session_start([
+			'cookie_secure' => TRUE,
+			'cookie_httponly' => TRUE,
+			'cookie_samesite' => 'Strict'
+		]);
 		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
 			unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
 			$this->addFlashMessage(
@@ -228,7 +232,11 @@ class LegacyOptinController extends ActionController {
 	 * @throws StopActionException
 	 */
 	public function importJsonAction() {
-		session_start();
+		session_start([
+			'cookie_secure' => TRUE,
+			'cookie_httponly' => TRUE,
+			'cookie_samesite' => 'Strict'
+		]);
 		$pid = (int) GeneralUtility::_GP('id');
 		try {
 			if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['defaultLanguageId'])) {
@@ -297,7 +305,11 @@ class LegacyOptinController extends ActionController {
 	 * @throws \TYPO3\CMS\Extbase\Object\Exception
 	 */
 	public function previewImportAction() {
-		session_start();
+		session_start([
+			'cookie_secure' => TRUE,
+			'cookie_httponly' => TRUE,
+			'cookie_samesite' => 'Strict'
+		]);
 		$this->initComponents();
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));

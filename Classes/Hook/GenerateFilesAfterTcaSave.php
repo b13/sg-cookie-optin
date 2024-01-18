@@ -109,7 +109,11 @@ class GenerateFilesAfterTcaSave {
 	 */
 	protected function handleFlashMessage(DataHandler $dataHandler) {
 		if (isset($dataHandler->cmdmap[StaticFileGenerationService::TABLE_NAME]) || isset($dataHandler->datamap[StaticFileGenerationService::TABLE_NAME])) {
-			session_start();
+			session_start([
+				'cookie_secure' => TRUE,
+				'cookie_httponly' => TRUE,
+				'cookie_samesite' => 'Strict'
+			]);
 			$_SESSION['tx_sgcookieoptin']['configurationChanged'] = TRUE;
 		}
 	}
