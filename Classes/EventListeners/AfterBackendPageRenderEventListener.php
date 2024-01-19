@@ -30,6 +30,9 @@ use TYPO3\CMS\Backend\Controller\Event\AfterBackendPageRenderEvent;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * This is the backend inclusion of the license check script
+ */
 class AfterBackendPageRenderEventListener {
 	public function __invoke(AfterBackendPageRenderEvent $event) {
 		if (!LicenceCheckService::isTYPO3VersionSupported()
