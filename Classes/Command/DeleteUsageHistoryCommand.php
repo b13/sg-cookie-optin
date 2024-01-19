@@ -67,7 +67,7 @@ class DeleteUsageHistoryCommand extends Command {
 	 * @param OutputInterface $output
 	 * @return int error code
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->io = new SymfonyStyle($input, $output);
 			$this->io->title($this->getDescription());
