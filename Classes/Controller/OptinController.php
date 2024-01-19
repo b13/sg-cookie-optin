@@ -35,6 +35,7 @@ use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
@@ -64,7 +65,7 @@ class OptinController extends ActionController {
 	protected $moduleTemplateFactory;
 
 	/**
-	 * @var array
+	 * @var array|ModuleData|null
 	 */
 	protected $moduleData;
 
