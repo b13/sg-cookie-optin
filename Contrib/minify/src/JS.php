@@ -122,11 +122,7 @@ class JS extends Minify {
 	 * {@inheritdoc}
 	 */
 	public function __construct() {
-		if (version_compare(PHP_VERSION, '8.2', '>=')) {
-			call_user_func_array(parent::__construct(...), func_get_args());
-		} else {
-			call_user_func_array(['parent', '__construct'], func_get_args());
-		}
+		call_user_func_array(array('\\MatthiasMullie\Minify\\Minify', '__construct'), func_get_args());
 
 		$dataDir = __DIR__ . '/../data/js/';
 		$options = FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES;
