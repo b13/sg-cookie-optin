@@ -34,9 +34,9 @@ use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Adds the Cookie Consent JavaScript if it's generated for the current page.
@@ -170,25 +170,9 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 */
 	protected function getRootPageId() {
 		if ($this->rootpage === NULL) {
-			/** @var TypoScriptFrontendController $typoScriptFrontendController */
-			$typoScriptFrontendController = $GLOBALS['TSFE'];
-
-			$siteRootId = -1;
-			foreach ($typoScriptFrontendController->rootLine as $rootLineEntry) {
-				if (!isset($rootLineEntry['is_siteroot'])) {
-					continue;
-				}
-
-				$isSiteRoot = (bool) $rootLineEntry['is_siteroot'];
-				if (!$isSiteRoot) {
-					continue;
-				}
-
-				$siteRootId = (int) $rootLineEntry['uid'];
-				break;
-			}
-
-			$this->rootpage = $siteRootId;
+			/** @var Site $site */
+			$site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+			$this->rootpage = $site->getRootPageId();
 		}
 
 		return $this->rootpage;
