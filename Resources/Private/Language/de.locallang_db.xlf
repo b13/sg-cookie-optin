@@ -61,6 +61,26 @@
 				<source><![CDATA[Group ID (Unique name, do not change while on live mode!)]]></source>
 				<target><![CDATA[Gruppen-ID (Eindeutiger Name, Nicht im Live-Betrieb ändern!)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name" approved="yes">
+				<source><![CDATA[Google Consent Mode Name (optional))]]></source>
+				<target><![CDATA[Google Consent Mode Name (optional))]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name.description" approved="yes">
+				<source><![CDATA[If this value is set and you have set up Google Consent Mode in your website, the Google Consent Mode API would automatically be informed of any changes of the user consent settings.
+                				The consents you can choose from are ad_storage, ad_user_data, analytics_storage, ad_personalization, functionality_storage, personalization_storage, security_storage or your own custom user-defined consents in Google Tag Manager
+                				See more on https://support.google.com/tagmanager/answer/10718549?hl=en]]></source>
+				<target><![CDATA[Wenn dieser Wert gesetzt ist und Sie den Google-Zustimmungsmodus auf Ihrer Website eingerichtet haben, wird die Google-Zustimmungsmodus-API automatisch über alle Änderungen der Einstellungen für die Nutzerzustimmung informiert.
+                Sie können zwischen folgenden Zustimmungen wählen: ad_storage, ad_user_data, analytics_storage, ad_personalization, functionality_storage, personalization_storage, security_storage oder Ihren eigenen benutzerdefinierten Zustimmungen in Google Tag Manager
+                Weitere Informationen finden Sie unter https://support.google.com/tagmanager/answer/10718549?hl=de]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups" approved="yes">
+				<source><![CDATA[Granting consent to this group would automatically give consent to these groups as well]]></source>
+				<target><![CDATA[Die Erteilung der Zustimmung für diese Gruppe würde automatisch auch die Zustimmung für diese Gruppen bedeuten]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups.description" approved="yes">
+				<source><![CDATA[Please enter a comma-separated list of Group-ID's]]></source>
+				<target><![CDATA[Bitte geben Sie eine kommagetrennte Liste von Gruppen-IDs ein]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden" approved="yes">
 				<source><![CDATA[Deactivate]]></source>
 				<target><![CDATA[Deaktivieren]]></target>
@@ -603,6 +623,10 @@
 				<source><![CDATA[Multidomain Settings]]></source>
 				<target><![CDATA[Multidomain-Einstellungen]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.consent_mode">
+				<source><![CDATA[Consent Mode Settings]]></source>
+				<target><![CDATA[Einwilligungsmodus-Einstellungen]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general" approved="yes">
 				<source><![CDATA[General]]></source>
 				<target><![CDATA[Allgemein]]></target>
@@ -638,6 +662,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text" approved="yes">
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
 				<target><![CDATA[Text für die Benachrichtigung, der angezeigt wird, wenn Cookie-Einstellungen gespeichert werden]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text" approved="yes">
+				<source><![CDATA[Text for the list of the groups that this group depends on]]></source>
+				<target><![CDATA[Text für die Liste der Gruppen, von denen diese Gruppe abhängt]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook" approved="yes">
 				<source><![CDATA[Webhook URL for statistics]]></source>
@@ -942,6 +970,18 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				textEntries.iframe_button_load_one_text – Der Wert des Feldes: "Externen Inhalt laden"
 				placeholders.iframe_consent_description – Die Beschreibung, die für dieses spezifische Element bereitgestellt wird, oder die globale zusätzliche Beschreibung, die in dieser Registerkarte festgelegt wird
 				textEntries.iframe_open_settings_text – Der Wert des Feldes Link: "Einstellungen öffnen"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_consent_mode" approved="yes">
+				<source><![CDATA[Disable Consent Mode.]]></source>
+				<target><![CDATA[Einwilligungsmodus deaktivieren.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading" approved="yes">
+				<source><![CDATA[Disable automatic loading.]]></source>
+				<target><![CDATA[Automatisches Laden deaktivieren.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading.description" approved="yes">
+				<source><![CDATA[By default this extension will automatically load the necessary JavaScript and CSS files as the first resources in your website. If this is checked we would deactivate this feature so that you can load the scripts manually or from another 3rd-party solution, such as Google Tag Manager for Advanced Consent Mode.]]></source>
+				<target><![CDATA[Standardmäßig lädt diese Erweiterung automatisch die erforderlichen JavaScript- und CSS-Dateien als erste Ressourcen in Ihre Website. Wenn dies aktiviert ist, würden wir diese Funktion deaktivieren, damit Sie die Skripte manuell oder von einer anderen Lösung eines Drittanbieters laden können, wie z. B. Google Tag Manager für den erweiterten Einwilligungsmodus.]]></target>
 			</trans-unit>
 		</body>
 	</file>

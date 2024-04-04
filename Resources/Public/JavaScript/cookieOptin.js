@@ -187,6 +187,97 @@ const SgCookieOptin = {
 	},
 
 	/**
+	 * Grants or denies the consent for all groups based on the cookie data
+	 */
+	dispatchGtagConsentForAllGroups: function() {
+		if (typeof SgCookieOptin.jsonData.settings.disable_consent_mode === 'undefined'
+			&& SgCookieOptin.jsonData.settings.disable_consent_mode) {
+			return;
+		}
+
+		const cookieValues = SgCookieOptin.readCookieValues();
+		for (let index in cookieValues) {
+			if (!cookieValues.hasOwnProperty(index) || index === 'essential') {
+				continue;
+			}
+
+			const group = SgCookieOptin.getGroupByGroupName(index);
+			if (!group.googleName) {
+				continue;
+			}
+
+			if (cookieValues[index]) {
+				SgCookieOptin.dispatchGtagConsent(group['groupName'])
+			} else {
+				SgCookieOptin.dispatchGtagReject(group['groupName'])
+			}
+		}
+	},
+
+	/**
+	 * Grants the Google Consent Mode for the specific consent group
+	 *
+	 * @param {string} group
+	 */
+	dispatchGtagConsent: function(group) {
+		if (typeof SgCookieOptin.jsonData.settings.disable_consent_mode === 'undefined'
+			|| SgCookieOptin.jsonData.settings.disable_consent_mode) {
+			return;
+		}
+
+		// dispatch Google Consent Mode API calls if Consent Mode is enabled
+		if ((typeof gtag === "function") || (typeof gtag === "object")) {
+			for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+				if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex) || SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
+					continue;
+				}
+
+				if (SgCookieOptin.jsonData.cookieGroups[groupIndex]['googleName']) {
+					const googleGroups = SgCookieOptin.jsonData.cookieGroups[groupIndex]['googleName'].split(',');
+					for (index = 0; index < googleGroups.length; index++) {
+						let googleGroupName = googleGroups[index].trim();
+						gtag('consent', 'update', {
+							[googleGroupName]: 'granted'
+						});
+						console.log('Consent rejected for ' + googleGroupName);
+					}
+				}
+			}
+		}
+	},
+
+	/**
+	 * Rejects the Google Consent Mode for the specific consent group
+	 *
+	 * @param {string} group
+	 */
+	dispatchGtagReject: function(group) {
+		if (typeof SgCookieOptin.jsonData.settings.disable_consent_mode === 'undefined'
+			|| SgCookieOptin.jsonData.settings.disable_consent_mode) {
+			return;
+		}
+
+		if ((typeof gtag === "function") || (typeof gtag === "object")) {
+			for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+				if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex) || SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
+					continue;
+				}
+
+				if (SgCookieOptin.jsonData.cookieGroups[groupIndex]['googleName']) {
+					const googleGroups = SgCookieOptin.jsonData.cookieGroups[groupIndex]['googleName'].split(',');
+					for (index = 0; index < googleGroups.length; index++) {
+						let googleGroupName = googleGroups[index].trim();
+						gtag('consent', 'update', {
+							[googleGroupName]: 'denied'
+						});
+						console.log('Consent rejected for ' + googleGroupName);
+					}
+				}
+			}
+		}
+	},
+
+	/**
 	 * Handles the scripts of the allowed cookie groups.
 	 *
 	 * @return {void}
@@ -212,12 +303,19 @@ const SgCookieOptin = {
 			const group = groupAndStatus[0];
 			const status = parseInt(groupAndStatus[1]);
 			if (!status) {
+				if ((typeof gtag === "function") || (typeof gtag === "object")) {
+					SgCookieOptin.dispatchGtagReject(group);
+				}
 				continue;
 			}
 
 			for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 				if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex) || SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
 					continue;
+				}
+
+				if ((typeof gtag === "function") || (typeof gtag === "object")) {
+					SgCookieOptin.dispatchGtagConsent(SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName']);
 				}
 
 				if (
@@ -826,6 +924,65 @@ const SgCookieOptin = {
 			SgCookieOptin.hideCookieOptIn();
 			SgCookieOptin.openCookieOptin(null, {hideBanner: true, fromBanner: true});
 		});
+
+		// handle dependent cookies
+		const checkboxes = element.querySelectorAll('.sg-cookie-optin-checkbox');
+		SgCookieOptin.addEventListenerToList(checkboxes, 'change', function(event) {
+			SgCookieOptin.handleDependentGroups(event, checkboxes);
+		});
+
+	},
+
+	/**
+	 * If the changed group has dependent groups and is checked - check also all of the dependent groups
+	 *
+	 * @param event
+	 * @param checkboxes
+	 */
+	handleDependentGroups: function(event, checkboxes) {
+		const changedCheckbox = event.target.closest('input.sg-cookie-optin-checkbox');
+		const changedGroup = SgCookieOptin.getGroupByGroupName(changedCheckbox.defaultValue);
+		if (changedCheckbox.checked) {
+			// check all of the dependent groups
+			if (!changedGroup.dependentGroups) {
+				return;
+			}
+			const dependentGroups = changedGroup.dependentGroups.split(',');
+			for (let depIndex = 0; depIndex < dependentGroups.length; depIndex++) {
+				for (let index = 0; index < checkboxes.length; ++index) {
+					if (checkboxes[index].defaultValue === dependentGroups[depIndex].trim()) {
+						checkboxes[index].checked = true;
+					}
+				}
+			}
+		} else {
+			// see if other groups depend on this group and uncheck them as well
+			for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+				if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+					continue;
+				}
+
+				const groupName = SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'];
+				if (!groupName) {
+					continue;
+				}
+
+				if (SgCookieOptin.jsonData.cookieGroups[groupIndex].dependentGroups) {
+					if (SgCookieOptin.jsonData.cookieGroups[groupIndex].dependentGroups.split(',')
+						.map(function(item) {
+							return item.trim();
+						})
+						.includes(changedGroup['groupName'])) {
+						for (let checkboxIndex = 0; checkboxIndex < checkboxes.length; checkboxIndex++) {
+							if (checkboxes[checkboxIndex].defaultValue === groupName) {
+								checkboxes[checkboxIndex].checked = false;
+							}
+						}
+					}
+				}
+			}
+		}
+
 	},
 
 	/**
@@ -2254,6 +2411,24 @@ const SgCookieOptin = {
 		document.dispatchEvent(fingerprintCreatedEvent);
 
 		return fingerprintContainer;
+	},
+
+	/**
+	 * Gets the group settings by group name
+	 * @param groupName
+	 * @returns {*}
+	 */
+	getGroupByGroupName: function(groupName) {
+		for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+				continue;
+			}
+
+			if (SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'] === groupName) {
+				return SgCookieOptin.jsonData.cookieGroups[groupIndex];
+			}
+		}
+		return;
 	}
 };
 

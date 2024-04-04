@@ -680,10 +680,24 @@ class StaticFileGenerationService implements SingletonInterface {
 			}
 
 			$groupName = $group['group_name'];
+			$dependentGroupTitles = [];
+			$dependentGroupsArray = GeneralUtility::trimExplode(',', $group['dependent_groups']);
+			foreach ($dependentGroupsArray as $dependentGroupName) {
+				foreach ($translatedData['groups'] as $groupToLookup) {
+					if ($groupToLookup['group_name'] === $dependentGroupName) {
+						$dependentGroupTitles[] = $groupToLookup['title'];
+					}
+				}
+			}
+			$dependentGroupTitles = implode(', ', $dependentGroupTitles);
+
 			$cookieGroups[] = [
 				'groupName' => $groupName,
 				'label' => $group['title'],
 				'description' => $group['description'],
+				'googleName' => $group['google_name'],
+				'dependentGroups' => $group['dependent_groups'],
+				'dependentGroupTitles' => $dependentGroupTitles,
 				'required' => FALSE,
 				'cookieData' => $groupCookieData,
 				'scriptData' => $groupScriptData,
@@ -828,6 +842,8 @@ class StaticFileGenerationService implements SingletonInterface {
 			'iframe_replacement_background_image' => (string) $translatedData['iframe_replacement_background_image'],
 			'monochrome_enabled' => (bool) $translatedData['monochrome_enabled'],
 			'show_fingerprint' => (bool) $translatedData['show_fingerprint'],
+			'disable_consent_mode' => (bool) $translatedData['disable_consent_mode'],
+			'disable_automatic_loading' => (bool) $translatedData['disable_automatic_loading'],
 		];
 
 		$textEntries = [
@@ -856,6 +872,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'banner_description' => $translatedData['banner_description'],
 			'save_confirmation_text' => $translatedData['save_confirmation_text'],
 			'user_hash_text' => $translatedData['user_hash_text'],
+			'dependent_groups_text' => $translatedData['dependent_groups_text'],
 		];
 
 		$placeholders = [

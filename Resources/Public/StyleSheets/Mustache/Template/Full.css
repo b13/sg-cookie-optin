@@ -126,6 +126,12 @@
 	margin: 10px 0 0 0;
 }
 
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-dependent-groups,
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-dependent-groups {
+	font-size: 80%;
+	margin-top: -10px;
+}
+
 @-webkit-keyframes fadeInDown {
 	from {
 		opacity: 0;
