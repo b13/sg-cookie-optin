@@ -62,8 +62,8 @@
 				<target><![CDATA[Gruppen-ID (Eindeutiger Name, Nicht im Live-Betrieb ändern!)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name" approved="yes">
-				<source><![CDATA[Google Consent Mode Name (optional))]]></source>
-				<target><![CDATA[Google Consent Mode Name (optional))]]></target>
+				<source><![CDATA[Google Consent Mode Name (optional)]]></source>
+				<target><![CDATA[Google Consent Mode Name (optional)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name.description" approved="yes">
 				<source><![CDATA[If this value is set and you have set up Google Consent Mode in your website, the Google Consent Mode API would automatically be informed of any changes of the user consent settings.

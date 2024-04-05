@@ -63,7 +63,7 @@
 				<source><![CDATA[Please enter a comma-separated list of Group-ID's]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name" approved="yes">
-				<source><![CDATA[Google Consent Mode Name (optional))]]></source>
+				<source><![CDATA[Google Consent Mode Name (optional)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden">
 				<source><![CDATA[Deactivate]]></source>
