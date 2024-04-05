@@ -775,7 +775,7 @@ $configuration = [
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.monochrome_enabled.description',
 			'config' => [
 				'type' => 'check',
-				'default' => '1',
+				'default' => '0',
 			],
 		],
 		'essential_title' => [
