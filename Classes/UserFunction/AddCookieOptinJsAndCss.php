@@ -106,7 +106,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$fileUrl = ($overwrittenBaseUrl ?? $siteBaseUrl) . $file . '?' . $cacheBuster;
 
 			$returnString = '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) . '</script>';
-			if (isset($jsonData['settings']['disable_automatic_loading']) && !$jsonData['settings']['disable_automatic_loading']) {
+			if (!isset($jsonData['settings']['disable_automatic_loading']) || !$jsonData['settings']['disable_automatic_loading']) {
 				$returnString .= "\n" . '<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
 					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"></script>';
 			}
