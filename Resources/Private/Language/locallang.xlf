@@ -297,6 +297,18 @@
 			<trans-unit id="backend.warning.overwritten_checkbox" approved="yes">
 				<source><![CDATA[The code in the field below will be reverted back to the default unless you tick the checkbox above to enable the overwriting of this value.]]></source>
 			</trans-unit>
+			<trans-unit id="backend.consentMode.header" approved="yes">
+				<source><![CDATA[How to use Google Consent Mode]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consentMode.text" approved="yes">
+				<source><![CDATA[Please read our documentation on how to integrate our tool with Google Consent Mode in Tag Manager.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consentMode.buttonText" approved="yes">
+				<source><![CDATA[Documentation]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consentMode.buttonUrl" approved="yes">
+				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/#c30735]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

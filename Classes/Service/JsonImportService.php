@@ -260,6 +260,8 @@ class JsonImportService {
 			'group_name' => $group['groupName'],
 			'title' => $group['label'],
 			'description' => $group['description'],
+			'google_name' => $group['googleName'],
+			'dependent_groups' => $group['dependentGroups'],
 			'sorting' => $groupIndex + 1,
 			'parent_optin' => $optInId,
 			'crdate' => $GLOBALS['EXEC_TIME'],
@@ -273,7 +275,7 @@ class JsonImportService {
 		return $this->flexInsert(
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_group',
-			['pid', 'description'],
+			['pid', 'description', 'google_name', 'dependent_groups'],
 			$groupData
 		);
 	}

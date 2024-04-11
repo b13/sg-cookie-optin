@@ -24,6 +24,9 @@
 					</label>
 
 					<p class="sg-cookie-optin-checkbox-description">{{{description}}}</p>
+					{{#dependentGroups}}
+						<div class="sg-cookie-optin-dependent-groups">{{{textEntries.dependent_groups_text}}} {{dependentGroupTitles}}</div>
+					{{/dependentGroups}}
 
 					<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
 						{{#cookieData}}

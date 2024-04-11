@@ -34,6 +34,9 @@
 			<li class="sg-cookie-optin-box-cookie-detail-list-item">
 				<strong class="sg-cookie-optin-box-cookie-detail-header">{{{label}}}</strong>
 				<p class="sg-cookie-optin-box-cookie-detail-description">{{{description}}}</p>
+				{{#dependentGroups}}
+				<div class="sg-cookie-optin-dependent-groups">{{{textEntries.dependent_groups_text}}} {{dependentGroupTitles}}</div>
+				{{/dependentGroups}}
 
 				<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
 					<table>

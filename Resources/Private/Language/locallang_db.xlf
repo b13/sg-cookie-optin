@@ -48,6 +48,23 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.group_name">
 				<source><![CDATA[Group ID (Unique name, do not change while on live mode!)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name" approved="yes">
+				<source><![CDATA[Google Consent Mode Name (optional)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name.description" approved="yes">
+				<source><![CDATA[If this value is set and you have set up Google Consent Mode in your website, the Google Consent Mode API would automatically be informed of any changes of the user consent settings.
+				The consents you can choose from are ad_storage, ad_user_data, analytics_storage, ad_personalization, functionality_storage, personalization_storage, security_storage or your own custom user-defined consents in Google Tag Manager
+				See more on https://support.google.com/tagmanager/answer/10718549?hl=en]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups" approved="yes">
+				<source><![CDATA[Granting consent to this group would automatically give consent to these groups as well]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups.description" approved="yes">
+				<source><![CDATA[Please enter a comma-separated list of Group-ID's]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name" approved="yes">
+				<source><![CDATA[Google Consent Mode Name (optional)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden">
 				<source><![CDATA[Deactivate]]></source>
 			</trans-unit>
@@ -443,6 +460,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings">
 				<source><![CDATA[Multidomain Settings]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.consent_mode">
+				<source><![CDATA[Consent Mode Settings]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general">
 				<source><![CDATA[General]]></source>
 			</trans-unit>
@@ -469,6 +489,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text">
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text" approved="yes">
+				<source><![CDATA[Text for the list of the groups that this group depends on]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook">
 				<source><![CDATA[Webhook URL for statistics]]></source>
@@ -691,6 +714,15 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.name.description" approved="yes">
 				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label. You can also test the syntax on https://regex101.com. We enforce exact matches. If your regular expression does not include the ^ and $ symbols, we will automatically add them to the regular expression when evaluating it.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_consent_mode" approved="yes">
+				<source><![CDATA[Disable Consent Mode.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading" approved="yes">
+				<source><![CDATA[Disable automatic loading.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading.description" approved="yes">
+				<source><![CDATA[By default this extension will automatically load the necessary JavaScript and CSS files as the first resources in your website. If this is checked we would deactivate this feature so that you can load the scripts manually or from another 3rd-party solution, such as Google Tag Manager for Advanced Consent Mode.]]></source>
 			</trans-unit>
 		</body>
 	</file>

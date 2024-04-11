@@ -32,7 +32,7 @@ $configuration = [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'searchFields' => 'title, group_name, description',
+		'searchFields' => 'title, group_name, description, google_name, dependent_groups',
 		'delete' => 'deleted',
 		'enablecolumns' => [
 			'disabled' => 'hidden',
@@ -47,7 +47,7 @@ $configuration = [
 	'interface' => [],
 	'types' => [
 		'1' => [
-			'showitem' => 'hidden, parent_optin, title, group_name, description,
+			'showitem' => 'hidden, parent_optin, title, group_name, description, google_name, dependent_groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.tab.scripts,scripts,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.cookies,cookies',
 		],
@@ -133,6 +133,26 @@ $configuration = [
 				'eval' => 'trim'
 			],
 		],
+		'google_name' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.google_name',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.google_name.description',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			],
+		],
+		'dependent_groups' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.dependent_groups',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.dependent_groups.description',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			],
+		],
 		'parent_optin' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.parent_optin',
@@ -182,7 +202,7 @@ $configuration = [
 ];
 
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
-	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, group_name, description, parent_optin, scripts, cookies';
+	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, group_name, dependent_groups, description, google_name, parent_optin, scripts, cookies';
 }
 
 return $configuration;

@@ -28,6 +28,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	cookie_purpose_text                        text                                                   NOT NULL,
 	cookie_lifetime_text                       text                                                   NOT NULL,
 	save_confirmation_text                     text                                                   NOT NULL,
+	dependent_groups_text                      varchar(255)        DEFAULT 'Abhängig von:'            NOT NULL,
 	user_hash_text                             varchar(255)        DEFAULT 'User-Hash'                NOT NULL,
 
 	-- template
@@ -35,7 +36,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_overwritten                       tinyint(4) unsigned DEFAULT '0'                        NOT NULL,
 	template_selection                         int(11)             DEFAULT '0'                        NOT NULL,
 	disable_powered_by                         tinyint(4) unsigned DEFAULT '0'                        NOT NULL,
-	monochrome_enabled                         tinyint(4) unsigned DEFAULT '1'                        NOT NULL,
+	monochrome_enabled                         tinyint(4) unsigned DEFAULT '0'                        NOT NULL,
 
 	-- banner
 	banner_enable                              tinyint(4) unsigned DEFAULT '0'                        NOT NULL,
@@ -156,6 +157,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	overwrite_baseurl                          TEXT,
 	unified_cookie_name                        tinyint(4)          DEFAULT '1',
 	disable_usage_statistics                   tinyint(4)          DEFAULT '0',
+	disable_consent_mode                	   tinyint(4)          DEFAULT '0',
+	disable_automatic_loading             	   tinyint(4)          DEFAULT '0',
 
 	-- TYPO3 related columns
 	tstamp                                     int(11) unsigned    DEFAULT '0'                        NOT NULL,
@@ -173,26 +176,28 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 );
 
 CREATE TABLE tx_sgcookieoptin_domain_model_group (
-	uid              int(11)                         NOT NULL auto_increment,
-	pid              int(11) unsigned    DEFAULT '0' NOT NULL,
+	uid              	int(11)                         NOT NULL auto_increment,
+	pid              	int(11) unsigned    DEFAULT '0' NOT NULL,
 
-	title            varchar(255)        DEFAULT ''  NOT NULL,
-	group_name       varchar(30)         DEFAULT ''  NOT NULL,
-	description      text                            NOT NULL,
-	parent_optin     int(11)             DEFAULT '0' NOT NULL,
-	scripts          int(11)             DEFAULT '0' NOT NULL,
-	cookies          int(11)             DEFAULT '0' NOT NULL,
+	title            	varchar(255)        DEFAULT ''  NOT NULL,
+	group_name       	varchar(30)         DEFAULT ''  NOT NULL,
+	description      	text                            NOT NULL,
+	parent_optin     	int(11)             DEFAULT '0' NOT NULL,
+	scripts          	int(11)             DEFAULT '0' NOT NULL,
+	cookies          	int(11)             DEFAULT '0' NOT NULL,
+	google_name			text		 					NOT NULL,
+	dependent_groups	text				    		NOT NULL,
 
-	sorting          int(11) unsigned    DEFAULT '0' NOT NULL,
-	tstamp           int(11) unsigned    DEFAULT '0' NOT NULL,
-	crdate           int(11) unsigned    DEFAULT '0' NOT NULL,
-	cruser_id        int(11) unsigned    DEFAULT '0' NOT NULL,
-	deleted          tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden           tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	sorting          	int(11) unsigned    DEFAULT '0' NOT NULL,
+	tstamp           	int(11) unsigned    DEFAULT '0' NOT NULL,
+	crdate           	int(11) unsigned    DEFAULT '0' NOT NULL,
+	cruser_id        	int(11) unsigned    DEFAULT '0' NOT NULL,
+	deleted          	tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden           	tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11)             DEFAULT '0' NOT NULL,
-	l10n_parent      int(11)             DEFAULT '0' NOT NULL,
-	l10n_diffsource  mediumblob,
+	sys_language_uid 	int(11)             DEFAULT '0' NOT NULL,
+	l10n_parent      	int(11)             DEFAULT '0' NOT NULL,
+	l10n_diffsource  	mediumblob,
 
 	PRIMARY KEY (uid),
 	KEY parent(pid),

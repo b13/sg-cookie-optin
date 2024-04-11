@@ -393,6 +393,22 @@
 				<source><![CDATA[The code in the field below will be reverted back to the default unless you tick the checkbox above to enable the overwriting of this value.]]></source>
 				<target><![CDATA[Der Code im Feld darunter wird auf den Standardwert zurückgesetzt, es sei denn, Sie aktivieren das Kontrollkästchen oben, um das Überschreiben dieses Wertes zu ermöglichen.]]></target>
 			</trans-unit>
+			<trans-unit id="backend.consentMode.header" approved="yes">
+				<source><![CDATA[How to use Google Consent Mode]]></source>
+				<target><![CDATA[Verwendung des Google-Zustimmungsmodus]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consentMode.text" approved="yes">
+				<source><![CDATA[Please read our documentation on how to integrate our tool with Google Consent Mode in Tag Manager.]]></source>
+				<target><![CDATA[Bitte lesen Sie unsere Dokumentation über die Integration unseres Tools mit dem Google Consent Mode in Tag Manager.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consentMode.buttonText" approved="yes">
+				<source><![CDATA[Documentation]]></source>
+				<target><![CDATA[Dokumentation]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consentMode.buttonUrl" approved="yes">
+				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/#c30735]]></source>
+				<target><![CDATA[https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/#c30735]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
