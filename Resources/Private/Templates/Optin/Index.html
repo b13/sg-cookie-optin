@@ -99,6 +99,26 @@
 			</f:if>
 
 			<div class="typo3-messages">
+				<div class="alert alert-light">
+					<div class="media">
+						<div class="media-left">
+			            <span class="icon-emphasized">
+			               <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-info" data-identifier="actions-info">
+			                  <span class="icon-markup">
+			                     <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-info')}"></use></svg>
+			                  </span>
+			               </span>
+			            </span>
+						</div>
+						<div class="media-body">
+							<h4 class="alert-title"><f:translate key="backend.consentMode.header" /></h4>
+							<p class="alert-message"><f:translate key="backend.consentMode.text" /> <a class="btn btn-default btn-sm text-decoration-none" href="{f:translate(key:'backend.consentMode.buttonUrl')}" target="_blank"><f:translate key="backend.consentMode.buttonText" /></a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="typo3-messages">
 			   <div class="alert alert-light">
 			      <div class="media">
 			         <div class="media-left">
