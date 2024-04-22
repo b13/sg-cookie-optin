@@ -109,6 +109,8 @@
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox + .sg-cookie-optin-checkbox-label::before,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox + .sg-cookie-optin-checkbox-label::before {
 	border-radius: 0;
+	transform: translateY(-2px);
+	margin: 0 8px 0 0;
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox-label,
@@ -237,8 +239,6 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-sublist-open-more-link > span {
-	margin: 0 0 0 10px;
-	transform: translateY(5px);
 	display: inline-block;
 	width: 20px;
 }
@@ -307,7 +307,7 @@
 }
 
 .sg-cookie-optin-box-sublist-open-more-symbol {
-	top: -2px;
+	left: 8px;
 }
 
 /* Responsive */

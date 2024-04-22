@@ -130,6 +130,7 @@
 	background-color: #FFF;
 
 	cursor: pointer;
+	transform: translateY(-1px);
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label::before {
@@ -273,6 +274,7 @@
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
 	margin: 0 0 10px 0;
 	padding: 10px;
+	text-indent: 0;
 
 	border-radius: 5px;
 	background-color: var(--sg-cookie-optin-color-list);
@@ -438,7 +440,8 @@
 	width: 15px;
 	height: 15px;
 	position: relative;
-	top: 3px;
+	top: -1px;
+	left: 2px;
 }
 
 .sg-cookie-optin-box-sublist-open-more-symbol.sg-cookie-optin-flipped {
