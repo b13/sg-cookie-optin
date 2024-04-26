@@ -50,7 +50,10 @@ class OptinHistoryController {
 			throw new SaveOptinHistoryException('No data passed');
 		}
 
-		$responseData = OptinHistoryService::saveOptinHistory($request->getParsedBody()['lastPreferences']);
+		$responseData = OptinHistoryService::saveOptinHistory(
+			$request->getParsedBody()['lastPreferences'],
+			$request->getAttribute('site')->getRootPageId()
+		);
 
 		$response->getBody()->write(json_encode($responseData));
 		return $response

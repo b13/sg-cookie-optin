@@ -33,6 +33,17 @@ const SgCookieOptin = {
 	jsonData: {},
 	isExternalGroupAccepted: false,
 	fingerprintIcon: null,
+	consentModeDefaultsSent: false,
+	consentModeDefaults: {
+		ad_personalization: "denied",
+		ad_storage: "denied",
+		ad_user_data: "denied",
+		analytics_storage: "denied",
+		functionality_storage: "denied",
+		personalization_storage: "denied",
+		security_storage: "denied",
+		wait_for_update: 500
+	},
 
 	/**
 	 * Executes the script
@@ -65,6 +76,19 @@ const SgCookieOptin = {
 	 * @return {void}
 	 */
 	initialize: function() {
+		if (!SgCookieOptin.jsonData.settings.disable_automatic_loading) {
+			if (!SgCookieOptin.consentModeDefaultsSent) {
+				// define gtag if it does not exist to set the defaults
+				if (!((typeof gtag === "function") || (typeof gtag === "object"))) {
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+				}
+
+				console.log('SG Cookie OptIn: sent default gtag settings');
+				gtag('consent', 'default', SgCookieOptin.consentModeDefaults);
+				SgCookieOptin.consentModeDefaultsSent = true;
+			}
+		}
 		SgCookieOptin.handleScriptActivations();
 
 		const optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
@@ -202,7 +226,7 @@ const SgCookieOptin = {
 			}
 
 			const group = SgCookieOptin.getGroupByGroupName(index);
-			if (!group.googleName) {
+			if (typeof group.googleName !== 'undefined' && group.googleName.trim() !== '') {
 				continue;
 			}
 
@@ -239,7 +263,7 @@ const SgCookieOptin = {
 						gtag('consent', 'update', {
 							[googleGroupName]: 'granted'
 						});
-						console.log('Consent rejected for ' + googleGroupName);
+						console.log('Consent granted for ' + googleGroupName);
 					}
 				}
 			}

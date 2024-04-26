@@ -65,6 +65,18 @@ class StaticFileGenerationService implements SingletonInterface {
 	protected $siteRoot;
 
 	/**
+	 * The google consent mode settings based on the service ID
+	 *
+	 * @var string[]
+	 * @see https://docs.usercentrics.com/#/consent-mode
+	 */
+	protected $googleNamesByService = [
+		1 => 'analytics_storage',
+		2 => 'ads_storage',
+		3 => 'analytics_storage, ads_storage'
+	];
+
+	/**
 	 * Generates the JavaScript, JSON and CSS files for this site root
 	 *
 	 * @param int $siteRootId
@@ -695,7 +707,8 @@ class StaticFileGenerationService implements SingletonInterface {
 				'groupName' => $groupName,
 				'label' => $group['title'],
 				'description' => $group['description'],
-				'googleName' => $group['google_name'],
+				'googleService' => $group['google_service'],
+				'googleName' => (($group['google_service'] < 1) ? $group['google_name'] : $this->googleNamesByService[$group['google_service']]),
 				'dependentGroups' => $group['dependent_groups'],
 				'dependentGroupTitles' => $dependentGroupTitles,
 				'required' => FALSE,

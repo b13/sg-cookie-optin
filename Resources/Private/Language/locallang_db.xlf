@@ -724,6 +724,24 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading.description" approved="yes">
 				<source><![CDATA[By default this extension will automatically load the necessary JavaScript and CSS files as the first resources in your website. If this is checked we would deactivate this feature so that you can load the scripts manually or from another 3rd-party solution, such as Google Tag Manager for Advanced Consent Mode.]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service" approved="yes">
+				<source><![CDATA[Google Service]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.description" approved="yes">
+				<source><![CDATA[If you select a service from the list we would automatically set the corresponding Google consent name.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.0" approved="yes">
+				<source><![CDATA[None]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.1" approved="yes">
+				<source><![CDATA[Google Analytics]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.2" approved="yes">
+				<source><![CDATA[Google Ads]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.3" approved="yes">
+				<source><![CDATA[Google Analytics + Google Ads]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

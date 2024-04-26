@@ -56,6 +56,9 @@ class SaveOptinHistory implements MiddlewareInterface {
 			return $response;
 		}
 
-		return new JsonResponse(OptinHistoryService::saveOptinHistory($request->getParsedBody()['lastPreferences']));
+		return new JsonResponse(OptinHistoryService::saveOptinHistory(
+			$request->getParsedBody()['lastPreferences'],
+			$request->getAttribute('site')->getRootPageId()
+		));
 	}
 }

@@ -29,6 +29,7 @@ namespace SGalinski\SgCookieOptin\Service;
 use Exception;
 use PDO;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
@@ -48,10 +49,32 @@ class OptinHistoryService {
 	 * Saves the optin history
 	 *
 	 * @param string $preferences
+	 * @param int $rootPageId
 	 * @return array
 	 */
-	public static function saveOptinHistory(string $preferences): array {
+	public static function saveOptinHistory(string $preferences, int $rootPageId): array {
 		try {
+			$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
+			if (!$folder) {
+				throw new SaveOptinHistoryException('Settings folder not found');
+			}
+
+			$file = $folder . 'siteroot-' . $rootPageId . '/cookieOptin.css';
+			$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+			if (!file_exists($sitePath . $file)) {
+				throw new SaveOptinHistoryException('Invalid site path');
+			}
+
+			$jsonFile = ExtensionSettingsService::getJsonFilePath($folder, $rootPageId, $sitePath);
+			if (!$jsonFile) {
+				throw new SaveOptinHistoryException('Json File Path could not be determined');
+			}
+			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
+
+			if ($jsonData['settings']['disable_usage_statistics']) {
+				throw new SaveOptinHistoryException('Usage statistics disabled - no data will be saved');
+			}
+
 			$jsonInput = json_decode($preferences, TRUE);
 
 			if (!is_array($jsonInput) || !self::validateInput($jsonInput)) {

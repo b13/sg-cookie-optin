@@ -261,6 +261,7 @@ class JsonImportService {
 			'title' => $group['label'],
 			'description' => $group['description'],
 			'google_name' => $group['googleName'],
+			'google_service' => $group['googleService'],
 			'dependent_groups' => $group['dependentGroups'],
 			'sorting' => $groupIndex + 1,
 			'parent_optin' => $optInId,

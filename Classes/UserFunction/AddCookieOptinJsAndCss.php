@@ -28,15 +28,12 @@ namespace SGalinski\SgCookieOptin\UserFunction;
 
 use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
-use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Adds the Cookie Consent JavaScript if it's generated for the current page.
@@ -78,7 +75,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage, BaseUrlService::getLanguage());
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
-		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
+		$jsonFile = ExtensionSettingsService::getJsonFilePath($folder, $rootPageId, $sitePath);
 		if ($jsonFile === NULL) {
 			return '';
 		}
@@ -149,7 +146,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$cacheBuster = '';
 		}
 
-		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
+		$jsonFile = ExtensionSettingsService::getJsonFilePath($folder, $rootPageId, $sitePath);
 		if ($jsonFile) {
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
 
@@ -182,63 +179,5 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		return $this->rootpage;
-	}
-
-	/**
-	 * Get the path to the json file
-	 *
-	 * @param string $folder
-	 * @param int $rootPageId
-	 * @param string $sitePath
-	 * @return string|null
-	 * @throws AspectNotFoundException
-	 * @throws SiteNotFoundException
-	 */
-	protected function getJsonFilePath(string $folder, int $rootPageId, string $sitePath) {
-		$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData' . JsonImportService::LOCALE_SEPARATOR .
-			$this->getLanguageWithLocale() . '.json';
-		if (!file_exists($sitePath . $jsonFile)) {
-			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
-				BaseUrlService::getLanguage() . '.json';
-			if (!file_exists($sitePath . $jsonFile)) {
-				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
-				if (!file_exists($sitePath . $jsonFile)) {
-					return NULL;
-				}
-			}
-		}
-
-		return $jsonFile;
-	}
-
-	/**
-	 * Get the current CSS or JS asset file path
-	 *
-	 * @param string $sitePath
-	 * @param string $folder
-	 * @param int $rootPageId
-	 * @param string $pattern
-	 * @return mixed|null
-	 */
-	protected function getAssetFilePath(string $sitePath, string $folder, int $rootPageId, string $pattern) {
-		$files = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . $pattern);
-		if (count($files) > 0) {
-			return str_replace($sitePath, '', $files[0]);
-		}
-
-		return NULL;
-	}
-
-	/**
-	 * Returns the current language id with locale
-	 *
-	 * @return string
-	 * @throws AspectNotFoundException
-	 * @throws SiteNotFoundException
-	 */
-	protected function getLanguageWithLocale() {
-		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
-		$language = $site->getLanguageById(BaseUrlService::getLanguage());
-		return $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
 	}
 }

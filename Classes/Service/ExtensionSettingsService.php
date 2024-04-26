@@ -26,6 +26,11 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Class SGalinski\SgCookieOptin\Service\ExtensionSettingsService
  */
@@ -81,5 +86,63 @@ class ExtensionSettingsService {
 
 		// TYPO3 6 stores all settings as strings, some are expected to be booleans, though.
 		return ($value === 'FALSE') ? FALSE : $value;
+	}
+
+	/**
+	 * Get the path to the json file
+	 *
+	 * @param string $folder
+	 * @param int $rootPageId
+	 * @param string $sitePath
+	 * @return string|null
+	 * @throws AspectNotFoundException
+	 * @throws SiteNotFoundException
+	 */
+	public static function getJsonFilePath(string $folder, int $rootPageId, string $sitePath) {
+		$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData' . JsonImportService::LOCALE_SEPARATOR .
+			self::getLanguageWithLocale($rootPageId) . '.json';
+		if (!file_exists($sitePath . $jsonFile)) {
+			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
+				BaseUrlService::getLanguage() . '.json';
+			if (!file_exists($sitePath . $jsonFile)) {
+				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
+				if (!file_exists($sitePath . $jsonFile)) {
+					return NULL;
+				}
+			}
+		}
+
+		return $jsonFile;
+	}
+
+	/**
+	 * Get the current CSS or JS asset file path
+	 *
+	 * @param string $sitePath
+	 * @param string $folder
+	 * @param int $rootPageId
+	 * @param string $pattern
+	 * @return mixed|null
+	 */
+	public static function getAssetFilePath(string $sitePath, string $folder, int $rootPageId, string $pattern) {
+		$files = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . $pattern);
+		if (count($files) > 0) {
+			return str_replace($sitePath, '', $files[0]);
+		}
+
+		return NULL;
+	}
+
+	/**
+	 * Returns the current language id with locale
+	 *
+	 * @return string
+	 * @throws AspectNotFoundException
+	 * @throws SiteNotFoundException
+	 */
+	public static function getLanguageWithLocale(int $rootPageId) {
+		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($rootPageId);
+		$language = $site->getLanguageById(BaseUrlService::getLanguage());
+		return $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
 	}
 }

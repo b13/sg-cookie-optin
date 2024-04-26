@@ -983,6 +983,30 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[By default this extension will automatically load the necessary JavaScript and CSS files as the first resources in your website. If this is checked we would deactivate this feature so that you can load the scripts manually or from another 3rd-party solution, such as Google Tag Manager for Advanced Consent Mode.]]></source>
 				<target><![CDATA[Standardmäßig lädt diese Erweiterung automatisch die erforderlichen JavaScript- und CSS-Dateien als erste Ressourcen in Ihre Website. Wenn dies aktiviert ist, würden wir diese Funktion deaktivieren, damit Sie die Skripte manuell oder von einer anderen Lösung eines Drittanbieters laden können, wie z. B. Google Tag Manager für den erweiterten Einwilligungsmodus.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service" approved="yes">
+				<source><![CDATA[Google Service]]></source>
+				<target><![CDATA[Google Service]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.description" approved="yes">
+				<source><![CDATA[If you select a service from the list we would automatically set the corresponding Google consent name.]]></source>
+				<target><![CDATA[Wenn Sie einen Dienst aus der Liste auswählen, wird automatisch der entsprechende Google-Zustimmungsname festgelegt.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.0" approved="yes">
+				<source><![CDATA[None]]></source>
+				<target><![CDATA[Keins]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.1" approved="yes">
+				<source><![CDATA[Google Analytics]]></source>
+				<target><![CDATA[Google Analytics]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.2" approved="yes">
+				<source><![CDATA[Google Ads]]></source>
+				<target><![CDATA[Google Ads]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.3" approved="yes">
+				<source><![CDATA[Google Analytics + Google Ads]]></source>
+				<target><![CDATA[Google Analytics + Google Ads]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
