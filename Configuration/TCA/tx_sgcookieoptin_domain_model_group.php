@@ -47,12 +47,17 @@ $configuration = [
 	'interface' => [],
 	'types' => [
 		'1' => [
-			'showitem' => 'hidden, parent_optin, title, group_name, description, google_name, google_service, dependent_groups,
+			'showitem' => 'hidden, parent_optin, title, group_name, description, --palette--;;consent_mode, dependent_groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.tab.scripts,scripts,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.cookies,cookies',
 		],
 	],
-	'palettes' => [],
+	'palettes' => [
+		'consent_mode' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.consent_mode',
+			'showitem' => 'google_service, google_name'
+		],
+	],
 	'columns' => [
 		'pid' => [
 			'exclude' => FALSE,
@@ -122,7 +127,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'max' => 30,
-				'eval' => 'trim, required, alphanum_x, lower'
+				'eval' => 'trim, required, alphanum_x, lower',
 			],
 		],
 		'description' => [
@@ -141,7 +146,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
+				'eval' => 'trim',
+				'default' => '',
 			],
 		],
 		'google_service' => [
@@ -160,6 +166,7 @@ $configuration = [
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.2', 2],
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.3', 3],
 				],
+				'default' => 0,
 			],
 		],
 		'dependent_groups' => [
