@@ -226,7 +226,7 @@ const SgCookieOptin = {
 			}
 
 			const group = SgCookieOptin.getGroupByGroupName(index);
-			if (typeof group.googleName !== 'undefined' && group.googleName.trim() !== '') {
+			if (typeof group.googleName === 'undefined' || group.googleName.trim() === '') {
 				continue;
 			}
 
@@ -1669,7 +1669,7 @@ const SgCookieOptin = {
 		if (typeof externalContent.dataset.sgCookieOptinService !== 'undefined') {
 			service = SgCookieOptin.jsonData.mustacheData.services[
 				externalContent.dataset.sgCookieOptinService
-			];
+				];
 
 			if (service) {
 				serviceUsed = true;
