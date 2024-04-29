@@ -97,8 +97,8 @@
 							</f:if>
 						</f:else>
 					</f:if>
-						<div class="media">
-							<div class="media-left">
+					<div class="media">
+						<div class="media-left">
 								<span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<f:if condition="{licenseError} == '1'">
@@ -107,15 +107,32 @@
 									</f:if>
 
 								</span>
-							</div>
-							<div class="media-body">
-								<h4 class="alert-title">{licenseTitle}</h4>
-								<p class="alert-message">{licenseMessage}</p>
-							</div>
+						</div>
+						<div class="media-body">
+							<h4 class="alert-title">{licenseTitle}</h4>
+							<p class="alert-message">{licenseMessage}</p>
 						</div>
 					</div>
 				</div>
+				</div>
 			</f:if>
+
+			<div class="typo3-messages">
+				<div class="alert">
+					<div class="media">
+						<div class="media-left">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-circle fa-stack-2x"></i>
+								<i class="fa fa-info fa-stack-1x"></i>
+							</span>
+						</div>
+						<div class="media-body">
+							<h4 class="alert-title"><f:translate key="backend.consentMode.header" /></h4>
+							<p><f:translate key="backend.consentMode.text" /> <a class="btn btn-default btn-sm text-decoration-none" href="{f:translate(key:'backend.consentMode.buttonUrl')}" target="_blank"><f:translate key="backend.consentMode.buttonText" /></a></p>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<div class="typo3-messages">
 				<div class="alert">
