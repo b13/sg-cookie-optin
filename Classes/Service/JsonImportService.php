@@ -97,6 +97,7 @@ class JsonImportService {
 		$iframeGroup = $jsonData['iFrameGroup'];
 		$footerLinks = $jsonData['footerLinks'];
 		$services = $jsonData['mustacheData']['services'];
+		$mustacheData = $jsonData['mustacheData'];
 
 		if (!is_array($footerLinks)) {
 			$footerLinks = [];
@@ -113,6 +114,14 @@ class JsonImportService {
 			}
 		);
 
+		// add the mustache data values as well
+		array_walk_recursive(
+			$mustacheData,
+			static function ($value, $key) use (&$flatJsonData) {
+				$flatJsonData[$key] = $value;
+			}
+		);
+
 		// add required system data and remove junk from the JSON
 		unset($flatJsonData['markup'], $flatJsonData['identifier'], $flatJsonData['save_history_webhook']);
 		$flatJsonData['pid'] = $pid;
@@ -124,6 +133,8 @@ class JsonImportService {
 		$flatJsonData['essential_description'] = $cookieGroups[0]['description'];
 		$flatJsonData['iframe_title'] = $iframeGroup['label'];
 		$flatJsonData['iframe_description'] = $iframeGroup['description'];
+		$flatJsonData['source_regex'] = $flatJsonData['regex'];
+		unset($flatJsonData['regex']);
 		if ($sysLanguageUid !== NULL) {
 			$flatJsonData['sys_language_uid'] = $sysLanguageUid;
 			$flatJsonData['l10n_parent'] = $defaultLanguageOptinId;
@@ -170,8 +181,9 @@ class JsonImportService {
 				'iframe_button_allow_one_text',
 				'iframe_button_load_one_text',
 				'iframe_open_settings_text',
-				'iframe_replacement_background_image'
-
+				'iframe_replacement_background_image',
+				'iframe_button_reject_text',
+				'banner_button_accept_essential_text',
 			],
 			$flatJsonData
 		);
@@ -479,6 +491,7 @@ class JsonImportService {
 			'pid' => $pid,
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'identifier' => $service['identifier'],
+			'source_regex' => $service['regex'],
 			'replacement_html' => $service['mustache'],
 			'replacement_background_image' => $service['replacement_background_image'],
 			'sorting' => $serviceIndex + 1,

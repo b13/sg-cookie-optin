@@ -63,7 +63,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name" approved="yes">
 				<source><![CDATA[Google Consent Mode Name (optional)]]></source>
-				<target><![CDATA[Google Consent Mode Name (optional)]]></target>
+				<target><![CDATA[Google Einwilligungsmodus-Name (optional)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.google_name.description" approved="yes">
 				<source><![CDATA[If this value is set and you have set up Google Consent Mode in your website, the Google Consent Mode API would automatically be informed of any changes of the user consent settings.
@@ -624,8 +624,8 @@
 				<target><![CDATA[Multidomain-Einstellungen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.consent_mode">
-				<source><![CDATA[Consent Mode Settings]]></source>
-				<target><![CDATA[Einwilligungsmodus-Einstellungen]]></target>
+				<source><![CDATA[Google Consent Mode Settings]]></source>
+				<target><![CDATA[Google Einwilligungsmodus-Einstellungen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general" approved="yes">
 				<source><![CDATA[General]]></source>
@@ -971,17 +971,13 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				placeholders.iframe_consent_description – Die Beschreibung, die für dieses spezifische Element bereitgestellt wird, oder die globale zusätzliche Beschreibung, die in dieser Registerkarte festgelegt wird
 				textEntries.iframe_open_settings_text – Der Wert des Feldes Link: "Einstellungen öffnen"]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_consent_mode" approved="yes">
-				<source><![CDATA[Disable Consent Mode.]]></source>
-				<target><![CDATA[Einwilligungsmodus deaktivieren.]]></target>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading" approved="yes">
-				<source><![CDATA[Disable automatic loading.]]></source>
-				<target><![CDATA[Automatisches Laden deaktivieren.]]></target>
+				<source><![CDATA[Activate Google Advanced Consent mode]]></source>
+				<target><![CDATA[Aktivieren Sie den erweiterten Google-Zustimmungsmodus]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading.description" approved="yes">
-				<source><![CDATA[By default this extension will automatically load the necessary JavaScript and CSS files as the first resources in your website. If this is checked we would deactivate this feature so that you can load the scripts manually or from another 3rd-party solution, such as Google Tag Manager for Advanced Consent Mode.]]></source>
-				<target><![CDATA[Standardmäßig lädt diese Erweiterung automatisch die erforderlichen JavaScript- und CSS-Dateien als erste Ressourcen in Ihre Website. Wenn dies aktiviert ist, würden wir diese Funktion deaktivieren, damit Sie die Skripte manuell oder von einer anderen Lösung eines Drittanbieters laden können, wie z. B. Google Tag Manager für den erweiterten Einwilligungsmodus.]]></target>
+				<source><![CDATA[When you activate Google Advanced Consent mode, we will no longer automatically inject the cookieOptin.js file and send the default consent template to Google Services. You will have to do this on your own from Google Tag Manager or other 3rd party tag management service.]]></source>
+				<target><![CDATA[Wenn Sie den erweiterten Google-Zustimmungsmodus aktivieren, wird die Datei cookieOptin.js nicht mehr automatisch eingebunden und die Standard-Zustimmungsvorlage an Google Services gesendet. Sie müssen dies dann selbst über den Google Tag Manager oder einen anderen Tag-Management-Dienst eines Drittanbieters tun.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service" approved="yes">
 				<source><![CDATA[Google Service]]></source>
@@ -989,7 +985,7 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.description" approved="yes">
 				<source><![CDATA[If you select a service from the list we would automatically set the corresponding Google consent name.]]></source>
-				<target><![CDATA[Wenn Sie einen Dienst aus der Liste auswählen, wird automatisch der entsprechende Google-Zustimmungsname festgelegt.]]></target>
+				<target><![CDATA[Wenn Sie einen Dienst aus der Liste auswählen, wird automatisch der entsprechende Google Einwilligungsmodus-Name festgelegt.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.0" approved="yes">
 				<source><![CDATA[None]]></source>
@@ -1006,6 +1002,22 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.3" approved="yes">
 				<source><![CDATA[Google Analytics + Google Ads]]></source>
 				<target><![CDATA[Google Analytics + Google Ads]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots" approved="yes">
+				<source><![CDATA[Treat Google bots like]]></source>
+				<target><![CDATA[Google Bots behandeln wie]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.0" approved="yes">
+				<source><![CDATA[Normal visitors]]></source>
+				<target><![CDATA[Normale Besucher]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.1" approved="yes">
+				<source><![CDATA[Accepted all]]></source>
+				<target><![CDATA[Alles akzeptiert]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2" approved="yes">
+				<source><![CDATA[Rejected all]]></source>
+				<target><![CDATA[Nichts akzeptiert]]></target>
 			</trans-unit>
 		</body>
 	</file>

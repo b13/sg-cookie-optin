@@ -26,6 +26,15 @@ const SgCookieOptin = {
 	 * @type {string}
 	 */
 	EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR: '[data-external-content-no-protection], [data-iframe-allow-always], .frame-external-content-no-protection',
+	GOOGLE_PAGESPEED_USER_AGENT_REGEX: new RegExp(
+		[
+			// Moto G4
+			'Mozilla/5.0 \\(Linux; Android 11; moto g power \\(2022\\)\\) AppleWebKit/537\\.36 \\(KHTML, like Gecko\\) Chrome/119\\.0\\.0\\.0 Mobile Safari/537\\.36',
+			// Desktop
+			'Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537\\.36 \\(KHTML, like Gecko\\) Chrome/119\\.0\\.0\\.0 Safari/537\\.36',
+		].join('|'),
+		'i',
+	),
 
 	externalContentObserver: null,
 	protectedExternalContents: [],
@@ -89,6 +98,26 @@ const SgCookieOptin = {
 				SgCookieOptin.consentModeDefaultsSent = true;
 			}
 		}
+
+		// Automatically Accept or Reject cookies based on selected strategy or GET parameter
+		// Auto accept
+		if (
+			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '1' && SgCookieOptin.isGooglePageSpeed()
+			|| SgCookieOptin.getParameterByName('autoOptIn') === 'accept'
+		) {
+			SgCookieOptin.acceptAllCookies();
+			SgCookieOptin.updateCookieList();
+		}
+
+		// Auto reject
+		if (
+			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '2' && SgCookieOptin.isGooglePageSpeed()
+			|| SgCookieOptin.getParameterByName('autoOptIn') === 'reject'
+		) {
+			SgCookieOptin.acceptEssentialCookies();
+			SgCookieOptin.updateCookieList();
+		}
+
 		SgCookieOptin.handleScriptActivations();
 
 		const optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
@@ -117,6 +146,14 @@ const SgCookieOptin = {
 				SgCookieOptin.showFingerprint();
 			}
 		}
+	},
+
+	/**
+	 * Checks if the current user agent matches the known Google PageSpeed user agens
+	 * @returns {boolean}
+	 */
+	isGooglePageSpeed: function() {
+		return (SgCookieOptin.GOOGLE_PAGESPEED_USER_AGENT_REGEX.test(navigator.userAgent));
 	},
 
 	/**
@@ -214,11 +251,6 @@ const SgCookieOptin = {
 	 * Grants or denies the consent for all groups based on the cookie data
 	 */
 	dispatchGtagConsentForAllGroups: function() {
-		if (typeof SgCookieOptin.jsonData.settings.disable_consent_mode === 'undefined'
-			&& SgCookieOptin.jsonData.settings.disable_consent_mode) {
-			return;
-		}
-
 		const cookieValues = SgCookieOptin.readCookieValues();
 		for (let index in cookieValues) {
 			if (!cookieValues.hasOwnProperty(index) || index === 'essential') {
@@ -244,11 +276,6 @@ const SgCookieOptin = {
 	 * @param {string} group
 	 */
 	dispatchGtagConsent: function(group) {
-		if (typeof SgCookieOptin.jsonData.settings.disable_consent_mode === 'undefined'
-			|| SgCookieOptin.jsonData.settings.disable_consent_mode) {
-			return;
-		}
-
 		// dispatch Google Consent Mode API calls if Consent Mode is enabled
 		if ((typeof gtag === "function") || (typeof gtag === "object")) {
 			for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
@@ -276,11 +303,6 @@ const SgCookieOptin = {
 	 * @param {string} group
 	 */
 	dispatchGtagReject: function(group) {
-		if (typeof SgCookieOptin.jsonData.settings.disable_consent_mode === 'undefined'
-			|| SgCookieOptin.jsonData.settings.disable_consent_mode) {
-			return;
-		}
-
 		if ((typeof gtag === "function") || (typeof gtag === "object")) {
 			for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 				if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex) || SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'] !== group) {

@@ -855,7 +855,6 @@ class StaticFileGenerationService implements SingletonInterface {
 			'iframe_replacement_background_image' => (string) $translatedData['iframe_replacement_background_image'],
 			'monochrome_enabled' => (bool) $translatedData['monochrome_enabled'],
 			'show_fingerprint' => (bool) $translatedData['show_fingerprint'],
-			'disable_consent_mode' => (bool) $translatedData['disable_consent_mode'],
 			'disable_automatic_loading' => (bool) $translatedData['disable_automatic_loading'],
 		];
 

@@ -73,7 +73,7 @@ $configuration = [
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
 					unified_cookie_name, --palette--;;cookie_lifetime_settings, overwrite_baseurl, minify_generated_data, --palette--;;consent_mode,
-					activate_testing_mode, disable_for_this_language, monochrome_enabled, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, disable_usage_statistics',
+					activate_testing_mode, disable_for_this_language, monochrome_enabled, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, disable_usage_statistics, auto_action_for_bots',
 		],
 	],
 	'palettes' => [
@@ -207,7 +207,7 @@ $configuration = [
 		],
 		'consent_mode' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.consent_mode',
-			'showitem' => 'disable_consent_mode, disable_automatic_loading'
+			'showitem' => 'disable_automatic_loading'
 		],
 	],
 	'columns' => [
@@ -1132,6 +1132,22 @@ $configuration = [
 				'default' => '1',
 			],
 		],
+		'auto_action_for_bots' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots',
+			'config' => [
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'minitems' => 1,
+				'items' => [
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.0', 0],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.1', 1],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2', 2],
+				],
+				'default' => '0'
+			],
+		],
 		'template_html' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_html',
@@ -1762,15 +1778,6 @@ $configuration = [
 				'eval' => 'trim, required'
 			]
 		],
-		'disable_consent_mode' => [
-			'exclude' => TRUE,
-			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.disable_consent_mode',
-			'config' => [
-				'type' => 'check',
-				'default' => '0',
-			],
-		],
 		'disable_automatic_loading' => [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
@@ -1829,7 +1836,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
 		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
 		. 'color_fingerprint_background, color_fingerprint_image, services, iframe_replacement_background_image,'
-		. 'monochrome_enabled, show_fingerprint';
+		. 'monochrome_enabled, show_fingerprint, auto_action_for_bots';
 }
 
 return $configuration;

@@ -461,7 +461,7 @@
 				<source><![CDATA[Multidomain Settings]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.consent_mode">
-				<source><![CDATA[Consent Mode Settings]]></source>
+				<source><![CDATA[Google Consent Mode Settings]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general">
 				<source><![CDATA[General]]></source>
@@ -715,14 +715,11 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.name.description" approved="yes">
 				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label. You can also test the syntax on https://regex101.com. We enforce exact matches. If your regular expression does not include the ^ and $ symbols, we will automatically add them to the regular expression when evaluating it.]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_consent_mode" approved="yes">
-				<source><![CDATA[Disable Consent Mode.]]></source>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading" approved="yes">
-				<source><![CDATA[Disable automatic loading.]]></source>
+				<source><![CDATA[Activate Google Advanced Consent mode]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_automatic_loading.description" approved="yes">
-				<source><![CDATA[By default this extension will automatically load the necessary JavaScript and CSS files as the first resources in your website. If this is checked we would deactivate this feature so that you can load the scripts manually or from another 3rd-party solution, such as Google Tag Manager for Advanced Consent Mode.]]></source>
+				<source><![CDATA[When you activate Google Advanced Consent mode, we will no longer automatically inject the cookieOptin.js file and send the default consent template to Google Services. You will have to do this on your own from Google Tag Manager or other 3rd party tag management service.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service" approved="yes">
 				<source><![CDATA[Google Service]]></source>
@@ -741,6 +738,18 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.google_service.3" approved="yes">
 				<source><![CDATA[Google Analytics + Google Ads]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots" approved="yes">
+				<source><![CDATA[Treat Google bots like]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.0" approved="yes">
+				<source><![CDATA[Normal visitors]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.1" approved="yes">
+				<source><![CDATA[Accepted all]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2" approved="yes">
+				<source><![CDATA[Rejected all]]></source>
 			</trans-unit>
 		</body>
 	</file>
