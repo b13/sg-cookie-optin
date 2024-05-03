@@ -32,6 +32,8 @@ const SgCookieOptin = {
 			'Mozilla/5.0 \\(Linux; Android 11; moto g power \\(2022\\)\\) AppleWebKit/537\\.36 \\(KHTML, like Gecko\\) Chrome/119\\.0\\.0\\.0 Mobile Safari/537\\.36',
 			// Desktop
 			'Mozilla/5.0 \\(Macintosh; Intel Mac OS X 10_15_7\\) AppleWebKit/537\\.36 \\(KHTML, like Gecko\\) Chrome/119\\.0\\.0\\.0 Safari/537\\.36',
+			// Known bots
+			'(?:Googlebot|Bingbot|Baiduspider|YandexBot|DuckDuckBot|Slackbot|Facebookbot|Twitterbot|LinkedInbot|Pinterest|WhatsApp|TelegramBot|Slurp|Sogou|Exabot|ia_archiver|msnbot|YandexMobileBot|AdsBot-Google-Mobile|Googlebot-Image|Googlebot-News|Googlebot-Video|Mediapartners-Google|AdsBot-Google|FeedFetcher-Google|Google-Read-Aloud|Google-Adwords-Instant|Yahoo! Slurp China|Yahoo! Slurp|Y!J-BRW|Y!J-SRD|Y!J-MBS|Y!J-MR2|Y!J-PSCS|Y!J-BSC|Y!J-GECC|Y!J-DSC|Y!J-DBS|Y!J-SRB|Y!J-RTS|Y!J-BEP|Y!J-BRP|Y!J-BSP|Y!J-SRS|Y!J-SRE|Y!J-SRT|Y!J-BRV|Y!J-BSV|Y!J-SBC|Y!J-BRL|Y!J-TRG|Y!J-BRD|Y!J-BRG|Y!J-SRQ|Y!J-BRW|Y!J-BRW|Google PageSpeed)'
 		].join('|'),
 		'i',
 	),
@@ -102,7 +104,7 @@ const SgCookieOptin = {
 		// Automatically Accept or Reject cookies based on selected strategy or GET parameter
 		// Auto accept
 		if (
-			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '1' && SgCookieOptin.isGooglePageSpeed()
+			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '1' && SgCookieOptin.isBotAgent()
 			|| SgCookieOptin.getParameterByName('autoOptIn') === 'accept'
 		) {
 			SgCookieOptin.acceptAllCookies();
@@ -111,7 +113,7 @@ const SgCookieOptin = {
 
 		// Auto reject
 		if (
-			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '2' && SgCookieOptin.isGooglePageSpeed()
+			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '2' && SgCookieOptin.isBotAgent()
 			|| SgCookieOptin.getParameterByName('autoOptIn') === 'reject'
 		) {
 			SgCookieOptin.acceptEssentialCookies();
@@ -152,7 +154,7 @@ const SgCookieOptin = {
 	 * Checks if the current user agent matches the known Google PageSpeed user agens
 	 * @returns {boolean}
 	 */
-	isGooglePageSpeed: function() {
+	isBotAgent: function() {
 		return (SgCookieOptin.GOOGLE_PAGESPEED_USER_AGENT_REGEX.test(navigator.userAgent));
 	},
 
