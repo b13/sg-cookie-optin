@@ -740,7 +740,7 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Google Analytics + Google Ads]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots" approved="yes">
-				<source><![CDATA[Treat Google bots like]]></source>
+				<source><![CDATA[Treat bots like]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.0" approved="yes">
 				<source><![CDATA[Normal visitors]]></source>
