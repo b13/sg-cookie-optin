@@ -1004,8 +1004,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Google Analytics + Google Ads]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots" approved="yes">
-				<source><![CDATA[Treat Google bots like]]></source>
-				<target><![CDATA[Google Bots behandeln wie]]></target>
+				<source><![CDATA[Treat bots like]]></source>
+				<target><![CDATA[Bots behandeln wie]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.0" approved="yes">
 				<source><![CDATA[Normal visitors]]></source>
