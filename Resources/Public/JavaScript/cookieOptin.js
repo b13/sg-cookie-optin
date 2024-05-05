@@ -104,7 +104,7 @@ const SgCookieOptin = {
 		// Automatically Accept or Reject cookies based on selected strategy or GET parameter
 		// Auto accept
 		if (
-			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '1' && SgCookieOptin.isBotAgent()
+			SgCookieOptin.jsonData.settings.auto_action_for_bots === '1' && SgCookieOptin.isBotAgent()
 			|| SgCookieOptin.getParameterByName('autoOptIn') === 'accept'
 		) {
 			SgCookieOptin.acceptAllCookies();
@@ -113,7 +113,7 @@ const SgCookieOptin = {
 
 		// Auto reject
 		if (
-			SgCookieOptin.jsonData.settings.auto_accept_for_bots === '2' && SgCookieOptin.isBotAgent()
+			SgCookieOptin.jsonData.settings.auto_action_for_bots === '2' && SgCookieOptin.isBotAgent()
 			|| SgCookieOptin.getParameterByName('autoOptIn') === 'reject'
 		) {
 			SgCookieOptin.acceptEssentialCookies();
