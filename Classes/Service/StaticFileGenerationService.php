@@ -72,8 +72,8 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected $googleNamesByService = [
 		1 => 'analytics_storage',
-		2 => 'ads_storage',
-		3 => 'analytics_storage, ads_storage'
+		2 => 'ad_storage, ad_personalization, ad_user_data',
+		3 => 'analytics_storage, ad_storage, ad_personalization, ad_user_data'
 	];
 
 	/**
