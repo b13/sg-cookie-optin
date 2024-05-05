@@ -140,6 +140,7 @@ $configuration = [
 		],
 		'google_name' => [
 			'displayCond' => 'FIELD:google_service:=:0',
+			'l10n_mode' => 'exclude',
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.google_name',
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.google_name.description',
@@ -170,6 +171,7 @@ $configuration = [
 			],
 		],
 		'dependent_groups' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.dependent_groups',
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.dependent_groups.description',
