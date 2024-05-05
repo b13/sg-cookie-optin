@@ -856,6 +856,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'monochrome_enabled' => (bool) $translatedData['monochrome_enabled'],
 			'show_fingerprint' => (bool) $translatedData['show_fingerprint'],
 			'disable_automatic_loading' => (bool) $translatedData['disable_automatic_loading'],
+			'auto_action_for_bots' => $translatedData['auto_action_for_bots'],
 		];
 
 		$textEntries = [
