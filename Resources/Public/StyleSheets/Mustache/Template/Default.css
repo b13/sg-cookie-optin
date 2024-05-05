@@ -15,12 +15,6 @@
 	position: relative;
 	overflow: auto;
 
-	/* Hide the Scrollbar in IE */
-	-ms-overflow-style: none;
-
-	/* Hide the Scrollbar in FF */
-	scrollbar-width: none;
-
 	padding: 10px 20px 20px;
 	margin: 25px 0;
 
@@ -85,7 +79,7 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-description {
-	margin: 0 0 20px 0;
+	margin: 0 0 20px;
 	font-size: 14px;
 	line-height: 1.5;
 }
@@ -108,7 +102,7 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus + .sg-cookie-optin-checkbox-label::before {
-	background-color: #E2E2E5;
+	background-color: #e2e2e5;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label {
@@ -127,7 +121,7 @@
 	border-radius: 5px;
 	border: 2px solid var(--sg-cookie-optin-color-checkbox);
 
-	background-color: #FFF;
+	background-color: #fff;
 
 	cursor: pointer;
 	transform: translateY(-1px);
@@ -171,7 +165,7 @@
 	cursor: pointer;
 
 	padding: 10px 0;
-	margin: 0 0 10px 0;
+	margin: 0 0 10px;
 
 	color: var(--sg-cookie-optin-color-button-all-text);
 	font-size: 16px;
@@ -245,9 +239,6 @@
 
 	list-style: none;
 
-	-moz-transition: max-height .3s ease-in-out;
-	-o-transition: max-height .3s ease-in-out;
-	-webkit-transition: max-height .3s ease-in-out;
 	transition: max-height .3s ease-in-out;
 	will-change: max-height;
 }
@@ -258,21 +249,15 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.sg-cookie-optin-visible {
-	padding: 10px 0 0 0;
+	padding: 10px 0 0;
 	border-top: 1px solid var(--sg-cookie-optin-color-list);
 	max-height: 2000px;
 	overflow-y: auto;
-
-	/* Hide the Scrollbar in IE */
-	-ms-overflow-style: none;
-
-	/* Hide the Scrollbar in FF */
-	scrollbar-width: none;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
-	margin: 0 0 10px 0;
+	margin: 0 0 10px;
 	padding: 10px;
 	text-indent: 0;
 
@@ -284,7 +269,7 @@
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a {
 	display: block;
-	margin: 10px 0 0 0;
+	margin: 10px 0 0;
 
 	text-align: center;
 	color: var(--sg-cookie-optin-color-list-text);
@@ -306,7 +291,7 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
-	margin: 0 0 10px 0;
+	margin: 0 0 10px;
 	font-size: 14px;
 	line-height: 1.5;
 }
@@ -328,9 +313,6 @@
 	overflow: hidden;
 	list-style: none;
 
-	-moz-transition: height .3s ease-in-out;
-	-o-transition: height .3s ease-in-out;
-	-webkit-transition: height .3s ease-in-out;
 	transition: height .3s ease-in-out;
 	will-change: height;
 }
@@ -341,17 +323,11 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist.sg-cookie-optin-visible {
 	overflow-y: auto;
-
-	/* Hide the Scrollbar in IE */
-	-ms-overflow-style: none;
-
-	/* Hide the Scrollbar in FF */
-	scrollbar-width: none;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table,
 .sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
-	margin: 0 0 10px 0;
+	margin: 0 0 10px;
 	width: 100%;
 	background-color: var(--sg-cookie-optin-color-table);
 }
