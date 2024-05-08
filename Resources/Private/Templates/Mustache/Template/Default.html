@@ -17,7 +17,9 @@
 					   value="{{groupName}}"
 					   {{#required}}checked="1"{{/required}}
 					   {{#required}}disabled="1"{{/required}}>
-					<span class="sg-cookie-optin-checkbox-label" role="checkbox">{{{label}}}</span>
+					<span class="sg-cookie-optin-checkbox-label" role="checkbox"
+						  {{#required}}aria-checked="true"{{/required}}
+						  {{^required}}aria-checked="false"{{/required}}>{{{label}}}</span>
 				</label>
 			</li>
 		{{/cookieGroups}}
