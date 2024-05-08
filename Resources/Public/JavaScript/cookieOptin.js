@@ -92,7 +92,9 @@ const SgCookieOptin = {
 				// define gtag if it does not exist to set the defaults
 				if (!((typeof gtag === "function") || (typeof gtag === "object"))) {
 					window.dataLayer = window.dataLayer || [];
-					function gtag(){dataLayer.push(arguments);}
+					window.gtag = function() {
+						dataLayer.push(arguments);
+					}
 				}
 
 				console.log('SG Cookie OptIn: sent default gtag settings');
