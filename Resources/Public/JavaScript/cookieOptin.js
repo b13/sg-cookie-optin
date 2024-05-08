@@ -107,7 +107,7 @@ const SgCookieOptin = {
 		// Auto accept
 		if (
 			// == for a more relaxed settings check
-			SgCookieOptin.jsonData.settings.auto_action_for_bots == '1' && SgCookieOptin.isBotAgent()
+			SgCookieOptin.jsonData.settings.auto_action_for_bots === 1 && SgCookieOptin.isBotAgent()
 			|| SgCookieOptin.getParameterByName('autoOptIn') === 'accept'
 		) {
 			SgCookieOptin.acceptAllCookies();
@@ -117,7 +117,7 @@ const SgCookieOptin = {
 		// Auto reject
 		if (
 			// == for a more relaxed settings check
-			SgCookieOptin.jsonData.settings.auto_action_for_bots == '2' && SgCookieOptin.isBotAgent()
+			SgCookieOptin.jsonData.settings.auto_action_for_bots === 2 && SgCookieOptin.isBotAgent()
 			|| SgCookieOptin.getParameterByName('autoOptIn') === 'reject'
 		) {
 			SgCookieOptin.acceptEssentialCookies();
@@ -981,6 +981,7 @@ const SgCookieOptin = {
 		const checkboxes = element.querySelectorAll('.sg-cookie-optin-checkbox');
 		SgCookieOptin.addEventListenerToList(checkboxes, 'change', function(event) {
 			SgCookieOptin.handleDependentGroups(event, checkboxes);
+			SgCookieOptin.handleCheckboxChange(event.target);
 		});
 
 	},
@@ -1141,8 +1142,20 @@ const SgCookieOptin = {
 			const cookieList = checkBoxesContainer.querySelectorAll('.sg-cookie-optin-checkbox[value="' + groupName + '"]');
 			for (let index = 0; index < cookieList.length; ++index) {
 				cookieList[index].checked = (statusMap[groupName] === 1);
+				SgCookieOptin.handleCheckboxChange(cookieList[index]);
 			}
 		}
+	},
+
+	/**
+	 * Handles a change of the checkbox state
+	 *
+	 * @param {HTMLInputElement} checkbox
+	 */
+	handleCheckboxChange: function (checkbox) {
+		checkbox.closest('.sg-cookie-optin-box-cookie-list-item')
+			.querySelector('.sg-cookie-optin-checkbox-label')
+			.setAttribute('aria-checked', checkbox.checked);
 	},
 
 	/**
@@ -2448,7 +2461,7 @@ const SgCookieOptin = {
 
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint');
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint-' + iconPositionClass);
-		fingerprintContainer.addEventListener('click', function(e) {
+		fingerprintContainer.addEventListener('click', function() {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: true});
 		});
 
@@ -2480,7 +2493,6 @@ const SgCookieOptin = {
 				return SgCookieOptin.jsonData.cookieGroups[groupIndex];
 			}
 		}
-		return;
 	}
 };
 
