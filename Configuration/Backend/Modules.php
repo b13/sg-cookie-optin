@@ -3,7 +3,7 @@ return [
 	'web_SgcookieoptinOptin' => [
 		'parent' => 'web',
 		'position' => [],
-		'access' => 'user,group',
+		'access' => 'user',
 		'icon' => 'EXT:sg_cookie_optin/Resources/Public/Icons/module-sgcookieoptin.png',
 		'labels' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf',
 		'workspaces' => 'live',
