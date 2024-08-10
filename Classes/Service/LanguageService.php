@@ -77,7 +77,10 @@ class LanguageService {
 	 */
 	public static function getLanguageIdByLocale($locale, array $languages) {
 		foreach ($languages as $language) {
-			if (strpos($language['locale'], $locale) !== FALSE) {
+			// prevent issues with _ and - in different installation setups (still same language but often written differently)
+			$normalizeLocale = str_replace(['-', '_'], '|', $language['locale']);
+			$normalizeLocale2 = str_replace(['-', '_'], '|', $locale);
+			if (strpos($normalizeLocale, $normalizeLocale2) !== FALSE) {
 				return (int) $language['uid'];
 			}
 		}

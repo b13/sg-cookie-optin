@@ -60,16 +60,15 @@ class JsonImportService {
 	private $defaultLanguageIdMappingLookup = NULL;
 
 	/**
-	 * Gets the optin data for export
+	 * Gets the opt-in data for export
 	 *
 	 * @param int $pid
 	 * @return \Doctrine\DBAL\Driver\Statement|int
 	 * @throws DBALException
 	 */
 	public static function getDataForExport(int $pid) {
-		$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(
-			'tx_sgcookieoptin_domain_model_optin'
-		);
+		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getConnectionForTable('tx_sgcookieoptin_domain_model_optin');
 		$queryBuilder = $connection->createQueryBuilder();
 		$queryBuilder
 			->select('uid')
@@ -544,10 +543,7 @@ class JsonImportService {
 			);
 		}
 
-		$languagesJson = json_decode(
-			file_get_contents($fileName),
-			TRUE
-		);
+		$languagesJson = json_decode(file_get_contents($fileName), TRUE);
 
 		if (!$languagesJson) {
 			throw new JsonImportException(
@@ -559,10 +555,15 @@ class JsonImportService {
 			);
 		}
 
+		$defaultFound = FALSE;
+		$defaultLanguageId = 0;
+		$defaultLanguageLocale = '';
 		foreach ($languagesJson as $locale => $jsonData) {
-			$defaultFound = FALSE;
 			foreach ($languages as $language) {
-				if ($language['uid'] === 0 && strpos($language['locale'], $locale) !== FALSE) {
+				// prevent issues with _ and - in different installation setups (still same language but often written differently)
+				$normalizeLocale = str_replace(['-', '_'], '|', $language['locale']);
+				$normalizeLocale2 = str_replace(['-', '_'], '|', $locale);
+				if ($language['uid'] === 0 && strpos($normalizeLocale, $normalizeLocale2) !== FALSE) {
 					$defaultLanguageId = $language['uid'];
 					$defaultLanguageLocale = $locale;
 					$defaultFound = TRUE;
@@ -570,14 +571,12 @@ class JsonImportService {
 				}
 			}
 
-			if (!$defaultFound) {
-				continue;
+			if ($defaultFound) {
+				$defaultLanguageJsonData = $jsonData;
+				$dataStorage['defaultLanguageId'] = $defaultLanguageId;
+				$dataStorage['languageData'][$defaultLanguageId] = $defaultLanguageJsonData;
+				break;
 			}
-
-			$defaultLanguageJsonData = $jsonData;
-			$dataStorage['defaultLanguageId'] = $defaultLanguageId;
-			$dataStorage['languageData'][$defaultLanguageId] = $defaultLanguageJsonData;
-			break;
 		}
 
 		if (!$defaultFound) {
@@ -591,7 +590,6 @@ class JsonImportService {
 
 		// import the other languages
 		foreach ($languagesJson as $locale => $jsonData) {
-
 			// we already stored that
 			if ($locale === $defaultLanguageLocale) {
 				continue;

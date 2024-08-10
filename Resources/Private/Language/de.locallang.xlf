@@ -307,11 +307,11 @@
 			</trans-unit>
 			<trans-unit id="frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile" approved="yes">
 				<source><![CDATA[Please upload the default language configuration file]]></source>
-				<target><![CDATA[Bitte laden Sie die Standard-Sprache Konfigurationsdatei hoch]]></target>
+				<target><![CDATA[Bitte nutzen Sie die Konfiguration der Standard-Sprache.]]></target>
 			</trans-unit>
 			<trans-unit id="jsonImport.error.theStoredImportedDataIsCorrupt" approved="yes">
 				<source><![CDATA[The stored imported data is corrupt]]></source>
-				<target><![CDATA[Die gespeicherten importierten Daten sind beschädigt]]></target>
+				<target><![CDATA[Die gespeicherten importierten Daten sind beschädigt.]]></target>
 			</trans-unit>
 			<trans-unit id="mlang_labels_tabdescr" approved="yes">
 				<source><![CDATA[Tracking / Cookies]]></source>
