@@ -789,7 +789,13 @@ class StaticFileGenerationService implements SingletonInterface {
 
 			$name = $pageData['title'];
 			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
-			$url = (string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, '_language' => $languageUid]);
+			try {
+				$url = (string) $site->getRouter()->generateUri(
+					$uid, ['disableOptIn' => 1, '_language' => $languageUid]
+				);
+			} catch (\Exception $exception) {
+				continue;
+			}
 
 			if (strpos($url, '?') === 0) {
 				$url = '/' . $url;
