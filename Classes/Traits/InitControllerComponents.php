@@ -112,7 +112,11 @@ trait InitControllerComponents {
 		}
 
 		// create doc header component
-		$pageUid = (int) GeneralUtility::_GP('id');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
+		} else {
+			$pageUid = (int)GeneralUtility::_GP('id');
+		}
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 
 		// the docHeaderComponent do not exist below version 7
@@ -134,7 +138,11 @@ trait InitControllerComponents {
 	 * Initializes the root page selection
 	 */
 	protected function initPageUidSelection(ModuleTemplate $moduleTemplate) {
-		$pageUid = (int) GeneralUtility::_GP('id');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
+		} else {
+			$pageUid = (int)GeneralUtility::_GP('id');
+		}
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$moduleTemplate->assign('isSiteRoot', TRUE);

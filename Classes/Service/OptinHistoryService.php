@@ -284,13 +284,23 @@ class OptinHistoryService {
 			->getQueryBuilderForTable(self::TABLE_NAME);
 		$queryBuilder->select('item_identifier');
 
-		$queryBuilder->from(self::TABLE_NAME)
-			->where(
-				$queryBuilder->expr()->eq(
-					'pid',
-					$queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
-				)
-			);
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$queryBuilder->from(self::TABLE_NAME)
+				->where(
+					$queryBuilder->expr()->eq(
+						'pid',
+						$queryBuilder->createNamedParameter((int)$parameters['pid'], \Doctrine\DBAL\ParameterType::INTEGER)
+					)
+				);
+		} else {
+			$queryBuilder->from(self::TABLE_NAME)
+				->where(
+					$queryBuilder->expr()->eq(
+						'pid',
+						$queryBuilder->createNamedParameter((int)$parameters['pid'], PDO::PARAM_INT)
+					)
+				);
+		}
 
 		if (isset($parameters['from_date'], $parameters['to_date'])) {
 			$queryBuilder->andWhere(
@@ -300,14 +310,20 @@ class OptinHistoryService {
 					$queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date']))
 				);
 		}
-
-		$queryBuilder->andWhere(
-			$queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type, PDO::PARAM_INT))
-		);
 		$queryBuilder->addGroupBy('item_type');
 		$queryBuilder->addGroupBy('item_identifier');
 
-		return array_column($queryBuilder->execute()->fetchAll(), 'item_identifier');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type, \Doctrine\DBAL\ParameterType::INTEGER))
+			);
+			return $queryBuilder->executeQuery()->fetchFirstColumn();
+		} else {
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type, PDO::PARAM_INT))
+			);
+			return array_column($queryBuilder->execute()->fetchAll(), 'item_identifier');
+		}
 	}
 
 	/**
@@ -321,16 +337,26 @@ class OptinHistoryService {
 			->getQueryBuilderForTable(self::TABLE_NAME);
 		$queryBuilder->select('version')
 			->from(self::TABLE_NAME)
-			->where(
-				$queryBuilder->expr()->eq(
-					'pid',
-					$queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
-				)
-			)
 			->addGroupBy('version')
 			->orderBy('version', 'asc');
 
-		return array_column($queryBuilder->execute()->fetchAll(), 'version');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$queryBuilder->where(
+				$queryBuilder->expr()->eq(
+					'pid',
+					$queryBuilder->createNamedParameter((int)$parameters['pid'],  \Doctrine\DBAL\ParameterType::INTEGER)
+				)
+			);
+			return $queryBuilder->executeQuery()->fetchFirstColumn();
+		} else {
+			$queryBuilder->where(
+				$queryBuilder->expr()->eq(
+					'pid',
+					$queryBuilder->createNamedParameter((int)$parameters['pid'], PDO::PARAM_INT)
+				)
+			);
+			return array_column($queryBuilder->execute()->fetchAll(), 'version');
+		}
 	}
 
 	/**

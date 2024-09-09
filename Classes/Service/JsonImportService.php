@@ -30,6 +30,7 @@ use Doctrine\DBAL\DBALException;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -76,7 +77,11 @@ class JsonImportService {
 			->where('pid = :pid')
 			->andWhere('l10n_parent = 0')
 			->setParameter('pid', $pid);
-		return $queryBuilder->execute();
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			return $queryBuilder->executeQuery();
+		} else {
+			return $queryBuilder->execute();
+		}
 	}
 
 	/**

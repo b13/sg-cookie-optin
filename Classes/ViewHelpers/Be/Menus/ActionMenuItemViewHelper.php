@@ -28,6 +28,8 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Be\Menus;
 
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
@@ -82,6 +84,20 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		$action = $this->arguments['action'];
 		$arguments = $this->arguments['arguments'];
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13', '>=')) {
+			$renderingContext = $this->renderingContext;
+			$request = $renderingContext->getRequest();
+			if (!$request instanceof RequestInterface) {
+				// Throw if not an extbase request
+				throw new \RuntimeException(
+					'ViewHelper f:be.menus.actionMenuItem needs an extbase Request object to create URIs.',
+					1639741792
+				);
+			}
+			$uriBuilder->setRequest($request);
+		}
+
 		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
 		$this->tag->addAttribute('value', $uri);
 		$currentRequest = $this->renderingContext->getRequest();

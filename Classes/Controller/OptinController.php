@@ -110,7 +110,11 @@ class OptinController extends ActionController {
 			);
 		}
 
-		$pageUid = (int) GeneralUtility::_GP('id');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
+		} else {
+			$pageUid = (int)GeneralUtility::_GP('id');
+		}
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$optIns = BackendService::getOptins($pageUid);
@@ -134,7 +138,11 @@ class OptinController extends ActionController {
 		$this->moduleTemplate->assign('typo3Version', $typo3Version);
 		$this->moduleTemplate->assign('pages', BackendService::getPages());
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+            // TODO: refactor RequireJS module to regular ES6 module and include here
+        } else {
+            $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
+        }
 
 		return $this->moduleTemplate->renderResponse('Optin/Index');
 	}
@@ -211,7 +219,11 @@ class OptinController extends ActionController {
 	 * @throws RouteNotFoundException
 	 */
 	protected function buildTCAEditUri(int $optInId) {
-		$pid = (int) GeneralUtility::_GP('id');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$pid = (int)($this->request->getQueryParams()['id'] ?? 0);
+		} else {
+			$pid = (int)GeneralUtility::_GP('id');
+		}
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		$params = [
 			'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$optInId => 'edit']],
@@ -234,7 +246,11 @@ class OptinController extends ActionController {
 		]);
 		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 		$this->initComponents($this->moduleTemplate);
-		$pageUid = (int) GeneralUtility::_GP('id');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
+		} else {
+			$pageUid = (int)GeneralUtility::_GP('id');
+		}
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
 			$optIns = BackendService::getOptins($pageUid);
@@ -373,7 +389,11 @@ class OptinController extends ActionController {
 	 */
 	public function exportJsonAction() {
 		try {
-			$pid = (int) GeneralUtility::_GP('id');
+			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+				$pid = (int)($this->request->getQueryParams()['id'] ?? 0);
+			} else {
+				$pid = (int)GeneralUtility::_GP('id');
+			}
 
 			$data = JsonImportService::getDataForExport($pid);
 			if ($data->rowCount() !== 1) {
@@ -439,7 +459,11 @@ class OptinController extends ActionController {
 	 * @throws SiteNotFoundException
 	 */
 	public function createAction() {
-		$pid = (int) GeneralUtility::_GP('id');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$pid = (int)($this->request->getQueryParams()['id'] ?? 0);
+		} else {
+			$pid = (int)GeneralUtility::_GP('id');
+		}
 		// create with DataHandler
 		// adding default values for the german language. The values are hardcoded because they must not change since we don't know
 		// the language keys or whatsoever in the target system

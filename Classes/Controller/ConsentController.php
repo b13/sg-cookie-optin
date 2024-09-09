@@ -31,6 +31,7 @@ use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -70,7 +71,11 @@ class ConsentController extends ActionController {
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+				// TODO: refactor RequireJS module to regular ES6 module and include here
+			} else {
+				$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+			}
 		}
 
 		return $moduleTemplate->renderResponse('Consent/Index');

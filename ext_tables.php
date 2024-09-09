@@ -3,21 +3,33 @@
 call_user_func(
 	static function () {
 		$currentTypo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version();
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
-			'tx_sgcookieoptin_domain_model_optin'
-		);
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
-			'tx_sgcookieoptin_domain_model_group'
-		);
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
-			'tx_sgcookieoptin_domain_model_script'
-		);
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
-			'tx_sgcookieoptin_domain_model_cookie'
-		);
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
-			'tx_sgcookieoptin_domain_model_service'
-		);
+
+		if (version_compare($currentTypo3Version, '13', '<')) {
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_optin'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_group'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_script'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_cookie'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_service'
+			);
+
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+				'tx_sgcookieoptin_domain_model_optin',
+				'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+				'tx_sgcookieoptin_domain_model_cookie',
+				'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
+			);
+		}
 
 		$hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::getSetting(
 			\SGalinski\SgCookieOptin\Service\ExtensionSettingsService::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT
@@ -39,7 +51,7 @@ call_user_func(
 				$showModule = !$applicationContext->isProduction();
 			}
 		}
-		if ($showModule) {
+		if ($showModule && version_compare($currentTypo3Version, '13.0.0', '<')) {
 			if (version_compare($currentTypo3Version, '11.0.0', '>=')) {
 				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 					'sg_cookie_optin',
@@ -76,15 +88,6 @@ call_user_func(
 				);
 			}
 		}
-
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-			'tx_sgcookieoptin_domain_model_optin',
-			'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
-		);
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-			'tx_sgcookieoptin_domain_model_cookie',
-			'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
-		);
 
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables']['tx_sgcookieoptin_domain_model_user_preference'] = [
 			'dateField' => 'tstamp',

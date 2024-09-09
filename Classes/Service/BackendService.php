@@ -71,7 +71,11 @@ class BackendService {
 					0
 				)
 			);
-		$rows = $queryBuilder->execute()->fetchAll();
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+		} else {
+			$rows = $queryBuilder->execute()->fetchAll();
+		}
 
 		if (!is_array($rows)) {
 			return [];
@@ -119,7 +123,11 @@ class BackendService {
 					0
 				)
 			);
-		$rows = $queryBuilder->execute()->fetchAll();
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+		} else {
+			$rows = $queryBuilder->execute()->fetchAll();
+		}
 
 		return (is_array($rows) ? $rows : []);
 	}

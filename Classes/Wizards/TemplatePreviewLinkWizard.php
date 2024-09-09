@@ -38,7 +38,8 @@ class TemplatePreviewLinkWizard extends AbstractNode {
 	 *
 	 * @return array
 	 */
-	public function render() {
+	public function render(): array
+    {
 		$result = [];
 		$label = LocalizationUtility::translate('backend.wizard.templatePreviewLink', 'sg_cookie_optin');
 		$result['html'] = '<div>

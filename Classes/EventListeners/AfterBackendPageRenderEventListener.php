@@ -29,6 +29,7 @@ use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Backend\Controller\Event\AfterBackendPageRenderEvent;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * This is the backend inclusion of the license check script
@@ -42,8 +43,12 @@ class AfterBackendPageRenderEventListener {
 		}
 
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		/** @todo change this to a non-requireJS module inclusion when LicenseNotification.js becomes a native JS module */
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/LicenseNotification');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			// TODO: refactor RequireJS module to regular ES6 module and include here
+		} else {
+			/** @todo change this to a non-requireJS module inclusion when LicenseNotification.js becomes a native JS module */
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/LicenseNotification');
+		}
 		$event->setContent($event->getView()->render());
 	}
 }

@@ -55,7 +55,11 @@ class ControlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
 		$row = $this->arguments['row'];
 
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/AjaxDataHandler');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			// TODO: refactor RequireJS module to regular ES6 module and include here
+		} else {
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/AjaxDataHandler');
+		}
 		$pageRenderer->addInlineLanguageLabelFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
 		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();

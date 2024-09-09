@@ -30,6 +30,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
@@ -54,7 +55,11 @@ class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$clickMenu = $this->arguments['clickMenu'];
 
 		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-		$toolTip = BackendUtility::getRecordToolTip($row, $table);
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '>=')) {
+			$toolTip = BackendUtility::getRecordIconAltText($row, $table);
+		} else {
+			$toolTip = BackendUtility::getRecordToolTip($row, $table);
+		}
 		$iconImg = '<span ' . $toolTip . '>'
 			. $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()
 			. '</span>';
