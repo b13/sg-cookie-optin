@@ -145,11 +145,11 @@ class OptinController extends ActionController {
 	 */
 	public function activateDemoModeAction() {
 		if (LicenceCheckService::isInDemoMode() || !LicenceCheckService::isDemoModeAcceptable()) {
-			$this->redirect('index');
+			return $this->redirect('index');
 		}
 
 		LicenceCheckService::activateDemoMode();
-		$this->redirect('index');
+		return $this->redirect('index');
 	}
 
 	/**
