@@ -343,12 +343,12 @@ class OptinController extends ActionController {
 			foreach ($languages as $language) {
 				$dataSummary[$language['uid']] = [
 					'translated' => array_key_exists($language['uid'], $groupsCounts),
-					'groups' => $groupsCounts[$language['uid']],
-					'cookies' => $cookiesCounts[$language['uid']],
-					'scripts' => $scriptsCounts[$language['uid']],
-					'title' => $language['title'],
-					'locale' => $language['locale'],
-					'flagIdentifier' => $language['flagIdentifier']
+					'groups' => $groupsCounts[$language['uid']] ?? 0,
+					'cookies' => $cookiesCounts[$language['uid']] ?? 0,
+					'scripts' => $scriptsCounts[$language['uid']] ?? 0,
+					'title' => $language['title'] ?? '',
+					'locale' => $language['locale'] ?? '',
+					'flagIdentifier' => $language['flagIdentifier'] ?? ''
 				];
 			}
 			$this->moduleTemplate->assign('dataSummary', $dataSummary);

@@ -132,7 +132,7 @@ class JsonImportService {
 		$flatJsonData['essential_description'] = $cookieGroups[0]['description'];
 		$flatJsonData['iframe_title'] = $iframeGroup['label'];
 		$flatJsonData['iframe_description'] = $iframeGroup['description'];
-		$flatJsonData['source_regex'] = $flatJsonData['regex'];
+		$flatJsonData['source_regex'] = $flatJsonData['regex'] ?? '';
 		unset($flatJsonData['regex']);
 		if ($sysLanguageUid !== NULL) {
 			$flatJsonData['sys_language_uid'] = $sysLanguageUid;
