@@ -30,6 +30,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
@@ -49,12 +50,21 @@ class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelpe
 	 * @throws \InvalidArgumentException
 	 */
 	public function render() {
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
 		$row = (array) $this->arguments['row'];
 		$table = $this->arguments['table'];
 		$clickMenu = $this->arguments['clickMenu'];
 
 		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-		$toolTip = BackendUtility::getRecordToolTip($row, $table);
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $toolTip = BackendUtility::getRecordToolTip($row, $table);
+        } else {
+            $toolTip = BackendUtility::getRecordIconAltText($row, $table);
+        }
+
 		$iconImg = '<span ' . $toolTip . '>'
 			. $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()
 			. '</span>';

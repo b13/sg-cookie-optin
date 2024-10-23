@@ -23,31 +23,11 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
-namespace SGalinski\SgCookieOptin\Wizards;
-
-use TYPO3\CMS\Backend\Form\AbstractNode;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-
-/**
- * Adds a button, which shows the preview link of the given template.
- */
-class TemplatePreviewLinkWizard extends AbstractNode {
-	/**
-	 * Renders the preview link button.
-	 *
-	 * @return array
-	 */
-	public function render(): array {
-		$result = [];
-		$label = LocalizationUtility::translate('backend.wizard.templatePreviewLink', 'sg_cookie_optin');
-		$result['html'] = '<div>
-			<button type="button"
-					class="btn btn-default"
-					style="margin: 10px 0;"
-					onclick="window.open(window.location.origin + \'?showOptIn=1\', \'_blank\')">' . $label .
-			'</button>
-		</div>';
-		return $result;
-	}
-}
+return [
+    'dependencies' => ['core', 'backend'],
+    'imports' => [
+        '@sgalinski/cookie-optin/' => [
+            'path' => 'EXT:sg_cookie_optin/Resources/Public/JavaScript/',
+        ],
+    ],
+];

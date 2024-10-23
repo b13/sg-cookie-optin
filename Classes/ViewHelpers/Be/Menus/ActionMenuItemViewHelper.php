@@ -28,8 +28,15 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Be\Menus;
 
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3\CMS\Extbase\Mvc\Request;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
+
+
 
 /**
  * Class ActionMenuItemViewHelper
@@ -44,6 +51,19 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 * @var string
 	 */
 	protected $tagName = 'option';
+
+    /**
+     * @var ControllerContext
+     */
+    protected $controllerContext;
+
+    /**
+     * Inject the ControllerContext (includes the Extbase request)
+     */
+    public function injectControllerContext(ControllerContext $controllerContext): void
+    {
+        $this->controllerContext = $controllerContext;
+    }
 
 	/**
 	 * Register the ViewHelper arguments
@@ -77,11 +97,20 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 * @see \TYPO3\CMS\Fluid\ViewHelpers\Be\Menus\ActionMenuViewHelper
 	 */
 	public function render() {
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
 		$label = $this->arguments['label'];
 		$controller = $this->arguments['controller'];
 		$action = $this->arguments['action'];
 		$arguments = $this->arguments['arguments'];
+
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        if (version_compare($typo3Version, '13.0.0', '>=')) {
+            $uriBuilder->setRequest($this->getExtbaseRequest());
+        }
+
 		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
 		$this->tag->addAttribute('value', $uri);
 		$currentRequest = $this->renderingContext->getRequest();
@@ -130,4 +159,20 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 
 		return $this->tag->render();
 	}
+
+    /**
+     * Builds an Extbase Request from the Symfony Request
+     *
+     * @return RequestInterface
+     */
+    private function getExtbaseRequest(): RequestInterface
+    {
+        /** @var ServerRequestInterface $request */
+        $request = $GLOBALS['TYPO3_REQUEST'];
+
+        // We have to provide an Extbase request object
+        return new Request(
+            $request->withAttribute('extbase', new ExtbaseRequestParameters()),
+        );
+    }
 }

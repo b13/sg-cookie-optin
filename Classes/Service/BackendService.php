@@ -50,6 +50,10 @@ class BackendService {
 	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
 	 */
 	public static function getPages() {
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 		$queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
 		$queryBuilder->getRestrictions()
@@ -71,7 +75,11 @@ class BackendService {
 					0
 				)
 			);
-		$rows = $queryBuilder->execute()->fetchAll();
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $rows = $queryBuilder->execute()->fetchAll();
+        } else {
+            $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+        }
 
 		if (!is_array($rows)) {
 			return [];
@@ -102,6 +110,10 @@ class BackendService {
 	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
 	 */
 	public static function getOptins($pageUid) {
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
 		$queryBuilder->getRestrictions()
@@ -119,7 +131,12 @@ class BackendService {
 					0
 				)
 			);
-		$rows = $queryBuilder->execute()->fetchAll();
+
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $rows = $queryBuilder->execute()->fetchAll();
+        } else {
+            $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+        }
 
 		return (is_array($rows) ? $rows : []);
 	}

@@ -23,24 +23,24 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-import $ from 'jquery';
+define(['jquery'], function() {
+	const EditOnClick = {
 
-const EditOnClick = {
-	/**
-	 * Initialize the history search
-	 */
-	init() {
-		const editLinks = document.querySelectorAll('a.sg-cookie-optin-edit-record-link');
-		editLinks.forEach(element => {
-			element.addEventListener('click', event => {
-				let link = event.target.closest('a');
-				window.location.href = link.dataset.editHref;
+		/**
+		 * Initialize the history search
+		 */
+		init: function() {
+			const editLinks = document.querySelectorAll('a.sg-cookie-optin-edit-record-link');
+			editLinks.forEach(element => {
+				element.addEventListener('click', event => {
+					let link = event.target.closest('a');
+					window.location.href = link.dataset.editHref;
+				});
 			});
-		});
+		}
+	};
+
+	EditOnClick.init();
+		return EditOnClick;
 	}
-};
-
-// Initialize the EditOnClick functionality
-EditOnClick.init();
-
-export default EditOnClick;
+);

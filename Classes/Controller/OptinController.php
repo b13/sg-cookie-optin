@@ -93,6 +93,10 @@ class OptinController extends ActionController {
 	 *
 	 */
 	public function indexAction() {
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
 		$this->initComponents($this->moduleTemplate);
 		$this->checkLicenseStatus($this->moduleTemplate);
 
@@ -110,7 +114,12 @@ class OptinController extends ActionController {
 			);
 		}
 
-		$pageUid = (int) GeneralUtility::_GP('id');
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $pageUid = (int) GeneralUtility::_GP('id');
+        } else {
+            $pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
+        }
+
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$optIns = BackendService::getOptins($pageUid);
@@ -127,14 +136,15 @@ class OptinController extends ActionController {
 			$this->moduleTemplate->assign('optins', $optIns);
 		}
 
-		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			$currentTypo3Version
-		);
 		$this->moduleTemplate->assign('typo3Version', $typo3Version);
 		$this->moduleTemplate->assign('pages', BackendService::getPages());
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
+
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/EditOnClick');
+        } else {
+            $pageRenderer->loadJavaScriptModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
+        }
 
 		return $this->moduleTemplate->renderResponse('Optin/Index');
 	}

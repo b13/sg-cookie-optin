@@ -23,24 +23,27 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-import $ from 'jquery';
+define(['jquery', 'TYPO3/CMS/Backend/Notification'], function ($, Notification) {
+		'use strict';
+		var LicenseCheck = {
+			init: function() {
+				$.ajax({
+					url: TYPO3.settings.ajaxUrls['sg_cookie_optin::checkLicense'],
+					dataType: 'text',
+					success: function(result) {
+						var data = JSON.parse(result);
+						switch (data.error) {
+							case 1:
+								Notification.error(data.title, data.message, 0);
+								break;
+							case 2:
+								Notification.warning(data.title, data.message, 0);
+						}
+					}
+				});
+			}
+		};
 
-const EditOnClick = {
-	/**
-	 * Initialize the history search
-	 */
-	init() {
-		const editLinks = document.querySelectorAll('a.sg-cookie-optin-edit-record-link');
-		editLinks.forEach(element => {
-			element.addEventListener('click', event => {
-				let link = event.target.closest('a');
-				window.location.href = link.dataset.editHref;
-			});
-		});
+		return LicenseCheck.init();
 	}
-};
-
-// Initialize the EditOnClick functionality
-EditOnClick.init();
-
-export default EditOnClick;
+);
