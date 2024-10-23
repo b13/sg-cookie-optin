@@ -179,7 +179,16 @@ trait InitControllerComponents {
 	 * Initializes the root page selection
 	 */
 	protected function initPageUidSelection(ModuleTemplate $moduleTemplate) {
-		$pageUid = (int) GeneralUtility::_GP('id');
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $pageUid = (int) GeneralUtility::_GP('id');
+        } else {
+            $pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
+        }
+
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$moduleTemplate->assign('isSiteRoot', TRUE);

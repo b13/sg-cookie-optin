@@ -32,6 +32,7 @@ use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -65,7 +66,16 @@ class StatisticsController extends ActionController {
 		$this->initComponents($moduleTemplate);
 		$this->initPageUidSelection($moduleTemplate);
 
-		$pageUid = (int) GeneralUtility::_GP('id');
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $pageUid = (int) GeneralUtility::_GP('id');
+        } else {
+            $pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
+        }
+
 		$moduleTemplate->assign(
 			'versions',
 			OptinHistoryService::getVersions(
@@ -77,7 +87,11 @@ class StatisticsController extends ActionController {
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
+            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+                $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
+            } else {
+                $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/Statistics.js');
+            }
 		}
 
 		return $moduleTemplate->renderResponse('Statistics/Index');
