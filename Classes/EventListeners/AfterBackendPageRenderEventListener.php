@@ -52,7 +52,7 @@ class AfterBackendPageRenderEventListener {
         if (version_compare($typo3Version, '13.0.0', '<')) {
             $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/LicenseNotification');
         } else {
-            $pageRenderer->loadJavaScriptModule('TYPO3/CMS/SgCookieOptin/Backend/LicenseNotification');
+            $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/LicenseNotification.js');
         }
 
 		$event->setContent($event->getView()->render());

@@ -26,8 +26,8 @@
 return [
     'dependencies' => ['core', 'backend'],
     'imports' => [
-        '@sgalinski/cookie-optin/' => [
-            'path' => 'EXT:sg_cookie_optin/Resources/Public/JavaScript/',
+        '@sgalinski/sg-cookie-optin/' => [
+            'path' => 'EXT:sg_cookie_optin/Resources/Public/JavaScript/Backend/',
         ],
     ],
 ];

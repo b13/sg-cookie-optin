@@ -52,18 +52,6 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 */
 	protected $tagName = 'option';
 
-    /**
-     * @var ControllerContext
-     */
-    protected $controllerContext;
-
-    /**
-     * Inject the ControllerContext (includes the Extbase request)
-     */
-    public function injectControllerContext(ControllerContext $controllerContext): void
-    {
-        $this->controllerContext = $controllerContext;
-    }
 
 	/**
 	 * Register the ViewHelper arguments

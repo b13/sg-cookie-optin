@@ -44,7 +44,7 @@ class LicenceCheckHook {
 	 */
 	protected function addAjaxLicenseCheck() {
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/LicenseNotification');
+		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/LicenseNotification');
 	}
 
 	/**

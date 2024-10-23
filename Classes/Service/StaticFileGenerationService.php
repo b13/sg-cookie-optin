@@ -42,6 +42,8 @@ use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
+use TYPO3\CMS\Core\Context\LanguageAspect;
+
 
 /**
  * Class SGalinski\SgCookieOptin\Service\TemplateService
@@ -341,7 +343,12 @@ class StaticFileGenerationService implements SingletonInterface {
 			);
 		}
 
-		$rows = $queryBuilder->execute()->fetchAll();
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+            $rows = $queryBuilder->execute()->fetchAll();
+        } else {
+            $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+        }
+
 		if (!is_array($rows)) {
 			return [];
 		}
@@ -357,7 +364,12 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		foreach ($rows as $row) {
-			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
+            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+                $translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
+            } else {
+                $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $language);
+                $translatedRows[] = $pageRepository->getLanguageOverlay($table, $row, $languageAspect);
+            }
 		}
 
 		return $translatedRows;
