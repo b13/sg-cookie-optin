@@ -153,7 +153,7 @@ class LegacyOptinController extends ActionController {
 			->from('tx_sgcookieoptin_domain_model_optin')
 			->where($queryBuilder->expr()->eq('pid', $rootPageId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-			->execute();
+			->executeQuery();
 		if (method_exists($resultObject, 'fetchAssociative')) {
 			$optin = $resultObject->fetchAssociative();
 		} else {
@@ -172,8 +172,8 @@ class LegacyOptinController extends ActionController {
 			->from('tx_sgcookieoptin_domain_model_group')
 			->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		array_unshift($groups, [
 			'uid' => 0,
@@ -200,8 +200,8 @@ class LegacyOptinController extends ActionController {
 						$queryBuilder->expr()->eq('pid', $rootPageId)
 					)
 				)
-				->execute()
-				->fetchAll();
+				->executeQuery()
+				->fetchAllAssociative();
 			if ($languageUid > 0) {
 				foreach ($cookies as &$cookie) {
 					$cookie = $pageRepository->getRecordOverlay(

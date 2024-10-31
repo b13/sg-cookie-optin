@@ -101,7 +101,7 @@ class GenerateStaticFilesCommand extends Command {
 			->where($queryBuilder->expr()->eq('pid', $siteRootId))
 			->andWhere($queryBuilder->expr()->eq('l10n_parent', 0))
 			->setMaxResults(1)
-			->execute();
+			->executeQuery();
 
 		if (is_callable([$result, 'fetchOne'])) {
 			$uid = $result->fetchOne();

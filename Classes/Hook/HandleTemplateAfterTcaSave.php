@@ -140,7 +140,7 @@ class HandleTemplateAfterTcaSave {
 						'uid',
 						$queryBuilder->createNamedParameter((int) $id, \PDO::PARAM_INT)
 					)
-				)->execute();
+				)->executeStatement();
 		}
 	}
 }

@@ -79,7 +79,7 @@ class CookieListController extends ActionController {
 			->from('tx_sgcookieoptin_domain_model_optin')
 			->where($queryBuilder->expr()->eq('pid', $rootPageId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-			->execute();
+			->executeQuery();
 		if (method_exists($resultObject, 'fetchAssociative')) {
 			$optin = $resultObject->fetchAssociative();
 		} else {
@@ -101,8 +101,8 @@ class CookieListController extends ActionController {
 			->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
 			->andWhere($queryBuilder->expr()->eq('pid', $rootPageId))
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		array_unshift($groups, [
 			'uid' => 0,
@@ -131,8 +131,8 @@ class CookieListController extends ActionController {
 						$queryBuilder->expr()->eq('pid', $rootPageId)
 					)
 				)
-				->execute()
-				->fetchAll();
+				->executeQuery()
+				->fetchAllAssociative();
 
 			if ($languageUid > 0) {
 				foreach ($cookies as &$cookie) {

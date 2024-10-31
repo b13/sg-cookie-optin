@@ -102,7 +102,7 @@ class OptinHistoryService {
 					$queryBuilder
 						->insert(self::TABLE_NAME)
 						->values($data)
-						->execute();
+						->executeStatement();
 				}
 			}
 
@@ -143,8 +143,8 @@ class OptinHistoryService {
 		);
 		$groupNames = $queryBuilder->select('group_name')
 			->from('tx_sgcookieoptin_domain_model_group')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$allowedGroupNames = ['essential', 'iframes'];
 		foreach ($groupNames as $groupName) {

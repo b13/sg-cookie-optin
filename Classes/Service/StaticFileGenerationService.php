@@ -341,7 +341,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			);
 		}
 
-		$rows = $queryBuilder->execute()->fetchAll();
+		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 		if (!is_array($rows)) {
 			return [];
 		}

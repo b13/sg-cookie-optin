@@ -400,7 +400,7 @@ class JsonImportService {
 			try {
 				$queryBuilder->where(
 					$queryBuilder->expr()->eq('uid', $objectId)
-				)->execute();
+				)->executeStatement();
 			} catch (\Exception $exception) {
 				// ignore missing fields
 			}
