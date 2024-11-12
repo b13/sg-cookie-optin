@@ -1,0 +1,29 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+	  xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+	  xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
+	  data-namespace-typo3-fluid="true">
+
+<f:if condition="{pages}">
+	<div class="panel panel-default recordlist">
+		<div class="panel-heading">
+			<f:translate key="backend.no_site_root"/>
+		</div>
+		<div class="table-fit">
+			<table data-table="pages" class="table table-striped table-hover">
+				<tbody>
+				<f:for each="{pages}" as="page">
+					<tr data-uid="{page.uid}">
+						<td nowrap="nowrap" class="col-title">
+						<f:link.action action="index" additionalParams="{id: page.uid}">
+							<f:format.raw><sg:backend.icon table="pages" row="{page}" clickMenu="0" /></f:format.raw>
+							{page._thePathFull}
+						</f:link.action>
+					</td>
+					</tr>
+				</f:for>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</f:if>
+</html>
