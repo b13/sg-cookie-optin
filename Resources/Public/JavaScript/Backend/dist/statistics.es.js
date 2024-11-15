@@ -20745,11 +20745,6 @@ const Statistics = {
       type: "pie",
       data: chartData,
       options: {
-        title: {
-          text: identifier,
-          display: true,
-          position: "top"
-        },
         tooltips: {
           enabled: true,
           callbacks: {
@@ -20774,6 +20769,11 @@ const Statistics = {
               return percentage;
             },
             color: "#FFF"
+          },
+          title: {
+            text: identifier,
+            display: true,
+            position: "top"
           }
         },
         responsive: true
