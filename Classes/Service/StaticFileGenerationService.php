@@ -1103,12 +1103,12 @@ class StaticFileGenerationService implements SingletonInterface {
 			}
 
 			if ($languageUid > 0) {
-                if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-                    $record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
-                } else {
-                    $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-                    $record = $pageRepository->getLanguageOverlay('pages', $record, $languageAspect);
-                }
+				if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+						$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
+				} else {
+						$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+						$record = $pageRepository->getLanguageOverlay('pages', $record, $languageAspect);
+				}
 			}
 
 			$records[] = $record;

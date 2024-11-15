@@ -31,6 +31,7 @@ use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -58,7 +59,16 @@ class ConsentController extends ActionController {
 		$this->initComponents($moduleTemplate);
 		$this->initPageUidSelection($moduleTemplate);
 
-		$pageUid = (int) GeneralUtility::_GP('id');
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+            VersionNumberUtility::getCurrentTypo3Version()
+        );
+
+        if (version_compare($typo3Version, '13.0.0', '<')) {
+            $pageUid = (int) GeneralUtility::_GP('id');
+        } else {
+            $pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
+        }
+
 		$moduleTemplate->assign(
 			'identifiers',
 			OptinHistoryService::getItemIdentifiers(
@@ -70,7 +80,11 @@ class ConsentController extends ActionController {
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+                $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+            } else {
+                $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/ConsentManagement.js');
+            }
 		}
 
 		return $moduleTemplate->renderResponse('Consent/Index');

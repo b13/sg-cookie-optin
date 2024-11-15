@@ -24,8 +24,7 @@
  */
 
 import $ from 'jquery';
-import Chart from 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min';
-import Formatter from 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/datalabels.min';
+import Chart from 'chart.js/auto';
 
 const Statistics = {
 	chart: null,

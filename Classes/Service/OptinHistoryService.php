@@ -270,8 +270,13 @@ class OptinHistoryService {
 				$query .= " LIMIT $offset, $perPage";
 			}
 		}
+		
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+			$return = $connection->executeQuery($query, $queryParameters)->fetchAll();
+		} else {
+			$return = $connection->fetchAllAssociative($query, $queryParameters); 
+		}
 
-		$return = $connection->fetchAllAssociative($query, $queryParameters);
 		return $return;
 	}
 
@@ -291,7 +296,7 @@ class OptinHistoryService {
 			->where(
 				$queryBuilder->expr()->eq(
 					'pid',
-					$queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
+					$queryBuilder->createNamedParameter((int) $parameters['pid'])
 				)
 			);
 
@@ -305,7 +310,7 @@ class OptinHistoryService {
 		}
 
 		$queryBuilder->andWhere(
-			$queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type, PDO::PARAM_INT))
+			$queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type))
 		);
 		$queryBuilder->addGroupBy('item_type');
 		$queryBuilder->addGroupBy('item_identifier');

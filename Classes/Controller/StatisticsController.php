@@ -90,7 +90,7 @@ class StatisticsController extends ActionController {
             if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
                 $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
             } else {
-                $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/Statistics.js');
+                $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/dist/statistics.es.js');
             }
 		}
 

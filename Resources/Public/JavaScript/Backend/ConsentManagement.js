@@ -143,8 +143,8 @@ const ConsentManagement = {
 		});
 
 		const td = document.createElement('TD');
-		const icon = document.createElement('I');
-		icon.className = dataRow.is_accepted ? 'fa fa-check-circle consent-green' : 'fa fa-times-circle consent-red';
+		const iconString = dataRow.is_accepted ? '✅' : '❌';
+		const icon = document.createTextNode(iconString);
 		td.append(icon);
 		tr.append(td);
 

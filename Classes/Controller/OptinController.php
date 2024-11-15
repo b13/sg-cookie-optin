@@ -300,11 +300,13 @@ class OptinController extends ActionController
             $this->moduleTemplate->assign('isSiteRoot', TRUE);
             $this->moduleTemplate->assign('optins', $optIns);
         }
+
         try {
             $languages = LanguageService::getLanguages($pageUid);
         } catch (SiteNotFoundException $e) {
             $languages = [];
         }
+        
         $jsonImportService = GeneralUtility::makeInstance(JsonImportService::class);
         try {
             if (!isset($_FILES['file'])) {
