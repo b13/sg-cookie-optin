@@ -160,7 +160,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 
         // We have to provide an Extbase request object
         return new Request(
-            $request->withAttribute('extbase', new ExtbaseRequestParameters()),
+            $request->withAttribute('extbase', new ExtbaseRequestParameters())
         );
     }
 }
