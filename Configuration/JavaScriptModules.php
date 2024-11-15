@@ -29,8 +29,5 @@ return [
         '@sgalinski/sg-cookie-optin/' => [
             'path' => 'EXT:sg_cookie_optin/Resources/Public/JavaScript/Backend/',
         ],
-        '@sgalinski/sg-cookie-optin-moment' => [
-            'path' => 'EXT:sg_cookie_optin/Resources/Public/JavaScript/Backend/moment/src/',
-        ],
     ],
 ];

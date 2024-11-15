@@ -187,7 +187,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, provider, purpose, lifetime, parent_group, parent_optin';
 }
 
-if (version_compare($currentTypo3Version, '13.0.0', '>')) {
+if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '>')) {
     $GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_cookie'] = [
         'refs' => [
             'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'

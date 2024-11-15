@@ -1842,7 +1842,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'monochrome_enabled, show_fingerprint, auto_action_for_bots';
 }
 
-if (version_compare($currentTypo3Version, '13.0.0', '>')) {
+if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '>')) {
     $GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_optin'] = [
         'refs' => [
             'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
