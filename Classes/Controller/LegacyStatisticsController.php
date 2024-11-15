@@ -65,7 +65,7 @@ class LegacyStatisticsController extends ActionController {
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/Statistics');
 		}
 	}
 }

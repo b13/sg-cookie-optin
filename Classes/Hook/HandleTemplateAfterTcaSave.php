@@ -142,9 +142,7 @@ class HandleTemplateAfterTcaSave {
 						$queryBuilder->createNamedParameter((int) $id)
 					)
 				);
-            $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-                VersionNumberUtility::getCurrentTypo3Version()
-            );
+            $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
 
             if (version_compare($typo3Version, '13.0.0', '<')) {
                 $queryBuilder->execute();

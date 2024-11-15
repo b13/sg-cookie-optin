@@ -50,9 +50,7 @@ class BackendService {
 	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
 	 */
 	public static function getPages() {
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
+        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
 
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 		$queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
@@ -110,9 +108,7 @@ class BackendService {
 	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
 	 */
 	public static function getOptins($pageUid) {
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
+        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
 
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');

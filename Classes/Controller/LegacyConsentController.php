@@ -66,7 +66,7 @@ class LegacyConsentController extends ActionController {
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/ConsentManagement');
 		}
 	}
 }
