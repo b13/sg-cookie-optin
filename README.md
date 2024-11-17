@@ -183,3 +183,57 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTca
     };
 ```
 
+## Extending the Statistics Module
+
+The `Statistics.js` module in `sg-cookie-optin` is bundled using [Vite](https://vitejs.dev/) to ensure compatibility with TYPO3 v13. This module incorporates dependencies like Chart.js and provides a flexible way to extend or modify its behavior for custom use cases.
+
+### Overview of the Bundling Configuration
+
+The Vite configuration ensures that the module is output to:
+
+```
+Resources/Public/JavaScript/Backend/dist/statistics.es.js
+```
+
+This file is optimized for modern browsers (`es` format) and includes all necessary dependencies, such as Chart.js.
+
+### Prerequisites for Extension
+
+To extend or customize the `Statistics.js` module, ensure you have the following:
+
+1. **Node.js** installed (version 16 or later recommended).
+2. **Vite** installed in your local environment. You can install it globally or as a development dependency:
+   ```bash
+   npm install vite --save-dev
+   ```
+
+3. Familiarity with modern JavaScript and ES Modules.
+
+### Extending the Module
+
+Follow these steps to modify or extend the functionality:
+
+1. **Clone the Repository**  
+   Clone the sg-cookie-optin extension repository or work on your local copy.
+
+2. **Locate the Source File**  
+   The `Statistics.js` source file is located at:
+   ```
+   Resources/Public/JavaScript/Backend/Statistics.js
+   ```
+
+3. **Modify the Code**  
+   Open `Statistics.js` and implement your changes. For example, you might want to add a new chart type or extend existing functionality.
+
+4. **Rebuild the Module**  
+   After modifying the code, rebuild the module using Vite:
+   ```bash
+   npm run build
+   ```
+   This will regenerate the bundled file in:
+   ```
+   Resources/Public/JavaScript/Backend/dist/statistics.es.js
+   ```
+
+5. **Integrate the Updated Script**  
+   Ensure the new `statistics.es.js` file is correctly loaded in your TYPO3 backend module. Clear caches in TYPO3 to reflect the changes.

@@ -16,13 +16,19 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 		'sg_cookie_optin',
 		'OptIn',
-		'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel'
+		'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel',
+        'ext-sg_cookie_optin',
+        'plugins',
+        'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginDescription'
 	);
 
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 		'sg_cookie_optin',
 		'CookieList',
-		'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginLabel'
+		'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginLabel',
+        'ext-sg_cookie_optin',
+        'plugins',
+        'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginDescription'
 	);
 }
 

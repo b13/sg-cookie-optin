@@ -58,9 +58,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 		->autowire(FALSE);
 	$services->set(AfterBackendPageRenderEventListener::class)
 		->tag('event.listener', ['event' => AfterBackendPageRenderEvent::class]);
-
-    //Todo: This doesn't work in TYPO3 13
-    $hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::getSetting(
-        \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT
-    );
 };
