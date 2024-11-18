@@ -45,9 +45,9 @@ $configuration = [
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_cookie.svg',
-        'security' => [
-            'ignorePageTypeRestriction' => true,
-        ],
+		'security' => [
+			'ignorePageTypeRestriction' => TRUE,
+		],
 	],
 	'interface' => [],
 	'types' => [
@@ -188,11 +188,11 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 }
 
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '>')) {
-    $GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_cookie'] = [
-        'refs' => [
-            'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
-        ],
-    ];
+	$GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_cookie'] = [
+		'refs' => [
+			'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
+		],
+	];
 }
 
 return $configuration;

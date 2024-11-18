@@ -27,7 +27,6 @@ namespace SGalinski\SgCookieOptin\Service;
  ***************************************************************/
 
 use Exception;
-use PDO;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -99,17 +98,17 @@ class OptinHistoryService {
 				);
 
 				foreach ($insertData as $data) {
-                    if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-                        $queryBuilder
-                            ->insert(self::TABLE_NAME)
-                            ->values($data)
-                            ->execute();
-                    } else {
-                        $queryBuilder
-                            ->insert(self::TABLE_NAME)
-                            ->values($data)
-                            ->executeStatement();
-                    }
+					if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+						$queryBuilder
+							->insert(self::TABLE_NAME)
+							->values($data)
+							->execute();
+					} else {
+						$queryBuilder
+							->insert(self::TABLE_NAME)
+							->values($data)
+							->executeStatement();
+					}
 				}
 			}
 
@@ -148,13 +147,13 @@ class OptinHistoryService {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_group'
 		);
-        $queryBuilder->select('group_name')
-            ->from('tx_sgcookieoptin_domain_model_group');
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            $groupNames = $queryBuilder->execute()->fetchAll();
-        } else {
-            $groupNames = $queryBuilder->executeQuery()->fetchAllAssociative();
-        }
+		$queryBuilder->select('group_name')
+			->from('tx_sgcookieoptin_domain_model_group');
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+			$groupNames = $queryBuilder->execute()->fetchAll();
+		} else {
+			$groupNames = $queryBuilder->executeQuery()->fetchAllAssociative();
+		}
 
 		$allowedGroupNames = ['essential', 'iframes'];
 		foreach ($groupNames as $groupName) {
@@ -270,11 +269,11 @@ class OptinHistoryService {
 				$query .= " LIMIT $offset, $perPage";
 			}
 		}
-		
+
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
 			$return = $connection->executeQuery($query, $queryParameters)->fetchAll();
 		} else {
-			$return = $connection->fetchAllAssociative($query, $queryParameters); 
+			$return = $connection->fetchAllAssociative($query, $queryParameters);
 		}
 
 		return $return;
@@ -315,11 +314,11 @@ class OptinHistoryService {
 		$queryBuilder->addGroupBy('item_type');
 		$queryBuilder->addGroupBy('item_identifier');
 
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            $rows = $queryBuilder->execute()->fetchAll();
-        } else {
-            $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
-        }
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+			$rows = $queryBuilder->execute()->fetchAll();
+		} else {
+			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+		}
 
 		return array_column($rows, 'item_identifier');
 	}
@@ -344,11 +343,11 @@ class OptinHistoryService {
 			->addGroupBy('version')
 			->orderBy('version', 'asc');
 
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            $rows = $queryBuilder->execute()->fetchAll();
-        } else {
-            $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
-        }
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+			$rows = $queryBuilder->execute()->fetchAll();
+		} else {
+			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+		}
 
 		return array_column($rows, 'version');
 	}

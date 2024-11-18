@@ -26,17 +26,15 @@
 
 namespace SGalinski\SgCookieOptin\ViewHelpers\Be\Menus;
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
+use TYPO3\CMS\Extbase\Mvc\Request;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
-use TYPO3\CMS\Extbase\Mvc\Request;
-use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
-use TYPO3\CMS\Extbase\Mvc\RequestInterface;
-
-
 
 /**
  * Class ActionMenuItemViewHelper
@@ -51,7 +49,6 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 * @var string
 	 */
 	protected $tagName = 'option';
-
 
 	/**
 	 * Register the ViewHelper arguments
@@ -85,9 +82,9 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 * @see \TYPO3\CMS\Fluid\ViewHelpers\Be\Menus\ActionMenuViewHelper
 	 */
 	public function render() {
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 
 		$label = $this->arguments['label'];
 		$controller = $this->arguments['controller'];
@@ -95,9 +92,9 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		$arguments = $this->arguments['arguments'];
 
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        if (version_compare($typo3Version, '13.0.0', '>=')) {
-            $uriBuilder->setRequest($this->getExtbaseRequest());
-        }
+		if (version_compare($typo3Version, '13.0.0', '>=')) {
+			$uriBuilder->setRequest($this->getExtbaseRequest());
+		}
 
 		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
 		$this->tag->addAttribute('value', $uri);
@@ -148,19 +145,18 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		return $this->tag->render();
 	}
 
-    /**
-     * Builds an Extbase Request from the Symfony Request
-     *
-     * @return RequestInterface
-     */
-    private function getExtbaseRequest(): RequestInterface
-    {
-        /** @var ServerRequestInterface $request */
-        $request = $GLOBALS['TYPO3_REQUEST'];
+	/**
+	 * Builds an Extbase Request from the Symfony Request
+	 *
+	 * @return RequestInterface
+	 */
+	private function getExtbaseRequest(): RequestInterface {
+		/** @var ServerRequestInterface $request */
+		$request = $GLOBALS['TYPO3_REQUEST'];
 
-        // We have to provide an Extbase request object
-        return new Request(
-            $request->withAttribute('extbase', new ExtbaseRequestParameters())
-        );
-    }
+		// We have to provide an Extbase request object
+		return new Request(
+			$request->withAttribute('extbase', new ExtbaseRequestParameters())
+		);
+	}
 }

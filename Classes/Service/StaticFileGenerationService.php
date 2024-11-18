@@ -27,6 +27,7 @@
 namespace SGalinski\SgCookieOptin\Service;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
@@ -42,8 +43,6 @@ use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
-use TYPO3\CMS\Core\Context\LanguageAspect;
-
 
 /**
  * Class SGalinski\SgCookieOptin\Service\TemplateService
@@ -189,19 +188,21 @@ class StaticFileGenerationService implements SingletonInterface {
 					$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 				}
 
-                if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-                    $translatedRecord = $pageRepository->getRecordOverlay(
-                        self::TABLE_NAME, $originalRecord, $languageUid, '1'
-                    );
-                } else {
-                    $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-                    $translatedRecord = $pageRepository->getLanguageOverlay(
-                        self::TABLE_NAME, $originalRecord, $languageAspect
-                    );
-                }
+				if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+					$translatedRecord = $pageRepository->getRecordOverlay(
+						self::TABLE_NAME, $originalRecord, $languageUid, '1'
+					);
+				} else {
+					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+					$translatedRecord = $pageRepository->getLanguageOverlay(
+						self::TABLE_NAME, $originalRecord, $languageAspect
+					);
+				}
 			}
 
-			$translatedFullData = $this->getFullData($translatedRecord ?? $originalRecord, self::TABLE_NAME, $languageUid);
+			$translatedFullData = $this->getFullData(
+				$translatedRecord ?? $originalRecord, self::TABLE_NAME, $languageUid
+			);
 			if (count($translatedFullData) <= 0) {
 				continue;
 			}
@@ -351,11 +352,11 @@ class StaticFileGenerationService implements SingletonInterface {
 			);
 		}
 
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            $rows = $queryBuilder->execute()->fetchAll();
-        } else {
-            $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
-        }
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+			$rows = $queryBuilder->execute()->fetchAll();
+		} else {
+			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+		}
 
 		if (!is_array($rows)) {
 			return [];
@@ -372,12 +373,12 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		foreach ($rows as $row) {
-            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-                $translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
-            } else {
-                $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $language);
-                $translatedRows[] = $pageRepository->getLanguageOverlay($table, $row, $languageAspect);
-            }
+			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+				$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
+			} else {
+				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $language);
+				$translatedRows[] = $pageRepository->getLanguageOverlay($table, $row, $languageAspect);
+			}
 		}
 
 		return $translatedRows;
@@ -1104,10 +1105,10 @@ class StaticFileGenerationService implements SingletonInterface {
 
 			if ($languageUid > 0) {
 				if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-						$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
+					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
 				} else {
-						$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-						$record = $pageRepository->getLanguageOverlay('pages', $record, $languageAspect);
+					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+					$record = $pageRepository->getLanguageOverlay('pages', $record, $languageAspect);
 				}
 			}
 

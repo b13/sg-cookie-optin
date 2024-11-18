@@ -66,15 +66,15 @@ class StatisticsController extends ActionController {
 		$this->initComponents($moduleTemplate);
 		$this->initPageUidSelection($moduleTemplate);
 
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pageUid = (int) GeneralUtility::_GP('id');
-        } else {
-            $pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
-        }
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pageUid = (int) GeneralUtility::_GP('id');
+		} else {
+			$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		}
 
 		$moduleTemplate->assign(
 			'versions',
@@ -87,11 +87,11 @@ class StatisticsController extends ActionController {
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-                $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/Statistics');
-            } else {
-                $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/dist/statistics.es.js');
-            }
+			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+				$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/Statistics');
+			} else {
+				$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/dist/statistics.es.js');
+			}
 		}
 
 		return $moduleTemplate->renderResponse('Statistics/Index');

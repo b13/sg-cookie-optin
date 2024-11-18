@@ -50,20 +50,20 @@ class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelpe
 	 * @throws \InvalidArgumentException
 	 */
 	public function render() {
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 
 		$row = (array) $this->arguments['row'];
 		$table = $this->arguments['table'];
 		$clickMenu = $this->arguments['clickMenu'];
 
 		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $toolTip = BackendUtility::getRecordToolTip($row, $table);
-        } else {
-            $toolTip = BackendUtility::getRecordIconAltText($row, $table);
-        }
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$toolTip = BackendUtility::getRecordToolTip($row, $table);
+		} else {
+			$toolTip = BackendUtility::getRecordIconAltText($row, $table);
+		}
 
 		$iconImg = '<span ' . $toolTip . '>'
 			. $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()

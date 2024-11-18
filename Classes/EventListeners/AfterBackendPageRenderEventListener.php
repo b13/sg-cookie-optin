@@ -44,16 +44,15 @@ class AfterBackendPageRenderEventListener {
 
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
 
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
-
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/LicenseNotification');
-        } else {
-            $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/LicenseNotification.js');
-        }
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/LicenseNotification');
+		} else {
+			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/LicenseNotification.js');
+		}
 
 		$event->setContent($event->getView()->render());
 	}

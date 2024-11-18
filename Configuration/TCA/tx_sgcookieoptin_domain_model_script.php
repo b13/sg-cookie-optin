@@ -43,9 +43,9 @@ $configuration = [
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_script.svg',
-        'security' => [
-            'ignorePageTypeRestriction' => true,
-        ],
+		'security' => [
+			'ignorePageTypeRestriction' => TRUE,
+		],
 	],
 	'interface' => [],
 	'types' => [
