@@ -23,27 +23,28 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-define(['jquery', 'TYPO3/CMS/Backend/Notification'], function ($, Notification) {
-		'use strict';
-		var LicenseCheck = {
-			init: function() {
-				$.ajax({
-					url: TYPO3.settings.ajaxUrls['sg_cookie_optin::checkLicense'],
-					dataType: 'text',
-					success: function(result) {
-						var data = JSON.parse(result);
-						switch (data.error) {
-							case 1:
-								Notification.error(data.title, data.message, 0);
-								break;
-							case 2:
-								Notification.warning(data.title, data.message, 0);
-						}
-					}
-				});
-			}
-		};
+import $ from 'jquery';
+import Notification from "@typo3/backend/notification.js";
 
-		return LicenseCheck.init();
+class LicenseCheck {
+	static init() {
+		$.ajax({
+			url: TYPO3.settings.ajaxUrls['sg_cookie_optin::checkLicense'],
+			dataType: 'text',
+			success: function(result) {
+				const data = JSON.parse(result);
+				switch (data.error) {
+					case 1:
+						Notification.error(data.title, data.message, 0);
+						break;
+					case 2:
+						Notification.warning(data.title, data.message, 0);
+						break;
+				}
+			}
+		});
 	}
-);
+}
+
+// Initialize the LicenseCheck module
+LicenseCheck.init();

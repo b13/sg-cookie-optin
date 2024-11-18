@@ -30,7 +30,7 @@ use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -54,17 +54,32 @@ trait InitControllerComponents {
 		$hasValidLicense = LicenceCheckService::hasValidLicense();
 		if ($isInDemoMode && !$hasValidLicense) {
 			// - 1 because the flash message would show 00:00:00 instead of 23:59:59
-			$this->addFlashMessage(
-				LocalizationUtility::translate(
-					'backend.licenseKey.isInDemoMode.description',
-					'sg_cookie_optin',
-					[
-						date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
-					]
-				),
-				LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
-				AbstractMessage::INFO
-			);
+			if (version_compare($typo3Version, '13.0.0', '<')) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate(
+						'backend.licenseKey.isInDemoMode.description',
+						'sg_cookie_optin',
+						[
+							date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
+						]
+					),
+					LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
+					-1 // INFO
+				);
+			} else {
+				$this->addFlashMessage(
+					LocalizationUtility::translate(
+						'backend.licenseKey.isInDemoMode.description',
+						'sg_cookie_optin',
+						[
+							date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
+						]
+					),
+					LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
+					ContextualFeedbackSeverity::INFO
+				);
+			}
+
 		} elseif ($keyState === LicenceCheckService::STATE_LICENSE_NOT_SET) {
 			if (!LicenceCheckService::isInDevelopmentContext()) {
 				LicenceCheckService::removeAllCookieOptInFiles();
@@ -82,11 +97,26 @@ trait InitControllerComponents {
 					);
 			}
 
-			$this->addFlashMessage(
-				$description,
-				LocalizationUtility::translate('backend.licenseKey.notSet.header', 'sg_cookie_optin'),
-				AbstractMessage::WARNING
-			);
+			if (version_compare($typo3Version, '13.0.0', '<')) {
+				$this->addFlashMessage(
+					$description,
+					LocalizationUtility::translate('backend.licenseKey.notSet.header', 'sg_cookie_optin'),
+					1 // WARNING
+				);
+			} else {
+				$this->addFlashMessage(
+					LocalizationUtility::translate(
+						'backend.licenseKey.isInDemoMode.description',
+						'sg_cookie_optin',
+						[
+							date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
+						]
+					),
+					LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
+					ContextualFeedbackSeverity::WARNING
+				);
+			}
+
 		} elseif (!$hasValidLicense) {
 			if (!LicenceCheckService::isInDevelopmentContext()) {
 				LicenceCheckService::removeAllCookieOptInFiles();
@@ -104,15 +134,28 @@ trait InitControllerComponents {
 					);
 			}
 
-			$this->addFlashMessage(
-				$description,
-				LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
-				AbstractMessage::ERROR
-			);
+			if (version_compare($typo3Version, '13.0.0', '<')) {
+				$this->addFlashMessage(
+					$description,
+					LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
+					2 // ERROR
+				);
+			} else {
+				$this->addFlashMessage(
+					$description,
+					LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
+					ContextualFeedbackSeverity::ERROR
+				);
+			}
 		}
 
 		// create doc header component
-		$pageUid = (int) GeneralUtility::_GP('id');
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pageUid = (int) GeneralUtility::_GP('id');
+		} else {
+			$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		}
+
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 
 		// the docHeaderComponent do not exist below version 7
@@ -134,7 +177,16 @@ trait InitControllerComponents {
 	 * Initializes the root page selection
 	 */
 	protected function initPageUidSelection(ModuleTemplate $moduleTemplate) {
-		$pageUid = (int) GeneralUtility::_GP('id');
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
+
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pageUid = (int) GeneralUtility::_GP('id');
+		} else {
+			$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		}
+
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$moduleTemplate->assign('isSiteRoot', TRUE);

@@ -9,7 +9,10 @@
 }
 
 .consent-statistics-chart-div-container {
+	max-height: 50vh;
 	width: 50%;
+	display: flex;
+	justify-content: center;
 }
 
 #consent-statistics-charts-container {

@@ -42,7 +42,10 @@ $configuration = [
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
-		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_service.svg'
+		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_service.svg',
+		'security' => [
+			'ignorePageTypeRestriction' => TRUE,
+		],
 	],
 	'interface' => [],
 	'types' => [

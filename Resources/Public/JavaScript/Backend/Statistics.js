@@ -23,267 +23,191 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min',
-		'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/datalabels.min'], function($, Chart, Formatter) {
-		'use strict';
-		var Statistics = {
+import $ from 'jquery';
+import Chart from 'chart.js/auto';
 
-			chart: null,
+const Statistics = {
+	chart: null,
 
-			/**
-			 * @var Contains the state of the current search
-			 */
-			params: {
-				from_date: document.getElementById('from_date').value,
-				to_date: document.getElementById('to_date').value,
-				version: document.getElementById('version').value,
-				pid: 0,
-			},
+	params: {
+		from_date: document.getElementById('from_date').value,
+		to_date: document.getElementById('to_date').value,
+		version: document.getElementById('version').value,
+		pid: 0,
+	},
 
-			/**
-			 * @var How many pages to show in the pagination
-			 */
-			maxPages: 10,
+	maxPages: 10,
 
-			/**
-			 * Initialize the history search
-			 */
-			init: function() {
-				this.setDefaultValues();
-				this.setEventListeners();
-				var params = this.getParameterValuesFromForm();
-				var url = new URL(document.location);
-				params.pid = parseInt(url.searchParams.get('id'));
-				this.setParams(params);
-				this.performSearch(this.getParams());
-			},
+	init() {
+		this.setDefaultValues();
+		this.setEventListeners();
+		const params = this.getParameterValuesFromForm();
+		const url = new URL(document.location);
+		params.pid = parseInt(url.searchParams.get('id'));
+		this.setParams(params);
+		this.performSearch(this.getParams());
+	},
 
-			/**
-			 * Re-run the search with the new selected parameters and update the grid
-			 */
-			refreshSearch: function() {
-				this.setParams(this.getParameterValuesFromForm());
-				this.performSearch(this.getParams());
-			},
+	refreshSearch() {
+		this.setParams(this.getParameterValuesFromForm());
+		this.performSearch(this.getParams());
+	},
 
-			/**
-			 * Reads the current filter form values
-			 */
-			getParameterValuesFromForm: function() {
-				return {
-					from_date: document.getElementById('from_date').value,
-					to_date: document.getElementById('to_date').value,
-					version: document.getElementById('version').value.trim(),
-					pid: this.params.pid
-				};
-			},
+	getParameterValuesFromForm() {
+		return {
+			from_date: document.getElementById('from_date').value,
+			to_date: document.getElementById('to_date').value,
+			version: document.getElementById('version').value.trim(),
+			pid: this.params.pid
+		};
+	},
 
-			/**
-			 * Returns the current parameters state
-			 */
-			getParams: function() {
-				return this.params;
-			},
+	getParams() {
+		return this.params;
+	},
 
-			/**
-			 * Sets the current parameters state
-			 *
-			 * @param params
-			 */
-			setParams: function(params) {
-				this.params = params;
-			},
+	setParams(params) {
+		this.params = params;
+	},
 
-			/**
-			 * Sets the default event listeners
-			 */
-			setEventListeners: function() {
-				$('#consent-statistics-submit').on({
-					click: this.refreshSearch.bind(this)
-				});
+	setEventListeners() {
+		$('#consent-statistics-submit').on('click', this.refreshSearch.bind(this));
 
-				document.getElementById('consent-statistics-form').addEventListener('submit', function(event) {
-					event.preventDefault();
-					this.refreshSearch();
-					return false;
-				}.bind(this), false);
-			},
+		document.getElementById('consent-statistics-form').addEventListener('submit', function(event) {
+			event.preventDefault();
+			this.refreshSearch();
+		}.bind(this), false);
+	},
 
-			/**
-			 * Sets the initial default values to the filter form elements
-			 */
-			setDefaultValues: function() {
-				const today = new Date();
-				document.getElementById('to_date').value = today.getFullYear().toString() + '-'
-					+ (today.getMonth() + 1).toString().padStart(2, 0)
-					+ '-' + today.getDate().toString().padStart(2, 0);
-				const prevMonth = new Date();
-				prevMonth.setMonth(prevMonth.getMonth() - 1);
-				document.getElementById('from_date').value = prevMonth.getFullYear().toString() + '-'
-					+ (prevMonth.getMonth() + 1).toString().padStart(2, 0)
-					+ '-' + prevMonth.getDate().toString().padStart(2, 0);
-			},
+	setDefaultValues() {
+		const today = new Date();
+		document.getElementById('to_date').value = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+		const prevMonth = new Date();
+		prevMonth.setMonth(prevMonth.getMonth() - 1);
+		document.getElementById('from_date').value = `${prevMonth.getFullYear()}-${(prevMonth.getMonth() + 1).toString().padStart(2, '0')}-${prevMonth.getDate().toString().padStart(2, '0')}`;
+	},
 
-			/**
-			 * Removes the old charts and draws new ones
-			 *
-			 * @param {Object} data
-			 */
-			updateCharts: function(data) {
-				this.removeCharts();
-				var chartsContainer = document.getElementById('consent-statistics-charts-container');
-				for (var identifier in data) {
-					if (!data.hasOwnProperty(identifier)) {
-						continue;
-					}
-					this.addChart(chartsContainer, data[identifier], identifier);
-				}
-			},
+	updateCharts(data) {
+		this.removeCharts();
+		const chartsContainer = document.getElementById('consent-statistics-charts-container');
+		for (let identifier in data) {
+			if (data.hasOwnProperty(identifier)) {
+				this.addChart(chartsContainer, data[identifier], identifier);
+			}
+		}
+	},
 
-			/**
-			 * Renders a chart in the container
-			 *
-			 * @param {HTMLElement} container
-			 * @param {Object} dataEntry
-			 * @param {String} identifier
-			 */
-			addChart: function(container, dataEntry, identifier) {
-				const chartDivContainer = document.createElement('DIV');
-				chartDivContainer.className = 'consent-statistics-chart-div-container';
-				const chartContainer = document.createElement('CANVAS');
-				chartDivContainer.append(chartContainer);
-				container.append(chartDivContainer);
-				chartContainer.setAttribute('width', 200);
-				chartContainer.setAttribute('height', 100);
+	addChart(container, dataEntry, identifier) {
+		const chartDivContainer = document.createElement('DIV');
+		chartDivContainer.className = 'consent-statistics-chart-div-container';
+		const chartContainer = document.createElement('CANVAS');
+		chartDivContainer.append(chartContainer);
+		container.append(chartDivContainer);
+		chartContainer.setAttribute('width', 200);
+		chartContainer.setAttribute('height', 100);
 
-				var labels = [];
-				var datasets = [];
-				var colors = [];
-				for (var label in dataEntry) {
-					if (label !== 'length' && dataEntry.hasOwnProperty(label)) {
-						labels.push(label);
-						datasets.push(dataEntry[label].value);
-						colors.push(dataEntry[label].color);
-					}
-				}
+		const labels = [];
+		const datasets = [];
+		const colors = [];
+		for (let label in dataEntry) {
+			if (dataEntry.hasOwnProperty(label)) {
+				labels.push(label);
+				datasets.push(dataEntry[label].value);
+				colors.push(dataEntry[label].color);
+			}
+		}
 
-				var chartData = {
-					datasets: [
-						{
-							data: datasets,
-							backgroundColor: colors,
-						}
-					],
-					labels: labels,
-				}
-
-				this.chart = new Chart(chartContainer, {
-					type: 'pie',
-					data: chartData,
-					options: {
-						title: {
-							text: identifier,
-							display: true,
-							position: 'top'
-						},
-						tooltips: {
-							enabled: true,
-							callbacks: {
-								label: function(tooltipItem, data) {
-									var label = data.labels[tooltipItem.index] || '';
-
-									if (label) {
-										label += ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-									}
-
-									var total = data.datasets[tooltipItem.datasetIndex].data[0] + data.datasets[tooltipItem.datasetIndex].data[1];
-
-									if (total > 0) {
-										label += ' (' + Math.round(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / total * 100) + '%)';
-									}
-									return label;
-								}
-							}
-						},
-						plugins: {
-							datalabels: {
-								formatter: (value, ctx) => {
-									var sum = 0;
-									var dataArr = ctx.chart.data.datasets[0].data;
-									dataArr.map(data => {
-										sum += data;
-									});
-									var percentage = (value * 100 / sum).toFixed(2) + "%";
-									return percentage;
-								},
-								color: '#FFF',
-							}
-						},
-						responsive: true
-					}
-				});
-			},
-
-			/**
-			 * Removes all the currently rendered charts
-			 */
-			removeCharts: function() {
-				if (this.chart) {
-					this.chart.destroy();
-				}
-
-				var chartsContainer = document.getElementById('consent-statistics-charts-container');
-				while (chartsContainer.firstChild) {
-					chartsContainer.firstChild.remove();
-				}
-			},
-
-			/**
-			 * Search with the given params and update the grid
-			 *
-			 * @param params
-			 */
-			performSearch: function(params) {
-				var request = new XMLHttpRequest();
-				request.open('POST', TYPO3.settings.ajaxUrls['sg_cookie_optin::searchUserPreferenceHistoryChart'], true);
-				var formData = new FormData();
-				formData.append('params', JSON.stringify(params));
-				request.that = this;
-
-				request.onload = function() {
-					if (this.status >= 200 && this.status < 400) {
-						// Success!
-						const data = JSON.parse(this.response);
-						if (Object.keys(data).length > 0) {
-							document.getElementById('statistics-no-data-found').style.display = 'none';
-							setTimeout(function() {
-								this.that.updateCharts(data)
-							}.bind(this), 100);
-						} else {
-							this.that.removeCharts();
-							document.getElementById('statistics-no-data-found').style.display = 'block';
-						}
-					} else {
-						// We reached our target server, but it returned an error
-						this.onSearchError();
-					}
-				};
-
-				request.onerror = this.onSearchError;
-				request.send(formData);
-			},
-
-			/**
-			 * Handles errors in the search
-			 *
-			 * @param error
-			 */
-			onSearchError: function(error) {
-				console.log(error);
-			},
+		const chartData = {
+			datasets: [{
+				data: datasets,
+				backgroundColor: colors,
+			}],
+			labels: labels,
 		};
 
-		Statistics.init();
-		return Statistics;
-	}
-);
+		this.chart = new Chart(chartContainer, {
+			type: 'pie',
+			data: chartData,
+			options: {
+				tooltips: {
+					enabled: true,
+					callbacks: {
+						label: function(tooltipItem, data) {
+							let label = data.labels[tooltipItem.index] || '';
+							if (label) {
+								label += ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+							}
+							const total = data.datasets[tooltipItem.datasetIndex].data.reduce((a, b) => a + b, 0);
+							if (total > 0) {
+								label += ` (${Math.round(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / total * 100)}%)`;
+							}
+							return label;
+						}
+					}
+				},
+				plugins: {
+					datalabels: {
+						formatter: (value, ctx) => {
+							const sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+							const percentage = (value * 100 / sum).toFixed(2) + '%';
+							return percentage;
+						},
+						color: '#FFF',
+					},
+					title: {
+						text: identifier,
+						display: true,
+						position: 'top'
+					},
+				},
+				responsive: true
+			}
+		});
+	},
+
+	removeCharts() {
+		if (this.chart) {
+			this.chart.destroy();
+		}
+		const chartsContainer = document.getElementById('consent-statistics-charts-container');
+		while (chartsContainer.firstChild) {
+			chartsContainer.firstChild.remove();
+		}
+	},
+
+	performSearch(params) {
+		const request = new XMLHttpRequest();
+		request.open('POST', TYPO3.settings.ajaxUrls['sg_cookie_optin::searchUserPreferenceHistoryChart'], true);
+		const formData = new FormData();
+		formData.append('params', JSON.stringify(params));
+		request.that = this;
+
+		request.onload = function() {
+			if (this.status >= 200 && this.status < 400) {
+				const data = JSON.parse(this.response);
+				if (Object.keys(data).length > 0) {
+					document.getElementById('statistics-no-data-found').style.display = 'none';
+					setTimeout(function() {
+						this.that.updateCharts(data);
+					}.bind(this), 100);
+				} else {
+					this.that.removeCharts();
+					document.getElementById('statistics-no-data-found').style.display = 'block';
+				}
+			} else {
+				this.onSearchError();
+			}
+		};
+
+		request.onerror = this.onSearchError;
+		request.send(formData);
+	},
+
+	onSearchError(error) {
+		console.log(error);
+	},
+};
+
+Statistics.init();
+
+export default Statistics;

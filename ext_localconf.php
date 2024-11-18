@@ -96,10 +96,16 @@ call_user_func(
 				'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig\''
 			);
 
-			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-				'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig\'
-				@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig\''
-			);
+			if (version_compare($currentTypo3Version, '13.0.0', '>=')) {
+				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+					'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig\''
+				);
+			} else {
+				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+			'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig\'
+					@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig\''
+				);
+			}
 		} else {
 			// User TSConfig
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(

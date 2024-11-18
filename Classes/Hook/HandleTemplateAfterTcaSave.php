@@ -31,6 +31,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Handles the template related changes in the TCA.
@@ -138,9 +139,16 @@ class HandleTemplateAfterTcaSave {
 				->where(
 					$queryBuilder->expr()->eq(
 						'uid',
-						$queryBuilder->createNamedParameter((int) $id, \PDO::PARAM_INT)
+						$queryBuilder->createNamedParameter((int) $id)
 					)
-				)->execute();
+				);
+			$typo3Version = VersionNumberUtility::getCurrentTypo3Version();
+
+			if (version_compare($typo3Version, '13.0.0', '<')) {
+				$queryBuilder->execute();
+			} else {
+				$queryBuilder->executeStatement();
+			}
 		}
 	}
 }

@@ -46,6 +46,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -93,6 +94,10 @@ class OptinController extends ActionController {
 	 *
 	 */
 	public function indexAction() {
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
+
 		$this->initComponents($this->moduleTemplate);
 		$this->checkLicenseStatus($this->moduleTemplate);
 
@@ -103,38 +108,61 @@ class OptinController extends ActionController {
 		]);
 		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
 			unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
-			$this->addFlashMessage(
-				LocalizationUtility::translate('backend.hasChanges.message', 'sg_cookie_optin'),
-				LocalizationUtility::translate('backend.hasChanges.title', 'sg_cookie_optin'),
-				AbstractMessage::INFO
-			);
+
+			if (version_compare($typo3Version, '13.0.0', '<')) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.hasChanges.message', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.hasChanges.title', 'sg_cookie_optin'),
+					AbstractMessage::INFO
+				);
+			} else {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.hasChanges.message', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.hasChanges.title', 'sg_cookie_optin'),
+					ContextualFeedbackSeverity::INFO
+				);
+			}
 		}
 
-		$pageUid = (int) GeneralUtility::_GP('id');
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pageUid = (int) GeneralUtility::_GP('id');
+		} else {
+			$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		}
+
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$optIns = BackendService::getOptins($pageUid);
 
 			if (count($optIns) > 1) {
-				$this->addFlashMessage(
-					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
-					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
-					AbstractMessage::ERROR
-				);
+				if (version_compare($typo3Version, '13.0.0', '<')) {
+					$this->addFlashMessage(
+						LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+						LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+						AbstractMessage::ERROR
+					);
+				} else {
+					$this->addFlashMessage(
+						LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+						LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+						ContextualFeedbackSeverity::ERROR
+					);
+				}
 			}
 
 			$this->moduleTemplate->assign('isSiteRoot', TRUE);
 			$this->moduleTemplate->assign('optins', $optIns);
 		}
 
-		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			$currentTypo3Version
-		);
 		$this->moduleTemplate->assign('typo3Version', $typo3Version);
 		$this->moduleTemplate->assign('pages', BackendService::getPages());
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
+
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/EditOnClick');
+		} else {
+			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/EditOnClick.js');
+		}
 
 		return $this->moduleTemplate->renderResponse('Optin/Index');
 	}
@@ -211,7 +239,16 @@ class OptinController extends ActionController {
 	 * @throws RouteNotFoundException
 	 */
 	protected function buildTCAEditUri(int $optInId) {
-		$pid = (int) GeneralUtility::_GP('id');
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
+
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pid = (int) GeneralUtility::_GP('id');
+		} else {
+			$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		}
+
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		$params = [
 			'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$optInId => 'edit']],
@@ -256,11 +293,13 @@ class OptinController extends ActionController {
 			$this->moduleTemplate->assign('isSiteRoot', TRUE);
 			$this->moduleTemplate->assign('optins', $optIns);
 		}
+
 		try {
 			$languages = LanguageService::getLanguages($pageUid);
 		} catch (SiteNotFoundException $e) {
 			$languages = [];
 		}
+
 		$jsonImportService = GeneralUtility::makeInstance(JsonImportService::class);
 		try {
 			if (!isset($_FILES['file'])) {
@@ -439,7 +478,16 @@ class OptinController extends ActionController {
 	 * @throws SiteNotFoundException
 	 */
 	public function createAction() {
-		$pid = (int) GeneralUtility::_GP('id');
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+			VersionNumberUtility::getCurrentTypo3Version()
+		);
+
+		if (version_compare($typo3Version, '13.0.0', '<')) {
+			$pid = (int) GeneralUtility::_GP('id');
+		} else {
+			$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		}
+
 		// create with DataHandler
 		// adding default values for the german language. The values are hardcoded because they must not change since we don't know
 		// the language keys or whatsoever in the target system
