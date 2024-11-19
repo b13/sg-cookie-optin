@@ -30,6 +30,7 @@ use Doctrine\DBAL\DBALException;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -76,7 +77,12 @@ class JsonImportService {
 			->where('pid = :pid')
 			->andWhere('l10n_parent = 0')
 			->setParameter('pid', $pid);
-		return $queryBuilder->execute();
+
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+            return $queryBuilder->execute();
+        } else {
+            return $queryBuilder->executeQuery();
+        }
 	}
 
 	/**
@@ -385,7 +391,12 @@ class JsonImportService {
 		}
 
 		$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
-		$queryBuilder->insert($table)->values($initialData)->execute();
+		$queryBuilder->insert($table)->values($initialData);
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+            $queryBuilder->execute();
+        } else {
+            $queryBuilder->executeQuery();
+        }
 		$objectId = $queryBuilder->getConnection()->lastInsertId();
 
 		foreach ($data as $field => $value) {
@@ -395,7 +406,13 @@ class JsonImportService {
 			try {
 				$queryBuilder->where(
 					$queryBuilder->expr()->eq('uid', $objectId)
-				)->execute();
+				);
+
+                if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+                    $queryBuilder->execute();
+                } else {
+                    $queryBuilder->executeQuery();
+                }
 			} catch (\Exception $exception) {
 				// ignore missing fields
 			}
