@@ -88,18 +88,21 @@ const SgCookieOptin = {
 	 */
 	initialize: function() {
 		if (!SgCookieOptin.jsonData.settings.disable_automatic_loading) {
-			if (!SgCookieOptin.consentModeDefaultsSent) {
-				// define gtag if it does not exist to set the defaults
-				if (!((typeof gtag === "function") || (typeof gtag === "object"))) {
-					window.dataLayer = window.dataLayer || [];
-					window.gtag = function() {
-						dataLayer.push(arguments);
+			const googleGroups = SgCookieOptin.findGroupsWithGoogleConsentMode();
+			if (googleGroups.length > 0) {
+				if (!SgCookieOptin.consentModeDefaultsSent) {
+					// define gtag if it does not exist to set the defaults
+					if (!((typeof gtag === "function") || (typeof gtag === "object"))) {
+						window.dataLayer = window.dataLayer || [];
+						window.gtag = function() {
+							dataLayer.push(arguments);
+						}
 					}
-				}
 
-				console.log('SG Cookie OptIn: sent default gtag settings');
-				gtag('consent', 'default', SgCookieOptin.consentModeDefaults);
-				SgCookieOptin.consentModeDefaultsSent = true;
+					console.log('SG Cookie OptIn: sent default gtag settings');
+					gtag('consent', 'default', SgCookieOptin.consentModeDefaults);
+					SgCookieOptin.consentModeDefaultsSent = true;
+				}
 			}
 		}
 
@@ -328,6 +331,27 @@ const SgCookieOptin = {
 	},
 
 	/**
+	 * Checks the configuration for groups having configured Google Consent Mode v2
+	 */
+	findGroupsWithGoogleConsentMode: function() {
+		const cookieValues = SgCookieOptin.readCookieValues();
+		const googleGroups = [];
+		for (let index in cookieValues) {
+			if (!cookieValues.hasOwnProperty(index) || index === 'essential') {
+				continue;
+			}
+
+			const group = SgCookieOptin.getGroupByGroupName(index);
+			if (typeof group.googleName === 'undefined' || group.googleName.trim() === '') {
+				continue;
+			}
+
+			googleGroups.push(group);
+		}
+		return googleGroups;
+	},
+
+	/**
 	 * Handles the scripts of the allowed cookie groups.
 	 *
 	 * @return {void}
@@ -353,7 +377,7 @@ const SgCookieOptin = {
 			const group = groupAndStatus[0];
 			const status = parseInt(groupAndStatus[1]);
 			if (!status) {
-				if ((typeof gtag === "function") || (typeof gtag === "object")) {
+				if (((typeof gtag === "function") || (typeof gtag === "object"))) {
 					SgCookieOptin.dispatchGtagReject(group);
 				}
 				continue;
