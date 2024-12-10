@@ -37,6 +37,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class GenerateStaticFilesCommand extends Command {
 	/** @var SymfonyStyle */
@@ -96,12 +97,17 @@ class GenerateStaticFilesCommand extends Command {
 			StaticFileGenerationService::TABLE_NAME
 		);
 
-		$result = $queryBuilder->select('uid')
+		$queryBuilder->select('uid')
 			->from(StaticFileGenerationService::TABLE_NAME)
 			->where($queryBuilder->expr()->eq('pid', $siteRootId))
 			->andWhere($queryBuilder->expr()->eq('l10n_parent', 0))
-			->setMaxResults(1)
-			->execute();
+			->setMaxResults(1);
+
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
+			$result = $queryBuilder->execute();
+        } else {
+            $result = $queryBuilder->executeQuery();
+        }
 
 		if (is_callable([$result, 'fetchOne'])) {
 			$uid = $result->fetchOne();
