@@ -136,6 +136,13 @@ class OptinController extends ActionController {
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/EditOnClick');
 
+		$pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
+
+		// Check specifically for website Page 0
+		$isSiteRoot = ($pageUid === 0);
+		$this->moduleTemplate->assign('useEmptyLayout', $isSiteRoot);
+
+
 		return $this->moduleTemplate->renderResponse('Optin/Index');
 	}
 

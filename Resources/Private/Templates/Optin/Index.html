@@ -1,5 +1,5 @@
 {namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
-<f:layout name="Default" />
+<f:layout name="{f:if(condition: useEmptyLayout, then: 'Empty', else: 'Default')}"/>
 
 <f:section name="Content">
 	<h1><f:translate key="backend.moduleHeader" /></h1>
