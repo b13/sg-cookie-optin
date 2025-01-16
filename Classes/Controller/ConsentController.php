@@ -37,7 +37,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Consent Controller
  */
 #[Controller]
-class ConsentController extends ActionController {
+class ConsentController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
@@ -54,6 +54,9 @@ class ConsentController extends ActionController {
 	 *
 	 */
 	public function indexAction() {
+
+		$this->switchMode();
+
 		$moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 		$this->initComponents($moduleTemplate);
 		$this->initPageUidSelection($moduleTemplate);

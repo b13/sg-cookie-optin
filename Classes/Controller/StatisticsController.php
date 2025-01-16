@@ -38,7 +38,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Consent Controller
  */
 #[Controller]
-class StatisticsController extends ActionController {
+class StatisticsController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
@@ -61,6 +61,9 @@ class StatisticsController extends ActionController {
 	 * Displays the user preference statistics
 	 */
 	public function indexAction() {
+
+		$this->switchMode();
+
 		$moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 		$this->initComponents($moduleTemplate);
 		$this->initPageUidSelection($moduleTemplate);

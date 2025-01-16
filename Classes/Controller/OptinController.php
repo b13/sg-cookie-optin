@@ -56,7 +56,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Optin Controller
  */
 #[Controller]
-class OptinController extends ActionController {
+class OptinController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
@@ -93,6 +93,9 @@ class OptinController extends ActionController {
 	 *
 	 */
 	public function indexAction() {
+
+		$this->switchMode();
+
 		$this->initComponents($this->moduleTemplate);
 		$this->checkLicenseStatus($this->moduleTemplate);
 
