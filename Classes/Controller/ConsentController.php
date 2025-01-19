@@ -28,16 +28,16 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
-/**
- * Consent Controller
- */
 #[Controller]
-class ConsentController extends AbstractController {
+class ConsentController extends AbstractController
+{
 	use InitControllerComponents;
 
 	/**
@@ -45,37 +45,51 @@ class ConsentController extends AbstractController {
 	 */
 	protected $moduleTemplateFactory;
 
-	public function initializeAction(): void {
+	/**
+	 * @var ModuleTemplate
+	 */
+	protected $moduleTemplate;
+
+	public function initializeAction(): void
+	{
+		// Create and store the template object as a class property
 		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 	}
 
-	/**
-	 * Displays the user preference consent history
-	 *
-	 */
-	public function indexAction() {
-
+	public function indexAction()
+	{
 		$this->switchMode();
 
-		$moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-		$this->initComponents($moduleTemplate);
-		$this->initPageUidSelection($moduleTemplate);
+		// Pass $this->moduleTemplate to the “init” steps
+		$this->initComponents($this->moduleTemplate);
+		$this->initPageUidSelection($this->moduleTemplate);
 
+		// Read page ID and items
 		$pageUid = (int) GeneralUtility::_GP('id');
-		$moduleTemplate->assign(
+		$this->moduleTemplate->assign(
 			'identifiers',
-			OptinHistoryService::getItemIdentifiers(
-				[
-					'pid' => $pageUid
-				]
-			)
+			OptinHistoryService::getItemIdentifiers(['pid' => $pageUid])
 		);
 
+		// Check if page is site root
+		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
+		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
+			$this->moduleTemplate->assign('isSiteRoot', true);
+		}
+
+		// Optionally load JavaScript
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
 		}
 
-		return $moduleTemplate->renderResponse('Consent/Index');
+		// Check specifically for website Page 0 => use empty layout
+		$pageUid = (int) ($this->request->getQueryParams()['id'] ?? 0);
+		$isSiteRoot = ($pageUid === 0);
+		$this->moduleTemplate->assign('useEmptyLayout', $isSiteRoot);
+
+		// Render
+		return $this->moduleTemplate->renderResponse('Consent/Index');
 	}
 }
