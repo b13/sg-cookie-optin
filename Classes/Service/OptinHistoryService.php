@@ -1,7 +1,5 @@
 <?php
 
-namespace SGalinski\SgCookieOptin\Service;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +24,8 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace SGalinski\SgCookieOptin\Service;
+
 use Exception;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Core\Environment;
@@ -36,8 +36,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Class OptinHistoryService
- *
- * @package SGalinski\SgCookieOptin\Service
  */
 class OptinHistoryService {
 	const TYPE_GROUP = 1;
@@ -142,6 +140,7 @@ class OptinHistoryService {
 	 * @param array $jsonInput
 	 * @param int $itemType
 	 * @return array
+	 * @throws \Doctrine\DBAL\Exception
 	 */
 	private static function prepareInsertData(array $jsonInput, int $itemType): array {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
@@ -167,7 +166,12 @@ class OptinHistoryService {
 		$tstamp = date('Y-m-d H:i:s', $GLOBALS['EXEC_TIME']);
 		$date = substr($tstamp, 0, 10);
 		foreach ($cookieValuePairs as $pair) {
-			[$groupName, $value] = explode(':', $pair);
+			$value = 0;
+			if (strpos($pair, ':') > 0) {
+				[$groupName, $value] = explode(':', $pair);
+			} else {
+				$groupName = $pair;
+			}
 
 			if (!in_array($groupName, $allowedGroupNames)) {
 				continue;
@@ -285,6 +289,7 @@ class OptinHistoryService {
 	 * @param array $parameters
 	 * @param int $type
 	 * @return array
+	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public static function getItemIdentifiers($parameters = [], $type = self::TYPE_GROUP): array {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
@@ -328,6 +333,7 @@ class OptinHistoryService {
 	 *
 	 * @param array $parameters
 	 * @return array
+	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public static function getVersions(array $parameters): array {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
