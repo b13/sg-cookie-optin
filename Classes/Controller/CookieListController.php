@@ -121,7 +121,7 @@ class CookieListController extends ActionController {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_group'
 		);
-		$groups = $queryBuilder->select('*')
+		$queryBuilder->select('*')
 			->from('tx_sgcookieoptin_domain_model_group')
 			->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
@@ -176,19 +176,18 @@ class CookieListController extends ActionController {
 			}
 
 			// Build the query
-			$query = $queryBuilder->select('*')
+			$queryBuilder->select('*')
 				->from('tx_sgcookieoptin_domain_model_cookie')
 				->where($queryBuilder->expr()->eq('parent_group', $defaultLanguageGroupUid))
-				->andWhere($queryBuilder->expr()->eq('parent_optin', $optin['uid']))
 				->andWhere($andCondition);
 
 			// Execute the query and fetch results
 			if (method_exists($queryBuilder, 'executeQuery')) {
 				// TYPO3 v13+ (executeQuery replaces execute, fetchAllAssociative replaces fetchAll)
-				$cookies = $query->executeQuery()->fetchAllAssociative();
+				$cookies = $queryBuilder->executeQuery()->fetchAllAssociative();
 			} else {
 				// TYPO3 v12 and earlier
-				$cookies = $query->execute()->fetchAll();
+				$cookies = $queryBuilder->execute()->fetchAll();
 			}
 
 			if ($languageUid > 0) {
