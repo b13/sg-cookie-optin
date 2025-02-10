@@ -40,8 +40,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Statistics Controller
  */
 #[Controller]
-class StatisticsController extends AbstractController
-{
+class StatisticsController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
@@ -59,8 +58,7 @@ class StatisticsController extends AbstractController
 	 */
 	protected $moduleTemplate;
 
-	public function initializeAction(): void
-	{
+	public function initializeAction(): void {
 		// Create and store the template as a class property
 		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
 		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
@@ -69,8 +67,7 @@ class StatisticsController extends AbstractController
 	/**
 	 * Displays the user preference statistics
 	 */
-	public function indexAction()
-	{
+	public function indexAction() {
 		// Switch mode, init components, etc.
 		$this->switchMode();
 		$this->initComponents($this->moduleTemplate);
@@ -88,7 +85,7 @@ class StatisticsController extends AbstractController
 		// Check if page is site root in page record
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
-			$this->moduleTemplate->assign('isSiteRoot', true);
+			$this->moduleTemplate->assign('isSiteRoot', TRUE);
 		}
 
 		// If we have a real pid > 0, load additional JS
@@ -98,7 +95,7 @@ class StatisticsController extends AbstractController
 		}
 
 		// Check specifically for website page 0 => use empty layout
-		$pageUid = (int)($this->request->getQueryParams()['id'] ?? 0);
+		$pageUid = (int) ($this->request->getQueryParams()['id'] ?? 0);
 		$isSiteRoot = ($pageUid === 0);
 		$this->moduleTemplate->assign('useEmptyLayout', $isSiteRoot);
 

@@ -33,8 +33,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * Abstract controller to share session-based "mode switching" logic
  */
-abstract class AbstractController extends ActionController
-{
+abstract class AbstractController extends ActionController {
 	/**
 	 * For storing the current "lastController" in the user session.
 	 */
@@ -43,17 +42,15 @@ abstract class AbstractController extends ActionController
 	/**
 	 * Read from user session
 	 */
-	protected function getFromSession(string $key): ?string
-	{
+	protected function getFromSession(string $key): ?string {
 		// For safety, if there's no data, return empty string or null
-		return $GLOBALS['BE_USER']->getSessionData(self::SESSION_KEY . '_' . $key) ?? null;
+		return $GLOBALS['BE_USER']->getSessionData(self::SESSION_KEY . '_' . $key) ?? NULL;
 	}
 
 	/**
 	 * Write to user session
 	 */
-	protected function writeToSession(string $key, $data): void
-	{
+	protected function writeToSession(string $key, $data): void {
 		$GLOBALS['BE_USER']->setAndSaveSessionData(self::SESSION_KEY . '_' . $key, $data);
 	}
 
@@ -64,8 +61,7 @@ abstract class AbstractController extends ActionController
 	 *  - Stores it in the session.
 	 *  - If the current controller class does NOT match the stored mode, do a redirect to the correct controller.
 	 */
-	protected function switchMode(): void
-	{
+	protected function switchMode(): void {
 		// Attempt to get the current mode from session
 		$mode = $this->getFromSession('mode');
 

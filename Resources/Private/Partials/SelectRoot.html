@@ -15,11 +15,13 @@
 				<f:for each="{pages}" as="page">
 					<tr data-uid="{page.uid}">
 						<td nowrap="nowrap" class="col-title">
-						<f:link.action action="index" additionalParams="{id: page.uid}">
-							<f:format.raw><sg:backend.icon table="pages" row="{page}" clickMenu="0" /></f:format.raw>
-							{page._thePathFull}
-						</f:link.action>
-					</td>
+							<f:link.action action="index" additionalParams="{id: page.uid}">
+								<f:format.raw>
+									<sg:backend.icon table="pages" row="{page}" clickMenu="0"/>
+								</f:format.raw>
+								{page._thePathFull}
+							</f:link.action>
+						</td>
 					</tr>
 				</f:for>
 				</tbody>

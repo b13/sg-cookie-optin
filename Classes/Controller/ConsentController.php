@@ -36,8 +36,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 #[Controller]
-class ConsentController extends AbstractController
-{
+class ConsentController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
@@ -50,15 +49,13 @@ class ConsentController extends AbstractController
 	 */
 	protected $moduleTemplate;
 
-	public function initializeAction(): void
-	{
+	public function initializeAction(): void {
 		// Create and store the template object as a class property
 		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
 		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 	}
 
-	public function indexAction()
-	{
+	public function indexAction() {
 		$this->switchMode();
 
 		// Pass $this->moduleTemplate to the “init” steps
@@ -75,7 +72,7 @@ class ConsentController extends AbstractController
 		// Check if page is site root
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
-			$this->moduleTemplate->assign('isSiteRoot', true);
+			$this->moduleTemplate->assign('isSiteRoot', TRUE);
 		}
 
 		// Optionally load JavaScript
