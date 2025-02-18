@@ -41,31 +41,31 @@
 				{{/dependentGroups}}
 
 				<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
-					<table>
-						<tbody>
-							{{#cookieData}}
-								{{^pseudo}}
-									{{#index}}<tr class="divider"><td colspan="2">&nbsp;</td></tr>{{/index}}
-									<tr>
-										<th>{{{textEntries.cookie_name_text}}}</th>
-										<td>{{{Name}}}</td>
+					{{#cookieData}}
+						{{^pseudo}}
+							<table role="grid">
+								<tbody role="rowgroup">
+									{{#index}}<tr role="row" class="divider"><td role="cell" colspan="2">&nbsp;</td></tr>{{/index}}
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_name_text}}}</th>
+										<td role="cell">{{{Name}}}</td>
 									</tr>
-									<tr>
-										<th>{{{textEntries.cookie_provider_text}}}</th>
-										<td>{{{Provider}}}</td>
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_provider_text}}}</th>
+										<td role="cell">{{{Provider}}}</td>
 									</tr>
-									<tr>
-										<th>{{{textEntries.cookie_lifetime_text}}}</th>
-										<td>{{{Lifetime}}}</td>
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_lifetime_text}}}</th>
+										<td role="cell">{{{Lifetime}}}</td>
 									</tr>
-									<tr>
-										<th>{{{textEntries.cookie_purpose_text}}}</th>
-										<td class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_purpose_text}}}</th>
+										<td role="cell" class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
 									</tr>
-								{{/pseudo}}
-							{{/cookieData}}
-						</tbody>
-					</table>
+								</tbody>
+							</table>
+						{{/pseudo}}
+					{{/cookieData}}
 				</div>
 
 				{{#cookieData}}
