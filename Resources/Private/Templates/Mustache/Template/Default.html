@@ -41,38 +41,38 @@
 				{{/dependentGroups}}
 
 				<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
-					<table>
-						<tbody>
-							{{#cookieData}}
-								{{^pseudo}}
-									{{#index}}<tr class="divider"><td colspan="2">&nbsp;</td></tr>{{/index}}
-									<tr>
-										<th>{{{textEntries.cookie_name_text}}}</th>
-										<td>{{{Name}}}</td>
+					{{#cookieData}}
+						{{^pseudo}}
+							<table role="grid">
+								<tbody role="rowgroup">
+									{{#index}}<tr role="row" class="divider"><td role="cell" colspan="2">&nbsp;</td></tr>{{/index}}
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_name_text}}}</th>
+										<td role="cell">{{{Name}}}</td>
 									</tr>
-									<tr>
-										<th>{{{textEntries.cookie_provider_text}}}</th>
-										<td>{{{Provider}}}</td>
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_provider_text}}}</th>
+										<td role="cell">{{{Provider}}}</td>
 									</tr>
-									<tr>
-										<th>{{{textEntries.cookie_lifetime_text}}}</th>
-										<td>{{{Lifetime}}}</td>
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_lifetime_text}}}</th>
+										<td role="cell">{{{Lifetime}}}</td>
 									</tr>
-									<tr>
-										<th>{{{textEntries.cookie_purpose_text}}}</th>
-										<td class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
+									<tr role="row">
+										<th scope="row">{{{textEntries.cookie_purpose_text}}}</th>
+										<td role="cell" class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
 									</tr>
-								{{/pseudo}}
-							{{/cookieData}}
-						</tbody>
-					</table>
+								</tbody>
+							</table>
+						{{/pseudo}}
+					{{/cookieData}}
 				</div>
 
 				{{#cookieData}}
 					{{^index}}<a role="button" class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}
 						<span>
 							<svg class="sg-cookie-optin-box-sublist-open-more-symbol" fill='currentColor' xmlns='http://www.w3.org/2000/svg'
-								 viewBox='0 0 512 512'>
+								 viewBox='0 0 512 512' aria-hidden="true" focusable="false">
 								<path d='M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zM273 369.9l135.5-135.5c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L256 285.1 154.4 183.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L239 369.9c9.4 9.4 24.6 9.4 34 0z'/>
 							</svg>
 						</span>
@@ -86,7 +86,7 @@
 		<a class="sg-cookie-optin-box-open-more-link" href="#">{{{textEntries.extend_box_link_text}}}
 			<span>
 				<svg class="sg-cookie-optin-box-sublist-open-more-symbol" fill='currentColor' xmlns='http://www.w3.org/2000/svg'
-					 viewBox='0 0 512 512'>
+					 viewBox='0 0 512 512' aria-hidden="true" focusable="false">
 					<path d='M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zM273 369.9l135.5-135.5c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L256 285.1 154.4 183.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L239 369.9c9.4 9.4 24.6 9.4 34 0z'/>
 				</svg>
 			</span>
