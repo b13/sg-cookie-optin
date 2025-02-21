@@ -97,7 +97,7 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item:focus-within > label{
-	outline: 2px solid orange;
+	outline: 2px solid #f5b51a;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox {
