@@ -29,7 +29,9 @@ namespace SGalinski\SgCookieOptin\Controller;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -54,28 +56,28 @@ class StatisticsController extends ActionController {
 	 */
 	protected $moduleTemplateFactory;
 
+	/**
+	 * @var ModuleTemplate
+	 */
+	protected $moduleTemplate;
+
 	public function initializeAction(): void {
+		// Create and store the template as a class property
 		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 	}
 
 	/**
 	 * Displays the user preference statistics
 	 */
 	public function indexAction() {
-		$moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-		$this->initComponents($moduleTemplate);
-		$this->initPageUidSelection($moduleTemplate);
+		// Switch mode, init components, etc.
+		$this->switchMode();
+		$this->initComponents($this->moduleTemplate);
+		$this->initPageUidSelection($this->moduleTemplate);
 
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$pageUid = (int) GeneralUtility::_GP('id');
-		} else {
-			$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-		}
-
+		// Grab page UID from request
+		$pageUid = (int) GeneralUtility::_GP('id');
 		$moduleTemplate->assign(
 			'versions',
 			OptinHistoryService::getVersions(
@@ -85,15 +87,23 @@ class StatisticsController extends ActionController {
 			)
 		);
 
-		if ($pageUid) {
-			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-				$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/Statistics');
-			} else {
-				$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/dist/statistics.es.js');
-			}
+		// Check if page is site root in page record
+		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
+		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
+			$this->moduleTemplate->assign('isSiteRoot', TRUE);
 		}
 
-		return $moduleTemplate->renderResponse('Statistics/Index');
+		// If we have a real pid > 0, load additional JS
+		if ($pageUid) {
+			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
+		}
+
+		// Check specifically for website page 0 => use empty layout
+		$pageUid = (int) ($this->request->getQueryParams()['id'] ?? 0);
+		$isSiteRoot = ($pageUid === 0);
+		$this->moduleTemplate->assign('useEmptyLayout', $isSiteRoot);
+
+		return $this->moduleTemplate->renderResponse('Statistics/Index');
 	}
 }

@@ -57,9 +57,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Optin Controller
  */
 #[Controller]
-class OptinController extends ActionController
-{
-    use InitControllerComponents;
+class OptinController extends AbstractController {
+	use InitControllerComponents;
 
     /**
      * @var ModuleTemplateFactory
@@ -97,12 +96,13 @@ class OptinController extends ActionController
      */
     public function indexAction()
     {
+	$this->switchMode();
         $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
             VersionNumberUtility::getCurrentTypo3Version()
         );
 
         $this->initComponents($this->moduleTemplate);
-        $this->checkLicenseStatus($this->moduleTemplate);
+	$this->checkLicenseStatus($this->moduleTemplate);
 
         session_start([
             'cookie_secure' => TRUE,
@@ -132,6 +132,10 @@ class OptinController extends ActionController
         } else {
             $pageUid = (int)($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
         }
+
+	// Check specifically for website Page 0
+	$isSiteRoot = ($pageUid === 0);
+	$this->moduleTemplate->assign('useEmptyLayout', $isSiteRoot);
 
         $pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
         if ($pageInfo && isset($pageInfo['is_siteroot']) && (int)$pageInfo['is_siteroot'] === 1) {
