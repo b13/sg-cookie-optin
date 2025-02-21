@@ -2483,6 +2483,7 @@ const SgCookieOptin = {
 
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint');
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint-' + iconPositionClass);
+		fingerprintContainer.setAttribute('aria-label', 'Manage cookies');
 		fingerprintContainer.addEventListener('click', function() {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: true});
 		});
