@@ -30,7 +30,6 @@ $configuration = [
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
-		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
 		'searchFields' => 'title, group_name, description, google_name, google_service, dependent_groups',
 		'delete' => 'deleted',
@@ -47,7 +46,6 @@ $configuration = [
 			'ignorePageTypeRestriction' => TRUE,
 		],
 	],
-	'interface' => [],
 	'types' => [
 		'1' => [
 			'showitem' => 'hidden, parent_optin, title, group_name, description, --palette--;;consent_mode, dependent_groups,
@@ -79,19 +77,7 @@ $configuration = [
 		'sys_language_uid' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-			'config' => [
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'special' => 'languages',
-				'default' => 0,
-				'items' => [
-					[
-						'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-						-1,
-						'flags-multiple'
-					]
-				]
-			]
+			'config' => ['type' => 'language']
 		],
 		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -100,7 +86,7 @@ $configuration = [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => [
-					['', 0]
+					['label' => '', 'value' => 0]
 				],
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_group',
 				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_group.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_group.sys_language_uid IN (-1,0)',
@@ -165,10 +151,10 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.0', 0],
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.1', 1],
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.2', 2],
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.3', 3],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.0', 'value' => 0],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.1', 'value' => 1],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.2', 'value' => 2],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.google_service.3', 'value' => 3],
 				],
 				'default' => 0,
 			],
@@ -189,7 +175,6 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.parent_optin',
 			'config' => [
 				'type' => 'group',
-				'internal_type' => 'db',
 				'allowed' => 'tx_sgcookieoptin_domain_model_optin',
 				'size' => 1,
 				'minitems' => 1,
@@ -207,7 +192,6 @@ $configuration = [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'showPossibleLocalizationRecords' => TRUE,
-					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
@@ -223,7 +207,6 @@ $configuration = [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'showPossibleLocalizationRecords' => TRUE,
-					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
@@ -231,9 +214,5 @@ $configuration = [
 		],
 	],
 ];
-
-if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
-	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, group_name, google_service, dependent_groups, description, google_name, google_service, parent_optin, scripts, cookies';
-}
 
 return $configuration;

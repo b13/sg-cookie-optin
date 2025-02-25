@@ -49,33 +49,22 @@ class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVi
 	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
 	 */
 	public function render() {
-		$params = '&edit[' . $this->arguments['table'] . '][' . $this->arguments['uid'] . ']='
-			. ($this->arguments['new'] ? 'new' : 'edit');
-		if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '12.0.0', '>=')) {
-			$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-			// For some reason TYPO3 has two different URI Builders..
-			$indexUrl = (string) $uriBuilder->buildUriFromRoutePath(
-				'/module/web/sg-cookie-optin', ['id' => $this->arguments['pid']]
-			);
-			$uriParameters =
-				[
-					'edit' =>
-						[
-							$this->arguments['table'] =>
-								[
-									$this->arguments['uid'] => 'edit'
-								],
-						],
-					'returnUrl' => $indexUrl
-				];
-			return $uriBuilder->buildUriFromRoute('record_edit', $uriParameters);
-		}
-
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-		$onclickScript = 'window.location.href=\'' . $uriBuilder->buildUriFromRoute(
-				'record_edit'
-			) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
-		return $onclickScript;
-
+		// For some reason TYPO3 has two different URI Builders..
+		$indexUrl = (string) $uriBuilder->buildUriFromRoutePath(
+			'/module/web/sg-cookie-optin', ['id' => $this->arguments['pid']]
+		);
+		$uriParameters =
+			[
+				'edit' =>
+					[
+						$this->arguments['table'] =>
+							[
+								$this->arguments['uid'] => 'edit'
+							],
+					],
+				'returnUrl' => $indexUrl
+			];
+		return $uriBuilder->buildUriFromRoute('record_edit', $uriParameters);
 	}
 }

@@ -69,22 +69,12 @@ class CookieListController extends ActionController {
 		/** @var TypoScriptFrontendController $tsfe */
 		$tsfe = $GLOBALS['TSFE'];
 		$rootPageId = $tsfe->rootLine[0]['uid'] ?? 0;
-		$typo3Version = VersionNumberUtility::getCurrentTypo3Version();
 
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$languageUid = $tsfe->getLanguage()->getLanguageId();
-		} else {
-			$context = GeneralUtility::makeInstance(Context::class);
-			$languageAspect = $context->getAspect('language');
-			$languageUid = $languageAspect->getId();
-		}
+		$context = GeneralUtility::makeInstance(Context::class);
+		$languageAspect = $context->getAspect('language');
+		$languageUid = $languageAspect->getId();
 
-		if (version_compare($typo3Version, '11.0.0', '>=')) {
-			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-		} else {
-			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
-		}
-
+		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_optin'
 		);
@@ -92,11 +82,7 @@ class CookieListController extends ActionController {
 			->from('tx_sgcookieoptin_domain_model_optin')
 			->where($queryBuilder->expr()->eq('pid', $rootPageId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0));
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$resultObject = $queryBuilder->execute();
-		} else {
-			$resultObject = $queryBuilder->executeQuery();
-		}
+		$resultObject = $queryBuilder->executeQuery();
 
 		if (method_exists($resultObject, 'fetchAssociative')) {
 			$optin = $resultObject->fetchAssociative();
@@ -106,16 +92,10 @@ class CookieListController extends ActionController {
 		$defaultLanguageOptinId = $optin['uid'];
 
 		if ($languageUid > 0) {
-			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-				$optin = $pageRepository->getRecordOverlay(
-					'tx_sgcookieoptin_domain_model_optin', $optin, $languageUid, $tsfe->getLanguage()->getFallbackType()
-				);
-			} else {
-				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-				$optin = $pageRepository->getLanguageOverlay(
-					'tx_sgcookieoptin_domain_model_optin', $optin, $languageAspect
-				);
-			}
+			$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+			$optin = $pageRepository->getLanguageOverlay(
+				'tx_sgcookieoptin_domain_model_optin', $optin, $languageAspect
+			);
 		}
 
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
@@ -126,11 +106,7 @@ class CookieListController extends ActionController {
 			->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
 			->andWhere($queryBuilder->expr()->eq('pid', $rootPageId));
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$groups = $queryBuilder->execute()->fetchAll();
-		} else {
-			$groups = $queryBuilder->executeQuery()->fetchAllAssociative();
-		}
+		$groups = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 		array_unshift($groups, [
 			'uid' => 0,
@@ -143,17 +119,10 @@ class CookieListController extends ActionController {
 			$defaultLanguageGroupUid = $group['uid'];
 			if ($group['uid'] > 0 && $languageUid > 0) {
 				// fix language first
-				if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-					$group = $pageRepository->getRecordOverlay(
-						'tx_sgcookieoptin_domain_model_group', $group, $languageUid,
-						$tsfe->getLanguage()->getFallbackType()
-					);
-				} else {
-					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-					$group = $pageRepository->getLanguageOverlay(
-						'tx_sgcookieoptin_domain_model_group', $group, $languageAspect
-					);
-				}
+				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+				$group = $pageRepository->getLanguageOverlay(
+					'tx_sgcookieoptin_domain_model_group', $group, $languageAspect
+				);
 			}
 
 			// Get the QueryBuilder instance
@@ -167,13 +136,7 @@ class CookieListController extends ActionController {
 			];
 
 			// Compatibility for TYPO3 v12+ and earlier
-			if (method_exists(ExpressionBuilder::class, 'and')) {
-				// TYPO3 v12+ (andX removed)
-				$andCondition = $queryBuilder->expr()->and(...$conditions);
-			} else {
-				// TYPO3 v11 or earlier
-				$andCondition = $queryBuilder->expr()->andX(...$conditions);
-			}
+			$andCondition = $queryBuilder->expr()->and(...$conditions);
 
 			// Build the query
 			$queryBuilder->select('*')
@@ -192,17 +155,10 @@ class CookieListController extends ActionController {
 
 			if ($languageUid > 0) {
 				foreach ($cookies as &$cookie) {
-					if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-						$cookie = $pageRepository->getRecordOverlay(
-							'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageUid,
-							$tsfe->getLanguage()->getFallbackType()
-						);
-					} else {
-						$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-						$cookie = $pageRepository->getLanguageOverlay(
-							'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageAspect
-						);
-					}
+					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+					$cookie = $pageRepository->getLanguageOverlay(
+						'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageAspect
+					);
 				}
 				unset($cookie);
 			}
@@ -230,7 +186,7 @@ class CookieListController extends ActionController {
 	 *
 	 * @return ResponseInterface
 	 */
-	public function showAction() {
+	public function showAction(): \Psr\Http\Message\ResponseInterface {
 		// Set template
 		$view = GeneralUtility::makeInstance(StandaloneView::class);
 		$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Show.html';

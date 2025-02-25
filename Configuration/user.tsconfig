@@ -1,0 +1,3 @@
+@import 'EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig'
+
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig">

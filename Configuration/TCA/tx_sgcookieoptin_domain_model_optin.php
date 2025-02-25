@@ -30,7 +30,6 @@ $configuration = [
 		'label' => 'header',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
-		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
 		'searchFields' => 'header, description, accept_all_text, user_hash_text, accept_specific_text, accept_essential_text,
 			essential_title, essential_description, extend_box_link_text, extend_box_link_text_close,
@@ -50,7 +49,6 @@ $configuration = [
 			'ignorePageTypeRestriction' => TRUE,
 		],
 	],
-	'interface' => [],
 	'types' => [
 		'1' => [
 			'showitem' => '
@@ -224,19 +222,7 @@ $configuration = [
 		'sys_language_uid' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-			'config' => [
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'special' => 'languages',
-				'default' => 0,
-				'items' => [
-					[
-						'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-						-1,
-						'flags-multiple'
-					]
-				]
-			]
+			'config' => ['type' => 'language']
 		],
 		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -245,7 +231,7 @@ $configuration = [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => [
-					['', 0]
+					['label' => '', 'value' => 0]
 				],
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_optin',
 				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_optin.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_optin.sys_language_uid IN (-1,0)',
@@ -438,7 +424,6 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.navigation',
 			'config' => [
 				'type' => 'group',
-				'internal_type' => 'db',
 				'allowed' => 'pages',
 				'minitems' => 0,
 				'maxitems' => 2,
@@ -459,7 +444,6 @@ $configuration = [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'showPossibleLocalizationRecords' => TRUE,
-					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
@@ -470,11 +454,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_box',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_headline' => [
@@ -483,11 +465,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_headline',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'color_text' => [
@@ -495,11 +475,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'color_confirmation_background' => [
@@ -507,11 +485,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_confirmation_background',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96',
-				'eval' => 'trim, required'
+				'placeholder' => '#2E6B96'
 			]
 		],
 		'color_confirmation_text' => [
@@ -519,11 +495,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_confirmation_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			]
 		],
 		'color_checkbox' => [
@@ -531,11 +505,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_checkbox',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59',
-				'eval' => 'trim, required'
+				'placeholder' => '#143D59'
 			],
 		],
 		'color_checkbox_required' => [
@@ -543,11 +515,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_checkbox_required',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757',
-				'eval' => 'trim, required'
+				'placeholder' => '#575757'
 			],
 		],
 		'color_button_all' => [
@@ -555,11 +525,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_all',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59',
-				'eval' => 'trim, required'
+				'placeholder' => '#143D59'
 			],
 		],
 		'color_button_all_hover' => [
@@ -567,11 +535,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_all_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96',
-				'eval' => 'trim, required'
+				'placeholder' => '#2E6B96'
 			],
 		],
 		'color_button_all_text' => [
@@ -579,11 +545,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_all_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_button_specific' => [
@@ -591,11 +555,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_specific',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757',
-				'eval' => 'trim, required'
+				'placeholder' => '#575757'
 			],
 		],
 		'color_button_specific_hover' => [
@@ -603,11 +565,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_specific_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292',
-				'eval' => 'trim, required'
+				'placeholder' => '#929292'
 			],
 		],
 		'color_button_specific_text' => [
@@ -615,11 +575,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_specific_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_button_essential' => [
@@ -627,11 +585,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_essential',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757',
-				'eval' => 'trim, required'
+				'placeholder' => '#575757'
 			],
 		],
 		'color_button_essential_hover' => [
@@ -639,11 +595,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_essential_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292',
-				'eval' => 'trim, required'
+				'placeholder' => '#929292'
 			],
 		],
 		'color_button_essential_text' => [
@@ -651,11 +605,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_essential_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_list' => [
@@ -663,11 +615,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_list',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757',
-				'eval' => 'trim, required'
+				'placeholder' => '#575757'
 			],
 			'displayCond' => 'FIELD:template_selection:=:0',
 		],
@@ -676,11 +626,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_list_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 			'displayCond' => 'FIELD:template_selection:=:0',
 		],
@@ -689,11 +637,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_table',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_table_header' => [
@@ -701,11 +647,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_table_header',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#F3F3F3',
-				'placeholder' => '#F3F3F3',
-				'eval' => 'trim, required'
+				'placeholder' => '#F3F3F3'
 			],
 		],
 		'color_table_header_text' => [
@@ -713,11 +657,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_table_header_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'color_Table_data_text' => [
@@ -725,11 +667,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_Table_data_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'color_button_close' => [
@@ -738,11 +678,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_button_close_hover' => [
@@ -751,11 +689,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_button_close_text' => [
@@ -764,11 +700,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'monochrome_enabled' => [
@@ -813,7 +747,6 @@ $configuration = [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'showPossibleLocalizationRecords' => TRUE,
-					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
@@ -829,7 +762,6 @@ $configuration = [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'showPossibleLocalizationRecords' => TRUE,
-					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
@@ -876,7 +808,6 @@ $configuration = [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'showPossibleLocalizationRecords' => TRUE,
-					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
@@ -954,11 +885,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_color_consent_box_background',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#D6D6D6',
-				'placeholder' => '#D6D6D6',
-				'eval' => 'trim, required'
+				'placeholder' => '#D6D6D6'
 			],
 		],
 		'iframe_color_button_load_one' => [
@@ -966,11 +895,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59',
-				'eval' => 'trim, required'
+				'placeholder' => '#143D59'
 			],
 		],
 		'iframe_color_button_load_one_hover' => [
@@ -978,11 +905,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96',
-				'eval' => 'trim, required'
+				'placeholder' => '#2E6B96'
 			],
 		],
 		'iframe_color_button_load_one_text' => [
@@ -990,11 +915,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'iframe_color_open_settings' => [
@@ -1002,11 +925,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_color_open_settings',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'iframe_html' => [
@@ -1144,9 +1065,9 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.0', 0],
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.1', 1],
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2', 2],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.0', 'value' => 0],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.1', 'value' => 1],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2', 'value' => 2],
 				],
 				'default' => '0'
 			],
@@ -1204,8 +1125,8 @@ $configuration = [
 				'minitems' => 1,
 				'default' => 0,
 				'items' => [
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.0', 0],
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.1', 1],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.0', 'value' => 0],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.1', 'value' => 1],
 				],
 				'behaviour' => [
 					'allowLanguageSynchronization' => TRUE
@@ -1356,8 +1277,8 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_position.0', 0],
-					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_position.1', 1],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_position.0', 'value' => 0],
+					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_position.1', 'value' => 1],
 				],
 			],
 		],
@@ -1366,11 +1287,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_box',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#DDDDDD',
-				'placeholder' => '#DDDDDD',
-				'eval' => 'trim, required'
+				'placeholder' => '#DDDDDD'
 			],
 		],
 		'banner_color_text' => [
@@ -1378,11 +1297,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'banner_color_link_text' => [
@@ -1390,11 +1307,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_link_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737',
-				'eval' => 'trim, required'
+				'placeholder' => '#373737'
 			],
 		],
 		'banner_color_button_settings' => [
@@ -1402,11 +1317,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_settings',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757',
-				'eval' => 'trim, required'
+				'placeholder' => '#575757'
 			],
 		],
 		'banner_color_button_settings_hover' => [
@@ -1414,11 +1327,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_settings_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292',
-				'eval' => 'trim, required'
+				'placeholder' => '#929292'
 			],
 		],
 		'banner_color_button_settings_text' => [
@@ -1426,11 +1337,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_settings_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'banner_color_button_accept' => [
@@ -1438,11 +1347,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59',
-				'eval' => 'trim, required'
+				'placeholder' => '#143D59'
 			],
 		],
 		'banner_color_button_accept_hover' => [
@@ -1450,11 +1357,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96',
-				'eval' => 'trim, required'
+				'placeholder' => '#2E6B96'
 			],
 		],
 		'banner_color_button_accept_text' => [
@@ -1462,11 +1367,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'banner_button_accept_text' => [
@@ -1485,11 +1388,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757',
-				'eval' => 'trim, required'
+				'placeholder' => '#575757'
 			],
 		],
 		'banner_color_button_accept_essential_hover' => [
@@ -1497,11 +1398,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292',
-				'eval' => 'trim, required'
+				'placeholder' => '#929292'
 			],
 		],
 		'banner_color_button_accept_essential_text' => [
@@ -1509,11 +1408,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_essential_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'banner_button_accept_essential_text' => [
@@ -1573,11 +1470,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_full_box',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59',
-				'eval' => 'trim, required'
+				'placeholder' => '#143D59'
 			],
 		],
 		'color_full_headline' => [
@@ -1586,11 +1481,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_full_headline',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_full_text' => [
@@ -1599,11 +1492,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_full_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'color_full_button_close' => [
@@ -1612,11 +1503,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59',
-				'eval' => 'trim, required'
+				'placeholder' => '#143D59'
 			],
 		],
 		'color_full_button_close_hover' => [
@@ -1625,11 +1514,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_hover',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59',
-				'eval' => 'trim, required'
+				'placeholder' => '#143D59'
 			],
 		],
 		'color_full_button_close_text' => [
@@ -1638,11 +1525,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_text',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
-				'eval' => 'trim, required'
+				'placeholder' => '#FFFFFF'
 			],
 		],
 		'iframe_whitelist_regex' => [
@@ -1735,24 +1620,24 @@ $configuration = [
 				'default' => 1,
 				'items' => [
 					[
-						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.0',
-						0,
+						'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.0',
+						'value' => 0,
 					],
 					[
-						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.1',
-						1,
+						'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.1',
+						'value' => 1,
 					],
 					[
-						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.2',
-						2,
+						'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.2',
+						'value' => 2,
 					],
 					[
-						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.3',
-						3,
+						'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.3',
+						'value' => 3,
 					],
 					[
-						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.4',
-						4,
+						'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.4',
+						'value' => 4,
 					],
 				]
 			]
@@ -1762,11 +1647,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_fingerprint_background',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#208A20',
-				'eval' => 'trim, required'
+				'placeholder' => '#208A20'
 			]
 		],
 		'color_fingerprint_image' => [
@@ -1774,11 +1657,9 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_fingerprint_image',
 			'config' => [
-				'type' => 'input',
-				'renderType' => 'colorpicker',
+				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#208A20',
-				'eval' => 'trim, required'
+				'placeholder' => '#208A20'
 			]
 		],
 		'disable_automatic_loading' => [
@@ -1801,7 +1682,6 @@ $configuration = [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'showPossibleLocalizationRecords' => TRUE,
-					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
@@ -1810,44 +1690,10 @@ $configuration = [
 	],
 ];
 
-if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
-	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, header,'
-		. 'description, cookie_lifetime, overwrite_baseurl, minify_generated_data, navigation, accept_all_text, user_hash_text, accept_specific_text,'
-		. 'accept_essential_text, groups, template_html, template_overwritten, template_warning, template_selection, color_text,'
-		. 'color_box, color_headline, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text,'
-		. 'color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,'
-		. 'color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies,'
-		. 'extend_box_link_text, extend_box_link_text_close, extend_table_link_text, extend_table_link_text_close,'
-		. 'color_button_all_hover, color_button_specific_hover, color_button_essential_hover, color_table,'
-		. 'color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover,'
-		. 'color_button_close_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text,'
-		. 'iframe_enabled, iframe_title, iframe_description, iframe_cookies, iframe_button_allow_all_text,'
-		. 'iframe_button_allow_one_text, iframe_button_reject_text, iframe_button_load_one_description, iframe_button_load_one_text, iframe_open_settings_text,'
-		. 'iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover,'
-		. 'iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten, iframe_warning, '
-		. 'iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_warning, '
-		. 'banner_enable, banner_force_min_width, banner_position, banner_overwritten, banner_warning, banner_html,'
-		. 'banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings,'
-		. 'banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,'
-		. 'banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,'
-		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
-		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
-		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
-		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist,'
-		. 'iframe_whitelist_regex, dependent_groups_text,'
-		. 'subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex,'
-		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
-		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
-		. 'color_fingerprint_background, color_fingerprint_image, services, iframe_replacement_background_image,'
-		. 'monochrome_enabled, show_fingerprint, auto_action_for_bots';
-}
-
-if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '>')) {
-	$GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_optin'] = [
-		'refs' => [
-			'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
-		],
-	];
-}
+$GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_optin'] = [
+	'refs' => [
+		'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
+	],
+];
 
 return $configuration;

@@ -30,7 +30,6 @@ $configuration = [
 		'label' => 'identifier',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
-		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
 		'searchFields' => 'identifier, replacement_html',
 		'delete' => 'deleted',
@@ -47,7 +46,6 @@ $configuration = [
 			'ignorePageTypeRestriction' => TRUE,
 		],
 	],
-	'interface' => [],
 	'types' => [
 		'1' => [
 			'showitem' => 'identifier, replacement_html_overwritten, replacement_html, replacement_background_image, source_regex',
@@ -60,19 +58,7 @@ $configuration = [
 		'sys_language_uid' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-			'config' => [
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'special' => 'languages',
-				'default' => 0,
-				'items' => [
-					[
-						'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-						-1,
-						'flags-multiple'
-					]
-				]
-			]
+			'config' => ['type' => 'language']
 		],
 		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -81,7 +67,7 @@ $configuration = [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => [
-					['', 0]
+					['label' => '', 'value' => 0]
 				],
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_service',
 				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_service.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_service.sys_language_uid IN (-1,0)',
@@ -145,7 +131,6 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_script.parent_optin',
 			'config' => [
 				'type' => 'group',
-				'internal_type' => 'db',
 				'allowed' => 'tx_sgcookieoptin_domain_model_optin',
 				'size' => 1,
 				'minitems' => 0,
@@ -179,9 +164,5 @@ $configuration = [
 		],
 	],
 ];
-if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
-	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,'
-		. 'identifier, replacement_html, parent_group, parent_optin, replacement_background_image, source_regex';
-}
 
 return $configuration;

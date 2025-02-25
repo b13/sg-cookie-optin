@@ -78,11 +78,7 @@ class JsonImportService {
 			->andWhere('l10n_parent = 0')
 			->setParameter('pid', $pid);
 
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            return $queryBuilder->execute();
-        } else {
-            return $queryBuilder->executeQuery();
-        }
+		return $queryBuilder->executeQuery();
 	}
 
 	/**
@@ -392,11 +388,7 @@ class JsonImportService {
 
 		$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
 		$queryBuilder->insert($table)->values($initialData);
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            $queryBuilder->execute();
-        } else {
-            $queryBuilder->executeQuery();
-        }
+		$queryBuilder->executeQuery();
 		$objectId = $queryBuilder->getConnection()->lastInsertId();
 
 		foreach ($data as $field => $value) {
@@ -408,11 +400,7 @@ class JsonImportService {
 					$queryBuilder->expr()->eq('uid', $objectId)
 				);
 
-                if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-                    $queryBuilder->execute();
-                } else {
-                    $queryBuilder->executeQuery();
-                }
+				$queryBuilder->executeQuery();
 			} catch (\Exception $exception) {
 				// ignore missing fields
 			}
@@ -541,15 +529,9 @@ class JsonImportService {
 	public function parseAndStoreImportedData(array $languages) {
 		$dataStorage = [];
 		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
-		if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
-			$fileName = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'];
-			$fileType = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'];
-			$fileError = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'];
-		} else {
-			$fileName = $_FILES['file']['tmp_name'];
-			$fileType = $_FILES['file']['type'];
-			$fileError = $_FILES['file']['error'];
-		}
+		$fileName = $_FILES['file']['tmp_name'];
+		$fileType = $_FILES['file']['type'];
+		$fileError = $_FILES['file']['error'];
 
 		// get and import the default language
 		if ($fileType !== 'application/json'

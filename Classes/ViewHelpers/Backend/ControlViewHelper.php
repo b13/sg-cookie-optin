@@ -65,18 +65,10 @@ class ControlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
 		/** @var DatabaseRecordList $databaseRecordList */
 		$databaseRecordList = GeneralUtility::makeInstance(DatabaseRecordList::class);
 		$pageInfo = BackendUtility::readPageAccess($row['pid'], $GLOBALS['BE_USER']->getPagePermsClause(1));
-		if (version_compare($currentTypo3Version, '11.0.0', '<')) {
-			$databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);
-		} else {
-			$permission = GeneralUtility::makeInstance(Permission::class);
-			$permission->set($GLOBALS['BE_USER']->calcPerms($pageInfo));
-			$databaseRecordList->calcPerms = $permission;
-
-			if (version_compare($currentTypo3Version, '12.0.0', '>=')) {
-				$databaseRecordList->setRequest($GLOBALS['TYPO3_REQUEST']);
-			}
-		}
-
+		$permission = GeneralUtility::makeInstance(Permission::class);
+		$permission->set($GLOBALS['BE_USER']->calcPerms($pageInfo));
+		$databaseRecordList->calcPerms = $permission;
+		$databaseRecordList->setRequest($GLOBALS['TYPO3_REQUEST']);
 		return $databaseRecordList->makeControl($table, $row);
 	}
 }

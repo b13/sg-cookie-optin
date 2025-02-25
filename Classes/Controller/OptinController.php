@@ -44,13 +44,11 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -94,14 +92,14 @@ class OptinController extends AbstractController {
      * Starts the module, even opens up a TCEForm, or shows where the domain root is.
      *
      */
-    public function indexAction()
+    public function indexAction(): \Psr\Http\Message\ResponseInterface
     {
 	$this->switchMode();
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
+	$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
+		VersionNumberUtility::getCurrentTypo3Version()
+	);
 
-        $this->initComponents($this->moduleTemplate);
+	$this->initComponents($this->moduleTemplate);
 	$this->checkLicenseStatus($this->moduleTemplate);
 
         session_start([
@@ -112,26 +110,14 @@ class OptinController extends AbstractController {
         if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
             unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
 
-            if (version_compare($typo3Version, '13.0.0', '<')) {
-                $this->addFlashMessage(
-                    LocalizationUtility::translate('backend.hasChanges.message', 'sg_cookie_optin'),
-                    LocalizationUtility::translate('backend.hasChanges.title', 'sg_cookie_optin'),
-                    AbstractMessage::INFO
-                );
-            } else {
-                $this->addFlashMessage(
-                    LocalizationUtility::translate('backend.hasChanges.message', 'sg_cookie_optin'),
-                    LocalizationUtility::translate('backend.hasChanges.title', 'sg_cookie_optin'),
-                    ContextualFeedbackSeverity::INFO
-                );
-            }
+			$this->addFlashMessage(
+				LocalizationUtility::translate('backend.hasChanges.message', 'sg_cookie_optin'),
+				LocalizationUtility::translate('backend.hasChanges.title', 'sg_cookie_optin'),
+				ContextualFeedbackSeverity::INFO
+			);
         }
 
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pageUid = (int)GeneralUtility::_GP('id');
-        } else {
-            $pageUid = (int)($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
-        }
+		$pageUid = (int)($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? null);
 
 	// Check specifically for website Page 0
 	$isSiteRoot = ($pageUid === 0);
@@ -142,19 +128,11 @@ class OptinController extends AbstractController {
             $optIns = BackendService::getOptins($pageUid);
 
             if (count($optIns) > 1) {
-                if (version_compare($typo3Version, '13.0.0', '<')) {
-                    $this->addFlashMessage(
-                        LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
-                        LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
-                        AbstractMessage::ERROR
-                    );
-                } else {
-                    $this->addFlashMessage(
-                        LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
-                        LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
-                        ContextualFeedbackSeverity::ERROR
-                    );
-                }
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+					ContextualFeedbackSeverity::ERROR
+				);
             }
 
             $this->moduleTemplate->assign('isSiteRoot', TRUE);
@@ -165,11 +143,7 @@ class OptinController extends AbstractController {
         $this->moduleTemplate->assign('pages', BackendService::getPages());
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/EditOnClick');
-        } else {
-            $pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/EditOnClick.js');
-        }
+		$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/EditOnClick.js');
 
         return $this->moduleTemplate->renderResponse('Optin/Index');
     }
@@ -199,13 +173,7 @@ class OptinController extends AbstractController {
             'cookie_samesite' => 'Strict'
         ]);
 
-        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
-
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pid = (int) GeneralUtility::_GP('id');
-        } else {
-            $pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-        }
+		$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
 
         try {
             if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['defaultLanguageId'])) {
@@ -242,7 +210,7 @@ class OptinController extends AbstractController {
             $this->addFlashMessage(
                 $exception->getMessage(),
                 '',
-                AbstractMessage::ERROR
+                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
             );
             return $this->redirect('previewImport', 'Optin', 'sg_cookie_optin');
         }
@@ -255,14 +223,7 @@ class OptinController extends AbstractController {
      * @throws RouteNotFoundException
      */
     protected function buildTCAEditUri(int $optInId) {
-        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
-
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pid = (int) GeneralUtility::_GP('id');
-        } else {
-            $pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-        }
-
+		$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $params = [
             'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$optInId => 'edit']],
@@ -273,25 +234,15 @@ class OptinController extends AbstractController {
 
     /**
      * Displays statistics about the imported data for a  preview
-     *
-     * @throws StopActionException
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
-    public function previewImportAction() {
+    public function previewImportAction(): \Psr\Http\Message\ResponseInterface {
         session_start([
             'cookie_secure' => TRUE,
             'cookie_httponly' => TRUE,
             'cookie_samesite' => 'Strict'
         ]);
 
-        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
-
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pageUid = (int) GeneralUtility::_GP('id');
-        } else {
-            $pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-        }
-
+		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->initComponents($this->moduleTemplate);
         $pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
@@ -299,19 +250,11 @@ class OptinController extends AbstractController {
             $optIns = BackendService::getOptins($pageUid);
 
             if (count($optIns) > 0) {
-                if (version_compare($typo3Version, '13.0.0', '<')) {
-                    $this->addFlashMessage(
-                        LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
-                        LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
-                        AbstractMessage::ERROR
-                    );
-                } else {
-                    $this->addFlashMessage(
-                        LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
-                        LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
-                        ContextualFeedbackSeverity::ERROR
-                    );
-                }
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+					ContextualFeedbackSeverity::ERROR
+				);
             }
 
             $this->moduleTemplate->assign('isSiteRoot', TRUE);
@@ -348,7 +291,7 @@ class OptinController extends AbstractController {
                             'backend.jsonImport.warnings.language.header',
                             'sg_cookie_optin'
                         ),
-                        AbstractMessage::WARNING
+                        \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
                     );
                 }
             }
@@ -380,7 +323,7 @@ class OptinController extends AbstractController {
                 $this->addFlashMessage(
                     LocalizationUtility::translate('backend.jsonImport.warnings.groupsCount', 'sg_cookie_optin'),
                     LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-                    AbstractMessage::WARNING
+                    \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
                 );
                 $warningGroups = TRUE;
             }
@@ -389,7 +332,7 @@ class OptinController extends AbstractController {
                 $this->addFlashMessage(
                     LocalizationUtility::translate('backend.jsonImport.warnings.cookiesCount', 'sg_cookie_optin'),
                     LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-                    AbstractMessage::WARNING
+                    \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
                 );
                 $warningCookies = TRUE;
             }
@@ -398,7 +341,7 @@ class OptinController extends AbstractController {
                 $this->addFlashMessage(
                     LocalizationUtility::translate('backend.jsonImport.warnings.scriptsCount', 'sg_cookie_optin'),
                     LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-                    AbstractMessage::WARNING
+                    \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
                 );
                 $warningScripts = TRUE;
             }
@@ -423,7 +366,7 @@ class OptinController extends AbstractController {
             $this->addFlashMessage(
                 $exception->getMessage(),
                 '',
-                AbstractMessage::ERROR
+                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
             );
             return $this->redirect('uploadJson', 'Optin', 'sg_cookie_optin');
         }
@@ -432,17 +375,10 @@ class OptinController extends AbstractController {
     /**
      * Downloads a JSON file containing all the configuration for each language
      *
-     * @throws StopActionException
      */
     public function exportJsonAction() {
         try {
-            $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
-
-            if (version_compare($typo3Version, '13.0.0', '<')) {
-                $pid = (int) GeneralUtility::_GP('id');
-            } else {
-                $pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-            }
+			$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
 
             $data = JsonImportService::getDataForExport($pid);
             if ($data->rowCount() !== 1) {
@@ -476,7 +412,7 @@ class OptinController extends AbstractController {
                 LocalizationUtility::translate('backend.jsonExport.error', 'sg_cookie_optin') . $exception->getMessage(
                 ),
                 LocalizationUtility::translate('backend.exportConfig', 'sg_cookie_optin'),
-                AbstractMessage::ERROR
+                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
             );
             return $this->redirect('index');
         }
@@ -486,15 +422,16 @@ class OptinController extends AbstractController {
      * Displays the user preference statistics
      *
      */
-    public function statisticsAction() {
+    public function statisticsAction(): \Psr\Http\Message\ResponseInterface {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->initComponents($this->moduleTemplate);
+        return $this->htmlResponse();
     }
 
     /**
      * Renders the upload JSON form
      */
-    public function uploadJsonAction() {
+    public function uploadJsonAction(): \Psr\Http\Message\ResponseInterface {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->initComponents($this->moduleTemplate);
         $this->moduleTemplate->assign('pages', BackendService::getPages());
@@ -508,15 +445,7 @@ class OptinController extends AbstractController {
      * @throws SiteNotFoundException
      */
     public function createAction() {
-        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
-
-        if (version_compare($typo3Version, '13.0.0', '<')) {
-            $pid = (int) GeneralUtility::_GP('id');
-        } else {
-            $pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-        }
+		$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
 
         // create with DataHandler
         // adding default values for the german language. The values are hardcoded because they must not change since we don't know

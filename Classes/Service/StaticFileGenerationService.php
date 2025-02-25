@@ -185,19 +185,13 @@ class StaticFileGenerationService implements SingletonInterface {
 				if ($currentVersion >= 11000000) {
 					$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 				} else {
-					$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+					$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
 				}
 
-				if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-					$translatedRecord = $pageRepository->getRecordOverlay(
-						self::TABLE_NAME, $originalRecord, $languageUid, '1'
-					);
-				} else {
-					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-					$translatedRecord = $pageRepository->getLanguageOverlay(
-						self::TABLE_NAME, $originalRecord, $languageAspect
-					);
-				}
+				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+				$translatedRecord = $pageRepository->getLanguageOverlay(
+					self::TABLE_NAME, $originalRecord, $languageAspect
+				);
 			}
 
 			$translatedFullData = $this->getFullData(
@@ -352,11 +346,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			);
 		}
 
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-			$rows = $queryBuilder->execute()->fetchAll();
-		} else {
-			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
-		}
+		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 		if (!is_array($rows)) {
 			return [];
@@ -369,16 +359,12 @@ class StaticFileGenerationService implements SingletonInterface {
 		if ($currentVersion >= 11000000) {
 			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		} else {
-			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
 		}
 
 		foreach ($rows as $row) {
-			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-				$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language, '1');
-			} else {
-				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $language);
-				$translatedRows[] = $pageRepository->getLanguageOverlay($table, $row, $languageAspect);
-			}
+			$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $language);
+			$translatedRows[] = $pageRepository->getLanguageOverlay($table, $row, $languageAspect);
 		}
 
 		return $translatedRows;
@@ -417,18 +403,13 @@ class StaticFileGenerationService implements SingletonInterface {
 	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$content = '';
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
-			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-			$file = $resourceFactory->retrieveFileOrFolderObject(
-				self::TEMPLATE_STYLE_SHEET_PATH_EXT . self::TEMPLATE_STYLE_SHEET_NAME
-			);
-			if ($file) {
-				$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
-					file_get_contents($sitePath . $file->getPublicUrl());
-			}
-		} else {
+		$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+		$file = $resourceFactory->retrieveFileOrFolderObject(
+			self::TEMPLATE_STYLE_SHEET_PATH_EXT . self::TEMPLATE_STYLE_SHEET_NAME
+		);
+		if ($file) {
 			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
-				file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
+				file_get_contents($sitePath . $file->getPublicUrl());
 		}
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
@@ -562,16 +543,12 @@ class StaticFileGenerationService implements SingletonInterface {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
 
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
-			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-			$fileExt = $resourceFactory->retrieveFileOrFolderObject(
-				self::TEMPLATE_JAVA_SCRIPT_PATH_EXT . self::TEMPLATE_JAVA_SCRIPT_NAME
-			);
-			if ($fileExt) {
-				copy($sitePath . $fileExt->getPublicUrl(), $file);
-			}
-		} else {
-			copy($sitePath . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
+		$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+		$fileExt = $resourceFactory->retrieveFileOrFolderObject(
+			self::TEMPLATE_JAVA_SCRIPT_PATH_EXT . self::TEMPLATE_JAVA_SCRIPT_NAME
+		);
+		if ($fileExt) {
+			copy($sitePath . $fileExt->getPublicUrl(), $file);
 		}
 
 		if ($minifyFile) {
@@ -1091,7 +1068,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		if ($versionNumber >= 11000000) {
 			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		} else {
-			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
 		}
 		foreach ($navigationEntries as $navigationEntry) {
 			if (!$navigationEntry) {
@@ -1104,12 +1081,8 @@ class StaticFileGenerationService implements SingletonInterface {
 			}
 
 			if ($languageUid > 0) {
-				if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid, '1');
-				} else {
-					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-					$record = $pageRepository->getLanguageOverlay('pages', $record, $languageAspect);
-				}
+				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+				$record = $pageRepository->getLanguageOverlay('pages', $record, $languageAspect);
 			}
 
 			$records[] = $record;

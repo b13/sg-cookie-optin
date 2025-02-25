@@ -28,6 +28,8 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use TYPO3\CMS\Backend\Attribute\Controller;
+use TYPO3\CMS\Backend\Module\Module;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -40,13 +42,18 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Consent Controller
  */
 #[Controller]
-class ConsentController extends ActionController {
+class ConsentController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
 	 * @var ModuleTemplateFactory
 	 */
-	protected $moduleTemplateFactory;
+	protected ModuleTemplateFactory $moduleTemplateFactory;
+
+	/**
+	 * @var ModuleTemplate
+	 */
+	protected ModuleTemplate $moduleTemplate;
 
 	public function initializeAction(): void {
 		// Create and store the template object as a class property
@@ -58,22 +65,12 @@ class ConsentController extends ActionController {
 	 * Displays the user preference consent history
 	 *
 	 */
-	public function indexAction() {
+	public function indexAction(): \Psr\Http\Message\ResponseInterface {
 		$this->switchMode();
 		$this->initComponents($this->moduleTemplate);
 		$this->initPageUidSelection($this->moduleTemplate);
-
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$pageUid = (int) GeneralUtility::_GP('id');
-		} else {
-			$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-		}
-
-		$moduleTemplate->assign(
+		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		$this->moduleTemplate->assign(
 			'identifiers',
 			OptinHistoryService::getItemIdentifiers(['pid' => $pageUid])
 		);
@@ -87,11 +84,7 @@ class ConsentController extends ActionController {
 		// Optionally load JavaScript
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-				$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/ConsentManagement');
-			} else {
-				$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/ConsentManagement.js');
-			}
+			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/ConsentManagement.js');
 		}
 
 		// Check specifically for website Page 0 => use empty layout

@@ -103,11 +103,7 @@ class GenerateStaticFilesCommand extends Command {
 			->andWhere($queryBuilder->expr()->eq('l10n_parent', 0))
 			->setMaxResults(1);
 
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-			$result = $queryBuilder->execute();
-        } else {
-            $result = $queryBuilder->executeQuery();
-        }
+		$result = $queryBuilder->executeQuery();
 
 		if (is_callable([$result, 'fetchOne'])) {
 			$uid = $result->fetchOne();

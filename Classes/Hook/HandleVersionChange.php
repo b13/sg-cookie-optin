@@ -63,7 +63,7 @@ class HandleVersionChange {
 			if (method_exists($resultObject, 'fetchAssociative')) {
 				$result = $resultObject->fetchAssociative();
 			} else {
-				$result = $resultObject->fetch();
+				$result = $resultObject->fetchAssociative();
 			}
 			[$currentVersion, $pid] = array_values($result);
 

@@ -28,20 +28,19 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Consent Controller
  */
 #[Controller]
-class StatisticsController extends ActionController {
+class StatisticsController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
@@ -54,12 +53,12 @@ class StatisticsController extends ActionController {
 	/**
 	 * @var ModuleTemplateFactory
 	 */
-	protected $moduleTemplateFactory;
+	protected ModuleTemplateFactory $moduleTemplateFactory;
 
 	/**
 	 * @var ModuleTemplate
 	 */
-	protected $moduleTemplate;
+	protected ModuleTemplate $moduleTemplate;
 
 	public function initializeAction(): void {
 		// Create and store the template as a class property
@@ -70,15 +69,15 @@ class StatisticsController extends ActionController {
 	/**
 	 * Displays the user preference statistics
 	 */
-	public function indexAction() {
+	public function indexAction(): \Psr\Http\Message\ResponseInterface {
 		// Switch mode, init components, etc.
 		$this->switchMode();
 		$this->initComponents($this->moduleTemplate);
 		$this->initPageUidSelection($this->moduleTemplate);
 
 		// Grab page UID from request
-		$pageUid = (int) GeneralUtility::_GP('id');
-		$moduleTemplate->assign(
+		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		$this->moduleTemplate->assign(
 			'versions',
 			OptinHistoryService::getVersions(
 				[
@@ -96,7 +95,7 @@ class StatisticsController extends ActionController {
 		// If we have a real pid > 0, load additional JS
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
+			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/Statistics.js');
 		}
 
 		// Check specifically for website page 0 => use empty layout

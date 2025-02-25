@@ -82,19 +82,13 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 * @see \TYPO3\CMS\Fluid\ViewHelpers\Be\Menus\ActionMenuViewHelper
 	 */
 	public function render() {
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-
 		$label = $this->arguments['label'];
 		$controller = $this->arguments['controller'];
 		$action = $this->arguments['action'];
 		$arguments = $this->arguments['arguments'];
 
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-		if (version_compare($typo3Version, '13.0.0', '>=')) {
-			$uriBuilder->setRequest($this->getExtbaseRequest());
-		}
+		$uriBuilder->setRequest($this->getExtbaseRequest());
 
 		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
 		$this->tag->addAttribute('value', $uri);

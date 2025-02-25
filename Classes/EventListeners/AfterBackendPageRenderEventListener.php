@@ -35,7 +35,7 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * This is the backend inclusion of the license check script
  */
 class AfterBackendPageRenderEventListener {
-	public function __invoke(AfterBackendPageRenderEvent $event) {
+	public function __invoke(AfterBackendPageRenderEvent $event): void {
 		if (!LicenceCheckService::isTYPO3VersionSupported()
 			|| LicenceCheckService::isInDevelopmentContext()
 		) {
@@ -43,16 +43,7 @@ class AfterBackendPageRenderEventListener {
 		}
 
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/LicenseNotification');
-		} else {
-			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/LicenseNotification.js');
-		}
+		$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/LicenseNotification.js');
 
 		$event->setContent($event->getView()->render());
 	}
