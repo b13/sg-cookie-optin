@@ -1,28 +1,39 @@
 <?php
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	'sg_cookie_optin',
-	'OptIn',
-	'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel',
-	'ext-sg_cookie_optin',
-	'plugins',
-	'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginDescription'
-);
+call_user_func(function () {
+	// Register the OptIn plugin as a content element (CType)
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+		[
+			'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel',
+			'sgcookieoptin_optin',
+			'iconIdentifier' => 'ext-sg_cookie_optin'
+		],
+		'CType',
+		'sg_cookie_optin'
+	);
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	'sg_cookie_optin',
-	'CookieList',
-	'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginLabel',
-	'ext-sg_cookie_optin',
-	'plugins',
-	'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginDescription'
-);
+	// Register the CookieList plugin as a content element (CType)
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+		[
+			'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginLabel',
+			'sgcookieoptin_cookielist',
+			'iconIdentifier' => 'ext-sg_cookie_optin'
+		],
+		'CType',
+		'sg_cookie_optin'
+	);
 
-$pluginSignature = 'sgcookieoptin_cookielist';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tt_content', '--div--;Configuration,pi_flexform,', $pluginSignature, 'after:subheader');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-	'*',
-	// FlexForm configuration schema file
-	'FILE:EXT:sg_cookie_optin/Configuration/FlexForms/CookieList.xml',
- $pluginSignature
-);
+	// Add FlexForm configuration for the CookieList plugin
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+		'sgcookieoptin_cookielist',
+		'FILE:EXT:sg_cookie_optin/Configuration/FlexForms/CookieList.xml'
+	);
+
+	// Include the FlexForm field in the tt_content TCA for the CookieList plugin
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+		'tt_content',
+		'--div--;Configuration,pi_flexform,',
+		'sgcookieoptin_cookielist',
+		'after:subheader'
+	);
+});

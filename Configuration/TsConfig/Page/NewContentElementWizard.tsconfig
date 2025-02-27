@@ -5,8 +5,7 @@ mod.wizards.newContentElement.wizardItems.plugins {
 			title = LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginTitle
 			description = LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginDescription
 			tt_content_defValues {
-				CType = list
-				list_type = sgcookieoptin_optin
+				CType = sgcookieoptin_optin
 			}
 		}
 
@@ -15,8 +14,7 @@ mod.wizards.newContentElement.wizardItems.plugins {
 			title = LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginTitle
 			description = LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginDescription
 			tt_content_defValues {
-				CType = list
-				list_type = sgcookieoptin_cookielist
+				CType = sgcookieoptin_cookielist
 			}
 		}
 	}
