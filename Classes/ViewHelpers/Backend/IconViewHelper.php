@@ -27,10 +27,12 @@
 namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IconViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments
 	 */
@@ -56,7 +58,7 @@ class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$toolTip = BackendUtility::getRecordIconAltText($row, $table);
 
 		$iconImg = '<span ' . $toolTip . '>'
-			. $iconFactory->getIconForRecord($table, $row, \TYPO3\CMS\Core\Imaging\IconSize::SMALL)->render()
+			. $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()
 			. '</span>';
 		if ($clickMenu) {
 			return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid'] ?? 0);

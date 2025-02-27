@@ -34,7 +34,7 @@ class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVi
 	/**
 	 * Register the ViewHelper arguments
 	 */
-	public function initializeArguments() {
+	public function initializeArguments(): void {
 		parent::initializeArguments();
 		$this->registerArgument('table', 'string', 'The table for the edit link', TRUE);
 		$this->registerArgument('uid', 'int', 'The uid of the record to edit', TRUE);

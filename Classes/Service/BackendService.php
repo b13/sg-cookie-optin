@@ -141,15 +141,17 @@ class BackendService {
 		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 		$locallangPath = 'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:';
 
-		// Refresh
-		$refreshButton = $buttonBar->makeLinkButton()
-			->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
-			->setTitle(
-				LocalizationUtility::translate(
-					$locallangPath . 'labels.reload'
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
+			// Refresh
+			$refreshButton = $buttonBar->makeLinkButton()
+				->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
+				->setTitle(
+					LocalizationUtility::translate(
+						$locallangPath . 'labels.reload'
+					)
 				)
 			)
-			->setIcon($iconFactory->getIcon('actions-refresh', \TYPO3\CMS\Core\Imaging\IconSize::SMALL));
+			->setIcon($iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL));
 		$buttonBar->addButton($refreshButton, ButtonBar::BUTTON_POSITION_RIGHT);
 
 		// shortcut button
