@@ -95,7 +95,7 @@ class StatisticsController extends AbstractController {
 		// If we have a real pid > 0, load additional JS
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/Statistics.js');
+			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/dist/statistics.es.js');
 		}
 
 		// Check specifically for website page 0 => use empty layout
