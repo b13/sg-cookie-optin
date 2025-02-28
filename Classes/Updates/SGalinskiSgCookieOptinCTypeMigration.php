@@ -30,8 +30,8 @@ namespace SGalinski\SgCookieOptin\Updates;
 
 use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 
-#[UpgradeWizard('myExtensionPluginListTypeToCTypeUpdate')]
-final class PluginListTypeToCTypeUpdate extends AbstractListTypeToCTypeUpdate
+#[UpgradeWizard('sgalinskiSgCookieOptinCTypeMigration')]
+final class SGalinskiSgCookieOptinCTypeMigration extends AbstractListTypeToCTypeUpdate
 {
 	protected function getListTypeToCTypeMapping(): array
 	{

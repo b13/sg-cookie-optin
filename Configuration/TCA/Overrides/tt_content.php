@@ -25,8 +25,9 @@ call_user_func(function () {
 
 	// Add FlexForm configuration for the CookieList plugin
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-		'sgcookieoptin_cookielist',
-		'FILE:EXT:sg_cookie_optin/Configuration/FlexForms/CookieList.xml'
+		'*',
+		'FILE:EXT:sg_cookie_optin/Configuration/FlexForms/CookieList.xml',
+  'sgcookieoptin_cookielist'
 	);
 
 	// Include the FlexForm field in the tt_content TCA for the CookieList plugin

@@ -63,6 +63,7 @@ class ConsentController extends AbstractController {
 	/**
 	 * Displays the user preference consent history
 	 *
+	 * @throws ImmediateResponseException|\Doctrine\DBAL\Exception
 	 */
 	public function indexAction(): ResponseInterface {
 		$this->switchMode();

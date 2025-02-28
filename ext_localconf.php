@@ -44,10 +44,6 @@ call_user_func(
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 			\SGalinski\SgCookieOptin\Hook\HandleVersionChange::class;
 
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-			'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig\''
-		);
-
 		// Licence check
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess'][] =
 			\SGalinski\SgCookieOptin\Hook\LicenceCheckHook::class . '->performLicenseCheck';
