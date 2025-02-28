@@ -10,7 +10,7 @@
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 3 of the License or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -28,6 +28,7 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use DirectoryIterator;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
@@ -35,6 +36,7 @@ use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
@@ -44,6 +46,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -61,17 +64,17 @@ class OptinController extends AbstractController {
     /**
      * @var ModuleTemplateFactory
      */
-    protected $moduleTemplateFactory;
+    protected ModuleTemplateFactory $moduleTemplateFactory;
 
     /**
      * @var array|ModuleData|null
      */
-    protected $moduleData;
+    protected ModuleData|array|null $moduleData;
 
     /**
      * @var ModuleTemplate
      */
-    protected $moduleTemplate;
+    protected ModuleTemplate $moduleTemplate;
 
     /**
      * Init module state.
@@ -88,11 +91,13 @@ class OptinController extends AbstractController {
         $this->moduleTemplate->setFlashMessageQueue($this->getFlashMessageQueue());
     }
 
-    /**
-     * Starts the module, even opens up a TCEForm, or shows where the domain root is.
-     *
-     */
-    public function indexAction(): \Psr\Http\Message\ResponseInterface
+	/**
+	 * Starts the module, even opens up a TCEForm, or shows where the domain root is.
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 * @throws ImmediateResponseException
+	 */
+    public function indexAction(): ResponseInterface
     {
 	$this->switchMode();
 	$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
@@ -100,7 +105,7 @@ class OptinController extends AbstractController {
 	);
 
 	$this->initComponents($this->moduleTemplate);
-	$this->checkLicenseStatus($this->moduleTemplate);
+	$this->checkLicenseStatus();
 
         session_start([
             'cookie_secure' => TRUE,
@@ -152,8 +157,7 @@ class OptinController extends AbstractController {
      * Activates the demo mode for the given instance.
      *
      */
-    public function activateDemoModeAction()
-    {
+    public function activateDemoModeAction(): ResponseInterface {
         if (LicenceCheckService::isInDemoMode() || !LicenceCheckService::isDemoModeAcceptable()) {
             return $this->redirect('index');
         }
@@ -166,7 +170,7 @@ class OptinController extends AbstractController {
      * Imports JSON configuration
      *
      */
-    public function importJsonAction() {
+    public function importJsonAction(): ?ResponseInterface {
         session_start([
             'cookie_secure' => TRUE,
             'cookie_httponly' => TRUE,
@@ -210,19 +214,20 @@ class OptinController extends AbstractController {
             $this->addFlashMessage(
                 $exception->getMessage(),
                 '',
-                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+                ContextualFeedbackSeverity::ERROR
             );
             return $this->redirect('previewImport', 'Optin', 'sg_cookie_optin');
         }
     }
 
-    /**
-     * Redirects to the edit action
-     *
-     * @param int $optInId
-     * @throws RouteNotFoundException
-     */
-    protected function buildTCAEditUri(int $optInId) {
+	/**
+	 * Redirects to the edit action
+	 *
+	 * @param int $optInId
+	 * @return string
+	 * @throws RouteNotFoundException
+	 */
+    protected function buildTCAEditUri(int $optInId): string {
 		$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $params = [
@@ -232,10 +237,12 @@ class OptinController extends AbstractController {
         return (string) $uriBuilder->buildUriFromRoute('record_edit', $params);
     }
 
-    /**
-     * Displays statistics about the imported data for a  preview
-     */
-    public function previewImportAction(): \Psr\Http\Message\ResponseInterface {
+	/**
+	 * Displays statistics about the imported data for a preview
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+    public function previewImportAction(): ResponseInterface {
         session_start([
             'cookie_secure' => TRUE,
             'cookie_httponly' => TRUE,
@@ -263,7 +270,7 @@ class OptinController extends AbstractController {
 
         try {
             $languages = LanguageService::getLanguages($pageUid);
-        } catch (SiteNotFoundException $e) {
+        } catch (SiteNotFoundException) {
             $languages = [];
         }
 
@@ -291,7 +298,7 @@ class OptinController extends AbstractController {
                             'backend.jsonImport.warnings.language.header',
                             'sg_cookie_optin'
                         ),
-                        \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
+                        ContextualFeedbackSeverity::WARNING
                     );
                 }
             }
@@ -323,7 +330,7 @@ class OptinController extends AbstractController {
                 $this->addFlashMessage(
                     LocalizationUtility::translate('backend.jsonImport.warnings.groupsCount', 'sg_cookie_optin'),
                     LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-                    \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
+                    ContextualFeedbackSeverity::WARNING
                 );
                 $warningGroups = TRUE;
             }
@@ -332,7 +339,7 @@ class OptinController extends AbstractController {
                 $this->addFlashMessage(
                     LocalizationUtility::translate('backend.jsonImport.warnings.cookiesCount', 'sg_cookie_optin'),
                     LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-                    \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
+                    ContextualFeedbackSeverity::WARNING
                 );
                 $warningCookies = TRUE;
             }
@@ -341,7 +348,7 @@ class OptinController extends AbstractController {
                 $this->addFlashMessage(
                     LocalizationUtility::translate('backend.jsonImport.warnings.scriptsCount', 'sg_cookie_optin'),
                     LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-                    \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
+                    ContextualFeedbackSeverity::WARNING
                 );
                 $warningScripts = TRUE;
             }
@@ -366,7 +373,7 @@ class OptinController extends AbstractController {
             $this->addFlashMessage(
                 $exception->getMessage(),
                 '',
-                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+                ContextualFeedbackSeverity::ERROR
             );
             return $this->redirect('uploadJson', 'Optin', 'sg_cookie_optin');
         }
@@ -392,7 +399,7 @@ class OptinController extends AbstractController {
             $filesPath = $sitePath . $folder . 'siteroot-' . $pid . DIRECTORY_SEPARATOR;
             $jsonData = [];
             foreach (new DirectoryIterator($filesPath) as $file) {
-                if (strpos($file->getFilename(), 'cookieOptinData') !== 0) {
+                if (!str_starts_with($file->getFilename(), 'cookieOptinData')) {
                     continue;
                 }
 
@@ -412,7 +419,7 @@ class OptinController extends AbstractController {
                 LocalizationUtility::translate('backend.jsonExport.error', 'sg_cookie_optin') . $exception->getMessage(
                 ),
                 LocalizationUtility::translate('backend.exportConfig', 'sg_cookie_optin'),
-                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+                ContextualFeedbackSeverity::ERROR
             );
             return $this->redirect('index');
         }
@@ -422,16 +429,18 @@ class OptinController extends AbstractController {
      * Displays the user preference statistics
      *
      */
-    public function statisticsAction(): \Psr\Http\Message\ResponseInterface {
+    public function statisticsAction(): ResponseInterface {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->initComponents($this->moduleTemplate);
         return $this->htmlResponse();
     }
 
-    /**
-     * Renders the upload JSON form
-     */
-    public function uploadJsonAction(): \Psr\Http\Message\ResponseInterface {
+	/**
+	 * Renders the upload JSON form
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+    public function uploadJsonAction(): ResponseInterface {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->initComponents($this->moduleTemplate);
         $this->moduleTemplate->assign('pages', BackendService::getPages());
@@ -442,12 +451,11 @@ class OptinController extends AbstractController {
      * Create an optin entry in the database and redirect to edit action
      *
      * @throws RouteNotFoundException
-     * @throws SiteNotFoundException
-     */
-    public function createAction() {
+	 */
+    public function createAction(): ResponseInterface {
 		$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
 
-        // create with DataHandler
+        // Create with DataHandler
         // adding default values for the german language. The values are hardcoded because they must not change since we don't know
         // the language keys or whatsoever in the target system
 
@@ -503,9 +511,8 @@ class OptinController extends AbstractController {
     /**
      * Checks the license status and displays it
      *
-     * @param ModuleTemplate $moduleTemplate
-     */
-    protected function checkLicenseStatus(ModuleTemplate $moduleTemplate): void {
+	 */
+    protected function checkLicenseStatus(): void {
         if (LicenceCheckService::isTYPO3VersionSupported() && !LicenceCheckService::isInDevelopmentContext()) {
             $licenseStatus = LicenceCheckService::getLicenseCheckResponseData();
             $this->moduleTemplate->assign('licenseError', $licenseStatus['error']);

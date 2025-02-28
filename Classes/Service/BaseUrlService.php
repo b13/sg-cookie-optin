@@ -48,7 +48,7 @@ class BaseUrlService {
 	 * @param bool $usedAsFilePath
 	 * @return string
 	 */
-	public static function getSiteBaseUrl($rootPid, int $languageId = 0, $usedAsFilePath = TRUE) {
+	public static function getSiteBaseUrl($rootPid, int $languageId = 0, $usedAsFilePath = TRUE): string {
 		$rootPid = (int) $rootPid;
 
 		try {
@@ -61,7 +61,7 @@ class BaseUrlService {
 				$basePath = (string) $basePath;
 			}
 
-		} catch (SiteNotFoundException $exception) {
+		} catch (SiteNotFoundException) {
 			$basePath = '/';
 		}
 
@@ -78,8 +78,8 @@ class BaseUrlService {
 	 * @return int
 	 * @throws AspectNotFoundException
 	 */
-	public static function getLanguage() {
-		$languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+	public static function getLanguage(): int {
+		$languageAspect = GeneralUtility::makeInstance(Context::class)?->getAspect('language');
 		// no object check, because if the object is not set, we don't know which language that is anyway
 		return $languageAspect->getId();
 	}

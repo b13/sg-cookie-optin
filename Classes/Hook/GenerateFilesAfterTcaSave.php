@@ -30,14 +30,16 @@ use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\StaticFileGenerationService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
+use TYPO3\CMS\Core\Error\Http\ServiceUnavailableException;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Adds the Cookie Consent JavaScript if it's generated for the current page.
  */
 class GenerateFilesAfterTcaSave {
-	/** @var int */
-	private $siteRoot;
 
 	/**
 	 * Generates the files out of the TCA data.
@@ -45,12 +47,12 @@ class GenerateFilesAfterTcaSave {
 	 * @param DataHandler $dataHandler
 	 *
 	 * @return void
-	 * @throws \TYPO3\CMS\Core\Error\Http\PageNotFoundException
-	 * @throws \TYPO3\CMS\Core\Error\Http\ServiceUnavailableException
-	 * @throws \TYPO3\CMS\Core\Http\ImmediateResponseException
-	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
+	 * @throws PageNotFoundException
+	 * @throws ServiceUnavailableException
+	 * @throws ImmediateResponseException
+	 * @throws SiteNotFoundException
 	 */
-	public function processDatamap_afterAllOperations(DataHandler $dataHandler) {
+	public function processDatamap_afterAllOperations(DataHandler $dataHandler): void {
 		$this->handleFlashMessage($dataHandler);
 
 		if (!isset($dataHandler->datamap[StaticFileGenerationService::TABLE_NAME])) {
@@ -69,7 +71,7 @@ class GenerateFilesAfterTcaSave {
 				break;
 			}
 
-			if (strpos($uid, 'NEW') === 0) {
+			if (str_starts_with($uid, 'NEW')) {
 				if (!isset($dataHandler->substNEWwithIDs[$uid])) {
 					continue;
 				}
@@ -91,15 +93,15 @@ class GenerateFilesAfterTcaSave {
 			}
 		}
 
-		$this->siteRoot = (int) $dataHandler->getPID(
+		$siteRoot = (int) $dataHandler->getPID(
 			StaticFileGenerationService::TABLE_NAME, $originalRecord['uid'] ?? 0
 		);
-		if ($this->siteRoot <= 0) {
+		if ($siteRoot <= 0) {
 			return;
 		}
 
 		$service = GeneralUtility::makeInstance(StaticFileGenerationService::class);
-		$service->generateFiles($this->siteRoot, $originalRecord);
+		$service->generateFiles($siteRoot, $originalRecord);
 	}
 
 	/**
@@ -107,7 +109,7 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param DataHandler $dataHandler
 	 */
-	protected function handleFlashMessage(DataHandler $dataHandler) {
+	protected function handleFlashMessage(DataHandler $dataHandler): void {
 		if (isset($dataHandler->cmdmap[StaticFileGenerationService::TABLE_NAME]) || isset($dataHandler->datamap[StaticFileGenerationService::TABLE_NAME])) {
 			session_start([
 				'cookie_secure' => TRUE,

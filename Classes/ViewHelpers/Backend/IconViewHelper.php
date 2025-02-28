@@ -26,6 +26,7 @@
 
 namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
+use InvalidArgumentException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -36,7 +37,7 @@ class IconViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments
 	 */
-	public function initializeArguments() {
+	public function initializeArguments(): void {
 		parent::initializeArguments();
 		$this->registerArgument('table', 'string', 'The table for the icon', TRUE);
 		$this->registerArgument('row', 'array', 'The row of the record', TRUE);
@@ -47,9 +48,9 @@ class IconViewHelper extends AbstractViewHelper {
 	 * Renders the icon for the specified record
 	 *
 	 * @return string
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
-	public function render() {
+	public function render(): string {
 		$row = (array) $this->arguments['row'];
 		$table = $this->arguments['table'];
 		$clickMenu = $this->arguments['clickMenu'];

@@ -26,18 +26,19 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
+use Doctrine\DBAL\Exception;
+use InvalidArgumentException;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use UnexpectedValueException;
 
 /**
  * Backend Service class
@@ -46,10 +47,9 @@ class BackendService {
 	/**
 	 * Get all pages the backend user has access to
 	 *
-	 * @return array
-	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
+	 * @throws InvalidArgumentException|Exception
 	 */
-	public static function getPages() {
+	public static function getPages(): array {
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 		$queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
 		$queryBuilder->getRestrictions()
@@ -99,9 +99,9 @@ class BackendService {
 	 *
 	 * @param int $pageUid
 	 * @return array
-	 * @throws \InvalidArgumentException|\Doctrine\DBAL\Exception
+	 * @throws InvalidArgumentException|Exception
 	 */
-	public static function getOptins($pageUid) {
+	public static function getOptins(int $pageUid): array {
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
 		$queryBuilder->getRestrictions()
@@ -130,11 +130,10 @@ class BackendService {
 	 *
 	 * @param DocHeaderComponent $docHeaderComponent
 	 * @param Request $request
-	 * @throws \InvalidArgumentException
-	 * @throws \UnexpectedValueException
+	 * @throws InvalidArgumentException
+	 * @throws UnexpectedValueException
 	 */
-	public static function makeButtons($docHeaderComponent, $request) {
-		/** @var ButtonBar $buttonBar */
+	public static function makeButtons($docHeaderComponent, $request): void {
 		$buttonBar = $docHeaderComponent->getButtonBar();
 
 		/** @var IconFactory $iconFactory */

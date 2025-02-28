@@ -42,17 +42,16 @@ class ActionMenuOptionGroupViewHelper extends AbstractTagBasedViewHelper {
 	 *
 	 * @return void
 	 */
-	public function initializeArguments() {
+	public function initializeArguments(): void {
 		parent::initializeArguments();
-		$this->registerUniversalTagAttributes();
-		$this->registerTagAttribute('label', 'string', 'Specifies a label for an option-group');
-		$this->registerTagAttribute('disabled', 'string', 'Specifies that an option-group should be disabled');
+		$this->registerArgument('label', 'string', 'Specifies a label for an option-group');
+		$this->registerArgument('disabled', 'string', 'Specifies that an option-group should be disabled');
 	}
 
 	/**
 	 * @return string
 	 */
-	public function render() {
+	public function render(): string {
 		$this->tag->setContent($this->renderChildren());
 		return $this->tag->render();
 	}

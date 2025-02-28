@@ -26,12 +26,10 @@
 
 namespace SGalinski\SgCookieOptin\Hook;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
  * Adds the Cookie Consent JavaScript if it's generated for the current page.
@@ -44,27 +42,22 @@ class HandleVersionChange {
 	 * @param string $table
 	 * @param int $id
 	 * @param DataHandler $dataHandler
-	 * @throws \Doctrine\DBAL\Exception
+	 * @throws Exception
 	 */
 	public function processDatamap_preProcessFieldArray(
-		&$fieldArray,
-		$table,
-		$id,
+		array &$fieldArray,
+		string $table,
+		int $id,
 		DataHandler $dataHandler
-	) {
+	): void {
 		if (isset($fieldArray['update_version_checkbox']) && $fieldArray['update_version_checkbox']) {
-			$id = (int) $id;
 
 			$currentVersionQuery = "SELECT max(IFNULL(version, 0)), pid FROM tx_sgcookieoptin_domain_model_optin
 				WHERE deleted = 0 AND pid = (SELECT pid FROM tx_sgcookieoptin_domain_model_optin WHERE uid = ?)";
 			$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-				->getConnectionForTable($table);
+				?->getConnectionForTable($table);
 			$resultObject = $connection->executeQuery($currentVersionQuery, [$id]);
-			if (method_exists($resultObject, 'fetchAssociative')) {
-				$result = $resultObject->fetchAssociative();
-			} else {
-				$result = $resultObject->fetchAssociative();
-			}
+			$result = $resultObject->fetchAssociative();
 			[$currentVersion, $pid] = array_values($result);
 
 			$sqlQuery = "UPDATE tx_sgcookieoptin_domain_model_optin SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";

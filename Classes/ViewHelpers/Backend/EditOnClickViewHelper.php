@@ -26,11 +26,12 @@
 
 namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
+class EditOnClickViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments
 	 */
@@ -46,9 +47,9 @@ class EditOnClickViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVi
 	 * Renders the onclick script for editing a record
 	 *
 	 * @return string
-	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+	 * @throws RouteNotFoundException
 	 */
-	public function render() {
+	public function render(): string {
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		// For some reason TYPO3 has two different URI Builders..
 		$indexUrl = (string) $uriBuilder->buildUriFromRoutePath(

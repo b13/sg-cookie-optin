@@ -9,7 +9,7 @@
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 3 of the License or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -25,8 +25,6 @@
 
 namespace SGalinski\SgCookieOptin\Controller;
 
-use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -55,11 +53,13 @@ abstract class AbstractController extends ActionController {
 	}
 
 	/**
-	 * The heart of the "remember last sub-module" logic.
+	 * The heart of the "remember last submodule" logic.
 	 *
 	 *  - Checks `parameters[lastController]` in the incoming request (from the <f:be.menus.actionMenu> link).
 	 *  - Stores it in the session.
 	 *  - If the current controller class does NOT match the stored mode, do a redirect to the correct controller.
+	 *
+	 * @throws ImmediateResponseException
 	 */
 	protected function switchMode(): void {
 		// Attempt to get the current mode from session

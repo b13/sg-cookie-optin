@@ -26,18 +26,18 @@
 
 namespace SGalinski\SgCookieOptin\Traits;
 
+use Doctrine\DBAL\Exception;
 use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Trait InitControllerComponents
- * Initializes the view componetns for the optin-related controllers
+ * Initializes the view components for the optin-related controllers
  *
  * @package SGalinski\SgCookieOptin\Traits
  */
@@ -45,7 +45,7 @@ trait InitControllerComponents {
 	/**
 	 * Initialize the demo mode check and the doc header components
 	 */
-	protected function initComponents(ModuleTemplate $moduleTemplate) {
+	protected function initComponents(ModuleTemplate $moduleTemplate): void {
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
 			VersionNumberUtility::getCurrentTypo3Version()
 		);
@@ -138,8 +138,10 @@ trait InitControllerComponents {
 
 	/**
 	 * Initializes the root page selection
+	 *
+	 * @throws Exception
 	 */
-	protected function initPageUidSelection(ModuleTemplate $moduleTemplate) {
+	protected function initPageUidSelection(ModuleTemplate $moduleTemplate): void {
 		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {

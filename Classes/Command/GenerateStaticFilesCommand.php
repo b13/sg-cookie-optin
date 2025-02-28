@@ -26,6 +26,7 @@
 
 namespace SGalinski\SgCookieOptin\Command;
 
+use Exception;
 use SGalinski\SgCookieOptin\Service\StaticFileGenerationService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -37,16 +38,18 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
+/**
+ * Generates the Static .json .js and .css files programmatically
+ */
 class GenerateStaticFilesCommand extends Command {
 	/** @var SymfonyStyle */
-	private $io;
+	private SymfonyStyle $io;
 
 	/**
 	 * Configure the command by defining the name, options and arguments
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this->setHelp(
 			'Generates the necessary JavaScript, JSON and CSS files.' . LF . 'If you want to get more detailed information, use the --verbose option.'
 		);
@@ -76,7 +79,7 @@ class GenerateStaticFilesCommand extends Command {
 
 			$service = GeneralUtility::makeInstance(StaticFileGenerationService::class);
 			$service->generateFiles($siteRootId, $originalRecord);
-		} catch (\Exception $exception) {
+		} catch (Exception $exception) {
 			$this->io->writeln('Error!');
 			$this->io->writeln($exception->getMessage());
 			return 1;
@@ -91,9 +94,10 @@ class GenerateStaticFilesCommand extends Command {
 	 *
 	 * @param int $siteRootId
 	 * @return array
+	 * @throws \Doctrine\DBAL\Exception
 	 */
 	protected function getOriginalRecord(int $siteRootId): array {
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
 			StaticFileGenerationService::TABLE_NAME
 		);
 
@@ -104,13 +108,7 @@ class GenerateStaticFilesCommand extends Command {
 			->setMaxResults(1);
 
 		$result = $queryBuilder->executeQuery();
-
-		if (is_callable([$result, 'fetchOne'])) {
-			$uid = $result->fetchOne();
-		} else {
-			$row = $result->fetch();
-			$uid = $row['uid'];
-		}
+		$uid = $result->fetchOne();
 
 		if (!$uid) {
 			throw new RuntimeException(

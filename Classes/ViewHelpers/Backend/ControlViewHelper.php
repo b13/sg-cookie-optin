@@ -26,18 +26,21 @@
 
 namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
+use InvalidArgumentException;
 use TYPO3\CMS\Backend\RecordList\DatabaseRecordList;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use UnexpectedValueException;
 
-class ControlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ControlViewHelper extends AbstractViewHelper {
 	/**
 	 * Initialize the ViewHelper arguments
 	 */
-	public function initializeArguments() {
+	public function initializeArguments(): void {
 		parent::initializeArguments();
 		$this->registerArgument('table', 'string', 'The table to control', TRUE);
 		$this->registerArgument('row', 'array', 'The row of the record', TRUE);
@@ -47,10 +50,10 @@ class ControlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
 	 * Renders the control buttons for the specified record
 	 *
 	 * @return string
-	 * @throws \InvalidArgumentException
-	 * @throws \UnexpectedValueException
+	 * @throws InvalidArgumentException
+	 * @throws UnexpectedValueException
 	 */
-	public function render() {
+	public function render(): string {
 		$table = $this->arguments['table'];
 		$row = $this->arguments['row'];
 
@@ -58,7 +61,6 @@ class ControlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
 		$pageRenderer->loadJavaScriptModule('@typo3/backend/ajax-data-handler.js');
 		$pageRenderer->addInlineLanguageLabelFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
-		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
 		$languageService = $GLOBALS['LANG'];
 		$languageService->includeLLFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 

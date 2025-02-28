@@ -35,14 +35,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Class SGalinski\SgCookieOptin\Service\ExtensionSettingsService
  */
 class ExtensionSettingsService {
-	const SETTING_LICENSE = 'key';
-	const SETTING_FOLDER = 'folder';
-	const SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT = 'hideModuleInProductionContext';
+	public const SETTING_LICENSE = 'key';
+	public const SETTING_FOLDER = 'folder';
+	public const SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT = 'hideModuleInProductionContext';
 
 	/**
 	 * @var array Default settings mapped to constants.
 	 */
-	protected static $defaultValueMap = [
+	protected static array $defaultValueMap = [
 		self::SETTING_FOLDER => 'fileadmin/sg_cookie_optin/',
 		self::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT => FALSE,
 	];
@@ -53,13 +53,10 @@ class ExtensionSettingsService {
 	 * @param string $settingKey
 	 * @return mixed
 	 */
-	public static function getSetting($settingKey) {
+	public static function getSetting(string $settingKey): mixed {
 		$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'] ?? [];
 
-		$setting = '';
-		if (isset(self::$defaultValueMap[$settingKey])) {
-			$setting = self::$defaultValueMap[$settingKey];
-		}
+		$setting = self::$defaultValueMap[$settingKey] ?? '';
 
 		if (isset($configuration[$settingKey])) {
 			$setting = self::postProcessSetting($configuration[$settingKey], $settingKey);
@@ -75,11 +72,11 @@ class ExtensionSettingsService {
 	 * @param string $settingKey
 	 * @return mixed
 	 */
-	protected static function postProcessSetting($value, $settingKey) {
+	protected static function postProcessSetting(mixed $value, string $settingKey) {
 		if ($settingKey === self::SETTING_FOLDER) {
 			$value = trim($value, " \t\n\r\0\x0B\/") . '/';
 
-			if (strpos($value, 'EXT:') === 0) {
+			if (str_starts_with($value, 'EXT:')) {
 				$value = 'typo3conf/ext/' . substr($value, 4);
 			}
 		}
@@ -98,7 +95,7 @@ class ExtensionSettingsService {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public static function getJsonFilePath(string $folder, int $rootPageId, string $sitePath) {
+	public static function getJsonFilePath(string $folder, int $rootPageId, string $sitePath): ?string {
 		$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData' . JsonImportService::LOCALE_SEPARATOR .
 			self::getLanguageWithLocale($rootPageId) . '.json';
 		if (!file_exists($sitePath . $jsonFile)) {
@@ -122,7 +119,7 @@ class ExtensionSettingsService {
 	 * @param string $folder
 	 * @param int $rootPageId
 	 * @param string $pattern
-	 * @return mixed|null
+	 * @return array|string|string[]|null
 	 */
 	public static function getAssetFilePath(string $sitePath, string $folder, int $rootPageId, string $pattern) {
 		$files = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . $pattern);
@@ -140,8 +137,8 @@ class ExtensionSettingsService {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public static function getLanguageWithLocale(int $rootPageId) {
-		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($rootPageId);
+	public static function getLanguageWithLocale(int $rootPageId): string {
+		$site = GeneralUtility::makeInstance(SiteFinder::class)?->getSiteByPageId($rootPageId);
 		$language = $site->getLanguageById(BaseUrlService::getLanguage());
 		return $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
 	}
