@@ -751,6 +751,9 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2" approved="yes">
 				<source><![CDATA[Rejected all]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_focus_outline" approved="yes">
+				<source><![CDATA[Outline Focus]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

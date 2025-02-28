@@ -114,7 +114,7 @@ $configuration = [
 		],
 		'color_list' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_lists',
-			'showitem' => 'color_list, color_list_text',
+			'showitem' => 'color_list, color_list_text, color_focus_outline',
 		],
 		'fingerprint' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint',
@@ -1528,6 +1528,16 @@ $configuration = [
 				'type' => 'color',
 				'default' => '#FFFFFF',
 				'placeholder' => '#FFFFFF'
+			],
+		],
+		'color_focus_outline' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_focus_outline',
+			'config' => [
+				'type' => 'color',
+				'default' => '#F5b51A',
+				'placeholder' => '#F5b51A'
 			],
 		],
 		'iframe_whitelist_regex' => [

@@ -309,6 +309,10 @@
 				<source><![CDATA[Window (upper part)]]></source>
 				<target><![CDATA[Fenster (Oberer Teil)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_focus_outline" approved="yes">
+				<source><![CDATA[Outline Focus]]></source>
+				<target><![CDATA[Outline Focus German]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline" approved="yes">
 				<source><![CDATA[Headline]]></source>
 				<target><![CDATA[Überschrift]]></target>
