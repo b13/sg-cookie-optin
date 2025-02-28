@@ -77,6 +77,10 @@
 				<source><![CDATA[Granting consent to this group would automatically give consent to these groups as well]]></source>
 				<target><![CDATA[Die Erteilung der Zustimmung für diese Gruppe würde automatisch auch die Zustimmung für diese Gruppen bedeuten]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups_text" approved="yes">
+				<source><![CDATA[Text for the dependent groups label]]></source>
+				<target><![CDATA[Text für die Beschriftung der abhängigen Gruppen]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups.description" approved="yes">
 				<source><![CDATA[Please enter a comma-separated list of Group-ID's]]></source>
 				<target><![CDATA[Bitte geben Sie eine kommagetrennte Liste von Gruppen-IDs ein]]></target>
@@ -310,8 +314,12 @@
 				<target><![CDATA[Fenster (Oberer Teil)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_focus_outline" approved="yes">
-				<source><![CDATA[Outline Focus]]></source>
-				<target><![CDATA[Outline Focus German]]></target>
+				<source><![CDATA[Focus outline color]]></source>
+				<target><![CDATA[Umrissfarbe des Fokus]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_aria_label_text" approved="yes">
+				<source><![CDATA[Aria-label text for the fingerprint icon]]></source>
+				<target><![CDATA[Aria-Beschriftungstext für das Fingerabdrucksymbol]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline" approved="yes">
 				<source><![CDATA[Headline]]></source>

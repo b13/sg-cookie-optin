@@ -1,7 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-
 call_user_func(
 	static function () {
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(

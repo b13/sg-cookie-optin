@@ -30,6 +30,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	save_confirmation_text                     text                                                   NOT NULL,
 	dependent_groups_text                      varchar(255)        DEFAULT 'Abhängig von:'            NOT NULL,
 	user_hash_text                             varchar(255)        DEFAULT 'User-Hash'                NOT NULL,
+	fingerprint_aria_label_text                varchar(255)        DEFAULT 'Cookies verwalten'                NOT NULL,
 
 	-- template
 	template_html                              text                                                   NOT NULL,

@@ -44,7 +44,6 @@ use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use function count;
 
 /**
@@ -878,6 +877,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'save_confirmation_text' => $translatedData['save_confirmation_text'],
 			'user_hash_text' => $translatedData['user_hash_text'],
 			'dependent_groups_text' => $translatedData['dependent_groups_text'],
+			'fingerprint_aria_label_text' => $translatedData['fingerprint_aria_label_text'],
 		];
 
 		$placeholders = [

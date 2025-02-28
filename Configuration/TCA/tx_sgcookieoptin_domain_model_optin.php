@@ -37,7 +37,7 @@ $configuration = [
 			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_cookies, iframe_button_allow_all_text,
 			iframe_button_allow_one_text, iframe_button_reject_text, iframe_button_load_one_description, iframe_button_load_one_text, iframe_open_settings_text, iframe_whitelist_regex, template_html,
 			banner_html, banner_button_accept_text, banner_button_settings_text, banner_description,
-			save_confirmation_text, dependent_groups_text',
+			save_confirmation_text, dependent_groups_text, fingerprint_aria_label_text',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
 		'languageField' => 'sys_language_uid',
@@ -53,7 +53,7 @@ $configuration = [
 		'1' => [
 			'showitem' => '
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.textAndMenu,
-					--palette--;;update_version, header, description, save_confirmation_text, user_hash_text, dependent_groups_text, --palette--;;accept_buttons_texts,
+					--palette--;;update_version, header, description, save_confirmation_text, user_hash_text, dependent_groups_text, fingerprint_aria_label_text, --palette--;;accept_buttons_texts,
 					--palette--;;link_texts, --palette--;;cookie_texts, navigation,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
 					--palette--;;template, --palette--;;color_general, --palette--;;fingerprint, --palette--;;color_notification,
@@ -93,7 +93,7 @@ $configuration = [
 			 	cookie_purpose_text, cookie_lifetime_text'
 		],
 		'color_general' => [
-			'showitem' => 'color_full_box, color_full_headline, color_full_text, --linebreak--, color_box, color_headline, color_text'
+			'showitem' => 'color_full_box, color_full_headline, color_full_text, --linebreak--, color_box, color_headline, color_text, color_focus_outline'
 		],
 		'color_notification' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_notification',
@@ -114,7 +114,7 @@ $configuration = [
 		],
 		'color_list' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_lists',
-			'showitem' => 'color_list, color_list_text, color_focus_outline',
+			'showitem' => 'color_list, color_list_text',
 		],
 		'fingerprint' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint',
@@ -375,6 +375,17 @@ $configuration = [
 				'eval' => 'trim, required'
 			],
 		],
+		'fingerprint_aria_label_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_aria_label_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Cookies verwalten',
+				'placeholder' => 'Cookies verwalten',
+				'eval' => 'trim, required'
+			],
+		],
 		'cookie_name_text' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_name_text',
@@ -402,7 +413,6 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_purpose_text',
 			'config' => [
 				'type' => 'input',
-				'size' => 30,
 				'default' => 'Zweck',
 				'placeholder' => 'Zweck',
 				'eval' => 'trim, required'

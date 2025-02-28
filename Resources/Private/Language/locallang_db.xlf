@@ -752,7 +752,13 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Rejected all]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_focus_outline" approved="yes">
-				<source><![CDATA[Outline Focus]]></source>
+				<source><![CDATA[Focus outline color]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_aria_label_text" approved="yes">
+				<source><![CDATA[Aria-label text for the fingerprint icon]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups_text" approved="yes">
+				<source><![CDATA[Text for the dependent groups label]]></source>
 			</trans-unit>
 		</body>
 	</file>
