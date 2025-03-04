@@ -26,9 +26,9 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
-use Doctrine\DBAL\Driver\Statement;
 use Exception;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
+use Doctrine\DBAL\Result;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -64,9 +64,9 @@ class JsonImportService {
 	 * Gets the opt-in data for export
 	 *
 	 * @param int $pid
-	 * @return Statement|int
+	 * @return Result
 	 */
-	public static function getDataForExport(int $pid): Statement|int {
+	public static function getDataForExport(int $pid): Result {
 		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
 			?->getConnectionForTable('tx_sgcookieoptin_domain_model_optin');
 		$queryBuilder = $connection->createQueryBuilder();
