@@ -25,8 +25,13 @@
 
 namespace SGalinski\SgCookieOptin\Controller;
 
+use Doctrine\DBAL\Exception;
+use SGalinski\SgCookieOptin\Command\DeleteUsageHistoryCommand;
+use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Scheduler\Task\AbstractTask;
+use TYPO3\CMS\Scheduler\Task\ExecuteSchedulableCommandTask;
 
 /**
  * Abstract controller to share session-based "mode switching" logic
@@ -36,6 +41,11 @@ abstract class AbstractController extends ActionController {
 	 * For storing the current "lastController" in the user session.
 	 */
 	public const SESSION_KEY = 'sg_cookie_optin_mode';
+
+	/**
+	 * @var SchedulerTaskRepository
+	 */
+	protected SchedulerTaskRepository $schedulerTaskRepository;
 
 	/**
 	 * Read from user session
@@ -86,5 +96,28 @@ abstract class AbstractController extends ActionController {
 				throw new PropagateResponseException($redirectResponse);
 			}
 		}
+	}
+
+	/**
+	 * Fetches available scheduler tasks and filters them (first by class, then by the table argument).
+	 * We do this, to be able to show a warning flash message to the user, in case the task is not set up.
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+	protected function isGarbageCollectionTaskSetUpForCookieOptin(): bool {
+		$taskExists = FALSE;
+		// fetch all scheduler tasks
+		$allTasks = $this->schedulerTaskRepository->fetchTasksWithCondition('', TRUE);
+		/** @var AbstractTask $aTaskObject */
+		foreach ($allTasks as $aTaskObject) {
+			// skip tasks, that are not of class DeleteUsageHistoryCommand
+			if (get_class($aTaskObject) === ExecuteSchedulableCommandTask::class
+				&& $aTaskObject->getCommandIdentifier() === 'sg_cookie_optin:delete_usage_history') {
+				$taskExists = TRUE;
+			}
+		}
+
+		return $taskExists;
 	}
 }

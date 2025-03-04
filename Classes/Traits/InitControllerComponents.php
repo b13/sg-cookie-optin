@@ -44,6 +44,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 trait InitControllerComponents {
 	/**
 	 * Initialize the demo mode check and the doc header components
+	 *
+	 * @throws Exception
 	 */
 	protected function initComponents(ModuleTemplate $moduleTemplate): void {
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
@@ -83,14 +85,8 @@ trait InitControllerComponents {
 			}
 
 			$this->addFlashMessage(
-				LocalizationUtility::translate(
-					'backend.licenseKey.isInDemoMode.description',
-					'sg_cookie_optin',
-					[
-						date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
-					]
-				),
-				LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
+				$description,
+				LocalizationUtility::translate('backend.licenseKey.notSet.header', 'sg_cookie_optin'),
 				ContextualFeedbackSeverity::WARNING
 			);
 		} elseif (!$hasValidLicense) {
@@ -134,6 +130,15 @@ trait InitControllerComponents {
 		$moduleTemplate->assign('invalidKey', !$hasValidLicense);
 		$moduleTemplate->assign('controller', $this->request->getControllerName());
 		$moduleTemplate->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
+
+		// show warning, if there is no delete usages task
+		if (!$this->isGarbageCollectionTaskSetUpForCookieOptin()) {
+			$this->addFlashMessage(
+				LocalizationUtility::translate('backend.table_gc_task_not_set_up', 'SgCookieOptin'),
+				LocalizationUtility::translate('backend.table_gc_task_not_set_up.title', 'SgCookieOptin'),
+				ContextualFeedbackSeverity::ERROR
+			);
+		}
 	}
 
 	/**

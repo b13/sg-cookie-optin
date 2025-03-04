@@ -30,6 +30,7 @@ use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseInterface;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
@@ -54,6 +55,10 @@ class ConsentController extends AbstractController {
 	 * @var ModuleTemplate
 	 */
 	protected ModuleTemplate $moduleTemplate;
+
+	public function __construct(SchedulerTaskRepository $schedulerTaskRepository) {
+		$this->schedulerTaskRepository = $schedulerTaskRepository;
+	}
 
 	public function initializeAction(): void {
 		// Create and store the template object as a class property

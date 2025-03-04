@@ -36,6 +36,7 @@ use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
@@ -76,6 +77,10 @@ class OptinController extends AbstractController {
      */
     protected ModuleTemplate $moduleTemplate;
 
+	public function __construct(SchedulerTaskRepository $schedulerTaskRepository) {
+		$this->schedulerTaskRepository = $schedulerTaskRepository;
+	}
+
     /**
      * Init module state.
      * This isn't done within __construct() since the controller
@@ -87,7 +92,6 @@ class OptinController extends AbstractController {
         $this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
         $this->moduleData = $this->request->getAttribute('moduleData');
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-//        $this->moduleTemplate->setTitle(LocalizationUtility::translate('LLL:EXT:beuser/Resources/Private/Language/locallang_mod.xlf:mlang_tabs_tab'));
         $this->moduleTemplate->setFlashMessageQueue($this->getFlashMessageQueue());
     }
 

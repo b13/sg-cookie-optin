@@ -28,6 +28,7 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseInterface;
+use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
 use TYPO3\CMS\Backend\Attribute\Controller;
@@ -62,6 +63,10 @@ class StatisticsController extends AbstractController {
 	 * @var ModuleTemplate
 	 */
 	protected ModuleTemplate $moduleTemplate;
+
+	public function __construct(SchedulerTaskRepository $schedulerTaskRepository) {
+		$this->schedulerTaskRepository = $schedulerTaskRepository;
+	}
 
 	public function initializeAction(): void {
 		// Create and store the template as a class property
