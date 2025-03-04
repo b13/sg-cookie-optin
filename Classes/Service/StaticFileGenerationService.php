@@ -86,7 +86,6 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @param array|null $originalRecord
 	 * @throws InvalidRouteArgumentsException
 	 * @throws ResourceDoesNotExistException
-	 * @throws JsonException
 	 * @throws SiteNotFoundException
 	 * @throws \Doctrine\DBAL\Exception
 	 */

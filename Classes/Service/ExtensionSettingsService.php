@@ -133,6 +133,7 @@ class ExtensionSettingsService {
 	/**
 	 * Returns the current language id with locale
 	 *
+	 * @param int $rootPageId
 	 * @return string
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException

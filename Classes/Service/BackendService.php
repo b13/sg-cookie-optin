@@ -133,7 +133,7 @@ class BackendService {
 	 * @throws InvalidArgumentException
 	 * @throws UnexpectedValueException
 	 */
-	public static function makeButtons($docHeaderComponent, $request): void {
+	public static function makeButtons(DocHeaderComponent $docHeaderComponent, Request $request): void {
 		$buttonBar = $docHeaderComponent->getButtonBar();
 
 		/** @var IconFactory $iconFactory */

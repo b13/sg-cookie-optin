@@ -26,6 +26,8 @@
 
 namespace SGalinski\SgCookieOptin\Hook;
 
+use Doctrine\DBAL\Exception;
+use JsonException;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\StaticFileGenerationService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -34,6 +36,8 @@ use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
 use TYPO3\CMS\Core\Error\Http\ServiceUnavailableException;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\ImmediateResponseException;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
+use TYPO3\CMS\Core\Routing\InvalidRouteArgumentsException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -47,10 +51,11 @@ class GenerateFilesAfterTcaSave {
 	 * @param DataHandler $dataHandler
 	 *
 	 * @return void
-	 * @throws PageNotFoundException
-	 * @throws ServiceUnavailableException
-	 * @throws ImmediateResponseException
 	 * @throws SiteNotFoundException
+	 * @throws Exception
+	 * @throws JsonException
+	 * @throws ResourceDoesNotExistException
+	 * @throws InvalidRouteArgumentsException
 	 */
 	public function processDatamap_afterAllOperations(DataHandler $dataHandler): void {
 		$this->handleFlashMessage($dataHandler);

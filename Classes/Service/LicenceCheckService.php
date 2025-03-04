@@ -554,7 +554,7 @@ class LicenceCheckService {
 	 * @param bool $isAjaxCheck
 	 * @return array
 	 */
-	public static function getLicenseCheckResponseData($isAjaxCheck = FALSE): array {
+	public static function getLicenseCheckResponseData(bool $isAjaxCheck = FALSE): array {
 		// if the key is empty - error
 		if (!self::getLicenseKey()) {
 			return [

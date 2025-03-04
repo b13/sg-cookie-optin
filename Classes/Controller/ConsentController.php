@@ -26,6 +26,7 @@
 
 namespace SGalinski\SgCookieOptin\Controller;
 
+use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseInterface;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
@@ -33,7 +34,7 @@ use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Http\ImmediateResponseException;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -63,7 +64,7 @@ class ConsentController extends AbstractController {
 	/**
 	 * Displays the user preference consent history
 	 *
-	 * @throws ImmediateResponseException|\Doctrine\DBAL\Exception
+	 * @throws PropagateResponseException|Exception
 	 */
 	public function indexAction(): ResponseInterface {
 		$this->switchMode();

@@ -35,7 +35,7 @@ use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Http\ImmediateResponseException;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -72,7 +72,7 @@ class StatisticsController extends AbstractController {
 	/**
 	 * Displays the user preference statistics
 	 *
-	 * @throws ImmediateResponseException|Exception
+	 * @throws PropagateResponseException|Exception
 	 * @throws Exception
 	 */
 	public function indexAction(): ResponseInterface {

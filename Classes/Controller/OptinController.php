@@ -46,7 +46,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
-use TYPO3\CMS\Core\Http\ImmediateResponseException;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -94,8 +94,8 @@ class OptinController extends AbstractController {
 	/**
 	 * Starts the module, even opens up a TCEForm, or shows where the domain root is.
 	 *
-	 * @throws \Doctrine\DBAL\Exception
-	 * @throws ImmediateResponseException
+	 * @throws Exception
+	 * @throws PropagateResponseException
 	 */
     public function indexAction(): ResponseInterface
     {
@@ -147,7 +147,6 @@ class OptinController extends AbstractController {
         $this->moduleTemplate->assign('typo3Version', $typo3Version);
         $this->moduleTemplate->assign('pages', BackendService::getPages());
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-
 		$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/EditOnClick.js');
 
         return $this->moduleTemplate->renderResponse('Optin/Index');

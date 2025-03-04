@@ -48,7 +48,7 @@ class BaseUrlService {
 	 * @param bool $usedAsFilePath
 	 * @return string
 	 */
-	public static function getSiteBaseUrl($rootPid, int $languageId = 0, $usedAsFilePath = TRUE): string {
+	public static function getSiteBaseUrl(mixed $rootPid, int $languageId = 0, bool $usedAsFilePath = TRUE): string {
 		$rootPid = (int) $rootPid;
 
 		try {

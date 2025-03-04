@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SGalinski\SgCookieOptin\Updates;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Schema\Column;
+use RuntimeException;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -134,7 +136,7 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list')),
 				$queryBuilder->expr()->in(
 					'list_type',
-					$queryBuilder->createNamedParameter($listTypesToUpdate, Connection::PARAM_STR_ARRAY),
+					$queryBuilder->createNamedParameter($listTypesToUpdate, ArrayParameterType::STRING ),
 				),
 			);
 
@@ -268,21 +270,21 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 	private function validateRequirements(): void
 	{
 		if ($this->getTitle() === '') {
-			throw new \RuntimeException('The update class "' . static::class . '" must provide a title by extending "getTitle()"', 1727605675);
+			throw new RuntimeException('The update class "' . static::class . '" must provide a title by extending "getTitle()"', 1727605675);
 		}
 		if ($this->getDescription() === '') {
-			throw new \RuntimeException('The update class "' . static::class . '" must provide a description by extending "getDescription()"', 1727605676);
+			throw new RuntimeException('The update class "' . static::class . '" must provide a description by extending "getDescription()"', 1727605676);
 		}
 		if ($this->getListTypeToCTypeMapping() === []) {
-			throw new \RuntimeException('The update class "' . static::class . '" does not provide a "list_type" to "CType" migration mapping', 1727605677);
+			throw new RuntimeException('The update class "' . static::class . '" does not provide a "list_type" to "CType" migration mapping', 1727605677);
 		}
 
 		foreach ($this->getListTypeToCTypeMapping() as $listType => $contentElement) {
 			if (!is_string($listType) || $listType === '') {
-				throw new \RuntimeException('Invalid mapping item "' . $listType . '" in class "' . static::class, 1727605678);
+				throw new RuntimeException('Invalid mapping item "' . $listType . '" in class "' . static::class, 1727605678);
 			}
 			if (!is_string($contentElement) || $contentElement === '') {
-				throw new \RuntimeException('Invalid mapping item "' . $contentElement . '" in class "' . static::class, 1727605679);
+				throw new RuntimeException('Invalid mapping item "' . $contentElement . '" in class "' . static::class, 1727605679);
 			}
 		}
 	}

@@ -25,7 +25,7 @@
 
 namespace SGalinski\SgCookieOptin\Controller;
 
-use TYPO3\CMS\Core\Http\ImmediateResponseException;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -42,7 +42,7 @@ abstract class AbstractController extends ActionController {
 	 */
 	protected function getFromSession(string $key): ?string {
 		// For safety, if there's no data, return empty string or null
-		return $GLOBALS['BE_USER']->getSessionData(self::SESSION_KEY . '_' . $key) ?? NULL;
+		return $GLOBALS['BE_USER']->getSessionData(self::SESSION_KEY . '_' . $key);
 	}
 
 	/**
@@ -59,7 +59,7 @@ abstract class AbstractController extends ActionController {
 	 *  - Stores it in the session.
 	 *  - If the current controller class does NOT match the stored mode, do a redirect to the correct controller.
 	 *
-	 * @throws ImmediateResponseException
+	 * @throws PropagateResponseException
 	 */
 	protected function switchMode(): void {
 		// Attempt to get the current mode from session
@@ -83,7 +83,7 @@ abstract class AbstractController extends ActionController {
 				// This calls $this->redirect('index', $mode) and then
 				// *forces* an immediate redirect
 				$redirectResponse = $this->redirect('index', $mode);
-				throw new ImmediateResponseException($redirectResponse);
+				throw new PropagateResponseException($redirectResponse);
 			}
 		}
 	}

@@ -52,7 +52,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	/**
 	 * Register the ViewHelper arguments
 	 */
-	public function initializeArguments() {
+	public function initializeArguments(): void {
 		parent::initializeArguments();
 		$this->registerArgument('label', 'string', 'The label of the option tag', TRUE);
 		$this->registerArgument(
@@ -89,16 +89,17 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		$uriBuilder->setRequest($this->getExtbaseRequest());
 
-		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
+		$uriBuilder->reset();
+		$uri = $uriBuilder->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
 		$this->tag->addAttribute('value', $uri);
 		$currentRequest = $this->renderingContext->getRequest();
-		$requestArguments = $currentRequest->getArguments();
+		$requestArguments = $currentRequest?->getArguments();
 		unset($requestArguments['filters']);
 		$requestArguments = ArrayUtility::flatten(
 			array_merge(
 				[
-					'controller' => $currentRequest->getControllerName(),
-					'action' => $currentRequest->getControllerActionName()
+					'controller' => $currentRequest?->getControllerName(),
+					'action' => $currentRequest?->getControllerActionName()
 				],
 				$requestArguments
 			)
