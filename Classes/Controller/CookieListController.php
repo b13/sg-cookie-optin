@@ -85,7 +85,7 @@ class CookieListController extends ActionController {
 			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
 		}
 
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_optin'
 		);
 		$queryBuilder->select('*')
@@ -118,7 +118,7 @@ class CookieListController extends ActionController {
 			}
 		}
 
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_group'
 		);
 		$queryBuilder->select('*')
@@ -158,7 +158,7 @@ class CookieListController extends ActionController {
 
 			// Get the QueryBuilder instance
 			$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-				?->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_cookie');
+				->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_cookie');
 
 			// Build the conditions
 			$conditions = [
