@@ -45,14 +45,14 @@ class Ajax {
 	 * Checks whether the license is valid
 	 *
 	 * @param ServerRequestInterface $request
-	 * @param ResponseInterface $response
+	 * @param ResponseInterface|NULL $response
 	 * @return ResponseInterface
 	 * @throws \InvalidArgumentException
 	 * @throws Exception
 	 */
 	public function checkLicense(
 		ServerRequestInterface $request,
-		ResponseInterface $response = NULL
+		?ResponseInterface $response = NULL
 	) {
 		if ($response === NULL) {
 			$response = new Response();
@@ -73,7 +73,7 @@ class Ajax {
 	 */
 	public function searchUserPreferenceHistory(
 		ServerRequestInterface $request,
-		ResponseInterface $response = NULL
+		?ResponseInterface $response = NULL
 	) {
 		if ($response === NULL) {
 			$response = new Response();
@@ -110,7 +110,7 @@ class Ajax {
 	 */
 	public function searchUserPreferenceHistoryChart(
 		ServerRequestInterface $request,
-		ResponseInterface $response = NULL
+		?ResponseInterface $response = NULL
 	) {
 		if ($response === NULL) {
 			$response = new Response();
