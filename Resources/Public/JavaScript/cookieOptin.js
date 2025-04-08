@@ -265,7 +265,7 @@ const SgCookieOptin = {
 			}
 
 			const group = SgCookieOptin.getGroupByGroupName(index);
-			if (typeof group.googleName === 'undefined' || group.googleName.trim() === '') {
+			if (!group || typeof group.googleName !== 'string' || group.googleName.trim() === '') {
 				continue;
 			}
 
@@ -342,7 +342,7 @@ const SgCookieOptin = {
 			}
 
 			const group = SgCookieOptin.getGroupByGroupName(index);
-			if (typeof group.googleName === 'undefined' || group.googleName.trim() === '') {
+			if (!group || typeof group.googleName !== 'string' || group.googleName.trim() === '') {
 				continue;
 			}
 
