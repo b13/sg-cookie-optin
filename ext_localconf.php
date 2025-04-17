@@ -91,22 +91,7 @@ call_user_func(
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 			\SGalinski\SgCookieOptin\Hook\HandleVersionChange::class;
 
-		if (version_compare($currentTypo3Version, '12.0.0', '>=')) {
-			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
-				'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig\''
-			);
-
-			if (version_compare($currentTypo3Version, '13.0.0', '>=')) {
-				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-					'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig\''
-				);
-			} else {
-				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-			'@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig\'
-					@import \'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig\''
-				);
-			}
-		} else {
+		if (version_compare($currentTypo3Version, '12.0.0', '<')) {
 			// User TSConfig
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
 				'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig">'
