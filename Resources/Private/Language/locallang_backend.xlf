@@ -10,7 +10,7 @@
 		</header>
 		<body>
 			<trans-unit id="optInPluginDescription">
-				<source><![CDATA[Inserts the cookie consent.]]></source>
+				<source><![CDATA[Inserts the cookie consent banner.]]></source>
 			</trans-unit>
 			<trans-unit id="optInPluginLabel">
 				<source><![CDATA[Cookie Consent]]></source>
@@ -19,7 +19,7 @@
 				<source><![CDATA[Cookie Consent]]></source>
 			</trans-unit>
 			<trans-unit id="cookieListPluginDescription" approved="yes">
-				<source><![CDATA[Rendering of the configured consent cookies]]></source>
+				<source><![CDATA[Displays the configured consent cookies.]]></source>
 			</trans-unit>
 			<trans-unit id="cookieListPluginLabel" approved="yes">
 				<source><![CDATA[Cookie List]]></source>
@@ -30,3 +30,4 @@
 		</body>
 	</file>
 </xliff>
+</file>
