@@ -87,18 +87,18 @@ const SgCookieOptin = {
 	 * @return {void}
 	 */
 	initialize: function() {
+		// define gtag if it does not exist to set the defaults
+		if (!((typeof gtag === "function") || (typeof gtag === "object"))) {
+			window.dataLayer = window.dataLayer || [];
+			window.gtag = function() {
+				window.dataLayer.push(arguments);
+			}
+		}
+
 		if (!SgCookieOptin.jsonData.settings.disable_automatic_loading) {
 			const googleGroups = SgCookieOptin.findGroupsWithGoogleConsentMode();
 			if (googleGroups.length > 0) {
 				if (!SgCookieOptin.consentModeDefaultsSent) {
-					// define gtag if it does not exist to set the defaults
-					if (!((typeof gtag === "function") || (typeof gtag === "object"))) {
-						window.dataLayer = window.dataLayer || [];
-						window.gtag = function() {
-							dataLayer.push(arguments);
-						}
-					}
-
 					console.log('SG Cookie OptIn: sent default gtag settings');
 					gtag('consent', 'default', SgCookieOptin.consentModeDefaults);
 					SgCookieOptin.consentModeDefaultsSent = true;
@@ -265,7 +265,7 @@ const SgCookieOptin = {
 			}
 
 			const group = SgCookieOptin.getGroupByGroupName(index);
-			if (typeof group.googleName === 'undefined' || group.googleName.trim() === '') {
+			if (!group || typeof group.googleName !== 'string' || group.googleName.trim() === '') {
 				continue;
 			}
 
@@ -342,7 +342,7 @@ const SgCookieOptin = {
 			}
 
 			const group = SgCookieOptin.getGroupByGroupName(index);
-			if (typeof group.googleName === 'undefined' || group.googleName.trim() === '') {
+			if (!group || typeof group.googleName !== 'string' || group.googleName.trim() === '') {
 				continue;
 			}
 

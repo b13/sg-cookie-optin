@@ -12,7 +12,7 @@ call_user_func(
 			[
 				\SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
 			],
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 		);
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 			'sg_cookie_optin',
@@ -24,7 +24,7 @@ call_user_func(
 			[
 				\SGalinski\SgCookieOptin\Controller\CookieListController::class => '',
 			],
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 		);
 
 		// Add a warning render type

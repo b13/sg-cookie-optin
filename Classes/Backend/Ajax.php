@@ -45,7 +45,7 @@ class Ajax {
 	 * Checks whether the license is valid
 	 *
 	 * @param ServerRequestInterface $request
-	 * @param ResponseInterface|null $response
+	 * @param ResponseInterface|NULL $response
 	 * @return ResponseInterface
 	 */
 	public function checkLicense(
