@@ -28,9 +28,9 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseInterface;
+use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
-use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;

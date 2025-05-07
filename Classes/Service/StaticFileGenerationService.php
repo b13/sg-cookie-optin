@@ -27,7 +27,6 @@
 namespace SGalinski\SgCookieOptin\Service;
 
 use Exception;
-use JsonException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Core\Environment;

@@ -31,23 +31,19 @@ namespace SGalinski\SgCookieOptin\Updates;
 use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 
 #[UpgradeWizard('sgalinskiSgCookieOptinCTypeMigration')]
-final class SGalinskiSgCookieOptinCTypeMigration extends AbstractListTypeToCTypeUpdate
-{
-	protected function getListTypeToCTypeMapping(): array
-	{
+final class SGalinskiSgCookieOptinCTypeMigration extends AbstractListTypeToCTypeUpdate {
+	protected function getListTypeToCTypeMapping(): array {
 		return [
 			'sgcookieoptin_optin'     => 'sgcookieoptin_optin',
 			'sgcookieoptin_cookielist' => 'sgcookieoptin_cookielist'
 		];
 	}
 
-	public function getTitle(): string
-	{
+	public function getTitle(): string {
 		return 'Migrates sg_cookie_optin plugins';
 	}
 
-	public function getDescription(): string
-	{
+	public function getDescription(): string {
 		return 'Migrates sg_cookie_optin_OptIn, sg_cookie_optin_CookieList  from list_type to CType. ';
 	}
 }

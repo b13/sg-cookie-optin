@@ -7,7 +7,6 @@ namespace SGalinski\SgCookieOptin\Updates;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Schema\Column;
 use RuntimeException;
-use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;

@@ -26,7 +26,6 @@
 namespace SGalinski\SgCookieOptin\Controller;
 
 use Doctrine\DBAL\Exception;
-use SGalinski\SgCookieOptin\Command\DeleteUsageHistoryCommand;
 use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
