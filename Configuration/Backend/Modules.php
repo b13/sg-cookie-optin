@@ -5,19 +5,8 @@ $hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSetti
 
 $showModule = TRUE;
 if ($hideModuleInProductionContext) {
-	if (version_compare(
-		\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(),
-		'10.2.0',
-		'<'
-	)) {
-		$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
-	} else {
-		$applicationContext = \TYPO3\CMS\Core\Core\Environment::getContext();
-	}
-
-	if (isset($applicationContext)) {
-		$showModule = !$applicationContext->isProduction();
-	}
+	$applicationContext = \TYPO3\CMS\Core\Core\Environment::getContext();
+	$showModule = !$applicationContext->isProduction();
 }
 
 return $showModule ? [

@@ -29,7 +29,6 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Be\Menus;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\ExtbaseRequestParameters;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
@@ -53,7 +52,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	/**
 	 * Register the ViewHelper arguments
 	 */
-	public function initializeArguments() {
+	public function initializeArguments(): void {
 		parent::initializeArguments();
 		$this->registerArgument('label', 'string', 'The label of the option tag', TRUE);
 		$this->registerArgument(
@@ -82,30 +81,25 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 * @see \TYPO3\CMS\Fluid\ViewHelpers\Be\Menus\ActionMenuViewHelper
 	 */
 	public function render() {
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-
 		$label = $this->arguments['label'];
 		$controller = $this->arguments['controller'];
 		$action = $this->arguments['action'];
 		$arguments = $this->arguments['arguments'];
 
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-		if (version_compare($typo3Version, '13.0.0', '>=')) {
-			$uriBuilder->setRequest($this->getExtbaseRequest());
-		}
+		$uriBuilder->setRequest($this->getExtbaseRequest());
 
-		$uri = $uriBuilder->reset()->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
+		$uriBuilder->reset();
+		$uri = $uriBuilder->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
 		$this->tag->addAttribute('value', $uri);
 		$currentRequest = $this->renderingContext->getRequest();
-		$requestArguments = $currentRequest->getArguments();
+		$requestArguments = $currentRequest?->getArguments();
 		unset($requestArguments['filters']);
 		$requestArguments = ArrayUtility::flatten(
 			array_merge(
 				[
-					'controller' => $currentRequest->getControllerName(),
-					'action' => $currentRequest->getControllerActionName()
+					'controller' => $currentRequest?->getControllerName(),
+					'action' => $currentRequest?->getControllerActionName()
 				],
 				$requestArguments
 			)

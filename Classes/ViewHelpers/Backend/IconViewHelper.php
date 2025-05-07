@@ -26,17 +26,18 @@
 
 namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
+use InvalidArgumentException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IconViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments
 	 */
-	public function initializeArguments() {
+	public function initializeArguments(): void {
 		parent::initializeArguments();
 		$this->registerArgument('table', 'string', 'The table for the icon', TRUE);
 		$this->registerArgument('row', 'array', 'The row of the record', TRUE);
@@ -47,23 +48,15 @@ class IconViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelpe
 	 * Renders the icon for the specified record
 	 *
 	 * @return string
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
-	public function render() {
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
-		);
-
+	public function render(): string {
 		$row = (array) $this->arguments['row'];
 		$table = $this->arguments['table'];
 		$clickMenu = $this->arguments['clickMenu'];
 
 		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$toolTip = BackendUtility::getRecordToolTip($row, $table);
-		} else {
-			$toolTip = BackendUtility::getRecordIconAltText($row, $table);
-		}
+		$toolTip = BackendUtility::getRecordIconAltText($row, $table);
 
 		$iconImg = '<span ' . $toolTip . '>'
 			. $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render()

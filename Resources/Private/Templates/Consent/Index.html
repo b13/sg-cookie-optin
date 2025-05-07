@@ -1,6 +1,6 @@
 {namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
 
-<f:layout name="Default"/>
+<f:layout name="{f:if(condition: useEmptyLayout, then: 'Empty', else: 'Default')}"/>
 
 <f:section name="Content">
 	<f:if condition="{isSiteRoot}">
@@ -94,26 +94,8 @@
 			<f:flashMessages/>
 			<f:if condition="{pages}">
 				<f:then>
-					<h3>{f:translate(key:'backend.no_site_root')}</h3>
+					<f:render partial="SelectRoot" arguments="{pages: pages}" />
 
-					<div class="panel panel-default recordlist">
-						<div class="table-fit">
-							<table data-table="pages" class="table table-striped table-hover">
-								<tbody>
-								<f:for each="{pages}" as="page">
-									<tr data-uid="{page.pid}">
-										<td nowrap="nowrap" class="col-title">
-											<f:link.action action="index" additionalParams="{id: page.uid}">
-												<f:format.raw><sg:backend.icon table="pages" row="{page}" clickMenu="0" /></f:format.raw>
-												{page._thePathFull}
-											</f:link.action>
-										</td>
-									</tr>
-								</f:for>
-								</tbody>
-							</table>
-						</div>
-					</div>
 				</f:then>
 				<f:else>
 					<div class="alert alert-warning" role="alert">

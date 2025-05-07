@@ -12,15 +12,12 @@ $EM_CONF[$_EXTKEY] = [
 	'category' => 'module',
 	'version' => '6.0.7',
 	'state' => 'stable',
-	'uploadfolder' => FALSE,
-	'createDirs' => '',
-	'clearCacheOnLoad' => FALSE,
 	'author' => 'Stefan Galinski',
 	'author_email' => 'stefan@sgalinski.de',
 	'author_company' => 'sgalinski Internet Services (https://www.sgalinski.de)',
 	'constraints' => [
 		'depends' => [
-			'typo3' => '9.5.0-13.4.99'
+			'typo3' => '12.4.0-13.4.99'
 		],
 		'conflicts' => [
 		],

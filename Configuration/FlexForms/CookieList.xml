@@ -1,36 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <T3DataStructure>
-	<sheets>
-		<sDEF>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_cookielist.settings</sheetTitle>
-				</TCEforms>
-				<type>array</type>
-				<el>
-					<!-- Example setting: input field with name settings.includeCategories -->
-					<settings.headline>
-						<TCEforms>
-							<label>LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_cookielist.headline</label>
-							<config>
-								<type>input</type>
-								<default>Überschrift</default>
-								<eval>trim, required</eval>
-							</config>
-						</TCEforms>
-					</settings.headline>
-					<settings.description>
-						<TCEforms>
-							<label>LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_cookielist.description</label>
-							<config>
-								<type>text</type>
-								<default>Beschreibungstext</default>
-								<eval>trim, required</eval>
-							</config>
-						</TCEforms>
-					</settings.description>
-				</el>
-			</ROOT>
-		</sDEF>
-	</sheets>
-</T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <sheetTitle>LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_cookielist.settings</sheetTitle>
+                <type>array</type>
+                <el>
+                    <!-- Example setting: input field with name settings.includeCategories -->
+                        <settings.headline>
+                            <label>LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_cookielist.headline</label>
+                            <config>
+                                <type>input</type>
+                                <default>Überschrift</default>
+                                <eval>trim, required</eval>
+                            </config>
+                        </settings.headline>
+                        <settings.description>
+                            <label>LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_cookielist.description</label>
+                            <config>
+                                <type>text</type>
+                                <default>Beschreibungstext</default>
+                                <eval>trim, required</eval>
+                            </config>
+                        </settings.description>
+                    </el>
+                </ROOT>
+            </sDEF>
+        </sheets>
+    </T3DataStructure>

@@ -47,13 +47,11 @@ class Ajax {
 	 * @param ServerRequestInterface $request
 	 * @param ResponseInterface|NULL $response
 	 * @return ResponseInterface
-	 * @throws \InvalidArgumentException
-	 * @throws Exception
 	 */
 	public function checkLicense(
 		ServerRequestInterface $request,
 		?ResponseInterface $response = NULL
-	) {
+	): ResponseInterface {
 		if ($response === NULL) {
 			$response = new Response();
 		}
@@ -69,12 +67,12 @@ class Ajax {
 	 *
 	 * @param ServerRequestInterface $request
 	 * @param ResponseInterface|null $response
-	 * @return ResponseInterface|Response|null
+	 * @return ResponseInterface
 	 */
 	public function searchUserPreferenceHistory(
 		ServerRequestInterface $request,
 		?ResponseInterface $response = NULL
-	) {
+	): ResponseInterface {
 		if ($response === NULL) {
 			$response = new Response();
 		}
@@ -106,12 +104,12 @@ class Ajax {
 	 *
 	 * @param ServerRequestInterface $request
 	 * @param ResponseInterface|null $response
-	 * @return ResponseInterface|Response|null
+	 * @return ResponseInterface
 	 */
 	public function searchUserPreferenceHistoryChart(
 		ServerRequestInterface $request,
 		?ResponseInterface $response = NULL
-	) {
+	): ResponseInterface {
 		if ($response === NULL) {
 			$response = new Response();
 		}
@@ -160,7 +158,7 @@ class Ajax {
 			}
 
 			$response->getBody()->write(json_encode($data));
-		} catch (SearchOptinHistoryException $exception) {
+		} catch (SearchOptinHistoryException|\Doctrine\DBAL\Exception $exception) {
 			$response->withStatus(500, $exception->getMessage());
 		}
 

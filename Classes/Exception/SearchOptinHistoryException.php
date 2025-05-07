@@ -26,5 +26,7 @@
 
 namespace SGalinski\SgCookieOptin\Exception;
 
-class SearchOptinHistoryException extends \RuntimeException {
+use RuntimeException;
+
+class SearchOptinHistoryException extends RuntimeException {
 }

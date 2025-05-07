@@ -24,36 +24,26 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-namespace SGalinski\SgCookieOptin\ViewHelpers\Legacy\Backend;
+declare(strict_types=1);
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+namespace SGalinski\SgCookieOptin\Updates;
 
-/**
- * Class EditLink
- **/
-if (!class_exists('\SgCookieAbstractViewHelper')) {
-	class IsVersionHigherThanViewHelper {
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 
+#[UpgradeWizard('sgalinskiSgCookieOptinCTypeMigration')]
+final class SGalinskiSgCookieOptinCTypeMigration extends AbstractListTypeToCTypeUpdate {
+	protected function getListTypeToCTypeMapping(): array {
+		return [
+			'sgcookieoptin_optin'     => 'sgcookieoptin_optin',
+			'sgcookieoptin_cookielist' => 'sgcookieoptin_cookielist'
+		];
 	}
-} else {
-	class IsVersionHigherThanViewHelper extends \SgCookieAbstractViewHelper {
-		/**
-		 * Register the ViewHelper arguments
-		 */
-		public function initializeArguments() {
-			parent::initializeArguments();
-			$this->registerArgument('version', 'string', 'The version number to compare with', TRUE);
-		}
 
-		/**
-		 * Checks if the O3 version meets the requirements
-		 *
-		 * @return string
-		 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
-		 */
-		public function render() {
-			$version = $this->arguments['version'];
-			return version_compare(VersionNumberUtility::getNumericTypo3Version(), $version, '>=');
-		}
+	public function getTitle(): string {
+		return 'Migrates sg_cookie_optin plugins';
+	}
+
+	public function getDescription(): string {
+		return 'Migrates sg_cookie_optin_OptIn, sg_cookie_optin_CookieList  from list_type to CType. ';
 	}
 }

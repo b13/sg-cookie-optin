@@ -409,6 +409,14 @@
 				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/#c30735]]></source>
 				<target><![CDATA[https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/#c30735]]></target>
 			</trans-unit>
+			<trans-unit id="backend.table_gc_task_not_set_up" resname="backend.table_gc_task_not_set_up" approved="yes">
+				<source><![CDATA[Unable to find a configured scheduled command task sg_cookie_optin:delete_usage_history. Please make sure to set up the task to remove old records automatically.]]></source>
+				<target><![CDATA[Es konnte keine konfigurierte geplante Befehlsaufgabe sg_cookie_optin:delete_usage_history gefunden werden. Bitte stellen Sie sicher, dass Sie die Aufgabe so einrichten, dass alte Datensätze automatisch entfernt werden.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.table_gc_task_not_set_up.title" resname="backend.table_gc_task_not_set_up.title" approved="yes">
+				<source><![CDATA[Attention]]></source>
+				<target><![CDATA[Achtung]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

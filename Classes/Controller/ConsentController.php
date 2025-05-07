@@ -26,67 +26,79 @@
 
 namespace SGalinski\SgCookieOptin\Controller;
 
+use Doctrine\DBAL\Exception;
+use Psr\Http\Message\ResponseInterface;
+use SGalinski\SgCookieOptin\Domain\Repository\SchedulerTaskRepository;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use TYPO3\CMS\Backend\Attribute\Controller;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Consent Controller
  */
 #[Controller]
-class ConsentController extends ActionController {
+class ConsentController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
 	 * @var ModuleTemplateFactory
 	 */
-	protected $moduleTemplateFactory;
+	protected ModuleTemplateFactory $moduleTemplateFactory;
+
+	/**
+	 * @var ModuleTemplate
+	 */
+	protected ModuleTemplate $moduleTemplate;
+
+	public function __construct(SchedulerTaskRepository $schedulerTaskRepository) {
+		$this->schedulerTaskRepository = $schedulerTaskRepository;
+	}
 
 	public function initializeAction(): void {
+		// Create and store the template object as a class property
 		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 	}
 
 	/**
 	 * Displays the user preference consent history
 	 *
+	 * @throws PropagateResponseException|Exception
 	 */
-	public function indexAction() {
-		$moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-		$this->initComponents($moduleTemplate);
-		$this->initPageUidSelection($moduleTemplate);
-
-		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(
-			VersionNumberUtility::getCurrentTypo3Version()
+	public function indexAction(): ResponseInterface {
+		$this->switchMode();
+		$this->initComponents($this->moduleTemplate);
+		$this->initPageUidSelection($this->moduleTemplate);
+		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		$this->moduleTemplate->assign(
+			'identifiers',
+			OptinHistoryService::getItemIdentifiers(['pid' => $pageUid])
 		);
 
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$pageUid = (int) GeneralUtility::_GP('id');
-		} else {
-			$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
+		// Check if page is site root
+		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
+		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
+			$this->moduleTemplate->assign('isSiteRoot', TRUE);
 		}
 
-		$moduleTemplate->assign(
-			'identifiers',
-			OptinHistoryService::getItemIdentifiers(
-				[
-					'pid' => $pageUid
-				]
-			)
-		);
-
+		// Optionally load JavaScript
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-				$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Legacy/ConsentManagement');
-			} else {
-				$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/ConsentManagement.js');
-			}
+			$pageRenderer->loadJavaScriptModule('@sgalinski/sg-cookie-optin/ConsentManagement.js');
 		}
 
-		return $moduleTemplate->renderResponse('Consent/Index');
+		// Check specifically for website Page 0 => use empty layout
+		$pageUid = (int) ($this->request->getQueryParams()['id'] ?? 0);
+		$isSiteRoot = ($pageUid === 0);
+		$this->moduleTemplate->assign('useEmptyLayout', $isSiteRoot);
+
+		// Render
+		return $this->moduleTemplate->renderResponse('Consent/Index');
 	}
 }

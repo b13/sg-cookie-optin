@@ -28,16 +28,14 @@ namespace SGalinski\SgCookieOptin\Hook;
 
 use SGalinski\SgCookieOptin\Service\TemplateService;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Handles the template related changes in the TCA.
  */
 class HandleTemplateAfterTcaSave {
-	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
+	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
 
 	/**
 	 * Hook method for updating the template field in the optin TCA
@@ -47,19 +45,14 @@ class HandleTemplateAfterTcaSave {
 	 * @param int $id
 	 * @param array $fieldArray
 	 * @param DataHandler $dataHandler
-	 * @throws \TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException
-	 * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
-	 * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-	 * @throws \TYPO3\CMS\Core\Exception
-	 * @throws \InvalidArgumentException
 	 */
 	public function processDatamap_afterDatabaseOperations(
-		$status,
-		$table,
-		$id,
+		string $status,
+		string $table,
+		int $id,
 		array $fieldArray,
 		DataHandler $dataHandler
-	) {
+	): void {
 		if (
 			($status !== 'update' && $status !== 'new') || $table !== self::TABLE_NAME ||
 			!isset($dataHandler->datamap[self::TABLE_NAME])
@@ -68,7 +61,7 @@ class HandleTemplateAfterTcaSave {
 		}
 
 		// If it's a new object - get it's real ID otherwise the update will not work anyway
-		if (strpos($id, 'NEW') === 0) {
+		if (str_starts_with($id, 'NEW')) {
 			if (!isset($dataHandler->substNEWwithIDs[$id])) {
 				return;
 			}
@@ -102,7 +95,7 @@ class HandleTemplateAfterTcaSave {
 
 				$bannerTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_BANNER,
-					(int) $data['banner_selection']
+					$data['banner_selection']
 				);
 			}
 
@@ -113,7 +106,7 @@ class HandleTemplateAfterTcaSave {
 
 				$iframeTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_IFRAME,
-					(int) $data['iframe_selection']
+					$data['iframe_selection']
 				);
 			}
 
@@ -124,7 +117,7 @@ class HandleTemplateAfterTcaSave {
 
 				$iframeReplacementTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_IFRAME_REPLACEMENT,
-					(int) $data['iframe_replacement_selection']
+					$data['iframe_replacement_selection']
 				);
 			}
 
@@ -139,16 +132,10 @@ class HandleTemplateAfterTcaSave {
 				->where(
 					$queryBuilder->expr()->eq(
 						'uid',
-						$queryBuilder->createNamedParameter((int) $id)
+						$queryBuilder->createNamedParameter($id)
 					)
 				);
-			$typo3Version = VersionNumberUtility::getCurrentTypo3Version();
-
-			if (version_compare($typo3Version, '13.0.0', '<')) {
-				$queryBuilder->execute();
-			} else {
-				$queryBuilder->executeStatement();
-			}
+			$queryBuilder->executeStatement();
 		}
 	}
 }

@@ -40,7 +40,7 @@ use TYPO3\CMS\Core\Site\Entity\Site;
  */
 class AddCookieOptinJsAndCss implements SingletonInterface {
 	/** @var int|null */
-	protected $rootpage = NULL;
+	protected ?int $rootpage = NULL;
 
 	/**
 	 * Adds the Cookie Consent JavaScript if it's generated for the current page.
@@ -53,7 +53,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public function addJavaScript(string $content, array $configuration) {
+	public function addJavaScript(string $content, array $configuration): string {
 		if (!LicenceCheckService::isInDevelopmentContext()
 			&& !LicenceCheckService::isInDemoMode()
 			&& !LicenceCheckService::hasValidLicense()
@@ -126,7 +126,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
-	public function addCSS(string $content, array $configuration) {
+	public function addCSS(string $content, array $configuration): string {
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0) {
 			return '';
@@ -171,9 +171,9 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	/**
 	 * Returns always the first page within the "rootline"
 	 *
-	 * @return int
+	 * @return int|null
 	 */
-	protected function getRootPageId() {
+	protected function getRootPageId(): ?int {
 		if ($this->rootpage === NULL) {
 			/** @var Site $site */
 			$site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');

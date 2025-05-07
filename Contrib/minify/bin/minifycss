@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 use MatthiasMullie\Minify;
 
 // command line utility to minify CSS

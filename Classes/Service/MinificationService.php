@@ -59,7 +59,7 @@ class MinificationService implements SingletonInterface {
 	 * @param string $file
 	 * @return boolean
 	 */
-	public function minifyJavaScriptFile($file) {
+	public function minifyJavaScriptFile(string $file): bool {
 		if (!file_exists($file)) {
 			return FALSE;
 		}
@@ -82,7 +82,7 @@ class MinificationService implements SingletonInterface {
 	 * @param string $file
 	 * @return boolean
 	 */
-	public function minifyCSSFile($file) {
+	public function minifyCSSFile(string $file): bool {
 		if (!file_exists($file)) {
 			return FALSE;
 		}

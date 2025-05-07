@@ -26,11 +26,11 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Result;
+use Exception;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -40,17 +40,17 @@ class JsonImportService {
 	/**
 	 * Hardcoded default values that are reused on different places, including Import
 	 */
-	const TEXT_BANNER_DESCRIPTION = 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.';
-	const TEXT_ESSENTIAL_DESCRIPTION = 'Essenzielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
-	const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
-	const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
-	const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
-	const DEFAULT_IFRAME_WHITELIST = '^https:\/\/www\.google\.com\/recaptcha\/' . "\n";
+	public const TEXT_BANNER_DESCRIPTION = 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.';
+	public const TEXT_ESSENTIAL_DESCRIPTION = 'Essenzielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
+	public const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
+	public const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
+	public const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
+	public const DEFAULT_IFRAME_WHITELIST = '^https:\/\/www\.google\.com\/recaptcha\/' . "\n";
 
 	/**
 	 * Separates the locale in the filename
 	 */
-	const LOCALE_SEPARATOR = '--';
+	public const LOCALE_SEPARATOR = '--';
 
 	/**
 	 * Stores the mapping data for the default language so that the next imported languages can have it's entities
@@ -58,18 +58,17 @@ class JsonImportService {
 	 *
 	 * @var null|array
 	 */
-	private $defaultLanguageIdMappingLookup = NULL;
+	private ?array $defaultLanguageIdMappingLookup = NULL;
 
 	/**
 	 * Gets the opt-in data for export
 	 *
 	 * @param int $pid
-	 * @return \Doctrine\DBAL\Driver\Statement|int
-	 * @throws DBALException
+	 * @return Result
 	 */
-	public static function getDataForExport(int $pid) {
+	public static function getDataForExport(int $pid): Result {
 		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getConnectionForTable('tx_sgcookieoptin_domain_model_optin');
+			?->getConnectionForTable('tx_sgcookieoptin_domain_model_optin');
 		$queryBuilder = $connection->createQueryBuilder();
 		$queryBuilder
 			->select('uid')
@@ -78,11 +77,7 @@ class JsonImportService {
 			->andWhere('l10n_parent = 0')
 			->setParameter('pid', $pid);
 
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            return $queryBuilder->execute();
-        } else {
-            return $queryBuilder->executeQuery();
-        }
+		return $queryBuilder->executeQuery();
 	}
 
 	/**
@@ -90,12 +85,11 @@ class JsonImportService {
 	 *
 	 * @param array $jsonData
 	 * @param int $pid
-	 * @param null|int $sysLanguageUid
-	 * @param null|int $defaultLanguageOptinId
+	 * @param int|null $sysLanguageUid
+	 * @param int|null $defaultLanguageOptinId
 	 * @return string
-	 * @throws DBALException
 	 */
-	public function importJsonData($jsonData, $pid, $sysLanguageUid = NULL, $defaultLanguageOptinId = NULL) {
+	public function importJsonData(array $jsonData, int $pid, int $sysLanguageUid = NULL, int $defaultLanguageOptinId = NULL): string {
 		// extract group data into other variables so that we can import all the settings information with little to no
 		// value mapping
 		$cookieGroups = $jsonData['cookieGroups'];
@@ -239,7 +233,7 @@ class JsonImportService {
 	 * @param array $footerLinks
 	 * @return string
 	 */
-	protected function buildNavigationFromFooterLinks(array $footerLinks) {
+	protected function buildNavigationFromFooterLinks(array $footerLinks): string {
 		$navigationIds = [];
 		foreach ($footerLinks as $footerLink) {
 			if (isset($footerLink['uid'])) {
@@ -260,7 +254,6 @@ class JsonImportService {
 	 * @param int|null $defaultLanguageOptinId
 	 * @param ConnectionPool $connectionPool
 	 * @return string
-	 * @throws DBALException
 	 */
 	protected function addGroup(
 		$pid,
@@ -270,7 +263,7 @@ class JsonImportService {
 		$sysLanguageUid,
 		$defaultLanguageOptinId,
 		$connectionPool
-	) {
+	): string {
 		$groupData = [
 			'pid' => $pid,
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
@@ -312,7 +305,6 @@ class JsonImportService {
 	 * @param int $defaultLanguageOptinId
 	 * @param ConnectionPool $connectionPool
 	 * @return string
-	 * @throws DBALException
 	 */
 	protected function addCookie(
 		$pid,
@@ -372,7 +364,6 @@ class JsonImportService {
 	 * @param array $initialDataKeys
 	 * @param array $data
 	 * @return string
-	 * @throws DBALException
 	 */
 	protected function flexInsert(
 		ConnectionPool $connectionPool,
@@ -392,11 +383,7 @@ class JsonImportService {
 
 		$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
 		$queryBuilder->insert($table)->values($initialData);
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-            $queryBuilder->execute();
-        } else {
-            $queryBuilder->executeQuery();
-        }
+		$queryBuilder->executeStatement();
 		$objectId = $queryBuilder->getConnection()->lastInsertId();
 
 		foreach ($data as $field => $value) {
@@ -408,12 +395,8 @@ class JsonImportService {
 					$queryBuilder->expr()->eq('uid', $objectId)
 				);
 
-                if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-                    $queryBuilder->execute();
-                } else {
-                    $queryBuilder->executeQuery();
-                }
-			} catch (\Exception $exception) {
+				$queryBuilder->executeStatement();
+			} catch (Exception) {
 				// ignore missing fields
 			}
 		}
@@ -435,7 +418,6 @@ class JsonImportService {
 	 * @param string $groupIdentifier
 	 * @param ConnectionPool $connectionPool
 	 * @return string
-	 * @throws DBALException
 	 */
 	protected function addScript(
 		$pid,
@@ -492,7 +474,6 @@ class JsonImportService {
 	 * @param int|null $defaultLanguageOptinId
 	 * @param ConnectionPool $connectionPool
 	 * @return string
-	 * @throws DBALException
 	 */
 	protected function addService(
 		$pid,
@@ -538,18 +519,12 @@ class JsonImportService {
 	 * @param array $languages
 	 * @throws JsonImportException
 	 */
-	public function parseAndStoreImportedData(array $languages) {
+	public function parseAndStoreImportedData(array $languages): void {
 		$dataStorage = [];
 		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
-		if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
-			$fileName = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'];
-			$fileType = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'];
-			$fileError = $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'];
-		} else {
-			$fileName = $_FILES['file']['tmp_name'];
-			$fileType = $_FILES['file']['type'];
-			$fileError = $_FILES['file']['error'];
-		}
+		$fileName = $_FILES['file']['tmp_name'];
+		$fileType = $_FILES['file']['type'];
+		$fileError = $_FILES['file']['error'];
 
 		// get and import the default language
 		if ($fileType !== 'application/json'
@@ -580,7 +555,7 @@ class JsonImportService {
 				// prevent issues with _ and - in different installation setups (still same language but often written differently)
 				$normalizeLocale = str_replace(['-', '_'], '|', $language['locale']);
 				$normalizeLocale2 = str_replace(['-', '_'], '|', $locale);
-				if ($language['uid'] === 0 && strpos($normalizeLocale, $normalizeLocale2) !== FALSE) {
+				if ($language['uid'] === 0 && str_contains($normalizeLocale, $normalizeLocale2)) {
 					$defaultLanguageId = $language['uid'];
 					$defaultLanguageLocale = $locale;
 					$defaultFound = TRUE;
@@ -635,7 +610,7 @@ class JsonImportService {
 	protected function addGroupWithCookiesAndScripts(
 		int $groupIndex, array $group, int $pid, string $optInId, $sysLanguageUid, $defaultLanguageOptinId,
 		ConnectionPool $connectionPool
-	) {
+	): void {
 		$groupIdentifier = $groupIndex;
 		if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
 			$groupId = $this->addGroup(

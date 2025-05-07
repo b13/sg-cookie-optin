@@ -45,7 +45,7 @@ class OptinHistoryController {
 	 * @param Response $response
 	 * @return ResponseInterface
 	 */
-	public function saveOptinHistory(ServerRequestInterface $request, Response $response) {
+	public function saveOptinHistory(ServerRequestInterface $request, Response $response): ResponseInterface {
 		if (!isset($request->getParsedBody()['lastPreferences'])) {
 			throw new SaveOptinHistoryException('No data passed');
 		}

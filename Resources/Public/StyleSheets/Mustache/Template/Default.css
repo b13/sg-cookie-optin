@@ -96,6 +96,10 @@
 	padding: 0 10px 20px 0;
 }
 
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item:focus-within > label{
+	outline: 2px solid var(--sg-cookie-optin-color-focus-outline);
+}
+
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox {
 	position: absolute;
 	opacity: 0;
@@ -241,6 +245,10 @@
 
 	transition: max-height .3s ease-in-out;
 	will-change: max-height;
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list:not(.sg-cookie-optin-visible) .sg-cookie-optin-box-cookie-detail-list-item{
+	visibility: hidden;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list::-webkit-scrollbar {
