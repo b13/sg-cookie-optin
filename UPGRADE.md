@@ -16,4 +16,4 @@
 - Resources/Public/JavaScript/Backend/Legacy/EditOnClick.js removed
 - Resources/Public/JavaScript/Backend/Legacy/LicenseNotification.js removed
 - Resources/Public/JavaScript/Backend/Legacy/Statistics.js removed
-- Moved the plugins from the `list`-type to their own `CTypes` (please execute the UpgradeWizard `sgalinskiSgCookieOptinCTypeMigration`)
+- Moved the plugins from the `list`-type to their own `CTypes` (please execute the UpgradeWizard `sgalinskiSgCookieOptinCTypeMigration`) in the Install Tool upgrade section

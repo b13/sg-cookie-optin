@@ -20,6 +20,10 @@
 
 4. Go into the "Cookie Consent" backend module, configure it and save it once.
 
+## Update from version 6 to version 7
+
+If you update from sg_cookie_optin v6, please follow the instructions in [UPGRADE.md](UPGRADE.md).
+
 ## How to add scripts / How to rewrite the script HTML?
 
 Unfortunately, we can't support HTML code for the cookie scripts, because of security cases. So you need to rewrite the
@@ -213,19 +217,19 @@ To extend or customize the `Statistics.js` module, ensure you have the following
 
 Follow these steps to modify or extend the functionality:
 
-1. **Clone the Repository**  
+1. **Clone the Repository**
    Clone the sg-cookie-optin extension repository or work on your local copy.
 
-2. **Locate the Source File**  
+2. **Locate the Source File**
    The `Statistics.js` source file is located at:
    ```
    Resources/Public/JavaScript/Backend/Statistics.js
    ```
 
-3. **Modify the Code**  
+3. **Modify the Code**
    Open `Statistics.js` and implement your changes. For example, you might want to add a new chart type or extend existing functionality.
 
-4. **Rebuild the Module**  
+4. **Rebuild the Module**
    After modifying the code, rebuild the module using Vite:
    ```bash
    npm run build
@@ -235,5 +239,5 @@ Follow these steps to modify or extend the functionality:
    Resources/Public/JavaScript/Backend/dist/statistics.es.js
    ```
 
-5. **Integrate the Updated Script**  
+5. **Integrate the Updated Script**
    Ensure the new `statistics.es.js` file is correctly loaded in your TYPO3 backend module. Clear caches in TYPO3 to reflect the changes.
