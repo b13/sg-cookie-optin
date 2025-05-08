@@ -26,6 +26,7 @@
 
 namespace SGalinski\SgCookieOptin\Command;
 
+use Exception;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -38,12 +39,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class DeleteUsageHistoryCommand extends Command {
 	/** @var SymfonyStyle */
-	private $io;
+	private SymfonyStyle $io;
 
 	/**
 	 * Configure the command by defining the name, options and arguments
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this->setHelp(
 			'Deletes the user preferences history.' . LF . 'If you want to get more detailed information, use the --verbose option.'
 		);
@@ -75,7 +76,7 @@ class DeleteUsageHistoryCommand extends Command {
 			$olderThan = (int) $input->getArgument('olderThan');
 			$pid = (int) $input->getArgument('pid');
 			OptinHistoryService::deleteOlderThan($olderThan, $pid);
-		} catch (\Exception $exception) {
+		} catch (Exception $exception) {
 			$this->io->writeln('Error!');
 			$this->io->writeln($exception->getMessage());
 			return 1;

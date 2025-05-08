@@ -264,7 +264,7 @@ abstract class Minify {
 		while ($content) {
 			// find first match for all patterns
 			foreach ($this->patterns as $i => $pattern) {
-				list($pattern, $replacement) = $pattern;
+				[$pattern, $replacement] = $pattern;
 
 				// we can safely ignore patterns for positions we've unset earlier,
 				// because we know these won't show up anymore
@@ -308,7 +308,7 @@ abstract class Minify {
 			$match = $matches[$firstPattern][0][0];
 
 			// execute the pattern that matches earliest in the content string
-			list($pattern, $replacement) = $this->patterns[$firstPattern];
+			[$pattern, $replacement] = $this->patterns[$firstPattern];
 			$replacement = $this->replacePattern($pattern, $replacement, $content);
 
 			// figure out which part of the string was unmatched; that's the

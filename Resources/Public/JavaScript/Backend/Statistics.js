@@ -149,8 +149,7 @@ const Statistics = {
 					datalabels: {
 						formatter: (value, ctx) => {
 							const sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-							const percentage = (value * 100 / sum).toFixed(2) + '%';
-							return percentage;
+							return (value * 100 / sum).toFixed(2) + '%';
 						},
 						color: '#FFF',
 					},

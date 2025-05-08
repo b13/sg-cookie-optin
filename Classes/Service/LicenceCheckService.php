@@ -26,6 +26,7 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
+use Exception;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Registry;
@@ -39,92 +40,92 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * @package SGalinski\SgCookieOptin\Service
  */
 class LicenceCheckService {
-	const STATE_LICENSE_VALID = 2;
-	const STATE_LICENSE_INVALID = 1;
-	const STATE_LICENSE_NOT_SET = 0;
+	public const STATE_LICENSE_VALID = 2;
+	public const STATE_LICENSE_INVALID = 1;
+	public const STATE_LICENSE_NOT_SET = 0;
 
-	const DEMO_MODE_KEY = 'demo_mode';
-	const DEMO_MODE_LIFETIME = 86400;
-	const DEMO_MODE_MAX_AMOUNT = 3;
+	public const DEMO_MODE_KEY = 'demo_mode';
+	public const DEMO_MODE_LIFETIME = 86400;
+	public const DEMO_MODE_MAX_AMOUNT = 3;
 
 	/**
 	 * The product key from ShopWare
 	 */
-	const PRODUCT_KEY = 'sg_cookie_optin';
+	public const PRODUCT_KEY = 'sg_cookie_optin';
 
 	/**
 	 * Namespace for the sys registry
 	 */
-	const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
+	public const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
 
 	/**
 	 * Keys for the sys registry
 	 */
-	const IS_KEY_VALID_KEY = 'isKeyValid';
-	const LAST_WARNING_TIMESTAMP_KEY = 'lastWarningTimestamp';
-	const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
-	const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
-	const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
-	const LAST_AJAX_TIMESTAMP_KEY = 'lastAjaxTimestamp';
-	const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
+	public const IS_KEY_VALID_KEY = 'isKeyValid';
+	public const LAST_WARNING_TIMESTAMP_KEY = 'lastWarningTimestamp';
+	public const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
+	public const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
+	public const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
+	public const LAST_AJAX_TIMESTAMP_KEY = 'lastAjaxTimestamp';
+	public const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
 
 	/**
 	 * Error codes
 	 */
-	const ERROR_INVALID_RESPONSE_CODE = -1;
-	const ERROR_INVALID_RESPONSE_DATA = -2;
-	const ERROR_INVALID_LICENSE_KEY = -3;
-	const ERROR_INVALID_LICENSE_STRUCTURE = -4;
-	const ERROR_TIMESTAMP_INVALID = -5;
-	const ERROR_LICENSE_CHECK_EXCEPTION = -6;
+	public const ERROR_INVALID_RESPONSE_CODE = -1;
+	public const ERROR_INVALID_RESPONSE_DATA = -2;
+	public const ERROR_INVALID_LICENSE_KEY = -3;
+	public const ERROR_INVALID_LICENSE_STRUCTURE = -4;
+	public const ERROR_TIMESTAMP_INVALID = -5;
+	public const ERROR_LICENSE_CHECK_EXCEPTION = -6;
 
 	/**
 	 * Earliest TYPO3 Version that we support
 	 */
-	const EARLIEST_SUPPORTED_VERSION = 8000000;
+	public const EARLIEST_SUPPORTED_VERSION = 8000000;
 
 	/**
 	 * Last response code from server
 	 *
 	 * @var int
 	 */
-	protected static $lastHttpResponseCode = 0;
+	protected static int $lastHttpResponseCode = 0;
 
 	/**
 	 * The last exception from the server
 	 *
 	 * @var string
 	 */
-	protected static $lastException = '';
+	protected static string $lastException = '';
 
 	/**
 	 * The validUntil timestamp
 	 *
 	 * @var null|int
 	 */
-	protected static $validUntil;
+	protected static ?int $validUntil;
 
 	/**
 	 * Check the license key once per how many days
 	 */
-	const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
+	public const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
 
 	/**
 	 * Show a warning if the license has expired but we are still in the same version once per how many days
 	 */
-	const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
+	public const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
 
 	/**
 	 * License server credentials
 	 */
-	const API_USER = 'license_check';
-	const API_PASSWORD = 'lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO';
-	const API_URL = 'https://shop.sgalinski.de/api/license';
+	public const API_USER = 'license_check';
+	public const API_PASSWORD = 'lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO';
+	public const API_URL = 'https://shop.sgalinski.de/api/license';
 
 	/**
 	 * @var array
 	 */
-	private static $versionToReleaseTimestamp = [
+	private static array $versionToReleaseTimestamp = [
 		'1.0' => 1571350984, // 2019-10-17T22:23:04Z
 		'1.1' => 1571695928, // 2019-10-21T22:12:08Z
 		'1.2' => 1571701161, // 2019-10-21T23:39:21Z
@@ -164,18 +165,20 @@ class LicenceCheckService {
     '6.0.3' => 1737579859, // 2025-01-22T21:04:19Z
     '6.0.4' => 1738163661, // 2025-01-29T15:14:21Z
     '6.0.5' => 1741264750, // 2025-03-06T12:39:10Z
+    '6.0.6' => 1744142901, // 2025-04-08T20:08:21Z
+    '6.0.7' => 1744478149, // 2025-04-12T17:15:49Z
 ];
 
 	/**
 	 * The current extension version
 	 */
-	const CURRENT_VERSION = '6.0.5';
+	public const CURRENT_VERSION = '6.0.7';
 
 	/**
 	 * @param mixed $validUntil A timestamp, which says the lifetime of this key.
 	 * @return boolean True, if the timestamp is invalid.
 	 */
-	public static function isTimestampInvalid($validUntil) {
+	public static function isTimestampInvalid(mixed $validUntil): bool {
 		if ($validUntil < 0) {
 			return TRUE;
 		}
@@ -194,7 +197,7 @@ class LicenceCheckService {
 	 * @param string $licenseKey
 	 * @return bool
 	 */
-	public static function shouldCheckKey($licenseKey) {
+	public static function shouldCheckKey(string $licenseKey): bool {
 		if ($licenseKey !== self::getLastKey()) {
 			return TRUE;
 		}
@@ -206,7 +209,6 @@ class LicenceCheckService {
 		// the license was valid last time we checked, but it has expired and we haven't done another check since it expired
 		// let's make sure we don't have the wrong state in this case
 		$licenseExpirationDate = self::getValidLicenseUntilTimestamp();
-		/** @noinspection NotOptimalIfConditionsInspection */
 		return self::getValidLicense() && $licenseExpirationDate < $GLOBALS['EXEC_TIME']
 			&& $licenseExpirationDate >= self::getLastLicenseCheckTimestamp();
 	}
@@ -216,7 +218,7 @@ class LicenceCheckService {
 	 *
 	 * @return string
 	 */
-	public static function getLicenseKey() {
+	public static function getLicenseKey(): string {
 		return (string) ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_LICENSE);
 	}
 
@@ -225,7 +227,7 @@ class LicenceCheckService {
 	 *
 	 * @return bool
 	 */
-	public static function hasValidLicense() {
+	public static function hasValidLicense(): bool {
 		$licenseKey = self::getLicenseKey();
 		if (!self::shouldCheckKey($licenseKey)) {
 			return self::getValidLicense();
@@ -259,7 +261,7 @@ class LicenceCheckService {
 	 *
 	 * @param string $licenseKey
 	 */
-	protected static function setLastKey($licenseKey) {
+	protected static function setLastKey(string $licenseKey): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY, $licenseKey);
 	}
@@ -269,9 +271,8 @@ class LicenceCheckService {
 	 *
 	 * @return mixed|null
 	 */
-	public static function getLastKey() {
-		$registry = GeneralUtility::makeInstance(Registry::class);
-		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY);
+	public static function getLastKey(): mixed {
+		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY);
 	}
 
 	/**
@@ -279,8 +280,7 @@ class LicenceCheckService {
 	 *
 	 * @param bool $isValid
 	 */
-	protected static function setValidLicense($isValid) {
-		$isValid = (bool) $isValid;
+	protected static function setValidLicense(bool $isValid): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY, $isValid);
 	}
@@ -290,7 +290,7 @@ class LicenceCheckService {
 	 *
 	 * @return bool
 	 */
-	protected static function getValidLicense() {
+	protected static function getValidLicense(): bool {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		return (bool) $registry->get(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY);
 	}
@@ -300,7 +300,7 @@ class LicenceCheckService {
 	 *
 	 * @param int $timestamp
 	 */
-	protected static function setLastWarningTimestamp($timestamp) {
+	protected static function setLastWarningTimestamp(int $timestamp): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY, $timestamp);
 	}
@@ -308,11 +308,10 @@ class LicenceCheckService {
 	/**
 	 * Gets the last warning timestamp
 	 *
-	 * @return mixed|null
+	 * @return mixed
 	 */
-	protected static function getLastWarningTimestamp() {
-		$registry = GeneralUtility::makeInstance(Registry::class);
-		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY);
+	protected static function getLastWarningTimestamp(): mixed {
+		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY);
 	}
 
 	/**
@@ -320,7 +319,7 @@ class LicenceCheckService {
 	 *
 	 * @param mixed $validUntil
 	 */
-	protected static function setValidLicenseUntilTimestamp($validUntil) {
+	protected static function setValidLicenseUntilTimestamp(mixed $validUntil): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY, $validUntil);
 	}
@@ -330,9 +329,8 @@ class LicenceCheckService {
 	 *
 	 * @return mixed|null
 	 */
-	protected static function getValidLicenseUntilTimestamp() {
-		$registry = GeneralUtility::makeInstance(Registry::class);
-		return $registry->get(self::REGISTRY_NAMESPACE, self::HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY);
+	protected static function getValidLicenseUntilTimestamp(): mixed {
+		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY);
 	}
 
 	/**
@@ -340,7 +338,7 @@ class LicenceCheckService {
 	 *
 	 * @param string $version
 	 */
-	protected static function setLicenseCheckedInVersion($version) {
+	protected static function setLicenseCheckedInVersion(string $version): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::LICENSE_CHECKED_IN_VERSION_KEY, $version);
 	}
@@ -350,15 +348,14 @@ class LicenceCheckService {
 	 *
 	 * @return mixed|null
 	 */
-	protected static function getLicenseCheckedInVersion() {
-		$registry = GeneralUtility::makeInstance(Registry::class);
-		return $registry->get(self::REGISTRY_NAMESPACE, self::LICENSE_CHECKED_IN_VERSION_KEY);
+	protected static function getLicenseCheckedInVersion(): mixed {
+		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LICENSE_CHECKED_IN_VERSION_KEY);
 	}
 
 	/**
 	 * Sets the timestamp of the last check in the registry
 	 */
-	protected static function setLastLicenseCheckTimestamp() {
+	protected static function setLastLicenseCheckTimestamp(): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::LAST_CHECKED_TIMESTAMP_KEY, $GLOBALS['EXEC_TIME']);
 	}
@@ -368,15 +365,14 @@ class LicenceCheckService {
 	 *
 	 * @return mixed|null
 	 */
-	public static function getLastLicenseCheckTimestamp() {
-		$registry = GeneralUtility::makeInstance(Registry::class);
-		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_CHECKED_TIMESTAMP_KEY);
+	public static function getLastLicenseCheckTimestamp(): mixed {
+		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_CHECKED_TIMESTAMP_KEY);
 	}
 
 	/**
 	 * Sets the timestamp of the last AJAX Notification check in the registry
 	 */
-	public static function setLastAjaxNotificationCheckTimestamp() {
+	public static function setLastAjaxNotificationCheckTimestamp(): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY, $GLOBALS['EXEC_TIME']);
 	}
@@ -386,15 +382,14 @@ class LicenceCheckService {
 	 *
 	 * @return mixed|null
 	 */
-	protected static function getLastAjaxNotificationCheckTimestamp() {
-		$registry = GeneralUtility::makeInstance(Registry::class);
-		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY);
+	protected static function getLastAjaxNotificationCheckTimestamp(): mixed {
+		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY);
 	}
 
 	/**
 	 * Clears the registry values
 	 */
-	protected static function clearRegistryValues() {
+	protected static function clearRegistryValues(): void {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->remove(self::REGISTRY_NAMESPACE, self::LAST_CHECKED_TIMESTAMP_KEY);
 		$registry->remove(self::REGISTRY_NAMESPACE, self::HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY);
@@ -410,7 +405,7 @@ class LicenceCheckService {
 	 *
 	 * @return mixed
 	 */
-	public static function getValidUntil() {
+	public static function getValidUntil(): mixed {
 		if (self::$validUntil === NULL) {
 			self::$validUntil = self::getValidLicenseUntilTimestamp();
 		}
@@ -423,7 +418,7 @@ class LicenceCheckService {
 	 * @param string $licenseKey A license key, which should be validated.
 	 * @return bool
 	 */
-	public static function isLicenseValid($licenseKey) {
+	public static function isLicenseValid(string $licenseKey): bool {
 		if (!self::checkLicenseKeyStructure($licenseKey)) {
 			return FALSE;
 		}
@@ -438,7 +433,7 @@ class LicenceCheckService {
 	 * @param string $licenseKey A license key, which should be validated.
 	 * @return boolean
 	 */
-	public static function checkLicenseKeyStructure($licenseKey) {
+	public static function checkLicenseKeyStructure(string $licenseKey): bool {
 		// Structure: XXXXXX-XXXXXX-XXXXXX-XXXXXX | All upper case
 		if (substr_count($licenseKey, '-') !== 3) {
 			return FALSE;
@@ -453,7 +448,7 @@ class LicenceCheckService {
 	 *
 	 * @return boolean
 	 */
-	public static function isLicenseServerReachable() {
+	public static function isLicenseServerReachable(): bool {
 		try {
 			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
 			$response = $requestFactory->request(
@@ -466,12 +461,12 @@ class LicenceCheckService {
 				]
 			);
 
-			self::$lastHttpResponseCode = (int) $response->getStatusCode();
+			self::$lastHttpResponseCode = $response->getStatusCode();
 
 			if (self::$lastHttpResponseCode !== 200 && self::$lastHttpResponseCode !== 201) {
 				return FALSE;
 			}
-		} catch (\Exception $exception) {
+		} catch (Exception) {
 			return FALSE;
 		}
 
@@ -484,7 +479,7 @@ class LicenceCheckService {
 	 * @param string $licenseKey
 	 * @return int
 	 */
-	private static function getValidUntilTimestampByLicenseKey($licenseKey) {
+	private static function getValidUntilTimestampByLicenseKey(string $licenseKey): int {
 		try {
 			$url = self::API_URL . '/' . urldecode($licenseKey) . '?product='
 				. self::PRODUCT_KEY;
@@ -499,7 +494,7 @@ class LicenceCheckService {
 				]
 			);
 
-			self::$lastHttpResponseCode = (int) $response->getStatusCode();
+			self::$lastHttpResponseCode = $response->getStatusCode();
 
 			if (self::$lastHttpResponseCode !== 200 && self::$lastHttpResponseCode !== 201) {
 				return self::ERROR_INVALID_RESPONSE_CODE;
@@ -515,7 +510,7 @@ class LicenceCheckService {
 			}
 
 			return (int) $jsonData['serial']['validUntil'];
-		} catch (\Exception $exception) {
+		} catch (Exception $exception) {
 			self::$lastException = $exception->getMessage();
 		}
 
@@ -527,7 +522,7 @@ class LicenceCheckService {
 	 *
 	 * @return bool
 	 */
-	public static function isInDevelopmentContext() {
+	public static function isInDevelopmentContext(): bool {
 		return Environment::getContext()->isDevelopment();
 	}
 
@@ -536,7 +531,7 @@ class LicenceCheckService {
 	 *
 	 * @return bool
 	 */
-	public static function isTYPO3VersionSupported() {
+	public static function isTYPO3VersionSupported(): bool {
 		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(
 			VersionNumberUtility::getCurrentTypo3Version()
 		);
@@ -551,7 +546,7 @@ class LicenceCheckService {
 	 *
 	 * @return bool
 	 */
-	public static function isTimeForNextCheck() {
+	public static function isTimeForNextCheck(): bool {
 		return self::getLastAjaxNotificationCheckTimestamp()
 			+ self::AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK * 24 * 60 * 60 < $GLOBALS['EXEC_TIME'];
 	}
@@ -562,7 +557,7 @@ class LicenceCheckService {
 	 * @param bool $isAjaxCheck
 	 * @return array
 	 */
-	public static function getLicenseCheckResponseData($isAjaxCheck = FALSE) {
+	public static function getLicenseCheckResponseData(bool $isAjaxCheck = FALSE): array {
 		// if the key is empty - error
 		if (!self::getLicenseKey()) {
 			return [
@@ -650,13 +645,13 @@ class LicenceCheckService {
 	 *
 	 * @return int
 	 */
-	public static function checkKey() {
+	public static function checkKey(): int {
 		$key = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_LICENSE);
 		if (empty($key)) {
 			return self::STATE_LICENSE_NOT_SET;
 		}
 
-		if ((bool) preg_match('/^([A-Z\d]{6}-?){4}$/', $key)) {
+		if (preg_match('/^([A-Z\d]{6}-?){4}$/', $key)) {
 			return self::STATE_LICENSE_VALID;
 		}
 
@@ -668,7 +663,7 @@ class LicenceCheckService {
 	 *
 	 * @return bool
 	 */
-	public static function isInDemoMode() {
+	public static function isInDemoMode(): bool {
 		$demoData = self::getDemoModeData();
 		if (!$demoData) {
 			return FALSE;
@@ -690,7 +685,7 @@ class LicenceCheckService {
 	 *
 	 * @return int
 	 */
-	public static function getRemainingTimeInDemoMode() {
+	public static function getRemainingTimeInDemoMode(): int {
 		$demoData = self::getDemoModeData();
 		if (!$demoData) {
 			return 0;
@@ -704,7 +699,7 @@ class LicenceCheckService {
 	 *
 	 * @return void
 	 */
-	public static function activateDemoMode() {
+	public static function activateDemoMode(): void {
 		$amount = 1;
 		$demoData = self::getDemoModeData();
 		if ($demoData && isset($demoData['amount'])) {
@@ -723,7 +718,7 @@ class LicenceCheckService {
 	 *
 	 * @return bool
 	 */
-	public static function isDemoModeAcceptable() {
+	public static function isDemoModeAcceptable(): bool {
 		$demoData = self::getDemoModeData();
 		if (!$demoData) {
 			return TRUE;
@@ -737,7 +732,7 @@ class LicenceCheckService {
 	 *
 	 * @return void
 	 */
-	public static function removeAllCookieOptInFiles() {
+	public static function removeAllCookieOptInFiles(): void {
 		$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
 		if (!$folder) {
 			return;
@@ -750,13 +745,13 @@ class LicenceCheckService {
 	/**
 	 * Returns the demo mode data, or an empty FALSE on error.
 	 *
-	 * @return array|FALSE
+	 * @return array
 	 */
-	protected static function getDemoModeData() {
+	protected static function getDemoModeData(): array {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$demoData = $registry->get(self::REGISTRY_NAMESPACE, self::DEMO_MODE_KEY);
 		if (!isset($demoData['lastActivation'], $demoData['amount'])) {
-			return FALSE;
+			return [];
 		}
 
 		return $demoData;

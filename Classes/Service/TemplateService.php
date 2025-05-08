@@ -35,23 +35,23 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class TemplateService implements SingletonInterface {
-	const TYPE_TEMPLATE = 0;
-	const TYPE_BANNER = 1;
-	const TYPE_IFRAME = 2;
-	const TYPE_IFRAME_REPLACEMENT = 3;
-	const TYPE_FINGERPRINT = 5;
-	const TYPE_MONOCHROME = 6;
+	public const TYPE_TEMPLATE = 0;
+	public const TYPE_BANNER = 1;
+	public const TYPE_IFRAME = 2;
+	public const TYPE_IFRAME_REPLACEMENT = 3;
+	public const TYPE_FINGERPRINT = 5;
+	public const TYPE_MONOCHROME = 6;
 
-	const TEMPLATE_ID_DEFAULT = 0;
-	const TEMPLATE_ID_NEW = 1;
+	public const TEMPLATE_ID_DEFAULT = 0;
+	public const TEMPLATE_ID_NEW = 1;
 
-	const BANNER_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT = 0;
+	public const BANNER_TEMPLATE_ID_DEFAULT = 0;
+	public const IFRAME_TEMPLATE_ID_DEFAULT = 0;
+	public const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
+	public const IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT = 0;
+	public const IFRAME_MONOCHROME_TEMPLATE_ID_DEFAULT = 0;
 
-	protected static $templateIdToNameMap = [
+	protected static array $templateIdToNameMap = [
 		self::TYPE_TEMPLATE => [
 			self::TEMPLATE_ID_DEFAULT => 'Default',
 			self::TEMPLATE_ID_NEW => 'Full',
@@ -73,7 +73,7 @@ class TemplateService implements SingletonInterface {
 		],
 	];
 
-	protected static $templateIdToFolderMap = [
+	protected static array $templateIdToFolderMap = [
 		self::TYPE_TEMPLATE => 'Template',
 		self::TYPE_BANNER => 'Banner',
 		self::TYPE_IFRAME => 'Iframe',
@@ -83,14 +83,14 @@ class TemplateService implements SingletonInterface {
 	];
 
 	/**
-	 * Returns a HTML markup out of the given template with the replaced markers by Mustache.
+	 * Returns an HTML markup out of the given template with the replaced markers by Mustache.
 	 *
 	 * @param string $template
 	 * @param array $marker
 	 *
 	 * @return string
 	 */
-	public function renderTemplate($template, array $marker) {
+	public function renderTemplate(string $template, array $marker): string {
 		if (!class_exists(Mustache_Engine::class)) {
 			$path = __DIR__ . '/../../Contrib/';
 			require_once $path . 'mustache/src/Mustache/Autoloader.php';
@@ -101,8 +101,7 @@ class TemplateService implements SingletonInterface {
 			return '';
 		}
 
-		$mustacheEngine = new Mustache_Engine();
-		return $mustacheEngine->render($template, $marker);
+		return (new Mustache_Engine())->render($template, $marker);
 	}
 
 	/**
@@ -110,9 +109,9 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @param int $type
 	 * @param int $templateId
-	 * @return string
+	 * @return bool|string
 	 */
-	public function getMustacheContent($type, $templateId) {
+	public function getMustacheContent(int $type, int $templateId): bool|string {
 		if (!isset(self::$templateIdToFolderMap[$type], self::$templateIdToNameMap[$type][$templateId])) {
 			return '';
 		}
@@ -131,7 +130,7 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return false|string
 	 */
-	protected function getHTMLFileContent($name, $folder) {
+	protected function getHTMLFileContent(string $name, string $folder): bool|string {
 		$path = ExtensionManagementUtility::extPath('sg_cookie_optin') .
 			'Resources/Private/Templates/Mustache/' . $folder . '/' . $name . '.html';
 		if (!file_exists($path)) {
@@ -149,7 +148,7 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return string
 	 */
-	public function getCSSContent($type, $templateId) {
+	public function getCSSContent(int $type, int $templateId): string {
 		if (!isset(self::$templateIdToFolderMap[$type])) {
 			return '';
 		}
@@ -182,7 +181,7 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return false|string
 	 */
-	protected function getCSSFileContent($name, $folder) {
+	protected function getCSSFileContent(string $name, string $folder): bool|string {
 		$path = ExtensionManagementUtility::extPath('sg_cookie_optin') .
 			'Resources/Public/StyleSheets/Mustache/' . $folder . '/' . $name . '.css';
 		if (!file_exists($path)) {

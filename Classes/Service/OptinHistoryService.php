@@ -38,9 +38,9 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Class OptinHistoryService
  */
 class OptinHistoryService {
-	const TYPE_GROUP = 1;
+	public const TYPE_GROUP = 1;
 
-	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_user_preference';
+	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_user_preference';
 
 	/**
 	 * Saves the optin history
@@ -91,22 +91,15 @@ class OptinHistoryService {
 					$GLOBALS['TYPO3_DB']->exec_INSERTquery(self::TABLE_NAME, $data);
 				}
 			} else {
-				$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+				$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
 					'tx_sgcookieoptin_domain_model_user_preference'
 				);
 
 				foreach ($insertData as $data) {
-					if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-						$queryBuilder
-							->insert(self::TABLE_NAME)
-							->values($data)
-							->execute();
-					} else {
-						$queryBuilder
-							->insert(self::TABLE_NAME)
-							->values($data)
-							->executeStatement();
-					}
+					$queryBuilder
+						->insert(self::TABLE_NAME)
+						->values($data)
+						->executeStatement();
 				}
 			}
 
@@ -143,16 +136,12 @@ class OptinHistoryService {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	private static function prepareInsertData(array $jsonInput, int $itemType): array {
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_group'
 		);
 		$queryBuilder->select('group_name')
 			->from('tx_sgcookieoptin_domain_model_group');
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-			$groupNames = $queryBuilder->execute()->fetchAll();
-		} else {
-			$groupNames = $queryBuilder->executeQuery()->fetchAllAssociative();
-		}
+		$groupNames = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 		$allowedGroupNames = ['essential', 'iframes'];
 		foreach ($groupNames as $groupName) {
@@ -197,13 +186,13 @@ class OptinHistoryService {
 	 * Searches the user preferences by the given parameters and returns the data or the count
 	 *
 	 * @param array $parameters
-	 * @param false $isCount
+	 * @param bool $isCount
 	 * @return array
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public static function searchUserHistory(array $parameters, $isCount = FALSE): array {
+	public static function searchUserHistory(array $parameters, bool $isCount = FALSE): array {
 		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getConnectionForTable(self::TABLE_NAME);
+			?->getConnectionForTable(self::TABLE_NAME);
 
 		$query = 'SELECT ';
 		$select = [];
@@ -274,13 +263,7 @@ class OptinHistoryService {
 			}
 		}
 
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-			$return = $connection->executeQuery($query, $queryParameters)->fetchAll();
-		} else {
-			$return = $connection->fetchAllAssociative($query, $queryParameters);
-		}
-
-		return $return;
+		return $connection->fetchAllAssociative($query, $queryParameters);
 	}
 
 	/**
@@ -291,9 +274,9 @@ class OptinHistoryService {
 	 * @return array
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public static function getItemIdentifiers($parameters = [], $type = self::TYPE_GROUP): array {
+	public static function getItemIdentifiers(array $parameters = [], int $type = self::TYPE_GROUP): array {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getQueryBuilderForTable(self::TABLE_NAME);
+			?->getQueryBuilderForTable(self::TABLE_NAME);
 		$queryBuilder->select('item_identifier');
 
 		$queryBuilder->from(self::TABLE_NAME)
@@ -319,12 +302,7 @@ class OptinHistoryService {
 		$queryBuilder->addGroupBy('item_type');
 		$queryBuilder->addGroupBy('item_identifier');
 
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-			$rows = $queryBuilder->execute()->fetchAll();
-		} else {
-			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
-		}
-
+		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 		return array_column($rows, 'item_identifier');
 	}
 
@@ -337,7 +315,7 @@ class OptinHistoryService {
 	 */
 	public static function getVersions(array $parameters): array {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getQueryBuilderForTable(self::TABLE_NAME);
+			?->getQueryBuilderForTable(self::TABLE_NAME);
 		$queryBuilder->select('version')
 			->from(self::TABLE_NAME)
 			->where(
@@ -349,12 +327,7 @@ class OptinHistoryService {
 			->addGroupBy('version')
 			->orderBy('version', 'asc');
 
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-			$rows = $queryBuilder->execute()->fetchAll();
-		} else {
-			$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
-		}
-
+		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 		return array_column($rows, 'version');
 	}
 
@@ -366,9 +339,9 @@ class OptinHistoryService {
 	 * @return void
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public static function deleteOlderThan(int $olderThan, int $pid) {
+	public static function deleteOlderThan(int $olderThan, int $pid): void {
 		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getConnectionForTable(self::TABLE_NAME);
+			?->getConnectionForTable(self::TABLE_NAME);
 		$query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE tstamp < DATE_SUB(NOW(), INTERVAL ? DAY)';
 		$params = [$olderThan];
 

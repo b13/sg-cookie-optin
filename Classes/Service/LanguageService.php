@@ -41,8 +41,8 @@ class LanguageService {
 	 * @return array
 	 * @throws SiteNotFoundException
 	 */
-	public static function getLanguages($siteRootUid) {
-		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
+	public static function getLanguages(int $siteRootUid): array {
+		$site = GeneralUtility::makeInstance(SiteFinder::class)?->getSiteByPageId($siteRootUid);
 		$rows = [];
 		foreach ($site->getAllLanguages() as $siteLanguage) {
 			$rows[] = [
@@ -62,7 +62,7 @@ class LanguageService {
 	 * @param string $fileName
 	 * @return string
 	 */
-	public static function getLocaleByFileName($fileName) {
+	public static function getLocaleByFileName(string $fileName): string {
 		$parts = explode(JsonImportService::LOCALE_SEPARATOR, $fileName);
 		$parts = array_reverse($parts);
 		return $parts[1];
@@ -75,12 +75,12 @@ class LanguageService {
 	 * @param array $languages
 	 * @return int|null
 	 */
-	public static function getLanguageIdByLocale($locale, array $languages) {
+	public static function getLanguageIdByLocale(string $locale, array $languages): ?int {
 		foreach ($languages as $language) {
 			// prevent issues with _ and - in different installation setups (still same language but often written differently)
 			$normalizeLocale = str_replace(['-', '_'], '|', $language['locale']);
 			$normalizeLocale2 = str_replace(['-', '_'], '|', $locale);
-			if (strpos($normalizeLocale, $normalizeLocale2) !== FALSE) {
+			if (str_contains($normalizeLocale, $normalizeLocale2)) {
 				return (int) $language['uid'];
 			}
 		}

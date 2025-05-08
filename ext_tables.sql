@@ -30,6 +30,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	save_confirmation_text                     text                                                   NOT NULL,
 	dependent_groups_text                      varchar(255)        DEFAULT 'Abhängig von:'            NOT NULL,
 	user_hash_text                             varchar(255)        DEFAULT 'User-Hash'                NOT NULL,
+	fingerprint_aria_label_text                varchar(255)        DEFAULT 'Cookies verwalten'                NOT NULL,
 
 	-- template
 	template_html                              text                                                   NOT NULL,
@@ -88,6 +89,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_button_close                         varchar(10)         DEFAULT '#FFFFFF'                  NOT NULL,
 	color_button_close_hover                   varchar(10)         DEFAULT '#FFFFFF'                  NOT NULL,
 	color_button_close_text                    varchar(10)         DEFAULT '#373737'                  NOT NULL,
+	color_focus_outline                   	   varchar(10)         DEFAULT '#F5b51A'                  NOT NULL,
 
 	-- Template Full
 	color_full_box                             varchar(10)         DEFAULT '#143D59'                  NOT NULL,

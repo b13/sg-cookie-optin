@@ -7,19 +7,19 @@
 				<f:render
 					partial="DocHeader"
 					section="actionMenu"
-					arguments="{}" />
+					arguments="{}"/>
 			</div>
 			<div class="right">
-				<f:be.pagePath />
-				<f:be.pageInfo />
+				<f:be.pagePath/>
+				<f:be.pageInfo/>
 			</div>
 		</div>
 		<div class="typo3-docheader-buttons">
 			<div class="left">
-				<f:render partial="License" arguments="{_all}" />
+				<f:render partial="License" arguments="{_all}"/>
 			</div>
 			<div class="right">
-				<f:be:moduleLayout.button.shortcutButton />
+				<f:be:moduleLayout.button.shortcutButton/>
 			</div>
 		</div>
 	</div>
@@ -31,15 +31,15 @@
 			<f:render
 				partial="DocHeader"
 				section="actionMenuItem"
-				arguments="{controller:'Optin', action: 'index', label: '{f:translate(key:\'backend.settings_action\')}', simpleActionItem: 1}" />
+				arguments="{controller: 'Optin', action: 'index', label: '{f:translate(key:\'backend.settings_action\')}', simpleActionItem: 1, lastController: 'Optin'}"/>
 			<f:render
 				partial="DocHeader"
 				section="actionMenuItem"
-				arguments="{controller:'Statistics', action: 'index', label: '{f:translate(key:\'backend.statistics_action\')}', simpleActionItem: 1}" />
+				arguments="{controller: 'Statistics', action: 'index', label: '{f:translate(key:\'backend.statistics_action\')}', simpleActionItem: 1, lastController: 'Statistics'}"/>
 			<f:render
-							partial="DocHeader"
-							section="actionMenuItem"
-							arguments="{controller:'Consent', action: 'index', label: '{f:translate(key:\'backend.consent_action\')}', simpleActionItem: 1}" />
+				partial="DocHeader"
+				section="actionMenuItem"
+				arguments="{controller: 'Consent', action: 'index', label: '{f:translate(key:\'backend.consent_action\')}', simpleActionItem: 1, lastController: 'Consent'}"/>
 		</f:be.menus.actionMenu>
 	</div>
 </f:section>
@@ -48,7 +48,7 @@
 	<sgco:be.menus.actionMenuItem
 		controller="{controller}"
 		action="{action}"
-		arguments="{}"
+		arguments="{parameters: {lastController: lastController}}"
 		simpleActionItem="{simpleActionItem}"
 		selected="{selected}"
 		label="{label}"

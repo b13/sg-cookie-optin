@@ -23,8 +23,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-import $ from 'jquery';
-
 const EditOnClick = {
 	/**
 	 * Initialize the history search

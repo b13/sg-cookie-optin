@@ -70,6 +70,7 @@
 	--sg-cookie-optin-color-full-button-close-text: ###color_full_button_close_text###;
 	--sg-cookie-optin-color-full-button-close-hover: ###color_full_button_close_hover###;
 	--sg-cookie-optin-color-checkbox-box-shadow: #FFF;
+	--sg-cookie-optin-color-focus-outline: ###color_focus_outline###;
 }
 
 #SgCookieOptin,

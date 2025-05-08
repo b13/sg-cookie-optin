@@ -10,7 +10,7 @@
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 3 of the License or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -29,15 +29,14 @@ namespace SGalinski\SgCookieOptin\Controller;
 use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseInterface;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
+use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -52,7 +51,7 @@ class CookieListController extends ActionController {
 	/**
 	 * @var ModuleTemplateFactory
 	 */
-	protected $moduleTemplateFactory;
+	protected ModuleTemplateFactory $moduleTemplateFactory;
 
 	public function initializeAction(): void {
 		$this->moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
@@ -69,53 +68,28 @@ class CookieListController extends ActionController {
 		/** @var TypoScriptFrontendController $tsfe */
 		$tsfe = $GLOBALS['TSFE'];
 		$rootPageId = $tsfe->rootLine[0]['uid'] ?? 0;
-		$typo3Version = VersionNumberUtility::getCurrentTypo3Version();
 
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$languageUid = $tsfe->getLanguage()->getLanguageId();
-		} else {
-			$context = GeneralUtility::makeInstance(Context::class);
-			$languageAspect = $context->getAspect('language');
-			$languageUid = $languageAspect->getId();
-		}
+		$context = GeneralUtility::makeInstance(Context::class);
+		$languageAspect = $context->getAspect('language');
+		$languageUid = $languageAspect->getId();
 
-		if (version_compare($typo3Version, '11.0.0', '>=')) {
-			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-		} else {
-			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
-		}
-
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
 			'tx_sgcookieoptin_domain_model_optin'
 		);
 		$queryBuilder->select('*')
 			->from('tx_sgcookieoptin_domain_model_optin')
 			->where($queryBuilder->expr()->eq('pid', $rootPageId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0));
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$resultObject = $queryBuilder->execute();
-		} else {
-			$resultObject = $queryBuilder->executeQuery();
-		}
-
-		if (method_exists($resultObject, 'fetchAssociative')) {
-			$optin = $resultObject->fetchAssociative();
-		} else {
-			$optin = $resultObject->fetch();
-		}
+		$resultObject = $queryBuilder->executeQuery();
+		$optin = $resultObject->fetchAssociative();
 		$defaultLanguageOptinId = $optin['uid'];
 
 		if ($languageUid > 0) {
-			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-				$optin = $pageRepository->getRecordOverlay(
-					'tx_sgcookieoptin_domain_model_optin', $optin, $languageUid, $tsfe->getLanguage()->getFallbackType()
-				);
-			} else {
-				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-				$optin = $pageRepository->getLanguageOverlay(
-					'tx_sgcookieoptin_domain_model_optin', $optin, $languageAspect
-				);
-			}
+			$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+			$optin = $pageRepository->getLanguageOverlay(
+				'tx_sgcookieoptin_domain_model_optin', $optin, $languageAspect
+			);
 		}
 
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
@@ -126,11 +100,7 @@ class CookieListController extends ActionController {
 			->where($queryBuilder->expr()->eq('parent_optin', $defaultLanguageOptinId))
 			->andWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
 			->andWhere($queryBuilder->expr()->eq('pid', $rootPageId));
-		if (version_compare($typo3Version, '13.0.0', '<')) {
-			$groups = $queryBuilder->execute()->fetchAll();
-		} else {
-			$groups = $queryBuilder->executeQuery()->fetchAllAssociative();
-		}
+		$groups = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 		array_unshift($groups, [
 			'uid' => 0,
@@ -143,17 +113,10 @@ class CookieListController extends ActionController {
 			$defaultLanguageGroupUid = $group['uid'];
 			if ($group['uid'] > 0 && $languageUid > 0) {
 				// fix language first
-				if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-					$group = $pageRepository->getRecordOverlay(
-						'tx_sgcookieoptin_domain_model_group', $group, $languageUid,
-						$tsfe->getLanguage()->getFallbackType()
-					);
-				} else {
-					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-					$group = $pageRepository->getLanguageOverlay(
-						'tx_sgcookieoptin_domain_model_group', $group, $languageAspect
-					);
-				}
+				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+				$group = $pageRepository->getLanguageOverlay(
+					'tx_sgcookieoptin_domain_model_group', $group, $languageAspect
+				);
 			}
 
 			// Get the QueryBuilder instance
@@ -167,13 +130,7 @@ class CookieListController extends ActionController {
 			];
 
 			// Compatibility for TYPO3 v12+ and earlier
-			if (method_exists(ExpressionBuilder::class, 'and')) {
-				// TYPO3 v12+ (andX removed)
-				$andCondition = $queryBuilder->expr()->and(...$conditions);
-			} else {
-				// TYPO3 v11 or earlier
-				$andCondition = $queryBuilder->expr()->andX(...$conditions);
-			}
+			$andCondition = $queryBuilder->expr()->and(...$conditions);
 
 			// Build the query
 			$queryBuilder->select('*')
@@ -182,27 +139,14 @@ class CookieListController extends ActionController {
 				->andWhere($andCondition);
 
 			// Execute the query and fetch results
-			if (method_exists($queryBuilder, 'executeQuery')) {
-				// TYPO3 v13+ (executeQuery replaces execute, fetchAllAssociative replaces fetchAll)
-				$cookies = $queryBuilder->executeQuery()->fetchAllAssociative();
-			} else {
-				// TYPO3 v12 and earlier
-				$cookies = $queryBuilder->execute()->fetchAll();
-			}
+			$cookies = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 			if ($languageUid > 0) {
 				foreach ($cookies as &$cookie) {
-					if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '<')) {
-						$cookie = $pageRepository->getRecordOverlay(
-							'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageUid,
-							$tsfe->getLanguage()->getFallbackType()
-						);
-					} else {
-						$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-						$cookie = $pageRepository->getLanguageOverlay(
-							'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageAspect
-						);
-					}
+					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
+					$cookie = $pageRepository->getLanguageOverlay(
+						'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageAspect
+					);
 				}
 				unset($cookie);
 			}
@@ -230,7 +174,7 @@ class CookieListController extends ActionController {
 	 *
 	 * @return ResponseInterface
 	 */
-	public function showAction() {
+	public function showAction(): ResponseInterface {
 		// Set template
 		$view = GeneralUtility::makeInstance(StandaloneView::class);
 		$templateNameAndPath = 'EXT:sg_cookie_optin/Resources/Private/Templates/CookieList/Show.html';
