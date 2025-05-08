@@ -89,7 +89,7 @@ class JsonImportService {
 	 * @param int|null $defaultLanguageOptinId
 	 * @return string
 	 */
-	public function importJsonData(array $jsonData, int $pid, int $sysLanguageUid = NULL, int $defaultLanguageOptinId = NULL): string {
+	public function importJsonData(array $jsonData, int $pid, ?int $sysLanguageUid = NULL, ?int $defaultLanguageOptinId = NULL): string {
 		// extract group data into other variables so that we can import all the settings information with little to no
 		// value mapping
 		$cookieGroups = $jsonData['cookieGroups'];
