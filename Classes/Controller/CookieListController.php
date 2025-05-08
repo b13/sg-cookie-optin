@@ -37,15 +37,15 @@ use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3Fluid\Fluid\View\AbstractTemplateView;
 
 /**
  * Optin Controller
  */
 #[Controller]
-class CookieListController extends ActionController {
+class CookieListController extends AbstractController {
 	use InitControllerComponents;
 
 	/**
@@ -157,9 +157,11 @@ class CookieListController extends ActionController {
 		// Set template
 		if ($optin['template_selection'] === 1) {
 			$templatePath = $this->settings['templates']['CookieList']['full'];
-			$templateRootPaths = $this->view->getRenderingContext()->getTemplatePaths()->getTemplateRootPaths();
+			/** @var AbstractTemplateView $view */
+			$view = $this->view;
+			$templateRootPaths = $view->getRenderingContext()->getTemplatePaths()->getTemplateRootPaths();
 			$templateRootPaths[0] = $templatePath;
-			$this->view->setTemplateRootPaths($templateRootPaths);
+			$view->getRenderingContext()->getTemplatePaths()->setTemplateRootPaths($templateRootPaths);
 		}
 
 		$this->view->assign('groups', $groups);
