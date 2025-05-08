@@ -1,4 +1,2 @@
 @import 'EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig'
-[typo3.version < "13.0.0"]
-	@import 'EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig'
-[global]
+@import 'EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig'
