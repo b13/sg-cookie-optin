@@ -334,20 +334,21 @@ const SgCookieOptin = {
 	 * Checks the configuration for groups having configured Google Consent Mode v2
 	 */
 	findGroupsWithGoogleConsentMode: function() {
-		const cookieValues = SgCookieOptin.readCookieValues();
 		const googleGroups = [];
-		for (let index in cookieValues) {
-			if (!cookieValues.hasOwnProperty(index) || index === 'essential') {
+		const cookieGroups = SgCookieOptin.jsonData.cookieGroups;
+
+		for (const group of cookieGroups) {
+			if (!group || typeof group.groupName !== 'string' || group.groupName === 'essential') {
 				continue;
 			}
 
-			const group = SgCookieOptin.getGroupByGroupName(index);
-			if (!group || typeof group.googleName !== 'string' || group.googleName.trim() === '') {
+			if (typeof group.googleName !== 'string' || group.googleName.trim() === '') {
 				continue;
 			}
 
 			googleGroups.push(group);
 		}
+
 		return googleGroups;
 	},
 
