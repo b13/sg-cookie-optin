@@ -5,9 +5,9 @@
 		2: '{f:uri.resource(path:\'StyleSheets/Backend/backend.css\')}'
 	}"
 />
+<div class="module tx_sgcookieoptin-module" data-module-id="" data-module-name="">
 <f:if condition="{docHeader}">
 	<f:then>
-		<div class="module tx_sgcookieoptin-module" data-module-id="" data-module-name="">
 			<div class="module-docheader t3js-module-docheader">
 				<div
 					class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation">
@@ -34,16 +34,15 @@
 					</div>
 				</div>
 			</div>
-		</div>
 	</f:then>
 	<f:else>
 		<f:render partial="DocHeader" arguments="{_all}"/>
 	</f:else>
 </f:if>
 
-<div class="module-body t3js-module-body">
-	<div id="typo3-inner-docbody">
-		<f:render section="Content"/>
+	<div class="module-body t3js-module-body">
+		<div id="typo3-inner-docbody">
+			<f:render section="Content"/>
+		</div>
 	</div>
 </div>
-
