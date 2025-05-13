@@ -42,14 +42,14 @@ class HandleTemplateAfterTcaSave {
 	 *
 	 * @param string $status
 	 * @param string $table
-	 * @param int $id
+	 * @param int|string $id
 	 * @param array $fieldArray
 	 * @param DataHandler $dataHandler
 	 */
 	public function processDatamap_afterDatabaseOperations(
 		string $status,
 		string $table,
-		int $id,
+		mixed $id,
 		array $fieldArray,
 		DataHandler $dataHandler
 	): void {

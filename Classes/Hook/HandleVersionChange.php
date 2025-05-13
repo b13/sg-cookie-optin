@@ -40,16 +40,20 @@ class HandleVersionChange {
 	 *
 	 * @param array $fieldArray
 	 * @param string $table
-	 * @param int $id
+	 * @param int|string $id
 	 * @param DataHandler $dataHandler
 	 * @throws Exception
 	 */
 	public function processDatamap_preProcessFieldArray(
 		array &$fieldArray,
 		string $table,
-		int $id,
+		mixed $id,
 		DataHandler $dataHandler
 	): void {
+		if ($table !== 'tx_sgcookieoptin_domain_model_optin') {
+			return;
+		}
+
 		if (isset($fieldArray['update_version_checkbox']) && $fieldArray['update_version_checkbox']) {
 
 			$currentVersionQuery = "SELECT max(IFNULL(version, 0)), pid FROM tx_sgcookieoptin_domain_model_optin
