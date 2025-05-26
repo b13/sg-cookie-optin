@@ -5,5 +5,17 @@
 .tx-sgcookieoptin-docbody {
 	padding: 24px;
 	margin-top: 0;
-	transition: border .2s ease;
+	transition: border 0.2s ease;
+}
+
+.tx_sgcookieoptin-module .alert-light {
+	--typo3-alert-color: var(--bs-light-text-emphasis);
+	--typo3-alert-bg: var(--bs-light-bg-subtle);
+	--typo3-alert-border-color: var(--bs-light-border-subtle);
+	--typo3-alert-link-color: var(--bs-light-text-emphasis);
+}
+
+.tx_sgcookieoptin-module .alert-light .icon-emphasized {
+	--icon-emphasized-color: var(--typo3-state-default-color);
+	--icon-emphasized-bg: var(--typo3-state-default-bg);
 }
