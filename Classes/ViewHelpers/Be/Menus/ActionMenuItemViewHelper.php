@@ -90,9 +90,11 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		$uriBuilder->setRequest($this->getExtbaseRequest());
 
 		$uriBuilder->reset();
-		$uri = $uriBuilder->uriFor($action, $arguments, $controller, 'sg_cookie_optin');
+		$uri = $uriBuilder->uriFor($action, $arguments, $controller, 'sg_cookie_optin', 'web_SgcookieoptinOptin');
 		$this->tag->addAttribute('value', $uri);
-		$currentRequest = $this->renderingContext->getAttribute(ServerRequestInterface::class);
+		$currentRequest = $this->renderingContext->hasAttribute(ServerRequestInterface::class)
+			? $this->renderingContext->getAttribute(ServerRequestInterface::class)
+			: $this->renderingContext->getRequest();
 		$requestArguments = $currentRequest?->getArguments();
 		unset($requestArguments['filters']);
 		$requestArguments = ArrayUtility::flatten(

@@ -27,22 +27,22 @@
 namespace SGalinski\SgCookieOptin\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
+use SGalinski\SgCookieOptin\Service\TaskSerializerService;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Scheduler\Exception\InvalidTaskException;
-use TYPO3\CMS\Scheduler\Task\TaskSerializer;
 use TYPO3\CMS\Scheduler\Validation\Validator\TaskValidator;
 
 class SchedulerTaskRepository {
-	protected TaskSerializer $taskSerializer;
+	protected TaskSerializerService $taskSerializerService;
 
 	protected ConnectionPool $connectionPool;
 
 	public function __construct(
-		TaskSerializer $taskSerializer,
+		TaskSerializerService $taskSerializerService,
 		ConnectionPool $connectionPool
 	) {
-		$this->taskSerializer = $taskSerializer;
+		$this->taskSerializerService = $taskSerializerService;
 		$this->connectionPool = $connectionPool;
 	}
 
@@ -85,7 +85,7 @@ class SchedulerTaskRepository {
 		$result = $queryBuilder->executeQuery();
 		while ($row = $result->fetchAssociative()) {
 			try {
-				$task = $this->taskSerializer->deserialize($row['serialized_task_object']);
+				$task = $this->taskSerializerService->deserialize($row['serialized_task_object']);
 			} catch (InvalidTaskException) {
 				continue;
 			}

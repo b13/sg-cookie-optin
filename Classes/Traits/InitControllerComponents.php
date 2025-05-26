@@ -32,6 +32,7 @@ use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -132,12 +133,16 @@ trait InitControllerComponents {
 		$moduleTemplate->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
 
 		// show warning, if there is no delete usages task
-		if (!$this->isGarbageCollectionTaskSetUpForCookieOptin()) {
-			$this->addFlashMessage(
-				LocalizationUtility::translate('backend.table_gc_task_not_set_up', 'SgCookieOptin'),
-				LocalizationUtility::translate('backend.table_gc_task_not_set_up.title', 'SgCookieOptin'),
-				ContextualFeedbackSeverity::ERROR
-			);
+		if (
+			ExtensionManagementUtility::isLoaded('scheduler')
+		) {
+			if (!$this->isGarbageCollectionTaskSetUpForCookieOptin()) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.table_gc_task_not_set_up', 'SgCookieOptin'),
+					LocalizationUtility::translate('backend.table_gc_task_not_set_up.title', 'SgCookieOptin'),
+					ContextualFeedbackSeverity::ERROR
+				);
+			}
 		}
 	}
 

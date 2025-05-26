@@ -44,7 +44,7 @@ abstract class AbstractController extends ActionController {
 	/**
 	 * @var SchedulerTaskRepository
 	 */
-	protected SchedulerTaskRepository $schedulerTaskRepository;
+	protected ?SchedulerTaskRepository $schedulerTaskRepository = null;
 
 	/**
 	 * Read from user session
