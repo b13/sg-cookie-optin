@@ -103,7 +103,7 @@ class LicenceCheckService {
 	 *
 	 * @var null|int
 	 */
-	protected static ?int $validUntil;
+	protected static ?int $validUntil = null;
 
 	/**
 	 * Check the license key once per how many days
