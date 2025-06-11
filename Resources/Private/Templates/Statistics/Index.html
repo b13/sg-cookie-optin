@@ -62,8 +62,17 @@
 
 				</f:then>
 				<f:else>
-					<div class="alert alert-warning" role="alert">
-						{f:translate(key:'backend.no_site_root_found')}
+					<div class="callout callout-warning">
+						<div class="media">
+							<div class="media-left">
+							<span class="icon-emphasized">
+								<core:icon identifier="actions-exclamation" />
+							</span>
+							</div>
+							<div class="media-body">
+								{f:translate(key:'backend.no_site_root_found')}
+							</div>
+						</div>
 					</div>
 				</f:else>
 			</f:if>

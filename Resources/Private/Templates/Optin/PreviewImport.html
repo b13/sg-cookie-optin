@@ -7,9 +7,17 @@
 
 	<p>{f:translate(key:'backend.jsonImport.preview.description')}</p>
 	<f:for each="{warnings}" as="warning">
-		<div class="alert alert-warning" role="alert">
-			<i class="fa fa-exclamation-triangle"></i>
-			{warning}
+		<div class="callout callout-warning">
+			<div class="media">
+				<div class="media-left">
+					<span class="icon-emphasized">
+						<core:icon identifier="actions-exclamation" />
+					</span>
+				</div>
+				<div class="media-body">
+					{warning}
+				</div>
+			</div>
 		</div>
 	</f:for>
 
