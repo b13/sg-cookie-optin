@@ -27,6 +27,9 @@
 namespace SGalinski\SgCookieOptin\Backend;
 
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -41,7 +44,21 @@ class TCAWarningField extends AbstractFormElement {
 	public function render(): array {
 		$result = $this->initializeResultArray();
 		$message = LocalizationUtility::translate('backend.warning.overwritten_checkbox', 'sg_cookie_optin');
-		$result['html'] = '<div class="alert alert-info">' . $message . '</div>';
+		$iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+		$icon = $iconFactory->getIcon('actions-info', IconSize::SMALL);
+		$result['html'] = '
+<div class="callout callout-info">
+	<div class="media">
+		<div class="media-left">
+			<span class="icon-emphasized">
+				' . $icon->render() . '
+			</span>
+		</div>
+		<div class="media-body">
+			' . $message . '
+		</div>
+	</div>
+</div>';
 		return $result;
 	}
 }

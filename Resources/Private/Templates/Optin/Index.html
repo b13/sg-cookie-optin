@@ -6,7 +6,27 @@
 	<f:if condition="{isSiteRoot}">
 		<f:then>
 			<p><f:translate key="backend.moduleDescription" /></p>
-			<f:flashMessages />
+			<f:flashMessages as="flashMessages">
+				<div class="typo3-messages">
+					<f:for each="{flashMessages}" as="flashMessage">
+						<div class="callout callout-{flashMessage.severity.cssClass}">
+							<div class="media">
+								<div class="media-left">
+									<span class="icon-emphasized">
+										<core:icon identifier="{flashMessage.severity.iconIdentifier}" size="small" />
+									</span>
+								</div>
+								<div class="media-body">
+									<f:if condition="{flashMessage.title}">
+										<h4>{flashMessage.title}</h4>
+									</f:if>
+									<p>{flashMessage.message}</p>
+								</div>
+							</div>
+						</div>
+					</f:for>
+				</div>
+			</f:flashMessages>
 
 			<f:if condition="{pageUid}">
 				<f:if condition="{isSiteRoot}">
@@ -56,42 +76,31 @@
 			<f:if condition="{licenseTitle}">
 				<div class="typo3-messages">
 					<f:if condition="{licenseError} == '0'">
-						<f:then><div class="alert alert-info"></f:then>
-						<f:else>
-							<f:if condition="{licenseError} == '1'">
-								<f:then>
-									<div class="alert alert-danger">
-								</f:then>
-								<f:else>
-									<f:if condition="{licenseError} == '2'"><div class="alert alert-warning"></f:if>
-								</f:else>
-							</f:if>
-						</f:else>
+						<f:variable name="severity">info</f:variable>
 					</f:if>
+					<f:if condition="{licenseError} == '1'">
+						<f:variable name="severity">danger</f:variable>
+					</f:if>
+					<f:if condition="{licenseError} == '2'">
+						<f:variable name="severity">warning</f:variable>
+					</f:if>
+					<div class="callout callout-{severity}">
 						<div class="media">
 							<div class="media-left">
 								<span class="icon-emphasized">
 									<f:if condition="{licenseError} == '1'">
 										<f:then>
-											<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-close" data-identifier="actions-close">
-											  <span class="icon-markup">
-												 <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-close')}"></use></svg>
-											  </span>
-										   </span>
+											<core:icon identifier="actions-close" size="small" />
 										</f:then>
 										<f:else>
-											<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-info" data-identifier="actions-info">
-											  <span class="icon-markup">
-												 <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-info')}"></use></svg>
-											  </span>
-										   </span>
+											<core:icon identifier="actions-info" size="small" />
 										</f:else>
 									</f:if>
 								</span>
 							</div>
 							<div class="media-body">
-								<h4 class="alert-title">{licenseTitle}</h4>
-								<p class="alert-message">{licenseMessage}</p>
+								<h4>{licenseTitle}</h4>
+								<p>{licenseMessage}</p>
 							</div>
 						</div>
 					</div>
@@ -99,74 +108,90 @@
 			</f:if>
 
 			<div class="typo3-messages">
-				<div class="alert alert-light">
+				<div class="callout callout-info">
 					<div class="media">
 						<div class="media-left">
-			            <span class="icon-emphasized">
-			               <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-info" data-identifier="actions-info">
-			                  <span class="icon-markup">
-			                     <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-info')}"></use></svg>
-			                  </span>
-			               </span>
-			            </span>
+							<span class="icon-emphasized">
+								<core:icon identifier="actions-info" size="small" />
+							</span>
 						</div>
 						<div class="media-body">
-							<h4 class="alert-title"><f:translate key="backend.consentMode.header" /></h4>
-							<p class="alert-message"><f:translate key="backend.consentMode.text" /> <a class="btn btn-default btn-sm text-decoration-none" href="{f:translate(key:'backend.consentMode.buttonUrl')}" target="_blank"><f:translate key="backend.consentMode.buttonText" /></a></p>
+							<h4><f:translate key="backend.consentMode.header" /></h4>
+							<p><f:translate key="backend.consentMode.text" /> <a class="btn btn-default btn-sm text-decoration-none" href="{f:translate(key:'backend.consentMode.buttonUrl')}" target="_blank"><f:translate key="backend.consentMode.buttonText" /></a></p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="typo3-messages">
-			   <div class="alert alert-light">
-			      <div class="media">
-			         <div class="media-left">
-			            <span class="icon-emphasized">
-			               <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-info" data-identifier="actions-info">
-			                  <span class="icon-markup">
-			                     <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-info')}"></use></svg>
-			                  </span>
-			               </span>
-			            </span>
-			         </div>
-			         <div class="media-body">
-						 <h4 class="alert-title"><f:translate key="backend.addScripts" /></h4>
- 						 <p class="alert-message"><f:translate key="backend.toolForCookies" /> <a class="btn btn-default btn-sm text-decoration-none" href="https://www.cookieserve.com/" target="_blank"><f:translate key="backend.toolForCookies.button" /></a></p>
-			         </div>
-			      </div>
-			   </div>
+				<div class="callout callout-info">
+					<div class="media">
+						<div class="media-left">
+							<span class="icon-emphasized">
+								<core:icon identifier="actions-info" size="small" />
+							</span>
+						</div>
+						<div class="media-body">
+							 <h4><f:translate key="backend.addScripts" /></h4>
+							 <p><f:translate key="backend.toolForCookies" /> <a class="btn btn-default btn-sm text-decoration-none" href="https://www.cookieserve.com/" target="_blank"><f:translate key="backend.toolForCookies.button" /></a></p>
+			         	</div>
+			      	</div>
+			   	</div>
 			</div>
 			<div class="typo3-messages">
-			   <div class="alert alert-light">
-				  <div class="media">
-					 <div class="media-left">
+				<div class="callout callout-info">
+					<div class="media">
+						<div class="media-left">
 						<span class="icon-emphasized">
-						   <span class="t3js-icon icon icon-size-small icon-state-default icon-actions-info" data-identifier="actions-info">
-							  <span class="icon-markup">
-								 <svg class="icon-color"><use xlink:href="{f:uri.resource(path: 'EXT:core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-info')}"></use></svg>
-							  </span>
-						   </span>
+							<core:icon identifier="actions-info" size="small" />
 						</span>
-					 </div>
-					 <div class="media-body">
-						 <h4 class="alert-title"><f:translate key="backend.addContentElementToDataPrivacy" /></h4>
-						 <p class="alert-message"><f:translate key="backend.addOpenUpLinkToDataPrivacy" /></p>
-					 </div>
-				  </div>
-			   </div>
+						</div>
+						<div class="media-body">
+							<h4><f:translate key="backend.addContentElementToDataPrivacy" /></h4>
+							<p><f:translate key="backend.addOpenUpLinkToDataPrivacy" /></p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</f:then>
 		<f:else>
-			<f:flashMessages />
+			<f:flashMessages as="flashMessages">
+				<div class="typo3-messages">
+					<f:for each="{flashMessages}" as="flashMessage">
+						<div class="callout callout-{flashMessage.severity.cssClass}">
+							<div class="media">
+								<div class="media-left">
+									<span class="icon-emphasized">
+										<core:icon identifier="{flashMessage.severity.iconIdentifier}" size="small" />
+									</span>
+								</div>
+								<div class="media-body">
+									<f:if condition="{flashMessage.title}">
+										<h4>{flashMessage.title}</h4>
+									</f:if>
+									<p>{flashMessage.message}</p>
+								</div>
+							</div>
+						</div>
+					</f:for>
+				</div>
+			</f:flashMessages>
 			<f:if condition="{pages}">
 				<f:then>
 					<f:render partial="SelectRoot" arguments="{pages: pages}" />
-
 				</f:then>
 				<f:else>
-					<div class="alert alert-warning" role="alert">
-						{f:translate(key:'backend.no_site_root_found')}
+					<div class="callout callout-warning">
+						<div class="media">
+							<div class="media-left">
+								<span class="icon-emphasized">
+									<core:icon identifier="actions-exclamation" size="small" />
+								</span>
+							</div>
+							<div class="media-body">
+								{f:translate(key:'backend.no_site_root_found')}
+							</div>
+						</div>
 					</div>
 				</f:else>
 			</f:if>
