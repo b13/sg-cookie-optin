@@ -5,7 +5,27 @@
 <f:section name="Content">
 	<h1>{f:translate(key:'backend.jsonImport.headline')}</h1>
 	<h2>{f:translate(key:'backend.jsonImport.step1')}</h2>
-	<f:flashMessages />
+	<f:flashMessages as="flashMessages">
+		<div class="typo3-messages">
+			<f:for each="{flashMessages}" as="flashMessage">
+				<div class="callout callout-{flashMessage.severity.cssClass}">
+					<div class="media">
+						<div class="media-left">
+							<span class="icon-emphasized">
+								<core:icon identifier="{flashMessage.severity.iconIdentifier}" size="small" />
+							</span>
+						</div>
+						<div class="media-body">
+							<f:if condition="{flashMessage.title}">
+								<h4>{flashMessage.title}</h4>
+							</f:if>
+							<p>{flashMessage.message}</p>
+						</div>
+					</div>
+				</div>
+			</f:for>
+		</div>
+	</f:flashMessages>
 	<div class="form-group">
 		<p>{f:translate(key:'backend.jsonImport.info')}</p>
 		<f:form action="previewImport" enctype="multipart/form-data">

@@ -5,7 +5,27 @@
 <f:section name="Content">
 	<f:if condition="{isSiteRoot}">
 		<f:then>
-			<f:flashMessages/>
+			<f:flashMessages as="flashMessages">
+				<div class="typo3-messages">
+					<f:for each="{flashMessages}" as="flashMessage">
+						<div class="callout callout-{flashMessage.severity.cssClass}">
+							<div class="media">
+								<div class="media-left">
+									<span class="icon-emphasized">
+										<core:icon identifier="{flashMessage.severity.iconIdentifier}" size="small" />
+									</span>
+								</div>
+								<div class="media-body">
+									<f:if condition="{flashMessage.title}">
+										<h4>{flashMessage.title}</h4>
+									</f:if>
+									<p>{flashMessage.message}</p>
+								</div>
+							</div>
+						</div>
+					</f:for>
+				</div>
+			</f:flashMessages>
 			<form id="consent-statistics-form">
 				<div class="row">
 					<div class="col-xs-12 col-12 col-md-3">
@@ -91,7 +111,27 @@
 			</form>
 		</f:then>
 		<f:else>
-			<f:flashMessages/>
+			<f:flashMessages as="flashMessages">
+				<div class="typo3-messages">
+					<f:for each="{flashMessages}" as="flashMessage">
+						<div class="callout callout-{flashMessage.severity.cssClass}">
+							<div class="media">
+								<div class="media-left">
+									<span class="icon-emphasized">
+										<core:icon identifier="{flashMessage.severity.iconIdentifier}" size="small" />
+									</span>
+								</div>
+								<div class="media-body">
+									<f:if condition="{flashMessage.title}">
+										<h4>{flashMessage.title}</h4>
+									</f:if>
+									<p>{flashMessage.message}</p>
+								</div>
+							</div>
+						</div>
+					</f:for>
+				</div>
+			</f:flashMessages>
 			<f:if condition="{pages}">
 				<f:then>
 					<f:render partial="SelectRoot" arguments="{pages: pages}" />
