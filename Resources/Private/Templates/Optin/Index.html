@@ -6,7 +6,27 @@
 	<f:if condition="{isSiteRoot}">
 		<f:then>
 			<p><f:translate key="backend.moduleDescription" /></p>
-			<f:flashMessages />
+			<f:flashMessages as="flashMessages">
+				<div class="typo3-messages">
+					<f:for each="{flashMessages}" as="flashMessage">
+						<div class="callout callout-{flashMessage.severity.cssClass}">
+							<div class="media">
+								<div class="media-left">
+									<span class="icon-emphasized">
+										<core:icon identifier="{flashMessage.severity.iconIdentifier}" size="small" />
+									</span>
+								</div>
+								<div class="media-body">
+									<f:if condition="{flashMessage.title}">
+										<h4>{flashMessage.title}</h4>
+									</f:if>
+									<p>{flashMessage.message}</p>
+								</div>
+							</div>
+						</div>
+					</f:for>
+				</div>
+			</f:flashMessages>
 
 			<f:if condition="{pageUid}">
 				<f:if condition="{isSiteRoot}">
@@ -70,10 +90,10 @@
 								<span class="icon-emphasized">
 									<f:if condition="{licenseError} == '1'">
 										<f:then>
-											<core:icon identifier="actions-close" />
+											<core:icon identifier="actions-close" size="small" />
 										</f:then>
 										<f:else>
-											<core:icon identifier="actions-info" />
+											<core:icon identifier="actions-info" size="small" />
 										</f:else>
 									</f:if>
 								</span>
@@ -88,11 +108,11 @@
 			</f:if>
 
 			<div class="typo3-messages">
-				<div class="callout callout-light">
+				<div class="callout callout-info">
 					<div class="media">
 						<div class="media-left">
 							<span class="icon-emphasized">
-								<core:icon identifier="actions-info" />
+								<core:icon identifier="actions-info" size="small" />
 							</span>
 						</div>
 						<div class="media-body">
@@ -104,11 +124,11 @@
 			</div>
 
 			<div class="typo3-messages">
-				<div class="callout callout-light">
+				<div class="callout callout-info">
 					<div class="media">
 						<div class="media-left">
 							<span class="icon-emphasized">
-								<core:icon identifier="actions-info" />
+								<core:icon identifier="actions-info" size="small" />
 							</span>
 						</div>
 						<div class="media-body">
@@ -119,11 +139,11 @@
 			   	</div>
 			</div>
 			<div class="typo3-messages">
-				<div class="callout callout-light">
+				<div class="callout callout-info">
 					<div class="media">
 						<div class="media-left">
 						<span class="icon-emphasized">
-							<core:icon identifier="actions-info" />
+							<core:icon identifier="actions-info" size="small" />
 						</span>
 						</div>
 						<div class="media-body">
