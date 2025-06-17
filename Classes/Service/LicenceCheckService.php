@@ -174,12 +174,13 @@ class LicenceCheckService {
     '7.0.4' => 1748278067, // 2025-05-26T16:47:47Z
     '7.0.5' => 1748284645, // 2025-05-26T18:37:25Z
     '7.0.6' => 1749749023, // 2025-06-12T17:23:43Z
+    '7.0.7' => 1750152659, // 2025-06-17T09:30:59Z
 ];
 
 	/**
 	 * The current extension version
 	 */
-	public const CURRENT_VERSION = '7.0.6';
+	public const CURRENT_VERSION = '7.0.7';
 
 	/**
 	 * @param mixed $validUntil A timestamp, which says the lifetime of this key.
