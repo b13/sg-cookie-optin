@@ -776,6 +776,7 @@ const SgCookieOptin = {
 		lastPreferences.isAll = isAll;
 		lastPreferences.version = SgCookieOptin.jsonData.settings.version;
 		lastPreferences.identifier = SgCookieOptin.jsonData.settings.identifier;
+		lastPreferences.uuid = SgCookieOptin.getUserUuid(true);
 
 		if (SgCookieOptin.lastPreferencesFromCookie()) {
 			SgCookieOptin.setCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME, JSON.stringify(lastPreferences), '365')
