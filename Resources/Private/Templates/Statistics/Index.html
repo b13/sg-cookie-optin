@@ -69,9 +69,28 @@
 
 				<div class="table" id="consent-statistics-charts-container">&nbsp;</div>
 
-				<div id="statistics-no-data-found">
-					<f:translate key="backend.statistics.noDataFound"/>
-				</div>
+				<!-- Render the "no data found" flash message at the bottom of the page -->
+				<f:flashMessages queueIdentifier="noDataFoundMessage" as="noDataFoundMessages">
+					<div class="typo3-messages">
+						<f:for each="{noDataFoundMessages}" as="flashMessage">
+							<div class="callout callout-{flashMessage.severity.cssClass}">
+								<div class="media">
+									<div class="media-left">
+										<span class="icon-emphasized">
+											<core:icon identifier="{flashMessage.severity.iconIdentifier}" size="small" />
+										</span>
+									</div>
+									<div class="media-body">
+										<f:if condition="{flashMessage.title}">
+											<h4>{flashMessage.title}</h4>
+										</f:if>
+										<p>{flashMessage.message}</p>
+									</div>
+								</div>
+							</div>
+						</f:for>
+					</div>
+				</f:flashMessages>
 			</form>
 		</f:then>
 		<f:else>
@@ -119,4 +138,3 @@
 		</f:else>
 	</f:if>
 </f:section>
-

@@ -19,3 +19,7 @@
 	--icon-emphasized-color: var(--typo3-state-default-color);
 	--icon-emphasized-bg: var(--typo3-state-default-bg);
 }
+
+.typo3-messages .callout .media-body p {
+	margin-bottom: 0;
+}

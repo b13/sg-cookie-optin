@@ -85,6 +85,23 @@ class ConsentController extends AbstractController {
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$this->moduleTemplate->assign('isSiteRoot', TRUE);
+
+			// Add flash message for "no data found" in a separate queue
+			$message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('backend.statistics.noDataFound', 'SgCookieOptin');
+
+			// Create flash message for no data found
+			$flashMessage = GeneralUtility::makeInstance(
+				\TYPO3\CMS\Core\Messaging\FlashMessage::class,
+				$message,
+				'',
+				\TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::INFO,
+				true
+			);
+
+			// Add to a separate queue for rendering at the bottom of the page
+			$flashMessageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+			$messageQueue = $flashMessageService->getMessageQueueByIdentifier('noDataFoundMessage');
+			$messageQueue->enqueue($flashMessage);
 		}
 
 		// Optionally load JavaScript
