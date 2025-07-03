@@ -103,7 +103,7 @@ class LicenceCheckService {
 	 *
 	 * @var null|int
 	 */
-	protected static ?int $validUntil = null;
+	protected static ?int $validUntil = NULL;
 
 	/**
 	 * Check the license key once per how many days
@@ -111,7 +111,7 @@ class LicenceCheckService {
 	public const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
 
 	/**
-	 * Show a warning if the license has expired but we are still in the same version once per how many days
+	 * Show a warning if the license has expired, but we are still in the same version once per how many days
 	 */
 	public const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
 
@@ -161,23 +161,23 @@ class LicenceCheckService {
 		'5.5.7' => 1728045730, // Fri Oct 04 2024 15:42:10 GMT+0300
 		'6.0.0' => 1731805060, // Sun Nov 17 2024 15:42:10 GMT+0300
 		'6.0.1' => 1732032780, // Sun Nov 19 2024 16:15:10 GMT+0300
-	    	'6.0.2' => 1733851183, // 2024-12-10T17:19:43Z
-    '6.0.3' => 1737579859, // 2025-01-22T21:04:19Z
-    '6.0.4' => 1738163661, // 2025-01-29T15:14:21Z
-    '6.0.5' => 1741264750, // 2025-03-06T12:39:10Z
-    '6.0.6' => 1744142901, // 2025-04-08T20:08:21Z
-    '6.0.7' => 1744478149, // 2025-04-12T17:15:49Z
-    '7.0.0' => 1746715432, // 2025-05-08T14:43:52Z
-    '7.0.1' => 1747063092, // 2025-05-12T15:18:12Z
-    '7.0.2' => 1747224364, // 2025-05-14T12:06:04Z
-    '7.0.3' => 1747342932, // 2025-05-15T21:02:12Z
-    '7.0.4' => 1748278067, // 2025-05-26T16:47:47Z
-    '7.0.5' => 1748284645, // 2025-05-26T18:37:25Z
-    '7.0.6' => 1749749023, // 2025-06-12T17:23:43Z
-    '7.0.7' => 1750152659, // 2025-06-17T09:30:59Z
-    '7.0.8' => 1750259212, // 2025-06-18T15:06:52Z
-    '7.0.9' => 1750445053, // 2025-06-20T18:44:13Z
-];
+		'6.0.2' => 1733851183, // 2024-12-10T17:19:43Z
+		'6.0.3' => 1737579859, // 2025-01-22T21:04:19Z
+		'6.0.4' => 1738163661, // 2025-01-29T15:14:21Z
+		'6.0.5' => 1741264750, // 2025-03-06T12:39:10Z
+		'6.0.6' => 1744142901, // 2025-04-08T20:08:21Z
+		'6.0.7' => 1744478149, // 2025-04-12T17:15:49Z
+		'7.0.0' => 1746715432, // 2025-05-08T14:43:52Z
+		'7.0.1' => 1747063092, // 2025-05-12T15:18:12Z
+		'7.0.2' => 1747224364, // 2025-05-14T12:06:04Z
+		'7.0.3' => 1747342932, // 2025-05-15T21:02:12Z
+		'7.0.4' => 1748278067, // 2025-05-26T16:47:47Z
+		'7.0.5' => 1748284645, // 2025-05-26T18:37:25Z
+		'7.0.6' => 1749749023, // 2025-06-12T17:23:43Z
+		'7.0.7' => 1750152659, // 2025-06-17T09:30:59Z
+		'7.0.8' => 1750259212, // 2025-06-18T15:06:52Z
+		'7.0.9' => 1750445053, // 2025-06-20T18:44:13Z
+	];
 
 	/**
 	 * The current extension version
@@ -202,7 +202,7 @@ class LicenceCheckService {
 	}
 
 	/**
-	 * Should we perform the license check for this key and in this version at this point of time
+	 * Should we perform the license check for this key and in this version at this point of time?
 	 *
 	 * @param string $licenseKey
 	 * @return bool
@@ -216,8 +216,8 @@ class LicenceCheckService {
 			return TRUE;
 		}
 
-		// the license was valid last time we checked, but it has expired and we haven't done another check since it expired
-		// let's make sure we don't have the wrong state in this case
+		// the license was valid the last time we checked, but it has expired, and we haven't done
+		// another check since it expired let's make sure we don't have the wrong state in this case
 		$licenseExpirationDate = self::getValidLicenseUntilTimestamp();
 		return self::getValidLicense() && $licenseExpirationDate < $GLOBALS['EXEC_TIME']
 			&& $licenseExpirationDate >= self::getLastLicenseCheckTimestamp();
@@ -282,7 +282,9 @@ class LicenceCheckService {
 	 * @return mixed|null
 	 */
 	public static function getLastKey(): mixed {
-		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY);
+		return GeneralUtility::makeInstance(Registry::class)->get(
+			self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY
+		);
 	}
 
 	/**
@@ -321,7 +323,9 @@ class LicenceCheckService {
 	 * @return mixed
 	 */
 	protected static function getLastWarningTimestamp(): mixed {
-		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY);
+		return GeneralUtility::makeInstance(Registry::class)->get(
+			self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY
+		);
 	}
 
 	/**
@@ -340,7 +344,9 @@ class LicenceCheckService {
 	 * @return mixed|null
 	 */
 	protected static function getValidLicenseUntilTimestamp(): mixed {
-		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY);
+		return GeneralUtility::makeInstance(Registry::class)->get(
+			self::REGISTRY_NAMESPACE, self::HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY
+		);
 	}
 
 	/**
@@ -359,7 +365,9 @@ class LicenceCheckService {
 	 * @return mixed|null
 	 */
 	protected static function getLicenseCheckedInVersion(): mixed {
-		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LICENSE_CHECKED_IN_VERSION_KEY);
+		return GeneralUtility::makeInstance(Registry::class)->get(
+			self::REGISTRY_NAMESPACE, self::LICENSE_CHECKED_IN_VERSION_KEY
+		);
 	}
 
 	/**
@@ -376,7 +384,9 @@ class LicenceCheckService {
 	 * @return mixed|null
 	 */
 	public static function getLastLicenseCheckTimestamp(): mixed {
-		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_CHECKED_TIMESTAMP_KEY);
+		return GeneralUtility::makeInstance(Registry::class)->get(
+			self::REGISTRY_NAMESPACE, self::LAST_CHECKED_TIMESTAMP_KEY
+		);
 	}
 
 	/**
@@ -393,7 +403,9 @@ class LicenceCheckService {
 	 * @return mixed|null
 	 */
 	protected static function getLastAjaxNotificationCheckTimestamp(): mixed {
-		return GeneralUtility::makeInstance(Registry::class)->get(self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY);
+		return GeneralUtility::makeInstance(Registry::class)->get(
+			self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY
+		);
 	}
 
 	/**
@@ -493,6 +505,8 @@ class LicenceCheckService {
 		try {
 			$url = self::API_URL . '/' . urldecode($licenseKey) . '?product='
 				. self::PRODUCT_KEY;
+
+			debug($url);
 			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
 			$response = $requestFactory->request(
 				$url,
@@ -550,9 +564,10 @@ class LicenceCheckService {
 
 	/**
 	 * Checks if the time for the next check has expired.
-	 * error = 0 means no error
-	 * error = 1 is an error
-	 * error = 2 is a warning
+	 *
+	 * Error = 0 means no error
+	 *  = 1 is an error
+	 *  = 2 is a warning
 	 *
 	 * @return bool
 	 */
@@ -598,17 +613,18 @@ class LicenceCheckService {
 			];
 		}
 
-		// if it's valid - check validUntil and throw a warning if the license has expired but you are still
+		// if it's valid - check validUntil and throw a warning if the license has expired, but you are still
 		// on the valid version
+		$date = date('d.m.Y', self::getValidUntil());
 		if (self::getValidUntil() < $GLOBALS['EXEC_TIME']) {
-			$date = date('d.m.Y', self::getValidUntil());
-
+			// relevant only for the AJAX notifications
 			if ($isAjaxCheck) {
-				$lastWarningTimestamp = (int) self::getLastWarningTimestamp(
-				); // relevant only for the AJAX notifications
+				$lastWarningTimestamp = (int) self::getLastWarningTimestamp();
 			}
 
-			if (!$isAjaxCheck || ($lastWarningTimestamp + self::AMOUNT_OF_DAYS_UNTIL_WARNING * 24 * 60 * 60 < $GLOBALS['EXEC_TIME'])) {
+			if (!$isAjaxCheck ||
+				(($lastWarningTimestamp + self::AMOUNT_OF_DAYS_UNTIL_WARNING * 24 * 60 * 60) < $GLOBALS['EXEC_TIME'])
+			) {
 				if ($isAjaxCheck) {
 					self::setLastWarningTimestamp($GLOBALS['EXEC_TIME']);
 				}
@@ -627,9 +643,8 @@ class LicenceCheckService {
 			}
 		}
 
-		/** @noinspection SuspiciousAssignmentsInspection */
-		$date = date('d.m.Y', self::getValidUntil());
 		// 19.01.2038 == lifetime license
+		$date = date('d.m.Y', self::getValidUntil());
 		if ($date === '19.01.2038') {
 			$date = LocalizationUtility::translate(
 				'backend.licenceCheck.status.lifetime',
@@ -724,7 +739,7 @@ class LicenceCheckService {
 	}
 
 	/**
-	 * Returns true, if this instance can use the demo mode.
+	 * Returns true if this instance can use the demo mode.
 	 *
 	 * @return bool
 	 */
@@ -738,7 +753,7 @@ class LicenceCheckService {
 	}
 
 	/**
-	 * Removes all files within the specific generated file folder folder.
+	 * Removes all files within the specific generated file folder.
 	 *
 	 * @return void
 	 */
