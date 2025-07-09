@@ -38,8 +38,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 /**
  * Class ActionMenuItemViewHelper
  *
- * This is just a re-implemntation of the core view helper with the same name
- * only difference so far is the selected option is not automatically set if you cann the same action&controller
+ * This is just a re-implementation of the core view helper with the same name
+ * only difference so far is the selected option is not automatically set if you can the same action&controller
  *
  * @package SGalinski\SgCookieOptin\ViewHelpers\Be\Menus
  */

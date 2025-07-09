@@ -31,6 +31,9 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+/**
+ * EditOnClickViewHelper
+ */
 class EditOnClickViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments

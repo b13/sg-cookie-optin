@@ -29,6 +29,9 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+/**
+ * IsVersionHigherThanViewHelper
+ */
 class IsVersionHigherThanViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments

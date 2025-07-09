@@ -33,6 +33,9 @@ use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+/**
+ * IconViewHelper
+ */
 class IconViewHelper extends AbstractViewHelper {
 	/**
 	 * Register the ViewHelper arguments

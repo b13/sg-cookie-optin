@@ -35,6 +35,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use UnexpectedValueException;
 
+/**
+ * ControlViewHelper
+ */
 class ControlViewHelper extends AbstractViewHelper {
 	/**
 	 * Initialize the ViewHelper arguments
@@ -56,6 +59,7 @@ class ControlViewHelper extends AbstractViewHelper {
 		$table = $this->arguments['table'];
 		$row = $this->arguments['row'];
 
+		/** @var PageRenderer $pageRenderer */
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 		$pageRenderer->loadJavaScriptModule('@typo3/backend/ajax-data-handler.js');
 		$pageRenderer->addInlineLanguageLabelFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');

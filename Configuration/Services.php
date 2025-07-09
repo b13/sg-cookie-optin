@@ -29,8 +29,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 			'command' => 'sg_cookie_optin:delete_usage_history',
 			'description' => 'Deletes the optin usage history entries older than X days'
 		]);
-	$services->set('SGalinski\\SgCookieOptin\\ViewHelpers')
-		->public();
 	$services->set(AbstractViewHelper::class)
 		->public();
 	$services->set(TCAWarningField::class)
