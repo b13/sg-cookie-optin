@@ -507,7 +507,6 @@ class LicenceCheckService {
 			$url = self::API_URL . '/' . urldecode($licenseKey) . '?product='
 				. self::PRODUCT_KEY;
 
-			debug($url);
 			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
 			$response = $requestFactory->request(
 				$url,
