@@ -12,7 +12,7 @@
 
 :root {
 	--sg-cookie-optin-color-text: ###color_text###;
-	--sg-cookie-optin-color-text-opacity: ###color_text###60;
+	--sg-cookie-optin-color-text-opacity: ###color_text###90;
 	--sg-cookie-optin-color-box: ###color_box###;
 	--sg-cookie-optin-banner-color-box: ###banner_color_box###;
 	--sg-cookie-optin-banner-color-text: ###banner_color_text###;
