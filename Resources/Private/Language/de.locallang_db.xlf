@@ -1031,6 +1031,14 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[Rejected all]]></source>
 				<target><![CDATA[Nichts akzeptiert]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.automatic_script_activation">
+				<source><![CDATA[Automatic script activation]]></source>
+				<target><![CDATA[Automatische Skriptaktivierung]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.automatic_script_activation.description">
+				<source><![CDATA[If enabled, essential group scripts will be activated automatically when possible.]]></source>
+				<target><![CDATA[Wenn aktiviert, werden essenzielle Gruppenskripte nach Möglichkeit automatisch aktiviert.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

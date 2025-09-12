@@ -44,6 +44,7 @@ const SgCookieOptin = {
 	jsonData: {},
 	isExternalGroupAccepted: false,
 	fingerprintIcon: null,
+	essentialAssetsInjected: false,
 	consentModeDefaultsSent: false,
 	consentModeDefaults: {
 		ad_personalization: "denied",
@@ -260,7 +261,7 @@ const SgCookieOptin = {
 	dispatchGtagConsentForAllGroups: function() {
 		const cookieValues = SgCookieOptin.readCookieValues();
 		for (let index in cookieValues) {
-			if (!cookieValues.hasOwnProperty(index) || index === 'essential') {
+			if (!cookieValues.hasOwnProperty(index) || index === SgCookieOptin.COOKIE_GROUP_ESSENTIAL) {
 				continue;
 			}
 
@@ -338,7 +339,7 @@ const SgCookieOptin = {
 		const cookieGroups = SgCookieOptin.jsonData.cookieGroups;
 
 		for (const group of cookieGroups) {
-			if (!group || typeof group.groupName !== 'string' || group.groupName === 'essential') {
+			if (!group || typeof group.groupName !== 'string' || group.groupName === SgCookieOptin.COOKIE_GROUP_ESSENTIAL) {
 				continue;
 			}
 
@@ -353,6 +354,46 @@ const SgCookieOptin = {
 	},
 
 	/**
+	 * Injects the HTML and scripts for a specific group.
+	 *
+	 * @return {void}
+	 */
+	injectGroupAssets: function(groupData) {
+		// automatic script activation is on and the essential group is already injected
+		if (typeof SgCookieOptin.jsonData.settings.automatic_script_activation !== 'undefined'
+			&& SgCookieOptin.jsonData.settings.automatic_script_activation
+			&& groupData['groupName'] === SgCookieOptin.COOKIE_GROUP_ESSENTIAL
+			&& SgCookieOptin.essentialAssetsInjected) {
+			return;
+		}
+		if (groupData['loadingHTML'] && groupData['loadingHTML'] !== '') {
+			const head = document.getElementsByTagName('head')[0];
+			if (head) {
+				const range = document.createRange();
+				range.selectNode(head);
+				head.appendChild(range.createContextualFragment(groupData['loadingHTML']));
+				const addedLoadingHTMLEvent = new CustomEvent('addedLoadingHTML', {
+					bubbles: true,
+					detail: {src: groupData['loadingHTML']}
+				});
+				head.dispatchEvent(addedLoadingHTMLEvent);
+			}
+		}
+
+		if (groupData['loadingJavaScript'] && groupData['loadingJavaScript'] !== '') {
+			const script = document.createElement('script');
+			script.setAttribute('src', groupData['loadingJavaScript']);
+			script.setAttribute('type', 'text/javascript');
+			document.body.appendChild(script);
+			const addedLoadingScriptEvent = new CustomEvent('addedLoadingScript', {
+				bubbles: true,
+				detail: {src: groupData['loadingJavaScript']}
+			});
+			script.dispatchEvent(addedLoadingScriptEvent);
+		}
+	},
+
+	/**
 	 * Handles the scripts of the allowed cookie groups.
 	 *
 	 * @return {void}
@@ -360,6 +401,24 @@ const SgCookieOptin = {
 	handleScriptActivations: function() {
 		const cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (!cookieValue) {
+			// If there is no cookie set yet, we still need to run the scripts from the essential group
+			if (typeof SgCookieOptin.jsonData.settings.automatic_script_activation !== 'undefined'
+				&& SgCookieOptin.jsonData.settings.automatic_script_activation) {
+				for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+					if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+						continue;
+					}
+
+					const groupData = SgCookieOptin.jsonData.cookieGroups[groupIndex];
+
+					if (groupData['groupName'] !== SgCookieOptin.COOKIE_GROUP_ESSENTIAL) {
+						continue;
+					}
+
+					SgCookieOptin.injectGroupAssets(groupData);
+					SgCookieOptin.essentialAssetsInjected = true;
+				}
+			}
 			return;
 		}
 
@@ -393,44 +452,7 @@ const SgCookieOptin = {
 					SgCookieOptin.dispatchGtagConsent(SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName']);
 				}
 
-				if (
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] &&
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] !== ''
-				) {
-					const head = document.getElementsByTagName('head')[0];
-					if (head) {
-						const range = document.createRange();
-						range.selectNode(head);
-						head.appendChild(range.createContextualFragment(SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']));
-						// Emit event
-						const addedLoadingHTMLEvent = new CustomEvent('addedLoadingHTML', {
-							bubbles: true,
-							detail: {
-								src: SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']
-							}
-						});
-						head.dispatchEvent(addedLoadingHTMLEvent);
-					}
-				}
-
-				if (
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] &&
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== ''
-				) {
-					const script = document.createElement('script');
-					script.setAttribute('src', SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
-					script.setAttribute('type', 'text/javascript');
-					document.body.appendChild(script);
-
-					// Emit event
-					const addedLoadingScriptEvent = new CustomEvent('addedLoadingScript', {
-						bubbles: true,
-						detail: {
-							src: SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']
-						}
-					});
-					script.dispatchEvent(addedLoadingScriptEvent);
-				}
+				SgCookieOptin.injectGroupAssets(SgCookieOptin.jsonData.cookieGroups[groupIndex]);
 			}
 		}
 	},
@@ -1176,7 +1198,7 @@ const SgCookieOptin = {
 	 *
 	 * @param {HTMLInputElement} checkbox
 	 */
-	handleCheckboxChange: function (checkbox) {
+	handleCheckboxChange: function(checkbox) {
 		checkbox.closest('.sg-cookie-optin-box-cookie-list-item')
 			.querySelector('.sg-cookie-optin-checkbox-label')
 			.setAttribute('aria-checked', checkbox.checked);

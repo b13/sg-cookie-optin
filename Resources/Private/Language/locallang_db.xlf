@@ -760,6 +760,12 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.dependent_groups_text" approved="yes">
 				<source><![CDATA[Text for the dependent groups label]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.automatic_script_activation">
+				<source><![CDATA[Automatic script activation]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.automatic_script_activation.description">
+				<source><![CDATA[If enabled, essential group scripts will be activated automatically when possible.]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

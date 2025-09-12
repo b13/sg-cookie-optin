@@ -160,6 +160,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	unified_cookie_name                        tinyint(4)          DEFAULT '1',
 	disable_usage_statistics                   tinyint(4)          DEFAULT '0',
 	disable_automatic_loading                  tinyint(4)          DEFAULT '0',
+	automatic_script_activation               tinyint(4)          DEFAULT '0',
 	auto_action_for_bots                       tinyint(4)          DEFAULT '0',
 
 	-- TYPO3 related columns
