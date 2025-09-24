@@ -241,3 +241,48 @@ Follow these steps to modify or extend the functionality:
 
 5. **Integrate the Updated Script**
    Ensure the new `statistics.es.js` file is correctly loaded in your TYPO3 backend module. Clear caches in TYPO3 to reflect the changes.
+
+
+## Content Security Policy (CSP) nonces in sg_cookie_optin
+
+Starting with version 7.1.0, sg_cookie_optin integrates with TYPO3’s CSP nonce mechanism to make the extension work out-of-the-box on installations that enforce a strict Content Security Policy.
+
+What this means
+- On every frontend request, TYPO3 generates a unique nonce value and sends it in the CSP header (script-src/style-src).
+- sg_cookie_optin uses that nonce for the assets it renders so that browsers are allowed to execute or apply them when CSP is enabled.
+
+How we add the nonce
+- We obtain the per-request nonce from $GLOBALS['TYPO3_REQUEST']->getAttribute('nonce') (an instance of TYPO3\CMS\Core\Security\ContentSecurityPolicy\ConsumableNonce).
+- We then add a nonce attribute to the following elements the extension renders:
+  - Inline JSON: <script id="cookieOptinData" type="application/json" nonce="...">…</script>
+  - Inline JavaScript (when assets are rendered inline)
+  - External JavaScript <script src="…" nonce="…"></script>
+  - Inline CSS <style nonce="…">…</style>
+  - Preload links for JS and CSS: <link rel="preload" … nonce="…"> (Note: current CSP enforcers ignore nonce on <link>, but adding it is harmless and future-proof.)
+
+Caching implications (important)
+- TYPO3 replaces cached nonce placeholders with the request-specific nonce just before sending the response using Frontend NonceValueSubstitution. We use the provided ConsumableNonce->consume() API accordingly, so TYPO3 can safely substitute nonces even when the page content is cached.
+- Reverse proxies/CDNs: If a reverse proxy caches the fully substituted HTML together with the CSP headers, subsequent users could receive a stale nonce that does not match the CSP header. In most typical TYPO3 setups the substitution happens late enough to avoid proxy caching of placeholders, but please verify your proxy configuration:
+  - Either bypass proxy caching for pages that set CSP nonces, or
+  - Ensure the proxy varies/not caches pages that include CSP nonces and their CSP headers, or
+  - Use TYPO3’s default page caching only (no additional full-page caching at the edge) for pages where CSP is enforced with nonces.
+
+What end-users (integrators) may need to configure
+- Enable/adjust CSP in your site configuration so the policy allows nonce-based execution and styles:
+  - script-src: include 'self' and 'nonce-<dynamic>' or generally allow 'nonce-*' via TYPO3’s CSP configuration (TYPO3 emits the concrete nonce value per request).
+  - style-src: include 'self' and the nonce as above. If you still need inline styles without nonce, you would have to add 'unsafe-inline' (not recommended).
+- If you previously used hashes ('sha256-…') for inline assets, you can keep them, but the nonce must then be present and match for the sg_cookie_optin rendered tags, otherwise the browser will block them.
+- If you disabled inline asset rendering in sg_cookie_optin (render_assets_inline = 0), we still add the nonce to the external <script> element. Make sure your CSP allows loading that URL (script-src) from your domain/base URL.
+
+Backwards compatibility
+- If CSP is not enabled on your site, the nonce attribute is simply omitted and nothing changes for you.
+- The nonce on <link rel="preload"> is ignored by browsers if CSP does not evaluate it; it does not break older setups.
+
+Troubleshooting
+- Browser blocks cookie opt-in script/style with a CSP error: Check that your CSP header includes a nonce on script-src/style-src and that it matches the one TYPO3 generated. In TYPO3 v13+, the backend module “HTTP headers” or your site YAML can be used to configure CSP.
+- Using a CDN/reverse proxy and seeing random CSP errors: Revisit the proxy caching notes above; ensure dynamic nonce responses are not cached across requests.
+
+References
+- TYPO3 CSP and nonces: https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/Security/ContentSecurityPolicy/Index.html
+- TYPO3 ConsumableNonce API (class source): https://github.com/TYPO3/typo3/blob/main/typo3/sysext/core/Classes/Security/ContentSecurityPolicy/ConsumableNonce.php
+- TYPO3 Frontend NonceValueSubstitution (class source): https://github.com/TYPO3/typo3/blob/main/typo3/sysext/frontend/Classes/Cache/NonceValueSubstitution.php
