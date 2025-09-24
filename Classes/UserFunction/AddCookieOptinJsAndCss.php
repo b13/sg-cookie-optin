@@ -107,7 +107,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 					$jsonData
 				) . '</script>';
 			if (!isset($jsonData['settings']['disable_automatic_loading']) || !$jsonData['settings']['disable_automatic_loading']) {
-				$returnString .= "\n" . '<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
+				$returnString .= "\n" . '<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"' . $this->getNonceAttribute() . '>
 					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"' . $this->getNonceAttribute() . '></script>';
 			}
 			return $returnString;
@@ -165,7 +165,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl(
 			$this->rootpage, BaseUrlService::getLanguage()
 		);
-		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n"
+		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous"' . $this->getNonceAttribute() . '>' . "\n"
 			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n";
 	}
 
