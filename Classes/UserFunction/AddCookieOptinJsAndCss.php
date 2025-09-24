@@ -34,6 +34,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Security\ContentSecurityPolicy\ConsumableNonce;
 
 /**
  * Adds the Cookie Consent JavaScript if it's generated for the current page.
@@ -91,8 +92,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
 		if (!$jsonData['settings']['disable_for_this_language']) {
 			if ($jsonData['settings']['render_assets_inline']) {
-				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
-					"</script>\n" . '<script type="text/javascript" data-ignore="1" crossorigin="anonymous">' .
+				return '<script id="cookieOptinData" type="application/json"' . $this->getNonceAttribute() . '>' . json_encode($jsonData) .
+					"</script>\n" . '<script type="text/javascript" data-ignore="1" crossorigin="anonymous"' . $this->getNonceAttribute() . '>' .
 					file_get_contents($sitePath . $file) . "</script>\n";
 			}
 
@@ -102,12 +103,12 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 
 			$fileUrl = ($overwrittenBaseUrl ?? $siteBaseUrl) . $file . '?' . $cacheBuster;
 
-			$returnString = '<script id="cookieOptinData" type="application/json">' . json_encode(
+			$returnString = '<script id="cookieOptinData" type="application/json"' . $this->getNonceAttribute() . '>' . json_encode(
 					$jsonData
 				) . '</script>';
 			if (!isset($jsonData['settings']['disable_automatic_loading']) || !$jsonData['settings']['disable_automatic_loading']) {
 				$returnString .= "\n" . '<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
-					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"></script>';
+					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"' . $this->getNonceAttribute() . '></script>';
 			}
 			return $returnString;
 		}
@@ -153,7 +154,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
 
 			if ($jsonData['settings']['render_assets_inline']) {
-				return '<style>' . file_get_contents($sitePath . $file) . "</style>\n";
+				return '<style' . $this->getNonceAttribute() . '>' . file_get_contents($sitePath . $file) . "</style>\n";
 			}
 
 			if ($jsonData['settings']['overwrite_baseurl']) {
@@ -181,5 +182,16 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		return $this->rootpage;
+	}
+
+	/**
+	 * Returns the CSP nonce attribute if available for current request
+	 */
+	protected function getNonceAttribute(): string {
+		$nonce = $GLOBALS['TYPO3_REQUEST']?->getAttribute('nonce');
+		if ($nonce instanceof ConsumableNonce) {
+			return ' nonce="' . htmlspecialchars($nonce->consume(), ENT_QUOTES | ENT_HTML5) . '"';
+		}
+		return '';
 	}
 }
