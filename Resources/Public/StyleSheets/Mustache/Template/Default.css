@@ -11,7 +11,7 @@
 /* This file includes basic styles for the template */
 
 #SgCookieOptin .sg-cookie-optin-box,
-.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box{
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box {
 	position: relative;
 	overflow: auto;
 
@@ -96,7 +96,7 @@
 	padding: 0 10px 20px 0;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item:focus-within > label{
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item:focus-within>label {
 	outline: 2px solid var(--sg-cookie-optin-color-focus-outline);
 }
 
@@ -105,15 +105,15 @@
 	opacity: 0;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus + .sg-cookie-optin-checkbox-label::before {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus+.sg-cookie-optin-checkbox-label::before {
 	background-color: #e2e2e5;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus .sg-cookie-optin-checkbox:checked+.sg-cookie-optin-checkbox-label {
 	border: none;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox + .sg-cookie-optin-checkbox-label::before {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox+.sg-cookie-optin-checkbox-label::before {
 	display: inline-block;
 	vertical-align: middle;
 	margin: 0 5px 0 0;
@@ -131,12 +131,12 @@
 	transform: translateY(-1px);
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label::before {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:checked+.sg-cookie-optin-checkbox-label::before {
 	box-shadow: inset 0 0 0 3px var(--sg-cookie-optin-color-checkbox-box-shadow);
 	background-color: var(--sg-cookie-optin-color-checkbox);
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled + .sg-cookie-optin-checkbox-label::before {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled+.sg-cookie-optin-checkbox-label::before {
 	box-shadow: inset 0 0 0 3px var(--sg-cookie-optin-color-checkbox-box-shadow);
 	border-color: var(--sg-cookie-optin-color-checkbox-required);
 	background-color: var(--sg-cookie-optin-color-checkbox-required);
@@ -144,11 +144,11 @@
 	cursor: default;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled + .sg-cookie-optin-checkbox-label {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled+.sg-cookie-optin-checkbox-label {
 	cursor: default;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled + .sg-cookie-optin-checkbox-label span {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled+.sg-cookie-optin-checkbox-label span {
 	vertical-align: middle;
 }
 
@@ -227,6 +227,11 @@
 	color: var(--sg-cookie-optin-banner-color-button-settings-hover-text);
 }
 
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept-essential:hover {
+	background-color: var(--sg-cookie-optin-banner-color-button-accept-essential-hover);
+	color: var(--sg-cookie-optin-banner-color-button-accept-essential-hover-text);
+}
+
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept:hover {
 	background-color: var(--sg-cookie-optin-banner-color-button-accept-hover);
 	color: var(--sg-cookie-optin-banner-color-button-accept-hover-text);
@@ -247,7 +252,7 @@
 	will-change: max-height;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list:not(.sg-cookie-optin-visible) .sg-cookie-optin-box-cookie-detail-list-item{
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list:not(.sg-cookie-optin-visible) .sg-cookie-optin-box-cookie-detail-list-item {
 	visibility: hidden;
 }
 
