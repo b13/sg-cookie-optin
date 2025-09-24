@@ -31,6 +31,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	dependent_groups_text                      varchar(255)        DEFAULT 'Abhängig von:'            NOT NULL,
 	user_hash_text                             varchar(255)        DEFAULT 'User-Hash'                NOT NULL,
 	fingerprint_aria_label_text                varchar(255)        DEFAULT 'Cookies verwalten'                NOT NULL,
+	contrast_toggle_aria_label_text                 varchar(255)        DEFAULT 'Dunkelmodus umschalten'          NOT NULL,
 
 	-- template
 	template_html                              text                                                   NOT NULL,

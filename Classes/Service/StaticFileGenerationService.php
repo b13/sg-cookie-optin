@@ -877,6 +877,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'user_hash_text' => $translatedData['user_hash_text'],
 			'dependent_groups_text' => $translatedData['dependent_groups_text'],
 			'fingerprint_aria_label_text' => $translatedData['fingerprint_aria_label_text'],
+			'contrastToggleAriaLabelText' => $translatedData['contrast_toggle_aria_label_text'],
 		];
 
 		$placeholders = [

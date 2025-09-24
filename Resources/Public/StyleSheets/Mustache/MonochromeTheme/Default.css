@@ -6,7 +6,9 @@
 	--sg-cookie-optin-color-monochrome-background: #343434;
 }
 
-:root .sg-cookie-optin-dark-theme {
+:root .sg-cookie-optin-dark-theme,
+[data-bs-theme='dark'],
+[data-bs-theme='contrast'] {
 	--sg-cookie-optin-color-text: var(--sg-cookie-optin-color-monochrome-text);
 	--sg-cookie-optin-color-text-opacity: var(--sg-cookie-optin-color-monochrome-text);
 	--sg-cookie-optin-color-box: var(--sg-cookie-optin-color-monochrome-background);
@@ -28,7 +30,9 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
+	:root,
+	[data-bs-theme="dark"],
+	.theme-dark {
 		--sg-cookie-optin-color-text: var(--sg-cookie-optin-color-monochrome-text);
 		--sg-cookie-optin-color-text-opacity: var(--sg-cookie-optin-color-monochrome-text);
 		--sg-cookie-optin-color-box: var(--sg-cookie-optin-color-monochrome-background);
@@ -51,7 +55,10 @@
 }
 
 @media (prefers-contrast: more) {
-	:root {
+	:root,
+	[data-bs-theme='dark'],
+	[data-bs-theme='contrast'],
+	.theme-dark {
 		--sg-cookie-optin-color-text: var(--sg-cookie-optin-color-monochrome-text);
 		--sg-cookie-optin-color-text-opacity: var(--sg-cookie-optin-color-monochrome-text);
 		--sg-cookie-optin-color-box: var(--sg-cookie-optin-color-monochrome-background);
@@ -71,4 +78,25 @@
 		--sg-cookie-optin-color-fingerprint-image: var(--sg-cookie-optin-color-monochrome-dark);
 		--sg-cookie-optin-color-fingerprint-background: var(--sg-cookie-optin-color-monochrome-text);
 	}
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-toggle-contrast {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 9999;
+	border: none;
+	border-radius: 8px;
+	padding: 8px 12px;
+	cursor: pointer;
+	font-size: 14px;
+	fill: currentColor;
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-toggle-contrast:hover {
+	outline: 1px solid currentColor;
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-toggle-contrast svg {
+	width: 20px;
 }

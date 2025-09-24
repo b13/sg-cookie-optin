@@ -37,7 +37,7 @@ $configuration = [
 			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_cookies, iframe_button_allow_all_text,
 			iframe_button_allow_one_text, iframe_button_reject_text, iframe_button_load_one_description, iframe_button_load_one_text, iframe_open_settings_text, iframe_whitelist_regex, template_html,
 			banner_html, banner_button_accept_text, banner_button_settings_text, banner_description,
-			save_confirmation_text, dependent_groups_text, fingerprint_aria_label_text',
+			save_confirmation_text, dependent_groups_text, fingerprint_aria_label_text, contrast_toggle_aria_label_text',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
 		'languageField' => 'sys_language_uid',
@@ -53,7 +53,7 @@ $configuration = [
 		'1' => [
 			'showitem' => '
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.textAndMenu,
-					--palette--;;update_version, header, description, save_confirmation_text, user_hash_text, dependent_groups_text, fingerprint_aria_label_text, --palette--;;accept_buttons_texts,
+					--palette--;;update_version, header, description, save_confirmation_text, user_hash_text, dependent_groups_text, fingerprint_aria_label_text, contrast_toggle_aria_label_text, --palette--;;accept_buttons_texts,
 					--palette--;;link_texts, --palette--;;cookie_texts, navigation,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
 					--palette--;;template, --palette--;;color_general, --palette--;;fingerprint, --palette--;;color_notification,
@@ -73,8 +73,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					unified_cookie_name, --palette--;;cookie_lifetime_settings, overwrite_baseurl, minify_generated_data, --palette--;;consent_mode, automatic_script_activation,
-					activate_testing_mode, disable_for_this_language, monochrome_enabled, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, disable_usage_statistics, auto_action_for_bots',
+					--palette--;;cookie_lifetime_settings, --palette--;;general, --palette--;;performance, --palette--;;privacy, --palette--;;accessibility, --palette--;;consent_mode, --palette--;;statistics, --palette--;;testing, --palette--;;multidomain',
 		],
 	],
 	'palettes' => [
@@ -210,6 +209,30 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.consent_mode',
 			'showitem' => 'disable_automatic_loading'
 		],
+		'accessibility' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.accessibility',
+			'showitem' => 'monochrome_enabled'
+		],
+		'general' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.general',
+			'showitem' => 'unified_cookie_name, --linebreak--, overwrite_baseurl, --linebreak--, disable_for_this_language, --linebreak--, automatic_script_activation'
+		],
+		'performance' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.performance',
+			'showitem' => 'minify_generated_data, --linebreak--, render_assets_inline'
+		],
+		'privacy' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.privacy',
+			'showitem' => 'consider_do_not_track, --linebreak--, cookiebanner_whitelist_regex'
+		],
+		'testing' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.testing',
+			'showitem' => 'activate_testing_mode'
+		],
+		'statistics' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.statistics',
+			'showitem' => 'disable_usage_statistics, --linebreak--, auto_action_for_bots'
+		]
 	],
 	'columns' => [
 		'pid' => [
@@ -383,6 +406,17 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Cookies verwalten',
 				'placeholder' => 'Cookies verwalten',
+				'eval' => 'trim, required'
+			],
+		],
+		'contrast_toggle_aria_label_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.contrast_toggle_aria_label_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Dunkelmodus umschalten',
+				'placeholder' => 'Dunkelmodus umschalten',
 				'eval' => 'trim, required'
 			],
 		],

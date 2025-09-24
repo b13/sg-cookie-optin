@@ -698,10 +698,10 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Automatically assign the service template to all external content elements whose source matches the following regular expressions. Every new line is interpreted as a new regular expression. Syntax errors may lead to issues on your website!]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.title" approved="yes">
-				<source><![CDATA[Enable Monochrome Theme]]></source>
+				<source><![CDATA[Enable High Contrast Mode]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.description" approved="yes">
-				<source><![CDATA[If you leave this box checked, we will automatically switch to a monochrome theme if you add the class sg-cookie-optin-dark-theme to the <body> tag or if the user's browser preferences are set up to force a dark theme or a high contrast theme.]]></source>
+				<source><![CDATA[Enable automatic high contrast mode for better accessibility. The cookie banner will automatically switch to a high contrast theme when users have dark mode or high contrast preferences enabled in their browser, or when the CSS class "sg-cookie-optin-dark-theme" is added to the page body.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_service.iframe_replacement_html" approved="yes">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
@@ -765,6 +765,30 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.automatic_script_activation.description">
 				<source><![CDATA[If enabled, essential group scripts will be activated automatically when possible.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.contrast_toggle_aria_label_text" approved="yes">
+				<source><![CDATA[Contrast toggle button aria-label]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.accessibility" approved="yes">
+				<source><![CDATA[Accessibility]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.general" approved="yes">
+				<source><![CDATA[General]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.performance" approved="yes">
+				<source><![CDATA[Performance]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.privacy" approved="yes">
+				<source><![CDATA[Privacy & Security]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.testing" approved="yes">
+				<source><![CDATA[Testing & Development]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.statistics" approved="yes">
+				<source><![CDATA[Statistics & Tracking]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.advanced" approved="yes">
+				<source><![CDATA[Advanced]]></source>
 			</trans-unit>
 		</body>
 	</file>

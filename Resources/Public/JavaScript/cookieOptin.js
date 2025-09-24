@@ -497,6 +497,15 @@ const SgCookieOptin = {
 
 		SgCookieOptin.insertUserUuid(wrapper);
 
+		// Apply contrast mode if previously set
+		const lastPreferences = SgCookieOptin.getLastPreferences();
+		if (lastPreferences.contrastMode) {
+			const box = wrapper.querySelector('.sg-cookie-optin-box');
+			if (box) {
+				box.classList.add('sg-cookie-optin-dark-theme');
+			}
+		}
+
 		SgCookieOptin.addListeners(wrapper, contentElement);
 
 		if (!contentElement) {
@@ -1028,6 +1037,26 @@ const SgCookieOptin = {
 		SgCookieOptin.addEventListenerToList(checkboxes, 'change', function(event) {
 			SgCookieOptin.handleDependentGroups(event, checkboxes);
 			SgCookieOptin.handleCheckboxChange(event.target);
+		});
+
+		// Monochrome contrast toggle (toggles dark theme class to the cookie optin box)
+		const contrastToggleButtons = element.querySelectorAll('.sg-cookie-optin-box-toggle-contrast');
+		SgCookieOptin.addEventListenerToList(contrastToggleButtons, 'click', function(event) {
+			let btn = event.target;
+			if (btn.tagName !== 'BUTTON') {
+				btn = btn.closest('button');
+			}
+			const box = btn ? btn.closest('.sg-cookie-optin-box') : element.querySelector('.sg-cookie-optin-box');
+			if (box) {
+				box.classList.toggle('sg-cookie-optin-dark-theme');
+				const lastPreferences = SgCookieOptin.getLastPreferences();
+				lastPreferences.contrastMode = box.classList.contains('sg-cookie-optin-dark-theme');
+				if (SgCookieOptin.lastPreferencesFromCookie()) {
+					SgCookieOptin.setCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME, JSON.stringify(lastPreferences), '365');
+				} else {
+					window.localStorage.setItem(SgCookieOptin.LAST_PREFERENCES_LOCAL_STORAGE_NAME, JSON.stringify(lastPreferences));
+				}
+			}
 		});
 
 	},
@@ -2394,14 +2423,17 @@ const SgCookieOptin = {
 		}
 
 		if (!lastPreferences) {
-			return {};
+			return {contrastMode: false};
 		}
 
 		try {
 			lastPreferences = JSON.parse(lastPreferences);
+			if (typeof lastPreferences.contrastMode === 'undefined') {
+				lastPreferences.contrastMode = false;
+			}
 			return lastPreferences;
 		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
-			return {};
+			return {contrastMode: false};
 		}
 	},
 
