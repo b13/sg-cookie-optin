@@ -27,6 +27,7 @@
 namespace SGalinski\SgCookieOptin\Service;
 
 use Exception;
+use SGalinski\SgCookieOptin\Exception\RateLimitExceededException;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -51,6 +52,10 @@ class OptinHistoryService {
 	 */
 	public static function saveOptinHistory(string $preferences, int $rootPageId): array {
 		try {
+			// Check rate limit before processing
+			$clientIp = RateLimitService::getClientIpAddress();
+			RateLimitService::checkAndRecordRateLimit($clientIp, $rootPageId);
+
 			$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
 			if (!$folder) {
 				throw new SaveOptinHistoryException('Settings folder not found');
@@ -84,6 +89,14 @@ class OptinHistoryService {
 				throw new SaveOptinHistoryException('No data to save');
 			}
 
+			// Check if preferences have actually changed
+			if (!self::havePreferencesChanged($jsonInput['uuid'], $insertData)) {
+				return [
+					'error' => 0,
+					'message' => 'Preferences unchanged - no data saved'
+				];
+			}
+
 			if (VersionNumberUtility::convertVersionNumberToInteger(
 					VersionNumberUtility::getCurrentTypo3Version()
 				) < 9000000) {
@@ -106,6 +119,11 @@ class OptinHistoryService {
 			return [
 				'error' => 0,
 				'message' => 'OK'
+			];
+		} catch (RateLimitExceededException $exception) {
+			return [
+				'error' => 2, // Different error code for rate limit
+				'message' => $exception->getMessage()
 			];
 		} catch (Exception $exception) {
 			return [
@@ -329,6 +347,63 @@ class OptinHistoryService {
 
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 		return array_column($rows, 'version');
+	}
+
+	/**
+	 * Checks if the preferences have actually changed compared to the last saved preferences for this user
+	 *
+	 * @param string $userHash
+	 * @param array $newInsertData
+	 * @return bool
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	protected static function havePreferencesChanged(string $userHash, array $newInsertData): bool {
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			?->getQueryBuilderForTable(self::TABLE_NAME);
+
+		// Get the most recent preference_hash for this user
+		$latestPreference = $queryBuilder
+			->select('preference_hash')
+			->from(self::TABLE_NAME)
+			->where(
+				$queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($userHash))
+			)
+			->orderBy('tstamp', 'DESC')
+			->setMaxResults(1)
+			->executeQuery()
+			->fetchAssociative();
+
+		if (!$latestPreference) {
+			// No previous preferences found, so this is a change
+			return true;
+		}
+
+		// Get all entries for the latest preference_hash
+		$queryBuilderPreviousPreferences = GeneralUtility::makeInstance(ConnectionPool::class)
+			?->getQueryBuilderForTable(self::TABLE_NAME);
+		$previousPreferences = $queryBuilderPreviousPreferences
+			->select('item_identifier', 'is_accepted')
+			->from(self::TABLE_NAME)
+			->where(
+				$queryBuilderPreviousPreferences->expr()->eq('preference_hash', $queryBuilderPreviousPreferences->createNamedParameter($latestPreference['preference_hash']))
+			)
+			->executeQuery()
+			->fetchAllAssociative();
+
+		// Create a map of previous preferences for easy comparison
+		$previousPrefsMap = [];
+		foreach ($previousPreferences as $pref) {
+			$previousPrefsMap[$pref['item_identifier']] = (int) $pref['is_accepted'];
+		}
+
+		// Create a map of new preferences
+		$newPrefsMap = [];
+		foreach ($newInsertData as $data) {
+			$newPrefsMap[$data['item_identifier']] = (int) $data['is_accepted'];
+		}
+
+		// Compare the preferences
+		return $previousPrefsMap !== $newPrefsMap;
 	}
 
 	/**

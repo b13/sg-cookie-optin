@@ -36,8 +36,12 @@ use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Consent Controller
@@ -70,6 +74,7 @@ class ConsentController extends AbstractController {
 	 * Displays the user preference consent history
 	 *
 	 * @throws PropagateResponseException|Exception
+	 * @throws \TYPO3\CMS\Core\Exception
 	 */
 	public function indexAction(): ResponseInterface {
 		$this->switchMode();
@@ -86,20 +91,20 @@ class ConsentController extends AbstractController {
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$this->moduleTemplate->assign('isSiteRoot', TRUE);
 
-			// Add flash message for "no data found" in a separate queue
-			$message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('backend.statistics.noDataFound', 'SgCookieOptin');
+			// Add a flash message for "no data found" in a separate queue
+			$message = LocalizationUtility::translate('backend.statistics.noDataFound', 'SgCookieOptin');
 
-			// Create flash message for no data found
+			// Create a flash message for no data found
 			$flashMessage = GeneralUtility::makeInstance(
-				\TYPO3\CMS\Core\Messaging\FlashMessage::class,
+				FlashMessage::class,
 				$message,
 				'',
-				\TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::INFO,
+				ContextualFeedbackSeverity::INFO,
 				true
 			);
 
 			// Add to a separate queue for rendering at the bottom of the page
-			$flashMessageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+			$flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
 			$messageQueue = $flashMessageService->getMessageQueueByIdentifier('noDataFoundMessage');
 			$messageQueue->enqueue($flashMessage);
 		}
