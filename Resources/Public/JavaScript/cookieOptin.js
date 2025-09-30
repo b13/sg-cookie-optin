@@ -509,33 +509,143 @@ const SgCookieOptin = {
 		SgCookieOptin.addListeners(wrapper, contentElement);
 
 		if (!contentElement) {
-			document.body.insertAdjacentElement('beforeend', wrapper);
+			document.body.insertAdjacentElement('afterbegin', wrapper);
 		} else {
 			contentElement.appendChild(wrapper);
+		}
+
+		const hasPlugin = document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0;
+		// If we’re inside a content element or plugin is present -> inline/content
+		let mode = (hasPlugin || !!contentElement) ? 'inline'
+			: (wrapper.classList.contains('sg-cookie-optin-banner-wrapper') ? 'banner' : 'modal');
+
+		// Semantics per mode
+		if (mode === 'modal') {
+			wrapper.setAttribute('role', 'dialog');
+			wrapper.setAttribute('aria-modal', 'true');
+			if (!wrapper.hasAttribute('tabindex')) wrapper.setAttribute('tabindex', '-1');
+		} else {
+			wrapper.setAttribute('role', 'region');
+			wrapper.removeAttribute('aria-modal');
+			// Label region if not already labeled
+			if (!wrapper.hasAttribute('aria-labelledby') && !wrapper.hasAttribute('aria-label')) {
+				const heading = wrapper.querySelector('h1,h2,h3,[data-cookie-title]');
+				if (heading) {
+					if (!heading.id) heading.id = 'cookieOptin-title-' + Math.random().toString(36).slice(2, 8);
+					wrapper.setAttribute('aria-labelledby', heading.id);
+				} else {
+					wrapper.setAttribute('aria-label', 'Cookie settings');
+				}
+			}
+		}
+
+		// -----------------------------
+		// A11y focus mgmt (modal only)
+		// -----------------------------
+		const FOCUSABLE =
+			'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), details summary, [contenteditable="true"], [tabindex]:not([tabindex="-1"])';
+
+		const previouslyFocused = document.activeElement;
+
+		function getFocusable(container) {
+			return Array.from(container.querySelectorAll(FOCUSABLE))
+				.filter(el => (el.offsetParent !== null || el === container));
+		}
+
+		let onKeydown, cleanup, onHidden;
+		if (mode === 'modal') {
+			// inert background (siblings of the top-level wrapper only)
+			const topNode = wrapper.parentElement === document.body ? wrapper : (wrapper.closest('body > *') || wrapper);
+			const siblings = Array.from(document.body.children).filter(el => el !== topNode);
+			const supportsInert = ('inert' in document.documentElement);
+			const prevAriaHidden = new WeakMap();
+
+			function setBackgroundInactive(state) {
+				siblings.forEach(el => {
+					if (state) {
+						if (supportsInert) el.inert = true;
+						else {
+							prevAriaHidden.set(el, el.getAttribute('aria-hidden'));
+							el.setAttribute('aria-hidden', 'true');
+						}
+					} else {
+						if (supportsInert) el.inert = false;
+						else {
+							const prev = prevAriaHidden.get(el);
+							if (prev === null) el.removeAttribute('aria-hidden');
+							else if (typeof prev !== 'undefined') el.setAttribute('aria-hidden', prev);
+						}
+					}
+				});
+			}
+
+			function focusFirst() {
+				const list = getFocusable(wrapper);
+				(list[0] || wrapper).focus();
+			}
+
+			onKeydown = function(e) {
+				if (e.key === 'Escape') {
+					e.preventDefault();
+					// call your existing close
+					SgCookieOptin.hideCookieOptIn();
+					return;
+				}
+				if (e.key === 'Tab') {
+					const list = getFocusable(wrapper);
+					if (!list.length) {
+						e.preventDefault();
+						wrapper.focus();
+						return;
+					}
+					const first = list[0];
+					const last  = list[list.length - 1];
+					if (e.shiftKey && document.activeElement === first) {
+						e.preventDefault(); last.focus();
+					} else if (!e.shiftKey && document.activeElement === last) {
+						e.preventDefault(); first.focus();
+					}
+				}
+			};
+
+			cleanup = function() {
+				document.removeEventListener('keydown', onKeydown, true);
+				setBackgroundInactive(false);
+				if (previouslyFocused && previouslyFocused.focus) previouslyFocused.focus();
+				document.removeEventListener('cookieOptinHidden', onHidden, true);
+			};
+
+			onHidden = function() { cleanup(); };
+
+			setBackgroundInactive(true);
+			document.addEventListener('keydown', onKeydown, true);
+			document.addEventListener('cookieOptinHidden', onHidden, true);
+
+			// initial focus only for modal
+			setTimeout(() => {
+				const list = getFocusable(wrapper);
+				(list[0] || wrapper).focus();
+			}, 0);
 		}
 
 		setTimeout(function() {
 			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
 			SgCookieOptin.updateCookieList();
-			// Emit event
-			const cookieOptinShownEvent = new CustomEvent('cookieOptinShown', {
-				bubbles: true,
-				detail: {}
-			});
+
+			const cookieOptinShownEvent = new CustomEvent('cookieOptinShown', { bubbles: true, detail: {} });
 			document.body.dispatchEvent(cookieOptinShownEvent);
 
-			// check if there is a cookie consent plugin on the page - then don't focus the checkboxes
-			if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
-				return;
-			}
 
-			const checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
-			if (checkboxes.length > 1) {
-				if (checkboxes[1].focus) {
+			// If a consent plugin is present, skip auto-focusing a checkbox (this also correlates with inline/content)
+			if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) return;
+
+			// Optional: only do this for non-inline (modal/banner). Inline shouldn't steal focus.
+			if (mode !== 'inline') {
+				const checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
+				if (checkboxes.length > 1 && typeof checkboxes[1].focus === 'function') {
 					checkboxes[1].focus();
 				}
 			}
-
 		}, 10);
 	},
 
@@ -1247,6 +1357,9 @@ const SgCookieOptin = {
 			link = link.closest('a');
 		}
 
+		const isExpanded = link.getAttribute('aria-expanded') === 'true';
+		link.setAttribute('aria-expanded', String(!isExpanded));
+
 		const openMoreElement = link.parentNode;
 		const symbolElement = link.parentElement.querySelector('.sg-cookie-optin-box-sublist-open-more-symbol');
 		if (!openMoreElement) {
@@ -1289,6 +1402,9 @@ const SgCookieOptin = {
 		if (link.tagName !== 'A') {
 			link = link.closest('a');
 		}
+
+		const isExpanded = link.getAttribute('aria-expanded') === 'true';
+		link.setAttribute('aria-expanded', String(!isExpanded));
 
 		// todo remove redundant code.
 		let height = 0;

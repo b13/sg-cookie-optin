@@ -29,6 +29,7 @@
 					   {{#required}}disabled="1"{{/required}}>
 					<span class="sg-cookie-optin-checkbox-label" role="checkbox"
 						  {{#required}}aria-checked="true"{{/required}}
+						  {{#required}}aria-disabled="true"{{/required}}
 						  {{^required}}aria-checked="false"{{/required}}>{{{label}}}</span>
 				</label>
 			</li>
@@ -79,7 +80,7 @@
 				</div>
 
 				{{#cookieData}}
-					{{^index}}<a role="button" class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}
+					{{^index}}<a role="button" class="sg-cookie-optin-box-sublist-open-more-link" aria-expanded="false" href="#">{{{textEntries.extend_table_link_text}}}
 						<span>
 							<svg class="sg-cookie-optin-box-sublist-open-more-symbol" fill='currentColor' xmlns='http://www.w3.org/2000/svg'
 								 viewBox='0 0 512 512' aria-hidden="true" focusable="false">
@@ -93,7 +94,7 @@
 	</ul>
 
 	<div class="sg-cookie-optin-box-open-more">
-		<a class="sg-cookie-optin-box-open-more-link" href="#">{{{textEntries.extend_box_link_text}}}
+		<a class="sg-cookie-optin-box-open-more-link" aria-expanded="false" href="#">{{{textEntries.extend_box_link_text}}}
 			<span>
 				<svg class="sg-cookie-optin-box-sublist-open-more-symbol" fill='currentColor' xmlns='http://www.w3.org/2000/svg'
 					 viewBox='0 0 512 512' aria-hidden="true" focusable="false">

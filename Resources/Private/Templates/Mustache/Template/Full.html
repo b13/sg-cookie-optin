@@ -23,19 +23,24 @@
 	<div class="sg-cookie-optin-box-new-lower">
 		<ul class="sg-cookie-optin-box-cookie-list" aria-hidden="true">
 			{{#cookieGroups}}
-			<li class="sg-cookie-optin-box-cookie-list-item">
-				<label>
-					<input class="sg-cookie-optin-checkbox" type="checkbox" name="cookies[]" value="{{groupName}}"
-						{{#required}}checked="1" {{/required}} {{#required}}disabled="1" {{/required}}>
-					<span class="sg-cookie-optin-checkbox-label" role="checkbox" {{#required}}aria-checked="true" {{/required}}
-						{{^required}}aria-checked="false" {{/required}}>{{{label}}}</span>
-				</label>
+				<li class="sg-cookie-optin-box-cookie-list-item">
+					<label >
+						<input  class="sg-cookie-optin-checkbox"
+						   type="checkbox"
+						   name="cookies[]"
+						   value="{{groupName}}"
+						   {{#required}}checked="1"{{/required}}
+						   {{#required}}disabled="1"{{/required}}>
+						<span class="sg-cookie-optin-checkbox-label" role="checkbox"
+							{{#required}}aria-checked="true"{{/required}}
+							{{#required}}aria-disabled="true"{{/required}}
+							{{^required}}aria-checked="false"{{/required}}>{{{label}}}</span>
+					</label>
 
-				<p class="sg-cookie-optin-checkbox-description">{{{description}}}</p>
-				{{#dependentGroups}}
-				<div class="sg-cookie-optin-dependent-groups">{{{textEntries.dependent_groups_text}}} {{dependentGroupTitles}}
-				</div>
-				{{/dependentGroups}}
+					<p class="sg-cookie-optin-checkbox-description">{{{description}}}</p>
+					{{#dependentGroups}}
+						<div class="sg-cookie-optin-dependent-groups">{{{textEntries.dependent_groups_text}}} {{dependentGroupTitles}}</div>
+					{{/dependentGroups}}
 
 				<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
 					{{#cookieData}}
@@ -70,41 +75,39 @@
 			{{/cookieGroups}}
 		</ul>
 
-		<a role="button" class="sg-cookie-optin-box-sublist-open-more-link"
-			href="#">{{{textEntries.extend_table_link_text}}}
+		<a role="button" class="sg-cookie-optin-box-sublist-open-more-link" aria-expanded="false" href="#">{{{textEntries.extend_table_link_text}}}
 			<span>
 				<svg class="sg-cookie-optin-box-sublist-open-more-symbol" fill='currentColor' xmlns='http://www.w3.org/2000/svg'
-					viewBox='0 0 512 512' aria-hidden="true" focusable="false">
-					<path
-						d='M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zM273 369.9l135.5-135.5c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L256 285.1 154.4 183.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L239 369.9c9.4 9.4 24.6 9.4 34 0z' />
+					 viewBox='0 0 512 512' aria-hidden="true" focusable="false">
+					<path d='M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zM273 369.9l135.5-135.5c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L256 285.1 154.4 183.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L239 369.9c9.4 9.4 24.6 9.4 34 0z'/>
 				</svg>
 			</span>
 		</a>
 
 		<div class="sg-cookie-optin-box-button">
-			<button class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
-			<button class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
-			<button class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
+			<button  class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
+			<button  class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
+			<button  class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
 		</div>
 
 		<div class="sg-cookie-optin-box-footer">
 			<div class="sg-cookie-optin-box-footer-links">
-				<div
-					class="sg-cookie-optin-box-copyright{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}">
-					<a class="sg-cookie-optin-box-copyright-link"
-						href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/" rel="noopener"
-						target="_blank">
+				<div class="sg-cookie-optin-box-copyright{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}">
+					<a  class="sg-cookie-optin-box-copyright-link"
+					   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
+					   rel="noopener"
+					   target="_blank">
 						Powered by sgalinski Cookie Consent
 					</a>
 					{{#footerLinks.0}} |{{/footerLinks.0}}
 				</div>
 
 				{{#footerLinks}}
-				{{#index}}
-				<span class="sg-cookie-optin-box-footer-divider"> | </span>
-				{{/index}}
+					{{#index}}
+						<span class="sg-cookie-optin-box-footer-divider"> | </span>
+					{{/index}}
 
-				<a class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
+					<a  class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
 				{{/footerLinks}}
 			</div>
 
