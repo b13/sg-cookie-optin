@@ -503,6 +503,11 @@ const SgCookieOptin = {
 			const box = wrapper.querySelector('.sg-cookie-optin-box');
 			if (box) {
 				box.classList.add('sg-cookie-optin-dark-theme');
+				if (box.classList.contains('sg-cookie-optin-dark-theme')) {
+					box.dataset.bsTheme = 'dark';
+				} else {
+					box.removeAttribute('data-bs-theme');
+				}
 			}
 		}
 
@@ -1159,6 +1164,12 @@ const SgCookieOptin = {
 			const box = btn ? btn.closest('.sg-cookie-optin-box') : element.querySelector('.sg-cookie-optin-box');
 			if (box) {
 				box.classList.toggle('sg-cookie-optin-dark-theme');
+				if (box.classList.contains('sg-cookie-optin-dark-theme')) {
+					box.dataset.bsTheme = 'dark';
+				} else {
+					box.removeAttribute('data-bs-theme');
+				}
+
 				const lastPreferences = SgCookieOptin.getLastPreferences();
 				lastPreferences.contrastMode = box.classList.contains('sg-cookie-optin-dark-theme');
 				if (SgCookieOptin.lastPreferencesFromCookie()) {
