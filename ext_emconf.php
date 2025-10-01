@@ -10,7 +10,7 @@ $EM_CONF[$_EXTKEY] = [
 		on our website: https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/.
 	',
 	'category' => 'module',
-	'version' => '7.0.12',
+	'version' => '7.1.0',
 	'state' => 'stable',
 	'author' => 'Stefan Galinski',
 	'author_email' => 'support@sgalinski.de',
