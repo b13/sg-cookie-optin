@@ -369,12 +369,19 @@ const SgCookieOptin = {
 		if (groupData['loadingHTML'] && groupData['loadingHTML'] !== '') {
 			const head = document.getElementsByTagName('head')[0];
 			if (head) {
+				let loadingHTML = groupData['loadingHTML'];
+				// Replace ###NONCE### placeholder with the nonce value from script#cookieOptinData if present
+				if (loadingHTML.indexOf('###NONCE###') !== -1) {
+					const nonceSource = document.querySelector('script#cookieOptinData');
+					const nonceValue = nonceSource && nonceSource.nonce ? nonceSource.nonce : '';
+					loadingHTML = loadingHTML.replace(/###NONCE###/g, nonceValue);
+				}
 				const range = document.createRange();
 				range.selectNode(head);
-				head.appendChild(range.createContextualFragment(groupData['loadingHTML']));
+				head.appendChild(range.createContextualFragment(loadingHTML));
 				const addedLoadingHTMLEvent = new CustomEvent('addedLoadingHTML', {
 					bubbles: true,
-					detail: {src: groupData['loadingHTML']}
+					detail: {src: loadingHTML}
 				});
 				head.dispatchEvent(addedLoadingHTMLEvent);
 			}

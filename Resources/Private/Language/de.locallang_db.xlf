@@ -838,8 +838,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.html.description" approved="yes">
-				<source><![CDATA[Do not use "document.write" as this will cause errors on the website]]></source>
-				<target><![CDATA[Benutze nicht "document.write", denn dies verursacht Fehler auf der Website]]></target>
+				<source><![CDATA[Do not use "document.write" as this will cause errors on the website. You can use the ###NONCE### marker to automatically inject the current request CSP nonce at runtime. Example: <script nonce="###NONCE###" src="https://example.com/example.js">]]></source>
+				<target><![CDATA[Verwenden Sie nicht "document.write", da dies zu Fehlern auf der Website führt. Sie können den Platzhalter ###NONCE### verwenden, um zur Laufzeit automatisch die aktuelle Request-CSP-Nonce einzufügen. Beispiel: <script nonce="###NONCE###" src="https://example.com/example.js">]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_group" approved="yes">
 				<source><![CDATA[Group]]></source>

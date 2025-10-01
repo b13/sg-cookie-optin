@@ -60,20 +60,6 @@ $configuration = [
 		],
 	],
 	'columns' => [
-		'pid' => [
-			'exclude' => FALSE,
-			'label' => 'PID',
-			'config' => [
-				'type' => 'none',
-			]
-		],
-		'hidden' => [
-			'exclude' => TRUE,
-			'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:hidden.I.0',
-			'config' => [
-				'type' => 'check',
-			],
-		],
 		'sys_language_uid' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
@@ -214,5 +200,23 @@ $configuration = [
 		],
 	],
 ];
+
+$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+if (version_compare($versionNumber, '13.3', '<')) {
+	$configuration['columns']['hidden'] = [
+		'exclude' => TRUE,
+		'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:hidden.I.0',
+		'config' => [
+			'type' => 'check',
+		],
+	];
+	$configuration['columns']['pid'] = [
+		'exclude' => FALSE,
+		'label' => 'PID',
+		'config' => [
+			'type' => 'none',
+		]
+	];
+}
 
 return $configuration;

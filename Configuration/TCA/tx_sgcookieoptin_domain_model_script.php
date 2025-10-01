@@ -80,20 +80,6 @@ $configuration = [
 				'default' => ''
 			]
 		],
-		'pid' => [
-			'exclude' => FALSE,
-			'label' => 'PID',
-			'config' => [
-				'type' => 'none',
-			]
-		],
-		'hidden' => [
-			'exclude' => TRUE,
-			'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:hidden.I.0',
-			'config' => [
-				'type' => 'check',
-			],
-		],
 		'title' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_script.title',
@@ -154,5 +140,23 @@ $configuration = [
 		],
 	],
 ];
+
+$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+if (version_compare($versionNumber, '13.3', '<')) {
+	$configuration['columns']['hidden'] = [
+		'exclude' => TRUE,
+		'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:hidden.I.0',
+		'config' => [
+			'type' => 'check',
+		],
+	];
+	$configuration['columns']['pid'] = [
+		'exclude' => FALSE,
+		'label' => 'PID',
+		'config' => [
+			'type' => 'none',
+		]
+	];
+}
 
 return $configuration;
