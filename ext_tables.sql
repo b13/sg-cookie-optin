@@ -31,6 +31,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	dependent_groups_text                      varchar(255)        DEFAULT 'Abhängig von:'            NOT NULL,
 	user_hash_text                             varchar(255)        DEFAULT 'User-Hash'                NOT NULL,
 	fingerprint_aria_label_text                varchar(255)        DEFAULT 'Cookies verwalten'                NOT NULL,
+	contrast_toggle_aria_label_text                 varchar(255)        DEFAULT 'Dunkelmodus umschalten'          NOT NULL,
 
 	-- template
 	template_html                              text                                                   NOT NULL,
@@ -160,6 +161,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	unified_cookie_name                        tinyint(4)          DEFAULT '1',
 	disable_usage_statistics                   tinyint(4)          DEFAULT '0',
 	disable_automatic_loading                  tinyint(4)          DEFAULT '0',
+	automatic_script_activation               tinyint(4)          DEFAULT '0',
 	auto_action_for_bots                       tinyint(4)          DEFAULT '0',
 
 	-- TYPO3 related columns
@@ -282,6 +284,18 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	KEY consent(pid, user_hash, item_type, item_identifier, date),
 	KEY statistics(pid, item_type, item_identifier, is_accepted, version, date),
 	KEY version(version, pid)
+);
+
+CREATE TABLE tx_sgcookieoptin_domain_model_rate_limit (
+	uid            int(11)                      NOT NULL auto_increment,
+	pid            int(11) unsigned DEFAULT '0' NOT NULL,
+
+	ip_hash        VARCHAR(64)                  NOT NULL,
+	tstamp         DATETIME                     NOT NULL,
+	root_page_id   int(11) unsigned             NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY rate_limit_check(ip_hash, root_page_id, tstamp)
 );
 
 CREATE TABLE tx_sgcookieoptin_domain_model_service (

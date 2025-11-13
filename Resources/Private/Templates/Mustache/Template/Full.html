@@ -2,8 +2,19 @@
 <div data-nosnippet class="sg-cookie-optin-box sg-cookie-optin-box-new">
 	<div class="sg-cookie-optin-box-new-upper">
 		{{#settings.show_button_close}}
-			<span class="sg-cookie-optin-box-close-button">✕</span>
+		<span class="sg-cookie-optin-box-close-button">✕</span>
 		{{/settings.show_button_close}}
+
+		{{#settings.monochrome_enabled}}
+		<button id="sg-cookie-optin-box-toggle-contrast" class="sg-cookie-optin-box-toggle-contrast"
+			aria-label="{{{textEntries.contrastToggleAriaLabelText}}}">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="presentation">
+				<path
+					d="M448 256c0-106-86-192-192-192l0 384c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z">
+				</path>
+			</svg>
+		</button>
+		{{/settings.monochrome_enabled}}
 
 		<strong class="sg-cookie-optin-box-header">{{{textEntries.header}}}</strong>
 		<p class="sg-cookie-optin-box-description">{{{textEntries.description}}}</p>
@@ -22,6 +33,7 @@
 						   {{#required}}disabled="1"{{/required}}>
 						<span class="sg-cookie-optin-checkbox-label" role="checkbox"
 							{{#required}}aria-checked="true"{{/required}}
+							{{#required}}aria-disabled="true"{{/required}}
 							{{^required}}aria-checked="false"{{/required}}>{{{label}}}</span>
 					</label>
 
@@ -30,39 +42,40 @@
 						<div class="sg-cookie-optin-dependent-groups">{{{textEntries.dependent_groups_text}}} {{dependentGroupTitles}}</div>
 					{{/dependentGroups}}
 
-					<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
-						{{#cookieData}}
-							<div class="sg-cookie-optin-box-cookie-detail-sublist-item {{#pseudo}}sg-cookie-optin-box-cookie-detail-sublist-item-pseudo{{/pseudo}}">
-								{{^pseudo}}
-									<table>
-										<tbody>
-											<tr>
-												<th>{{{textEntries.cookie_name_text}}}</th>
-												<td>{{{Name}}}</td>
-											</tr>
-											<tr>
-												<th>{{{textEntries.cookie_provider_text}}}</th>
-												<td>{{{Provider}}}</td>
-											</tr>
-											<tr>
-												<th>{{{textEntries.cookie_lifetime_text}}}</th>
-												<td>{{{Lifetime}}}</td>
-											</tr>
-											<tr>
-												<th>{{{textEntries.cookie_purpose_text}}}</th>
-												<td class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
-											</tr>
-										</tbody>
-									</table>
-								{{/pseudo}}
-							</div>
-						{{/cookieData}}
+				<div class="sg-cookie-optin-box-cookie-detail-sublist" aria-hidden="true">
+					{{#cookieData}}
+					<div
+						class="sg-cookie-optin-box-cookie-detail-sublist-item {{#pseudo}}sg-cookie-optin-box-cookie-detail-sublist-item-pseudo{{/pseudo}}">
+						{{^pseudo}}
+						<table>
+							<tbody>
+								<tr>
+									<th>{{{textEntries.cookie_name_text}}}</th>
+									<td>{{{Name}}}</td>
+								</tr>
+								<tr>
+									<th>{{{textEntries.cookie_provider_text}}}</th>
+									<td>{{{Provider}}}</td>
+								</tr>
+								<tr>
+									<th>{{{textEntries.cookie_lifetime_text}}}</th>
+									<td>{{{Lifetime}}}</td>
+								</tr>
+								<tr>
+									<th>{{{textEntries.cookie_purpose_text}}}</th>
+									<td class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
+								</tr>
+							</tbody>
+						</table>
+						{{/pseudo}}
 					</div>
-				</li>
+					{{/cookieData}}
+				</div>
+			</li>
 			{{/cookieGroups}}
 		</ul>
 
-		<a role="button" class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}
+		<a role="button" class="sg-cookie-optin-box-sublist-open-more-link" aria-expanded="false" href="#">{{{textEntries.extend_table_link_text}}}
 			<span>
 				<svg class="sg-cookie-optin-box-sublist-open-more-symbol" fill='currentColor' xmlns='http://www.w3.org/2000/svg'
 					 viewBox='0 0 512 512' aria-hidden="true" focusable="false">

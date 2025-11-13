@@ -34,7 +34,8 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-header,
-.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-header {
+.sg-cookie-optin-plugin-cookie-list .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-header,
+#SgCookieOptin .sg-cookie-optin-box-toggle-contrast {
 	color: var(--sg-cookie-optin-color-full-headline);
 }
 

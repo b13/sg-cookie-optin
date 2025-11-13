@@ -838,8 +838,8 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.html.description" approved="yes">
-				<source><![CDATA[Do not use "document.write" as this will cause errors on the website]]></source>
-				<target><![CDATA[Benutze nicht "document.write", denn dies verursacht Fehler auf der Website]]></target>
+				<source><![CDATA[Do not use "document.write" as this will cause errors on the website. You can use the ###NONCE### marker to automatically inject the current request CSP nonce at runtime. Example: <script nonce="###NONCE###" src="https://example.com/example.js">]]></source>
+				<target><![CDATA[Verwenden Sie nicht "document.write", da dies zu Fehlern auf der Website führt. Sie können den Platzhalter ###NONCE### verwenden, um zur Laufzeit automatisch die aktuelle Request-CSP-Nonce einzufügen. Beispiel: <script nonce="###NONCE###" src="https://example.com/example.js">]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_group" approved="yes">
 				<source><![CDATA[Group]]></source>
@@ -962,12 +962,12 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<target><![CDATA[Beschreibung]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.title" approved="yes">
-				<source><![CDATA[Enable Monochrome Theme]]></source>
-				<target><![CDATA[Monochromes Theme aktivieren]]></target>
+				<source><![CDATA[Enable High Contrast Mode]]></source>
+				<target><![CDATA[Hochkontrastmodus aktivieren]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.monochrome_enabled.description" approved="yes">
-				<source><![CDATA[If you leave this box checked, we will automatically switch to a monochrome theme if you add the class sg-cookie-optin-dark-theme to the <body> tag or if the user's browser preferences are set up to force a dark theme or a high contrast theme.]]></source>
-				<target><![CDATA[Wenn Sie dieses Kontrollkästchen aktiviert lassen, wird automatisch zu einem einfarbigen Thema gewechselt, wenn Sie die Klasse sg-cookie-optin-dark-theme zum <body>-Tag hinzufügen oder wenn die Browsereinstellungen des Benutzers ein dunkles Thema oder ein Thema mit hohem Kontrast erfordern.]]></target>
+				<source><![CDATA[Enable automatic high contrast mode for better accessibility. The cookie banner will automatically switch to a high contrast theme when users have dark mode or high contrast preferences enabled in their browser, or when the CSS class "sg-cookie-optin-dark-theme" is added to the page body.]]></source>
+				<target><![CDATA[Aktiviert den automatischen Hochkontrastmodus für bessere Zugänglichkeit. Das Cookie-Banner wechselt automatisch zu einem Hochkontrast-Theme, wenn Benutzer den Dunkelmodus oder Hochkontrasteinstellungen in ihrem Browser aktiviert haben oder wenn die CSS-Klasse "sg-cookie-optin-dark-theme" zum Body-Element der Seite hinzugefügt wird.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_service.iframe_replacement_html" approved="yes">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
@@ -1030,6 +1030,46 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2" approved="yes">
 				<source><![CDATA[Rejected all]]></source>
 				<target><![CDATA[Nichts akzeptiert]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.automatic_script_activation">
+				<source><![CDATA[Automatic script activation]]></source>
+				<target><![CDATA[Automatische Skriptaktivierung]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.automatic_script_activation.description">
+				<source><![CDATA[If enabled, essential group scripts will be activated automatically when possible.]]></source>
+				<target><![CDATA[Wenn aktiviert, werden essenzielle Gruppenskripte nach Möglichkeit automatisch aktiviert.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.contrast_toggle_aria_label_text" approved="yes">
+				<source><![CDATA[Contrast toggle button aria-label]]></source>
+				<target><![CDATA[Kontrast umschalten Button aria-label]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.accessibility" approved="yes">
+				<source><![CDATA[Accessibility]]></source>
+				<target><![CDATA[Barrierefreiheit]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.general" approved="yes">
+				<source><![CDATA[General]]></source>
+				<target><![CDATA[Allgemein]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.performance" approved="yes">
+				<source><![CDATA[Performance]]></source>
+				<target><![CDATA[Leistung]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.privacy" approved="yes">
+				<source><![CDATA[Privacy & Security]]></source>
+				<target><![CDATA[Datenschutz & Sicherheit]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.testing" approved="yes">
+				<source><![CDATA[Testing & Development]]></source>
+				<target><![CDATA[Testen & Entwicklung]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.statistics" approved="yes">
+				<source><![CDATA[Statistics & Tracking]]></source>
+				<target><![CDATA[Statistiken & Tracking]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.advanced" approved="yes">
+				<source><![CDATA[Advanced]]></source>
+				<target><![CDATA[Erweitert]]></target>
 			</trans-unit>
 		</body>
 	</file>

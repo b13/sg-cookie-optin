@@ -80,13 +80,6 @@ $configuration = [
 				'default' => ''
 			]
 		],
-		'pid' => [
-			'exclude' => FALSE,
-			'label' => 'PID',
-			'config' => [
-				'type' => 'none',
-			]
-		],
 		'identifier' => [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
@@ -164,5 +157,16 @@ $configuration = [
 		],
 	],
 ];
+
+$versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
+if (version_compare($versionNumber, '13.3', '<')) {
+	$configuration['columns']['pid'] = [
+		'exclude' => FALSE,
+		'label' => 'PID',
+		'config' => [
+			'type' => 'none',
+		]
+	];
+}
 
 return $configuration;

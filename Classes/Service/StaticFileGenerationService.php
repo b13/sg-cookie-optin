@@ -845,6 +845,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'monochrome_enabled' => (bool) $translatedData['monochrome_enabled'],
 			'show_fingerprint' => (bool) $translatedData['show_fingerprint'],
 			'disable_automatic_loading' => (bool) $translatedData['disable_automatic_loading'],
+			'automatic_script_activation' => (bool) $translatedData['automatic_script_activation'],
 			'auto_action_for_bots' => (int) $translatedData['auto_action_for_bots'],
 		];
 
@@ -876,6 +877,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'user_hash_text' => $translatedData['user_hash_text'],
 			'dependent_groups_text' => $translatedData['dependent_groups_text'],
 			'fingerprint_aria_label_text' => $translatedData['fingerprint_aria_label_text'],
+			'contrastToggleAriaLabelText' => $translatedData['contrast_toggle_aria_label_text'],
 		];
 
 		$placeholders = [

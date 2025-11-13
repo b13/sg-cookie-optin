@@ -44,6 +44,7 @@ const SgCookieOptin = {
 	jsonData: {},
 	isExternalGroupAccepted: false,
 	fingerprintIcon: null,
+	essentialAssetsInjected: false,
 	consentModeDefaultsSent: false,
 	consentModeDefaults: {
 		ad_personalization: "denied",
@@ -260,7 +261,7 @@ const SgCookieOptin = {
 	dispatchGtagConsentForAllGroups: function() {
 		const cookieValues = SgCookieOptin.readCookieValues();
 		for (let index in cookieValues) {
-			if (!cookieValues.hasOwnProperty(index) || index === 'essential') {
+			if (!cookieValues.hasOwnProperty(index) || index === SgCookieOptin.COOKIE_GROUP_ESSENTIAL) {
 				continue;
 			}
 
@@ -338,7 +339,7 @@ const SgCookieOptin = {
 		const cookieGroups = SgCookieOptin.jsonData.cookieGroups;
 
 		for (const group of cookieGroups) {
-			if (!group || typeof group.groupName !== 'string' || group.groupName === 'essential') {
+			if (!group || typeof group.groupName !== 'string' || group.groupName === SgCookieOptin.COOKIE_GROUP_ESSENTIAL) {
 				continue;
 			}
 
@@ -353,6 +354,53 @@ const SgCookieOptin = {
 	},
 
 	/**
+	 * Injects the HTML and scripts for a specific group.
+	 *
+	 * @return {void}
+	 */
+	injectGroupAssets: function(groupData) {
+		// automatic script activation is on and the essential group is already injected
+		if (typeof SgCookieOptin.jsonData.settings.automatic_script_activation !== 'undefined'
+			&& SgCookieOptin.jsonData.settings.automatic_script_activation
+			&& groupData['groupName'] === SgCookieOptin.COOKIE_GROUP_ESSENTIAL
+			&& SgCookieOptin.essentialAssetsInjected) {
+			return;
+		}
+		if (groupData['loadingHTML'] && groupData['loadingHTML'] !== '') {
+			const head = document.getElementsByTagName('head')[0];
+			if (head) {
+				let loadingHTML = groupData['loadingHTML'];
+				// Replace ###NONCE### placeholder with the nonce value from script#cookieOptinData if present
+				if (loadingHTML.indexOf('###NONCE###') !== -1) {
+					const nonceSource = document.querySelector('script#cookieOptinData');
+					const nonceValue = nonceSource && nonceSource.nonce ? nonceSource.nonce : '';
+					loadingHTML = loadingHTML.replace(/###NONCE###/g, nonceValue);
+				}
+				const range = document.createRange();
+				range.selectNode(head);
+				head.appendChild(range.createContextualFragment(loadingHTML));
+				const addedLoadingHTMLEvent = new CustomEvent('addedLoadingHTML', {
+					bubbles: true,
+					detail: {src: loadingHTML}
+				});
+				head.dispatchEvent(addedLoadingHTMLEvent);
+			}
+		}
+
+		if (groupData['loadingJavaScript'] && groupData['loadingJavaScript'] !== '') {
+			const script = document.createElement('script');
+			script.setAttribute('src', groupData['loadingJavaScript']);
+			script.setAttribute('type', 'text/javascript');
+			document.body.appendChild(script);
+			const addedLoadingScriptEvent = new CustomEvent('addedLoadingScript', {
+				bubbles: true,
+				detail: {src: groupData['loadingJavaScript']}
+			});
+			script.dispatchEvent(addedLoadingScriptEvent);
+		}
+	},
+
+	/**
 	 * Handles the scripts of the allowed cookie groups.
 	 *
 	 * @return {void}
@@ -360,6 +408,24 @@ const SgCookieOptin = {
 	handleScriptActivations: function() {
 		const cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (!cookieValue) {
+			// If there is no cookie set yet, we still need to run the scripts from the essential group
+			if (typeof SgCookieOptin.jsonData.settings.automatic_script_activation !== 'undefined'
+				&& SgCookieOptin.jsonData.settings.automatic_script_activation) {
+				for (const groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+					if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+						continue;
+					}
+
+					const groupData = SgCookieOptin.jsonData.cookieGroups[groupIndex];
+
+					if (groupData['groupName'] !== SgCookieOptin.COOKIE_GROUP_ESSENTIAL) {
+						continue;
+					}
+
+					SgCookieOptin.injectGroupAssets(groupData);
+					SgCookieOptin.essentialAssetsInjected = true;
+				}
+			}
 			return;
 		}
 
@@ -393,44 +459,7 @@ const SgCookieOptin = {
 					SgCookieOptin.dispatchGtagConsent(SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName']);
 				}
 
-				if (
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] &&
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] !== ''
-				) {
-					const head = document.getElementsByTagName('head')[0];
-					if (head) {
-						const range = document.createRange();
-						range.selectNode(head);
-						head.appendChild(range.createContextualFragment(SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']));
-						// Emit event
-						const addedLoadingHTMLEvent = new CustomEvent('addedLoadingHTML', {
-							bubbles: true,
-							detail: {
-								src: SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']
-							}
-						});
-						head.dispatchEvent(addedLoadingHTMLEvent);
-					}
-				}
-
-				if (
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] &&
-					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== ''
-				) {
-					const script = document.createElement('script');
-					script.setAttribute('src', SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
-					script.setAttribute('type', 'text/javascript');
-					document.body.appendChild(script);
-
-					// Emit event
-					const addedLoadingScriptEvent = new CustomEvent('addedLoadingScript', {
-						bubbles: true,
-						detail: {
-							src: SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']
-						}
-					});
-					script.dispatchEvent(addedLoadingScriptEvent);
-				}
+				SgCookieOptin.injectGroupAssets(SgCookieOptin.jsonData.cookieGroups[groupIndex]);
 			}
 		}
 	},
@@ -475,36 +504,160 @@ const SgCookieOptin = {
 
 		SgCookieOptin.insertUserUuid(wrapper);
 
+		// Apply contrast mode if previously set
+		const lastPreferences = SgCookieOptin.getLastPreferences();
+		if (lastPreferences.contrastMode) {
+			const box = wrapper.querySelector('.sg-cookie-optin-box');
+			if (box) {
+				box.classList.add('sg-cookie-optin-dark-theme');
+				if (box.classList.contains('sg-cookie-optin-dark-theme')) {
+					box.dataset.bsTheme = 'dark';
+				} else {
+					box.removeAttribute('data-bs-theme');
+				}
+			}
+		}
+
 		SgCookieOptin.addListeners(wrapper, contentElement);
 
 		if (!contentElement) {
-			document.body.insertAdjacentElement('beforeend', wrapper);
+			document.body.insertAdjacentElement('afterbegin', wrapper);
 		} else {
 			contentElement.appendChild(wrapper);
+		}
+
+		const hasPlugin = document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0;
+		// If we’re inside a content element or plugin is present -> inline/content
+		let mode = (hasPlugin || !!contentElement) ? 'inline'
+			: (wrapper.classList.contains('sg-cookie-optin-banner-wrapper') ? 'banner' : 'modal');
+
+		// Semantics per mode
+		if (mode === 'modal') {
+			wrapper.setAttribute('role', 'dialog');
+			wrapper.setAttribute('aria-modal', 'true');
+			if (!wrapper.hasAttribute('tabindex')) wrapper.setAttribute('tabindex', '-1');
+		} else {
+			wrapper.setAttribute('role', 'region');
+			wrapper.removeAttribute('aria-modal');
+			// Label region if not already labeled
+			if (!wrapper.hasAttribute('aria-labelledby') && !wrapper.hasAttribute('aria-label')) {
+				const heading = wrapper.querySelector('h1,h2,h3,[data-cookie-title]');
+				if (heading) {
+					if (!heading.id) heading.id = 'cookieOptin-title-' + Math.random().toString(36).slice(2, 8);
+					wrapper.setAttribute('aria-labelledby', heading.id);
+				} else {
+					wrapper.setAttribute('aria-label', 'Cookie settings');
+				}
+			}
+		}
+
+		// -----------------------------
+		// A11y focus mgmt (modal only)
+		// -----------------------------
+		const FOCUSABLE =
+			'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), details summary, [contenteditable="true"], [tabindex]:not([tabindex="-1"])';
+
+		const previouslyFocused = document.activeElement;
+
+		function getFocusable(container) {
+			return Array.from(container.querySelectorAll(FOCUSABLE))
+				.filter(el => (el.offsetParent !== null || el === container));
+		}
+
+		let onKeydown, cleanup, onHidden;
+		if (mode === 'modal') {
+			// inert background (siblings of the top-level wrapper only)
+			const topNode = wrapper.parentElement === document.body ? wrapper : (wrapper.closest('body > *') || wrapper);
+			const siblings = Array.from(document.body.children).filter(el => el !== topNode);
+			const supportsInert = ('inert' in document.documentElement);
+			const prevAriaHidden = new WeakMap();
+
+			function setBackgroundInactive(state) {
+				siblings.forEach(el => {
+					if (state) {
+						if (supportsInert) el.inert = true;
+						else {
+							prevAriaHidden.set(el, el.getAttribute('aria-hidden'));
+							el.setAttribute('aria-hidden', 'true');
+						}
+					} else {
+						if (supportsInert) el.inert = false;
+						else {
+							const prev = prevAriaHidden.get(el);
+							if (prev === null) el.removeAttribute('aria-hidden');
+							else if (typeof prev !== 'undefined') el.setAttribute('aria-hidden', prev);
+						}
+					}
+				});
+			}
+
+			function focusFirst() {
+				const list = getFocusable(wrapper);
+				(list[0] || wrapper).focus();
+			}
+
+			onKeydown = function(e) {
+				if (e.key === 'Escape') {
+					e.preventDefault();
+					// call your existing close
+					SgCookieOptin.hideCookieOptIn();
+					return;
+				}
+				if (e.key === 'Tab') {
+					const list = getFocusable(wrapper);
+					if (!list.length) {
+						e.preventDefault();
+						wrapper.focus();
+						return;
+					}
+					const first = list[0];
+					const last  = list[list.length - 1];
+					if (e.shiftKey && document.activeElement === first) {
+						e.preventDefault(); last.focus();
+					} else if (!e.shiftKey && document.activeElement === last) {
+						e.preventDefault(); first.focus();
+					}
+				}
+			};
+
+			cleanup = function() {
+				document.removeEventListener('keydown', onKeydown, true);
+				setBackgroundInactive(false);
+				if (previouslyFocused && previouslyFocused.focus) previouslyFocused.focus();
+				document.removeEventListener('cookieOptinHidden', onHidden, true);
+			};
+
+			onHidden = function() { cleanup(); };
+
+			setBackgroundInactive(true);
+			document.addEventListener('keydown', onKeydown, true);
+			document.addEventListener('cookieOptinHidden', onHidden, true);
+
+			// initial focus only for modal
+			setTimeout(() => {
+				const list = getFocusable(wrapper);
+				(list[0] || wrapper).focus();
+			}, 0);
 		}
 
 		setTimeout(function() {
 			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
 			SgCookieOptin.updateCookieList();
-			// Emit event
-			const cookieOptinShownEvent = new CustomEvent('cookieOptinShown', {
-				bubbles: true,
-				detail: {}
-			});
+
+			const cookieOptinShownEvent = new CustomEvent('cookieOptinShown', { bubbles: true, detail: {} });
 			document.body.dispatchEvent(cookieOptinShownEvent);
 
-			// check if there is a cookie consent plugin on the page - then don't focus the checkboxes
-			if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
-				return;
-			}
 
-			const checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
-			if (checkboxes.length > 1) {
-				if (checkboxes[1].focus) {
+			// If a consent plugin is present, skip auto-focusing a checkbox (this also correlates with inline/content)
+			if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) return;
+
+			// Optional: only do this for non-inline (modal/banner). Inline shouldn't steal focus.
+			if (mode !== 'inline') {
+				const checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
+				if (checkboxes.length > 1 && typeof checkboxes[1].focus === 'function') {
 					checkboxes[1].focus();
 				}
 			}
-
 		}, 10);
 	},
 
@@ -1008,6 +1161,32 @@ const SgCookieOptin = {
 			SgCookieOptin.handleCheckboxChange(event.target);
 		});
 
+		// Monochrome contrast toggle (toggles dark theme class to the cookie optin box)
+		const contrastToggleButtons = element.querySelectorAll('.sg-cookie-optin-box-toggle-contrast');
+		SgCookieOptin.addEventListenerToList(contrastToggleButtons, 'click', function(event) {
+			let btn = event.target;
+			if (btn.tagName !== 'BUTTON') {
+				btn = btn.closest('button');
+			}
+			const box = btn ? btn.closest('.sg-cookie-optin-box') : element.querySelector('.sg-cookie-optin-box');
+			if (box) {
+				box.classList.toggle('sg-cookie-optin-dark-theme');
+				if (box.classList.contains('sg-cookie-optin-dark-theme')) {
+					box.dataset.bsTheme = 'dark';
+				} else {
+					box.removeAttribute('data-bs-theme');
+				}
+
+				const lastPreferences = SgCookieOptin.getLastPreferences();
+				lastPreferences.contrastMode = box.classList.contains('sg-cookie-optin-dark-theme');
+				if (SgCookieOptin.lastPreferencesFromCookie()) {
+					SgCookieOptin.setCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME, JSON.stringify(lastPreferences), '365');
+				} else {
+					window.localStorage.setItem(SgCookieOptin.LAST_PREFERENCES_LOCAL_STORAGE_NAME, JSON.stringify(lastPreferences));
+				}
+			}
+		});
+
 	},
 
 	/**
@@ -1176,7 +1355,7 @@ const SgCookieOptin = {
 	 *
 	 * @param {HTMLInputElement} checkbox
 	 */
-	handleCheckboxChange: function (checkbox) {
+	handleCheckboxChange: function(checkbox) {
 		checkbox.closest('.sg-cookie-optin-box-cookie-list-item')
 			.querySelector('.sg-cookie-optin-checkbox-label')
 			.setAttribute('aria-checked', checkbox.checked);
@@ -1195,6 +1374,9 @@ const SgCookieOptin = {
 		if (link.tagName !== 'A') {
 			link = link.closest('a');
 		}
+
+		const isExpanded = link.getAttribute('aria-expanded') === 'true';
+		link.setAttribute('aria-expanded', String(!isExpanded));
 
 		const openMoreElement = link.parentNode;
 		const symbolElement = link.parentElement.querySelector('.sg-cookie-optin-box-sublist-open-more-symbol');
@@ -1238,6 +1420,9 @@ const SgCookieOptin = {
 		if (link.tagName !== 'A') {
 			link = link.closest('a');
 		}
+
+		const isExpanded = link.getAttribute('aria-expanded') === 'true';
+		link.setAttribute('aria-expanded', String(!isExpanded));
 
 		// todo remove redundant code.
 		let height = 0;
@@ -2372,14 +2557,17 @@ const SgCookieOptin = {
 		}
 
 		if (!lastPreferences) {
-			return {};
+			return {contrastMode: false};
 		}
 
 		try {
 			lastPreferences = JSON.parse(lastPreferences);
+			if (typeof lastPreferences.contrastMode === 'undefined') {
+				lastPreferences.contrastMode = false;
+			}
 			return lastPreferences;
 		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
-			return {};
+			return {contrastMode: false};
 		}
 	},
 

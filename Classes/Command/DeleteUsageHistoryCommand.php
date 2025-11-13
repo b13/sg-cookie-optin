@@ -28,6 +28,7 @@ namespace SGalinski\SgCookieOptin\Command;
 
 use Exception;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
+use SGalinski\SgCookieOptin\Service\RateLimitService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -67,6 +68,7 @@ class DeleteUsageHistoryCommand extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 * @return int error code
+	 * @throws \Doctrine\DBAL\Exception
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
@@ -76,6 +78,9 @@ class DeleteUsageHistoryCommand extends Command {
 			$olderThan = (int) $input->getArgument('olderThan');
 			$pid = (int) $input->getArgument('pid');
 			OptinHistoryService::deleteOlderThan($olderThan, $pid);
+
+			// Also clean up old rate limit entries (keep them for 24 hours)
+			RateLimitService::cleanupOldEntries($olderThan*24);
 		} catch (Exception $exception) {
 			$this->io->writeln('Error!');
 			$this->io->writeln($exception->getMessage());
