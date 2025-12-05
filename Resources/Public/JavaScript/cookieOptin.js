@@ -1485,9 +1485,8 @@ const SgCookieOptin = {
 			} else {
 				cookieSubList.classList.add('sg-cookie-optin-visible');
 				cookieSubList.setAttribute('aria-hidden', 'false');
-				cookieSubList.style.height = 'auto';
-				height = cookieSubList.getBoundingClientRect().height + 'px';
-				cookieSubList.style.height = '';
+				// Measure target height without touching inline styles to not break CSS transitions
+				height = SgCookieOptin.getElementNaturalHeight(cookieSubList);
 				if (symbolElement) {
 					symbolElement.classList.add('sg-cookie-optin-flipped');
 				}
@@ -1500,6 +1499,51 @@ const SgCookieOptin = {
 				link.firstChild.textContent = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 			}
 		}
+	},
+
+	/**
+	 * Determine the natural/expanded height of an element in a reliable way.
+	 * Tries scrollHeight/offsetHeight/BoundingClientRect and falls back to a hidden clone if needed.
+	 *
+	 * @param {HTMLElement} element
+	 * @return {string} height in pixels (e.g. "123px")
+	 */
+	getElementNaturalHeight: function(element) {
+		if (!element) {
+			return '0px';
+		}
+
+		// Primary: use scrollHeight which reflects full content height when height is 'auto'.
+		// This does NOT modify the element styles, so transitions remain intact.
+		let height = element.scrollHeight || 0;
+
+		// If scrollHeight isn't available (0 due to display:none or not yet in DOM),
+		// fall back to measuring a hidden clone appended to the body. Do not affect original element.
+		if (!(height > 0)) {
+			const clone = element.cloneNode(true);
+			const rect = element.getBoundingClientRect ? element.getBoundingClientRect() : { width: element.offsetWidth || 0 };
+			clone.style.height = 'auto';
+			clone.style.position = 'absolute';
+			clone.style.visibility = 'hidden';
+			clone.style.pointerEvents = 'none';
+			clone.style.left = '-9999px';
+			clone.style.top = '0';
+			clone.style.right = 'auto';
+			clone.style.bottom = 'auto';
+			clone.style.display = 'block';
+			// Ensure width-dependent layouts (e.g., wrapping) match the current element
+			if (rect && rect.width) {
+				clone.style.width = rect.width + 'px';
+			}
+			document.body.appendChild(clone);
+			const c1 = clone.scrollHeight || 0;
+			const c2 = clone.offsetHeight || 0;
+			const c3 = clone.getBoundingClientRect ? (clone.getBoundingClientRect().height || 0) : 0;
+			height = Math.max(height, c1, c2, c3);
+			document.body.removeChild(clone);
+		}
+
+		return (height || 0) + 'px';
 	},
 
 	/**
