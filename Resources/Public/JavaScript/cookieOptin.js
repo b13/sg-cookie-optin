@@ -1059,7 +1059,7 @@ const SgCookieOptin = {
 			if (domainParts.length > 2) {
 				domainParts.shift();
 				const hostnameToFirstDot = '.' + domainParts.join('.');
-				cookie += ';domain=' + hostnameToFirstDot;
+				cookie += ';domain=' + hostnameToFirstDot + '; SameSite=None; Secure';
 			}
 		}
 
@@ -1075,7 +1075,7 @@ const SgCookieOptin = {
 				continue;
 			}
 
-			document.cookie = cookieName + '=; path=/; ' + 'domain=' + additionalDomains[additionalDomainIndex] + '; Max-Age=-99999999;';
+			document.cookie = cookieName + '=; path=/; ' + 'domain=' + additionalDomains[additionalDomainIndex] + '; Max-Age=-99999999; SameSite=None; Secure';
 		}
 	},
 
