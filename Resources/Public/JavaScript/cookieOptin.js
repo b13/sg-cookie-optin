@@ -539,8 +539,7 @@ const SgCookieOptin = {
 			// Add accessible name for dialog
 			if (!wrapper.hasAttribute('aria-labelledby') && !wrapper.hasAttribute('aria-label')) {
 				const header = wrapper.querySelector('.sg-cookie-optin-box-header');
-				if (header) {
-					if (!header.id) header.id = 'cookieOptin-dialog-title-' + Math.random().toString(36).slice(2, 8);
+				if (header && header.id) {
 					wrapper.setAttribute('aria-labelledby', header.id);
 				} else if (SgCookieOptin.jsonData && SgCookieOptin.jsonData.textEntries && SgCookieOptin.jsonData.textEntries.header) {
 					wrapper.setAttribute('aria-label', SgCookieOptin.jsonData.textEntries.header);
