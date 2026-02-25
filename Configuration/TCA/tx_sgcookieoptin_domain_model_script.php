@@ -51,9 +51,7 @@ $configuration = [
 			'showitem' => 'hidden, title, script, html',
 		],
 	],
-	'palettes' => [
-
-	],
+	'palettes' => [],
 	'columns' => [
 		'sys_language_uid' => [
 			'exclude' => TRUE,

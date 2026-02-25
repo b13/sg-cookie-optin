@@ -53,9 +53,7 @@ $configuration = [
 			'showitem' => 'hidden, name, provider, lifetime, purpose',
 		],
 	],
-	'palettes' => [
-
-	],
+	'palettes' => [],
 	'columns' => [
 		'sys_language_uid' => [
 			'exclude' => TRUE,

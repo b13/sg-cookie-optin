@@ -61,9 +61,7 @@ trait InitControllerComponents {
 				LocalizationUtility::translate(
 					'backend.licenseKey.isInDemoMode.description',
 					'sg_cookie_optin',
-					[
-						date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
-					]
+					[date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))]
 				),
 				LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
 				ContextualFeedbackSeverity::INFO
@@ -79,10 +77,7 @@ trait InitControllerComponents {
 			);
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
-				$description .= ' ' . LocalizationUtility::translate(
-						'backend.licenseKey.error.dev',
-						'sg_cookie_optin'
-					);
+				$description .= ' ' . LocalizationUtility::translate('backend.licenseKey.error.dev', 'sg_cookie_optin');
 			}
 
 			$this->addFlashMessage(
@@ -101,10 +96,7 @@ trait InitControllerComponents {
 			);
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
-				$description .= ' ' . LocalizationUtility::translate(
-						'backend.licenseKey.error.dev',
-						'sg_cookie_optin'
-					);
+				$description .= ' ' . LocalizationUtility::translate('backend.licenseKey.error.dev', 'sg_cookie_optin');
 			}
 
 			$this->addFlashMessage(

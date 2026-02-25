@@ -81,10 +81,7 @@ class ConsentController extends AbstractController {
 		$this->initComponents($this->moduleTemplate);
 		$this->initPageUidSelection($this->moduleTemplate);
 		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-		$this->moduleTemplate->assign(
-			'identifiers',
-			OptinHistoryService::getItemIdentifiers(['pid' => $pageUid])
-		);
+		$this->moduleTemplate->assign('identifiers', OptinHistoryService::getItemIdentifiers(['pid' => $pageUid]));
 
 		// Check if page is site root
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
@@ -100,7 +97,7 @@ class ConsentController extends AbstractController {
 				$message,
 				'',
 				ContextualFeedbackSeverity::INFO,
-				true
+				TRUE
 			);
 
 			// Add to a separate queue for rendering at the bottom of the page

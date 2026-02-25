@@ -51,9 +51,7 @@ $configuration = [
 			'showitem' => 'identifier, replacement_html_overwritten, replacement_html, replacement_background_image, source_regex',
 		],
 	],
-	'palettes' => [
-
-	],
+	'palettes' => [],
 	'columns' => [
 		'sys_language_uid' => [
 			'exclude' => TRUE,

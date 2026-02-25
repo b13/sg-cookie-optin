@@ -87,9 +87,7 @@ class CookieListController extends AbstractController {
 
 		if ($languageUid > 0) {
 			$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-			$optin = $pageRepository->getLanguageOverlay(
-				'tx_sgcookieoptin_domain_model_optin', $optin, $languageAspect
-			);
+			$optin = $pageRepository->getLanguageOverlay('tx_sgcookieoptin_domain_model_optin', $optin, $languageAspect);
 		}
 
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
@@ -114,9 +112,7 @@ class CookieListController extends AbstractController {
 			if ($group['uid'] > 0 && $languageUid > 0) {
 				// fix language first
 				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-				$group = $pageRepository->getLanguageOverlay(
-					'tx_sgcookieoptin_domain_model_group', $group, $languageAspect
-				);
+				$group = $pageRepository->getLanguageOverlay('tx_sgcookieoptin_domain_model_group', $group, $languageAspect);
 			}
 
 			// Get the QueryBuilder instance
@@ -124,10 +120,7 @@ class CookieListController extends AbstractController {
 				->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_cookie');
 
 			// Build the conditions
-			$conditions = [
-				$queryBuilder->expr()->eq('sys_language_uid', 0),
-				$queryBuilder->expr()->eq('pid', $rootPageId),
-			];
+			$conditions = [$queryBuilder->expr()->eq('sys_language_uid', 0), $queryBuilder->expr()->eq('pid', $rootPageId), ];
 
 			// Compatibility for TYPO3 v12+ and earlier
 			$andCondition = $queryBuilder->expr()->and(...$conditions);
@@ -145,7 +138,9 @@ class CookieListController extends AbstractController {
 				foreach ($cookies as &$cookie) {
 					$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
 					$cookie = $pageRepository->getLanguageOverlay(
-						'tx_sgcookieoptin_domain_model_cookie', $cookie, $languageAspect
+						'tx_sgcookieoptin_domain_model_cookie',
+						$cookie,
+						$languageAspect
 					);
 				}
 				unset($cookie);

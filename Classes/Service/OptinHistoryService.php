@@ -98,8 +98,8 @@ class OptinHistoryService {
 			}
 
 			if (VersionNumberUtility::convertVersionNumberToInteger(
-					VersionNumberUtility::getCurrentTypo3Version()
-				) < 9000000) {
+				VersionNumberUtility::getCurrentTypo3Version()
+			) < 9000000) {
 				foreach ($insertData as $data) {
 					$GLOBALS['TYPO3_DB']->exec_INSERTquery(self::TABLE_NAME, $data);
 				}
@@ -131,73 +131,6 @@ class OptinHistoryService {
 				'message' => $exception->getMessage()
 			];
 		}
-	}
-
-	/**
-	 * Validates the optin history input data
-	 *
-	 * @param array $input
-	 * @return bool
-	 */
-	protected static function validateInput(array $input): bool {
-		return isset($input['uuid'], $input['version'], $input['cookieValue'], $input['isAll'], $input['identifier'])
-			&& (int) $input['version'] >= 1
-			&& preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $input['uuid']);
-	}
-
-	/**
-	 * Parses the json input and prepares an array with the data to insert
-	 *
-	 * @param array $jsonInput
-	 * @param int $itemType
-	 * @return array
-	 * @throws \Doctrine\DBAL\Exception
-	 */
-	private static function prepareInsertData(array $jsonInput, int $itemType): array {
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
-			'tx_sgcookieoptin_domain_model_group'
-		);
-		$queryBuilder->select('group_name')
-			->from('tx_sgcookieoptin_domain_model_group');
-		$groupNames = $queryBuilder->executeQuery()->fetchAllAssociative();
-
-		$allowedGroupNames = ['essential', 'iframes'];
-		foreach ($groupNames as $groupName) {
-			$allowedGroupNames[] = $groupName['group_name'];
-		}
-
-		$insertData = [];
-		$cookieValuePairs = explode('|', $jsonInput['cookieValue']);
-		// we want the next 3 values to be identical for all items of this preference
-		$preferenceHash = StringUtility::getUniqueId();
-		$tstamp = date('Y-m-d H:i:s', $GLOBALS['EXEC_TIME']);
-		$date = substr($tstamp, 0, 10);
-		foreach ($cookieValuePairs as $pair) {
-			$value = 0;
-			if (strpos($pair, ':') > 0) {
-				[$groupName, $value] = explode(':', $pair);
-			} else {
-				$groupName = $pair;
-			}
-
-			if (!in_array($groupName, $allowedGroupNames)) {
-				continue;
-			}
-
-			$insertData[] = [
-				'user_hash' => $jsonInput['uuid'],
-				'version' => $jsonInput['version'],
-				'tstamp' => $tstamp,
-				'date' => $date,
-				'preference_hash' => $preferenceHash,
-				'item_identifier' => $groupName,
-				'item_type' => $itemType,
-				'is_all' => (int) $jsonInput['isAll'],
-				'is_accepted' => (int) $value,
-				'pid' => $jsonInput['identifier'],
-			];
-		}
-		return $insertData;
 	}
 
 	/**
@@ -298,25 +231,16 @@ class OptinHistoryService {
 		$queryBuilder->select('item_identifier');
 
 		$queryBuilder->from(self::TABLE_NAME)
-			->where(
-				$queryBuilder->expr()->eq(
-					'pid',
-					$queryBuilder->createNamedParameter((int) $parameters['pid'])
-				)
-			);
+			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'])));
 
 		if (isset($parameters['from_date'], $parameters['to_date'])) {
 			$queryBuilder->andWhere(
 				$queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date']))
 			)
-				->andWhere(
-					$queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date']))
-				);
+				->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
 		}
 
-		$queryBuilder->andWhere(
-			$queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type))
-		);
+		$queryBuilder->andWhere($queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type)));
 		$queryBuilder->addGroupBy('item_type');
 		$queryBuilder->addGroupBy('item_identifier');
 
@@ -336,74 +260,12 @@ class OptinHistoryService {
 			?->getQueryBuilderForTable(self::TABLE_NAME);
 		$queryBuilder->select('version')
 			->from(self::TABLE_NAME)
-			->where(
-				$queryBuilder->expr()->eq(
-					'pid',
-					$queryBuilder->createNamedParameter((int) $parameters['pid'])
-				)
-			)
+			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'])))
 			->addGroupBy('version')
 			->orderBy('version', 'asc');
 
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 		return array_column($rows, 'version');
-	}
-
-	/**
-	 * Checks if the preferences have actually changed compared to the last saved preferences for this user
-	 *
-	 * @param string $userHash
-	 * @param array $newInsertData
-	 * @return bool
-	 * @throws \Doctrine\DBAL\Exception
-	 */
-	protected static function havePreferencesChanged(string $userHash, array $newInsertData): bool {
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-			?->getQueryBuilderForTable(self::TABLE_NAME);
-
-		// Get the most recent preference_hash for this user
-		$latestPreference = $queryBuilder
-			->select('preference_hash')
-			->from(self::TABLE_NAME)
-			->where(
-				$queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($userHash))
-			)
-			->orderBy('tstamp', 'DESC')
-			->setMaxResults(1)
-			->executeQuery()
-			->fetchAssociative();
-
-		if (!$latestPreference) {
-			// No previous preferences found, so this is a change
-			return true;
-		}
-
-		// Get all entries for the latest preference_hash
-		$queryBuilderPreviousPreferences = GeneralUtility::makeInstance(ConnectionPool::class)
-			?->getQueryBuilderForTable(self::TABLE_NAME);
-		$previousPreferences = $queryBuilderPreviousPreferences
-			->select('item_identifier', 'is_accepted')
-			->from(self::TABLE_NAME)
-			->where(
-				$queryBuilderPreviousPreferences->expr()->eq('preference_hash', $queryBuilderPreviousPreferences->createNamedParameter($latestPreference['preference_hash']))
-			)
-			->executeQuery()
-			->fetchAllAssociative();
-
-		// Create a map of previous preferences for easy comparison
-		$previousPrefsMap = [];
-		foreach ($previousPreferences as $pref) {
-			$previousPrefsMap[$pref['item_identifier']] = (int) $pref['is_accepted'];
-		}
-
-		// Create a map of new preferences
-		$newPrefsMap = [];
-		foreach ($newInsertData as $data) {
-			$newPrefsMap[$data['item_identifier']] = (int) $data['is_accepted'];
-		}
-
-		// Compare the preferences
-		return $previousPrefsMap !== $newPrefsMap;
 	}
 
 	/**
@@ -426,5 +288,130 @@ class OptinHistoryService {
 		}
 
 		$connection->executeQuery($query, $params);
+	}
+
+	/**
+	 * Validates the optin history input data
+	 *
+	 * @param array $input
+	 * @return bool
+	 */
+	protected static function validateInput(array $input): bool {
+		return isset($input['uuid'], $input['version'], $input['cookieValue'], $input['isAll'], $input['identifier'])
+			&& (int) $input['version'] >= 1
+			&& preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $input['uuid']);
+	}
+
+	/**
+	 * Checks if the preferences have actually changed compared to the last saved preferences for this user
+	 *
+	 * @param string $userHash
+	 * @param array $newInsertData
+	 * @return bool
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	protected static function havePreferencesChanged(string $userHash, array $newInsertData): bool {
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			?->getQueryBuilderForTable(self::TABLE_NAME);
+
+		// Get the most recent preference_hash for this user
+		$latestPreference = $queryBuilder
+			->select('preference_hash')
+			->from(self::TABLE_NAME)
+			->where($queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($userHash)))
+			->orderBy('tstamp', 'DESC')
+			->setMaxResults(1)
+			->executeQuery()
+			->fetchAssociative();
+
+		if (!$latestPreference) {
+			// No previous preferences found, so this is a change
+			return TRUE;
+		}
+
+		// Get all entries for the latest preference_hash
+		$queryBuilderPreviousPreferences = GeneralUtility::makeInstance(ConnectionPool::class)
+			?->getQueryBuilderForTable(self::TABLE_NAME);
+		$previousPreferences = $queryBuilderPreviousPreferences
+			->select('item_identifier', 'is_accepted')
+			->from(self::TABLE_NAME)
+			->where(
+				$queryBuilderPreviousPreferences->expr()->eq(
+					'preference_hash',
+					$queryBuilderPreviousPreferences->createNamedParameter($latestPreference['preference_hash'])
+				)
+			)
+			->executeQuery()
+			->fetchAllAssociative();
+
+		// Create a map of previous preferences for easy comparison
+		$previousPrefsMap = [];
+		foreach ($previousPreferences as $pref) {
+			$previousPrefsMap[$pref['item_identifier']] = (int) $pref['is_accepted'];
+		}
+
+		// Create a map of new preferences
+		$newPrefsMap = [];
+		foreach ($newInsertData as $data) {
+			$newPrefsMap[$data['item_identifier']] = (int) $data['is_accepted'];
+		}
+
+		// Compare the preferences
+		return $previousPrefsMap !== $newPrefsMap;
+	}
+
+	/**
+	 * Parses the json input and prepares an array with the data to insert
+	 *
+	 * @param array $jsonInput
+	 * @param int $itemType
+	 * @return array
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	private static function prepareInsertData(array $jsonInput, int $itemType): array {
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)?->getQueryBuilderForTable(
+			'tx_sgcookieoptin_domain_model_group'
+		);
+		$queryBuilder->select('group_name')
+			->from('tx_sgcookieoptin_domain_model_group');
+		$groupNames = $queryBuilder->executeQuery()->fetchAllAssociative();
+
+		$allowedGroupNames = ['essential', 'iframes'];
+		foreach ($groupNames as $groupName) {
+			$allowedGroupNames[] = $groupName['group_name'];
+		}
+
+		$insertData = [];
+		$cookieValuePairs = explode('|', $jsonInput['cookieValue']);
+		// we want the next 3 values to be identical for all items of this preference
+		$preferenceHash = StringUtility::getUniqueId();
+		$tstamp = date('Y-m-d H:i:s', $GLOBALS['EXEC_TIME']);
+		$date = substr($tstamp, 0, 10);
+		foreach ($cookieValuePairs as $pair) {
+			$value = 0;
+			if (strpos($pair, ':') > 0) {
+				[$groupName, $value] = explode(':', $pair);
+			} else {
+				$groupName = $pair;
+			}
+
+			if (!in_array($groupName, $allowedGroupNames)) {
+				continue;
+			}
+
+			$insertData[] = [
+				'user_hash' => $jsonInput['uuid'],
+				'version' => $jsonInput['version'],
+				'tstamp' => $tstamp,
+				'date' => $date,
+				'preference_hash' => $preferenceHash,
+				'item_identifier' => $groupName,
+				'item_type' => $itemType,
+				'is_all' => (int) $jsonInput['isAll'],
+				'is_accepted' => (int) $value,
+				'pid' => $jsonInput['identifier'],
+			];
+		}
+		return $insertData;
 	}
 }

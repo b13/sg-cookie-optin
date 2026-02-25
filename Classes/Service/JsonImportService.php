@@ -89,7 +89,12 @@ class JsonImportService {
 	 * @param int|null $defaultLanguageOptinId
 	 * @return string
 	 */
-	public function importJsonData(array $jsonData, int $pid, ?int $sysLanguageUid = NULL, ?int $defaultLanguageOptinId = NULL): string {
+	public function importJsonData(
+		array $jsonData,
+		int $pid,
+		?int $sysLanguageUid = NULL,
+		?int $defaultLanguageOptinId = NULL
+	): string {
 		// extract group data into other variables so that we can import all the settings information with little to no
 		// value mapping
 		$cookieGroups = $jsonData['cookieGroups'];
@@ -213,18 +218,114 @@ class JsonImportService {
 		$groupIndex = 0;
 		foreach ($cookieGroups as $groupIndex => $group) {
 			$this->addGroupWithCookiesAndScripts(
-				$groupIndex, $group, $pid, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+				$groupIndex,
+				$group,
+				$pid,
+				$optInId,
+				$sysLanguageUid,
+				$defaultLanguageOptinId,
+				$connectionPool
 			);
 		}
 
 		if (!$flatJsonData['iframe_enabled'] && $iframeGroup) {
 			$groupIndex++;
 			$this->addGroupWithCookiesAndScripts(
-				$groupIndex, $iframeGroup, $pid, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+				$groupIndex,
+				$iframeGroup,
+				$pid,
+				$optInId,
+				$sysLanguageUid,
+				$defaultLanguageOptinId,
+				$connectionPool
 			);
 		}
 
 		return $optInId;
+	}
+
+	/**
+	 * Parses the uploaded files, prepares and stores the data into the session
+	 *
+	 * @param array $languages
+	 * @throws JsonImportException
+	 */
+	public function parseAndStoreImportedData(array $languages): void {
+		$dataStorage = [];
+		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
+		$fileName = $_FILES['file']['tmp_name'];
+		$fileType = $_FILES['file']['type'];
+		$fileError = $_FILES['file']['error'];
+
+		// get and import the default language
+		if ($fileType !== 'application/json'
+			|| $fileError !== 0) {
+			throw new JsonImportException(
+				LocalizationUtility::translate('frontend.error.theFileCouldNotBeUploaded', 'sg_cookie_optin'),
+				102
+			);
+		}
+
+		$languagesJson = json_decode(file_get_contents($fileName), TRUE);
+
+		if (!$languagesJson) {
+			throw new JsonImportException(
+				LocalizationUtility::translate(
+					'frontend.error.theImportedFileDoesNotContainProperlyFormattedJson',
+					'sg_cookie_optin'
+				),
+				103
+			);
+		}
+
+		$defaultFound = FALSE;
+		$defaultLanguageId = 0;
+		$defaultLanguageLocale = '';
+		foreach ($languagesJson as $locale => $jsonData) {
+			foreach ($languages as $language) {
+				// prevent issues with _ and - in different installation setups (still same language but often written differently)
+				$normalizeLocale = str_replace(['-', '_'], '|', $language['locale']);
+				$normalizeLocale2 = str_replace(['-', '_'], '|', $locale);
+				if ($language['uid'] === 0 && str_contains($normalizeLocale, $normalizeLocale2)) {
+					$defaultLanguageId = $language['uid'];
+					$defaultLanguageLocale = $locale;
+					$defaultFound = TRUE;
+					break;
+				}
+			}
+
+			if ($defaultFound) {
+				$defaultLanguageJsonData = $jsonData;
+				$dataStorage['defaultLanguageId'] = $defaultLanguageId;
+				$dataStorage['languageData'][$defaultLanguageId] = $defaultLanguageJsonData;
+				break;
+			}
+		}
+
+		if (!$defaultFound) {
+			throw new JsonImportException(
+				LocalizationUtility::translate(
+					'frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile',
+					'sg_cookie_optin'
+				)
+			);
+		}
+
+		// import the other languages
+		foreach ($languagesJson as $locale => $jsonData) {
+			// we already stored that
+			if ($locale === $defaultLanguageLocale) {
+				continue;
+			}
+
+			$languageId = LanguageService::getLanguageIdByLocale($locale, $languages);
+			if ($languageId !== NULL) {
+				$dataStorage['languageData'][$languageId] = $jsonData;
+			}
+		}
+
+		// Save into session
+		$_SESSION['tx_sgcookieoptin']['importJsonData'] = $dataStorage;
 	}
 
 	/**
@@ -348,9 +449,7 @@ class JsonImportService {
 		return $this->flexInsert(
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_cookie',
-			[
-				'pid', 'purpose'
-			],
+			['pid', 'purpose'],
 			$cookieData
 		);
 	}
@@ -391,9 +490,7 @@ class JsonImportService {
 			$queryBuilder->update($table);
 			$queryBuilder->set($field, $value);
 			try {
-				$queryBuilder->where(
-					$queryBuilder->expr()->eq('uid', $objectId)
-				);
+				$queryBuilder->where($queryBuilder->expr()->eq('uid', $objectId));
 
 				$queryBuilder->executeStatement();
 			} catch (Exception) {
@@ -456,9 +553,7 @@ class JsonImportService {
 		return $this->flexInsert(
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_script',
-			[
-				'pid', 'html', 'script'
-			],
+			['pid', 'html', 'script'],
 			$scriptData
 		);
 	}
@@ -505,96 +600,9 @@ class JsonImportService {
 		return $this->flexInsert(
 			$connectionPool,
 			'tx_sgcookieoptin_domain_model_service',
-			[
-				'pid', 'identifier', 'replacement_html',
-				'replacement_background_image', 'source_regex'
-			],
+			['pid', 'identifier', 'replacement_html', 'replacement_background_image', 'source_regex'],
 			$serviceData
 		);
-	}
-
-	/**
-	 * Parses the uploaded files, prepares and stores the data into the session
-	 *
-	 * @param array $languages
-	 * @throws JsonImportException
-	 */
-	public function parseAndStoreImportedData(array $languages): void {
-		$dataStorage = [];
-		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
-		$fileName = $_FILES['file']['tmp_name'];
-		$fileType = $_FILES['file']['type'];
-		$fileError = $_FILES['file']['error'];
-
-		// get and import the default language
-		if ($fileType !== 'application/json'
-			|| $fileError !== 0) {
-			throw new JsonImportException(
-				LocalizationUtility::translate('frontend.error.theFileCouldNotBeUploaded', 'sg_cookie_optin'),
-				102
-			);
-		}
-
-		$languagesJson = json_decode(file_get_contents($fileName), TRUE);
-
-		if (!$languagesJson) {
-			throw new JsonImportException(
-				LocalizationUtility::translate(
-					'frontend.error.theImportedFileDoesNotContainProperlyFormattedJson',
-					'sg_cookie_optin'
-				),
-				103
-			);
-		}
-
-		$defaultFound = FALSE;
-		$defaultLanguageId = 0;
-		$defaultLanguageLocale = '';
-		foreach ($languagesJson as $locale => $jsonData) {
-			foreach ($languages as $language) {
-				// prevent issues with _ and - in different installation setups (still same language but often written differently)
-				$normalizeLocale = str_replace(['-', '_'], '|', $language['locale']);
-				$normalizeLocale2 = str_replace(['-', '_'], '|', $locale);
-				if ($language['uid'] === 0 && str_contains($normalizeLocale, $normalizeLocale2)) {
-					$defaultLanguageId = $language['uid'];
-					$defaultLanguageLocale = $locale;
-					$defaultFound = TRUE;
-					break;
-				}
-			}
-
-			if ($defaultFound) {
-				$defaultLanguageJsonData = $jsonData;
-				$dataStorage['defaultLanguageId'] = $defaultLanguageId;
-				$dataStorage['languageData'][$defaultLanguageId] = $defaultLanguageJsonData;
-				break;
-			}
-		}
-
-		if (!$defaultFound) {
-			throw new JsonImportException(
-				LocalizationUtility::translate(
-					'frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile',
-					'sg_cookie_optin'
-				)
-			);
-		}
-
-		// import the other languages
-		foreach ($languagesJson as $locale => $jsonData) {
-			// we already stored that
-			if ($locale === $defaultLanguageLocale) {
-				continue;
-			}
-
-			$languageId = LanguageService::getLanguageIdByLocale($locale, $languages);
-			if ($languageId !== NULL) {
-				$dataStorage['languageData'][$languageId] = $jsonData;
-			}
-		}
-
-		// Save into session
-		$_SESSION['tx_sgcookieoptin']['importJsonData'] = $dataStorage;
 	}
 
 	/**
@@ -608,7 +616,12 @@ class JsonImportService {
 	 * @return void
 	 */
 	protected function addGroupWithCookiesAndScripts(
-		int $groupIndex, array $group, int $pid, string $optInId, $sysLanguageUid, $defaultLanguageOptinId,
+		int $groupIndex,
+		array $group,
+		int $pid,
+		string $optInId,
+		$sysLanguageUid,
+		$defaultLanguageOptinId,
 		ConnectionPool $connectionPool
 	): void {
 		$groupIdentifier = $groupIndex;

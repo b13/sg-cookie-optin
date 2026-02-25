@@ -123,6 +123,33 @@ class TemplateService implements SingletonInterface {
 	}
 
 	/**
+	 * Returns the content of one of the templates mapped by one of the constant id from this class.
+	 *
+	 * @param int $type
+	 * @param int $templateId
+	 *
+	 * @return string
+	 */
+	public function getCSSContent(int $type, int $templateId): string {
+		if (!isset(self::$templateIdToFolderMap[$type])) {
+			return '';
+		}
+
+		$content = '/* File: ' . self::$templateIdToNameMap[$type][0] . " */\n\n" .
+			$this->getCSSFileContent(self::$templateIdToNameMap[$type][0], self::$templateIdToFolderMap[$type]);
+		if ($templateId > 0) {
+			if (!isset(self::$templateIdToNameMap[$type][$templateId])) {
+				return $content;
+			}
+
+			$content .= '/* File: ' . self::$templateIdToNameMap[$type][$templateId] . " */\n\n" .
+				$this->getCSSFileContent(self::$templateIdToNameMap[$type][$templateId], self::$templateIdToFolderMap[$type]);
+		}
+
+		return $content;
+	}
+
+	/**
 	 * Returns the content of the searched template.
 	 *
 	 * @param string $name
@@ -138,39 +165,6 @@ class TemplateService implements SingletonInterface {
 		}
 
 		return file_get_contents($path);
-	}
-
-	/**
-	 * Returns the content of one of the templates mapped by one of the constant id from this class.
-	 *
-	 * @param int $type
-	 * @param int $templateId
-	 *
-	 * @return string
-	 */
-	public function getCSSContent(int $type, int $templateId): string {
-		if (!isset(self::$templateIdToFolderMap[$type])) {
-			return '';
-		}
-
-		$content = '/* File: ' . self::$templateIdToNameMap[$type][0] . " */\n\n" .
-			$this->getCSSFileContent(
-				self::$templateIdToNameMap[$type][0],
-				self::$templateIdToFolderMap[$type]
-			);
-		if ($templateId > 0) {
-			if (!isset(self::$templateIdToNameMap[$type][$templateId])) {
-				return $content;
-			}
-
-			$content .= '/* File: ' . self::$templateIdToNameMap[$type][$templateId] . " */\n\n" .
-				$this->getCSSFileContent(
-					self::$templateIdToNameMap[$type][$templateId],
-					self::$templateIdToFolderMap[$type]
-				);
-		}
-
-		return $content;
 	}
 
 	/**

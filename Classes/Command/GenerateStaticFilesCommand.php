@@ -54,11 +54,7 @@ class GenerateStaticFilesCommand extends Command {
 			'Generates the necessary JavaScript, JSON and CSS files.' . LF . 'If you want to get more detailed information, use the --verbose option.'
 		);
 		$this->setDescription('Generates the necessary JavaScript, JSON and CSS files.')
-			->addArgument(
-				'siteRootId',
-				InputArgument::REQUIRED,
-				'The site root ID'
-			);
+			->addArgument('siteRootId', InputArgument::REQUIRED, 'The site root ID');
 	}
 
 	/**
@@ -119,7 +115,8 @@ class GenerateStaticFilesCommand extends Command {
 		$originalRecord = BackendUtility::getRecord(StaticFileGenerationService::TABLE_NAME, $uid);
 		if (isset($originalRecord['l10n_parent']) && (int) $originalRecord['l10n_parent'] > 0) {
 			$originalRecord = BackendUtility::getRecord(
-				StaticFileGenerationService::TABLE_NAME, (int) $originalRecord['l10n_parent']
+				StaticFileGenerationService::TABLE_NAME,
+				(int) $originalRecord['l10n_parent']
 			);
 		}
 

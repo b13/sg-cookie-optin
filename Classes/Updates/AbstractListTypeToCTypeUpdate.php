@@ -19,17 +19,55 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  * It is a copy of \TYPO3\CMS\Install\Updates\AbstractListTypeToCTypeUpdate
  * for backward compatibility with TYPO3 v11 and v12
  */
-abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
-{
+abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface {
 	protected const TABLE_CONTENT = 'tt_content';
 	protected const TABLE_BACKEND_USER_GROUPS = 'be_groups';
 
 	private ConnectionPool $connectionPool;
 
-	public function __construct(ConnectionPool $connectionPool)
-	{
+	public function __construct(ConnectionPool $connectionPool) {
 		$this->connectionPool = $connectionPool;
 		$this->validateRequirements();
+	}
+
+	abstract public function getTitle(): string;
+
+	abstract public function getDescription(): string;
+
+	public function getPrerequisites(): array {
+		return [DatabaseUpdatedPrerequisite::class, ];
+	}
+
+	public function updateNecessary(): bool {
+		return (
+			$this->getListTypeToCTypeMapping() !== [] &&
+			$this->columnsExistInContentTable() &&
+			$this->hasContentElementsToUpdate()
+		)
+			|| (
+				$this->getListTypeToCTypeMapping() !== [] &&
+				$this->columnsExistInBackendUserGroupsTable()
+				&& $this->hasNoLegacyBackendGroupsExplicitAllowDenyConfiguration()
+				&& $this->hasBackendUserGroupsToUpdate()
+			);
+	}
+
+	public function executeUpdate(): bool {
+		if ($this->getListTypeToCTypeMapping() !== [] &&
+			$this->columnsExistInContentTable() &&
+			$this->hasContentElementsToUpdate()
+		) {
+			$this->updateContentElements();
+		}
+		if ($this->getListTypeToCTypeMapping() !== [] &&
+			$this->columnsExistInBackendUserGroupsTable()
+			&& $this->hasNoLegacyBackendGroupsExplicitAllowDenyConfiguration()
+			&& $this->hasBackendUserGroupsToUpdate()
+		) {
+			$this->updateBackendUserGroups();
+		}
+
+		return TRUE;
 	}
 
 	/**
@@ -46,75 +84,28 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 	 */
 	abstract protected function getListTypeToCTypeMapping(): array;
 
-	abstract public function getTitle(): string;
-
-	abstract public function getDescription(): string;
-
-	public function getPrerequisites(): array
-	{
-		return [
-			DatabaseUpdatedPrerequisite::class,
-		];
-	}
-
-	public function updateNecessary(): bool
-	{
-		return (
-				$this->getListTypeToCTypeMapping() !== [] &&
-				$this->columnsExistInContentTable() &&
-				$this->hasContentElementsToUpdate()
-			)
-			|| (
-				$this->getListTypeToCTypeMapping() !== [] &&
-				$this->columnsExistInBackendUserGroupsTable()
-				&& $this->hasNoLegacyBackendGroupsExplicitAllowDenyConfiguration()
-				&& $this->hasBackendUserGroupsToUpdate()
-			);
-	}
-
-	public function executeUpdate(): bool
-	{
-		if ($this->getListTypeToCTypeMapping() !== [] &&
-			$this->columnsExistInContentTable() &&
-			$this->hasContentElementsToUpdate()
-		) {
-			$this->updateContentElements();
-		}
-		if ($this->getListTypeToCTypeMapping() !== [] &&
-			$this->columnsExistInBackendUserGroupsTable()
-			&& $this->hasNoLegacyBackendGroupsExplicitAllowDenyConfiguration()
-			&& $this->hasBackendUserGroupsToUpdate()
-		) {
-			$this->updateBackendUserGroups();
-		}
-
-		return true;
-	}
-
-	protected function columnsExistInContentTable(): bool
-	{
+	protected function columnsExistInContentTable(): bool {
 		$schemaManager = $this->connectionPool
 			->getConnectionForTable(self::TABLE_CONTENT)
 			->createSchemaManager();
 
 		$tableColumnNames = array_flip(
 			array_map(
-				static fn(Column $column) => $column->getName(),
+				static fn (Column $column) => $column->getName(),
 				$schemaManager->listTableColumns(self::TABLE_CONTENT),
 			),
 		);
 
 		foreach (['CType', 'list_type'] as $column) {
 			if (!isset($tableColumnNames[$column])) {
-				return false;
+				return FALSE;
 			}
 		}
 
-		return true;
+		return TRUE;
 	}
 
-	protected function columnsExistInBackendUserGroupsTable(): bool
-	{
+	protected function columnsExistInBackendUserGroupsTable(): bool {
 		$schemaManager = $this->connectionPool
 			->getConnectionForTable(self::TABLE_BACKEND_USER_GROUPS)
 			->createSchemaManager();
@@ -122,8 +113,7 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 		return isset($schemaManager->listTableColumns(self::TABLE_BACKEND_USER_GROUPS)['explicit_allowdeny']);
 	}
 
-	protected function hasContentElementsToUpdate(): bool
-	{
+	protected function hasContentElementsToUpdate(): bool {
 		$listTypesToUpdate = array_keys($this->getListTypeToCTypeMapping());
 
 		$queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_CONTENT);
@@ -135,15 +125,14 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 				$queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list')),
 				$queryBuilder->expr()->in(
 					'list_type',
-					$queryBuilder->createNamedParameter($listTypesToUpdate, ArrayParameterType::STRING ),
+					$queryBuilder->createNamedParameter($listTypesToUpdate, ArrayParameterType::STRING),
 				),
 			);
 
 		return (bool)$queryBuilder->executeQuery()->fetchOne();
 	}
 
-	protected function hasBackendUserGroupsToUpdate(): bool
-	{
+	protected function hasBackendUserGroupsToUpdate(): bool {
 		$queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_BACKEND_USER_GROUPS);
 		$queryBuilder->getRestrictions()->removeAll();
 
@@ -160,9 +149,7 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 		$queryBuilder
 			->count('uid')
 			->from(self::TABLE_BACKEND_USER_GROUPS)
-			->where(
-				$queryBuilder->expr()->or(...$searchConstraints),
-			);
+			->where($queryBuilder->expr()->or(...$searchConstraints),);
 
 		return (bool)$queryBuilder->executeQuery()->fetchOne();
 	}
@@ -172,26 +159,17 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 	 * BackendGroupsExplicitAllowDenyMigration status here, since the update must also be executed for new
 	 * TYPO3 v13+ installations, where BackendGroupsExplicitAllowDenyMigration is not required.
 	 */
-	protected function hasNoLegacyBackendGroupsExplicitAllowDenyConfiguration(): bool
-	{
+	protected function hasNoLegacyBackendGroupsExplicitAllowDenyConfiguration(): bool {
 		$queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_BACKEND_USER_GROUPS);
 		$queryBuilder->getRestrictions()->removeAll();
 		$queryBuilder
 			->count('uid')
 			->from(self::TABLE_BACKEND_USER_GROUPS)
-			->where(
-				$queryBuilder->expr()->like(
-					'explicit_allowdeny',
-					$queryBuilder->createNamedParameter(
-						'%ALLOW%',
-					),
-				),
-			);
+			->where($queryBuilder->expr()->like('explicit_allowdeny', $queryBuilder->createNamedParameter('%ALLOW%',),),);
 		return (int)$queryBuilder->executeQuery()->fetchOne() === 0;
 	}
 
-	protected function getContentElementsToUpdate(string $listType): array
-	{
+	protected function getContentElementsToUpdate(string $listType): array {
 		$queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_CONTENT);
 		$queryBuilder->getRestrictions()->removeAll();
 		$queryBuilder
@@ -205,8 +183,7 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 		return $queryBuilder->executeQuery()->fetchAllAssociative();
 	}
 
-	protected function getBackendUserGroupsToUpdate(string $listType): array
-	{
+	protected function getBackendUserGroupsToUpdate(string $listType): array {
 		$queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_BACKEND_USER_GROUPS);
 		$queryBuilder->getRestrictions()->removeAll();
 		$queryBuilder
@@ -223,8 +200,7 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 		return $queryBuilder->executeQuery()->fetchAllAssociative();
 	}
 
-	protected function updateContentElements(): void
-	{
+	protected function updateContentElements(): void {
 		$connection = $this->connectionPool->getConnectionForTable(self::TABLE_CONTENT);
 
 		foreach ($this->getListTypeToCTypeMapping() as $listType => $contentType) {
@@ -241,13 +217,12 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 		}
 	}
 
-	protected function updateBackendUserGroups(): void
-	{
+	protected function updateBackendUserGroups(): void {
 		$connection = $this->connectionPool->getConnectionForTable(self::TABLE_BACKEND_USER_GROUPS);
 
 		foreach ($this->getListTypeToCTypeMapping() as $listType => $contentType) {
 			foreach ($this->getBackendUserGroupsToUpdate($listType) as $record) {
-				$fields = GeneralUtility::trimExplode(',', $record['explicit_allowdeny'], true);
+				$fields = GeneralUtility::trimExplode(',', $record['explicit_allowdeny'], TRUE);
 				foreach ($fields as $key => $field) {
 					if ($field === 'tt_content:list_type:' . $listType) {
 						unset($fields[$key]);
@@ -266,16 +241,24 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface
 		}
 	}
 
-	private function validateRequirements(): void
-	{
+	private function validateRequirements(): void {
 		if ($this->getTitle() === '') {
-			throw new RuntimeException('The update class "' . static::class . '" must provide a title by extending "getTitle()"', 1727605675);
+			throw new RuntimeException(
+				'The update class "' . static::class . '" must provide a title by extending "getTitle()"',
+				1727605675
+			);
 		}
 		if ($this->getDescription() === '') {
-			throw new RuntimeException('The update class "' . static::class . '" must provide a description by extending "getDescription()"', 1727605676);
+			throw new RuntimeException(
+				'The update class "' . static::class . '" must provide a description by extending "getDescription()"',
+				1727605676
+			);
 		}
 		if ($this->getListTypeToCTypeMapping() === []) {
-			throw new RuntimeException('The update class "' . static::class . '" does not provide a "list_type" to "CType" migration mapping', 1727605677);
+			throw new RuntimeException(
+				'The update class "' . static::class . '" does not provide a "list_type" to "CType" migration mapping',
+				1727605677
+			);
 		}
 
 		foreach ($this->getListTypeToCTypeMapping() as $listType => $contentElement) {

@@ -1,4 +1,5 @@
 <?php
+
 $hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::getSetting(
 	\SGalinski\SgCookieOptin\Service\ExtensionSettingsService::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT
 );
@@ -20,7 +21,15 @@ return $showModule ? [
 		'path' => '/module/web/sg-cookie-optin',
 		'extensionName' => 'SgCookieOptin',
 		'controllerActions' => [
-			\SGalinski\SgCookieOptin\Controller\OptinController::class => ['index', 'activateDemoMode', 'create', 'uploadJson', 'importJson', 'previewImport', 'exportJson'],
+			\SGalinski\SgCookieOptin\Controller\OptinController::class => [
+				'index',
+				'activateDemoMode',
+				'create',
+				'uploadJson',
+				'importJson',
+				'previewImport',
+				'exportJson'
+			],
 			\SGalinski\SgCookieOptin\Controller\StatisticsController::class => ['index'],
 			\SGalinski\SgCookieOptin\Controller\ConsentController::class => ['index'],
 		],

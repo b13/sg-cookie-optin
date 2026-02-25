@@ -55,12 +55,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	public function initializeArguments(): void {
 		parent::initializeArguments();
 		$this->registerArgument('label', 'string', 'The label of the option tag', TRUE);
-		$this->registerArgument(
-			'controller',
-			'string',
-			'The controller to be associated with this ActionMenuItem',
-			TRUE
-		);
+		$this->registerArgument('controller', 'string', 'The controller to be associated with this ActionMenuItem', TRUE);
 		$this->registerArgument('action', 'string', 'The action to be associated with this ActionMenuItem', TRUE);
 		$this->registerArgument(
 			'arguments',
@@ -151,8 +146,6 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		$request = $GLOBALS['TYPO3_REQUEST'];
 
 		// We have to provide an Extbase request object
-		return new Request(
-			$request->withAttribute('extbase', new ExtbaseRequestParameters())
-		);
+		return new Request($request->withAttribute('extbase', new ExtbaseRequestParameters()));
 	}
 }

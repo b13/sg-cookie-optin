@@ -60,7 +60,6 @@ class BaseUrlService {
 			} else {
 				$basePath = (string) $basePath;
 			}
-
 		} catch (SiteNotFoundException) {
 			$basePath = '/';
 		}

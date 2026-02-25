@@ -93,14 +93,9 @@ class StatisticsController extends AbstractController {
 
 		// Grab page UID from the request
 		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
-		$this->moduleTemplate->assign(
-			'versions',
-			OptinHistoryService::getVersions(
-				[
+		$this->moduleTemplate->assign('versions', OptinHistoryService::getVersions([
 					'pid' => $pageUid
-				]
-			)
-		);
+				]));
 
 		// Check if a page is site root in page record
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
@@ -116,7 +111,7 @@ class StatisticsController extends AbstractController {
 				$message,
 				'',
 				ContextualFeedbackSeverity::INFO,
-				true
+				TRUE
 			);
 
 			// Add to a separate queue for rendering at the bottom of the page

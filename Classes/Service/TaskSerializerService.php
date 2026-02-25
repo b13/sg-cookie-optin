@@ -37,7 +37,7 @@ class TaskSerializerService {
 			$this->serializer = GeneralUtility::makeInstance(\TYPO3\CMS\Scheduler\Task\TaskSerializer::class);
 		}
 		// TYPO3 12 fallback (update this if needed)
-		else if (class_exists(\TYPO3\CMS\Scheduler\Serializer\TaskSerializer::class)) {
+		elseif (class_exists(\TYPO3\CMS\Scheduler\Serializer\TaskSerializer::class)) {
 			$this->serializer = GeneralUtility::makeInstance(\TYPO3\CMS\Scheduler\Serializer\TaskSerializer::class);
 		}
 	}

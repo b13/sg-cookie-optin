@@ -64,7 +64,8 @@ class RateLimitService {
 			->where(
 				$queryBuilder->expr()->eq('ip_hash', $queryBuilder->createNamedParameter($ipHash)),
 				$queryBuilder->expr()->eq(
-					'root_page_id', $queryBuilder->createNamedParameter($rootPageId, ParameterType::INTEGER)
+					'root_page_id',
+					$queryBuilder->createNamedParameter($rootPageId, ParameterType::INTEGER)
 				),
 				$queryBuilder->expr()->gte('tstamp', $queryBuilder->createNamedParameter($oneHourAgo))
 			)

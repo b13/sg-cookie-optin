@@ -68,15 +68,9 @@ try {
 				$keys = array_keys($row);
 				$query = 'INSERT INTO ' . TABLE_NAME . '(' . implode(',', $keys)
 					. ") VALUES (" .
-					implode(
-						', ',
-						array_map(
-							function ($paramKey) {
-								return ':' . $paramKey;
-							},
-							$keys
-						)
-					) . ')';
+					implode(', ', array_map(function ($paramKey) {
+						return ':' . $paramKey;
+					}, $keys)) . ')';
 				$statement = $pdo->prepare($query);
 			}
 

@@ -43,7 +43,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Adds the Cookie Consent JavaScript if it's generated for the current page.
  */
 class GenerateFilesAfterTcaSave {
-
 	/**
 	 * Generates the files out of the TCA data.
 	 *
@@ -97,9 +96,7 @@ class GenerateFilesAfterTcaSave {
 			}
 		}
 
-		$siteRoot = (int) $dataHandler->getPID(
-			StaticFileGenerationService::TABLE_NAME, $originalRecord['uid'] ?? 0
-		);
+		$siteRoot = (int) $dataHandler->getPID(StaticFileGenerationService::TABLE_NAME, $originalRecord['uid'] ?? 0);
 		if ($siteRoot <= 0) {
 			return;
 		}

@@ -56,7 +56,8 @@ class EditOnClickViewHelper extends AbstractViewHelper {
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		// For some reason TYPO3 has two different URI Builders..
 		$indexUrl = (string) $uriBuilder->buildUriFromRoutePath(
-			'/module/web/sg-cookie-optin', ['id' => $this->arguments['pid']]
+			'/module/web/sg-cookie-optin',
+			['id' => $this->arguments['pid']]
 		);
 		$uriParameters =
 			[

@@ -184,14 +184,10 @@ class StaticFileGenerationService implements SingletonInterface {
 				$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
 				$languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $languageUid);
-				$translatedRecord = $pageRepository->getLanguageOverlay(
-					self::TABLE_NAME, $originalRecord, $languageAspect
-				);
+				$translatedRecord = $pageRepository->getLanguageOverlay(self::TABLE_NAME, $originalRecord, $languageAspect);
 			}
 
-			$translatedFullData = $this->getFullData(
-				$translatedRecord ?? $originalRecord, self::TABLE_NAME, $languageUid
-			);
+			$translatedFullData = $this->getFullData($translatedRecord ?? $originalRecord, self::TABLE_NAME, $languageUid);
 			if (count($translatedFullData) <= 0) {
 				continue;
 			}
@@ -323,20 +319,10 @@ class StaticFileGenerationService implements SingletonInterface {
 		$queryBuilder->select('*')
 			->from($table)
 			->orderBy('sorting', 'ASC')
-			->where(
-				$queryBuilder->expr()->eq(
-					$field,
-					$parentUid
-				)
-			);
+			->where($queryBuilder->expr()->eq($field, $parentUid));
 
 		if ($languageField) {
-			$queryBuilder->andWhere(
-				$queryBuilder->expr()->eq(
-					$languageField,
-					0
-				)
-			);
+			$queryBuilder->andWhere($queryBuilder->expr()->eq($languageField, 0));
 		}
 
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
@@ -400,9 +386,9 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		$content .= " \n\n" . $templateService->getCSSContent(
-				TemplateService::TYPE_TEMPLATE,
-				$data['template_selection']
-			);
+			TemplateService::TYPE_TEMPLATE,
+			$data['template_selection']
+		);
 		if ($data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
 			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_BANNER, 0);
 		}
@@ -773,9 +759,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			$name = $pageData['title'];
 			$site = GeneralUtility::makeInstance(SiteFinder::class)?->getSiteByPageId($uid);
 			try {
-				$url = (string) $site->getRouter()->generateUri(
-					$uid, ['disableOptIn' => 1, '_language' => $languageUid]
-				);
+				$url = (string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, '_language' => $languageUid]);
 			} catch (Exception) {
 				continue;
 			}
@@ -952,7 +936,6 @@ class StaticFileGenerationService implements SingletonInterface {
 		) {
 			$templateService = GeneralUtility::makeInstance(TemplateService::class);
 			foreach ($translatedData['services'] as $service) {
-
 				if ($service['replacement_html_overwritten']) {
 					$rendered = $templateService->renderTemplate($service['replacement_html'], $jsonDataArray);
 				} else {
@@ -971,10 +954,10 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-				'#LANG#',
-				$locale . JsonImportService::LOCALE_SEPARATOR . $languageUid,
-				self::TEMPLATE_JSON_NAME
-			);
+			'#LANG#',
+			$locale . JsonImportService::LOCALE_SEPARATOR . $languageUid,
+			self::TEMPLATE_JSON_NAME
+		);
 
 		$mask = JSON_PRETTY_PRINT;
 		if (defined('JSON_THROW_ON_ERROR')) {

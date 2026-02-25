@@ -50,16 +50,8 @@ class DeleteUsageHistoryCommand extends Command {
 			'Deletes the user preferences history.' . LF . 'If you want to get more detailed information, use the --verbose option.'
 		);
 		$this->setDescription('Delete the user preferences history that is older than X days.')
-			->addArgument(
-				'olderThan',
-				InputArgument::REQUIRED,
-				'older than X days'
-			)
-			->addArgument(
-				'pid',
-				InputArgument::REQUIRED,
-				'PID (0 = will delete for all PIDs)'
-			);
+			->addArgument('olderThan', InputArgument::REQUIRED, 'older than X days')
+			->addArgument('pid', InputArgument::REQUIRED, 'PID (0 = will delete for all PIDs)');
 	}
 
 	/**
@@ -80,7 +72,7 @@ class DeleteUsageHistoryCommand extends Command {
 			OptinHistoryService::deleteOlderThan($olderThan, $pid);
 
 			// Also clean up old rate limit entries (keep them for 24 hours)
-			RateLimitService::cleanupOldEntries($olderThan*24);
+			RateLimitService::cleanupOldEntries($olderThan * 24);
 		} catch (Exception $exception) {
 			$this->io->writeln('Error!');
 			$this->io->writeln($exception->getMessage());

@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -44,7 +45,7 @@ abstract class AbstractController extends ActionController {
 	/**
 	 * @var SchedulerTaskRepository
 	 */
-	protected ?SchedulerTaskRepository $schedulerTaskRepository = null;
+	protected ?SchedulerTaskRepository $schedulerTaskRepository = NULL;
 
 	/**
 	 * Read from user session

@@ -129,12 +129,7 @@ class HandleTemplateAfterTcaSave {
 				->set('banner_html', $bannerTemplate)
 				->set('iframe_html', $iframeTemplate)
 				->set('iframe_replacement_html', $iframeReplacementTemplate)
-				->where(
-					$queryBuilder->expr()->eq(
-						'uid',
-						$queryBuilder->createNamedParameter($id)
-					)
-				);
+				->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($id)));
 			$queryBuilder->executeStatement();
 		}
 	}

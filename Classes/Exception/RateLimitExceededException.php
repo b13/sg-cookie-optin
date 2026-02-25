@@ -30,5 +30,4 @@ namespace SGalinski\SgCookieOptin\Exception;
  * Exception thrown when rate limit is exceeded
  */
 class RateLimitExceededException extends \Exception {
-
 }

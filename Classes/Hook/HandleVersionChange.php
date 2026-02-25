@@ -55,7 +55,6 @@ class HandleVersionChange {
 		}
 
 		if (isset($fieldArray['update_version_checkbox']) && $fieldArray['update_version_checkbox']) {
-
 			$currentVersionQuery = "SELECT MAX(IFNULL(version, 0)) AS max_version, pid
 				FROM tx_sgcookieoptin_domain_model_optin
 				WHERE deleted = 0

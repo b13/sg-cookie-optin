@@ -47,9 +47,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 			->autowire()
 			->autoconfigure();
 		$services->set(SchedulerTaskRepository::class)
-			->args([
-				service(TaskSerializerService::class),
-				service(\TYPO3\CMS\Core\Database\ConnectionPool::class),
-			]);
+			->args([service(TaskSerializerService::class), service(\TYPO3\CMS\Core\Database\ConnectionPool::class), ]);
 	}
 };

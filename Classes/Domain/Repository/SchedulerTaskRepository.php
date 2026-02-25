@@ -38,10 +38,7 @@ class SchedulerTaskRepository {
 
 	protected ConnectionPool $connectionPool;
 
-	public function __construct(
-		TaskSerializerService $taskSerializerService,
-		ConnectionPool $connectionPool
-	) {
+	public function __construct(TaskSerializerService $taskSerializerService, ConnectionPool $connectionPool) {
 		$this->taskSerializerService = $taskSerializerService;
 		$this->connectionPool = $connectionPool;
 	}
@@ -62,19 +59,11 @@ class SchedulerTaskRepository {
 		$queryBuilder
 			->select('serialized_task_object')
 			->from('tx_scheduler_task')
-			->where(
-				$queryBuilder->expr()->eq(
-					'deleted',
-					$queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
-				)
-			);
+			->where($queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)));
 
 		if (!$includeDisabledTasks) {
 			$queryBuilder->andWhere(
-				$queryBuilder->expr()->eq(
-					'disable',
-					$queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
-				)
+				$queryBuilder->expr()->eq('disable', $queryBuilder->createNamedParameter(0, Connection::PARAM_INT))
 			);
 		}
 

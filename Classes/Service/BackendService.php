@@ -58,18 +58,9 @@ class BackendService {
 		$queryBuilder->select('*')
 			->from('pages')
 			->where(
-				$queryBuilder->expr()->eq(
-					'is_siteroot',
-					1
-				),
-				$queryBuilder->expr()->eq(
-					't3ver_oid',
-					0
-				),
-				$queryBuilder->expr()->eq(
-					'sys_language_uid',
-					0
-				)
+				$queryBuilder->expr()->eq('is_siteroot', 1),
+				$queryBuilder->expr()->eq('t3ver_oid', 0),
+				$queryBuilder->expr()->eq('sys_language_uid', 0)
 			);
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 
@@ -109,16 +100,7 @@ class BackendService {
 			->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 		$queryBuilder->select('*')
 			->from('tx_sgcookieoptin_domain_model_optin')
-			->where(
-				$queryBuilder->expr()->eq(
-					'pid',
-					$pageUid
-				),
-				$queryBuilder->expr()->eq(
-					'sys_language_uid',
-					0
-				)
-			);
+			->where($queryBuilder->expr()->eq('pid', $pageUid), $queryBuilder->expr()->eq('sys_language_uid', 0));
 
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 
@@ -144,9 +126,7 @@ class BackendService {
 		$refreshButton = $buttonBar->makeLinkButton()
 			->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
 			->setTitle(
-				LocalizationUtility::translate(
-					$locallangPath . 'labels.reload'
-				)
+				LocalizationUtility::translate($locallangPath . 'labels.reload')
 			)->setIcon($iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL));
 		$buttonBar->addButton($refreshButton, ButtonBar::BUTTON_POSITION_RIGHT);
 
@@ -154,12 +134,7 @@ class BackendService {
 		$shortcutButton = $buttonBar->makeShortcutButton()
 			->setRouteIdentifier($request->getPluginName())
 			->setDisplayName('test')
-			->setArguments(
-				[
-					'id',
-					'M'
-				]
-			);
+			->setArguments(['id', 'M']);
 
 		$buttonBar->addButton($shortcutButton, ButtonBar::BUTTON_POSITION_RIGHT);
 	}

@@ -66,26 +66,6 @@ class ExtensionSettingsService {
 	}
 
 	/**
-	 * Post process of the given setting, by the given setting key.
-	 *
-	 * @param mixed $value
-	 * @param string $settingKey
-	 * @return mixed
-	 */
-	protected static function postProcessSetting(mixed $value, string $settingKey) {
-		if ($settingKey === self::SETTING_FOLDER) {
-			$value = trim($value, " \t\n\r\0\x0B\/") . '/';
-
-			if (str_starts_with($value, 'EXT:')) {
-				$value = 'typo3conf/ext/' . substr($value, 4);
-			}
-		}
-
-		// TYPO3 6 stores all settings as strings, some are expected to be booleans, though.
-		return ($value === 'FALSE') ? FALSE : $value;
-	}
-
-	/**
 	 * Get the path to the json file
 	 *
 	 * @param string $folder
@@ -142,5 +122,25 @@ class ExtensionSettingsService {
 		$site = GeneralUtility::makeInstance(SiteFinder::class)?->getSiteByPageId($rootPageId);
 		$language = $site->getLanguageById(BaseUrlService::getLanguage());
 		return $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
+	}
+
+	/**
+	 * Post process of the given setting, by the given setting key.
+	 *
+	 * @param mixed $value
+	 * @param string $settingKey
+	 * @return mixed
+	 */
+	protected static function postProcessSetting(mixed $value, string $settingKey) {
+		if ($settingKey === self::SETTING_FOLDER) {
+			$value = trim($value, " \t\n\r\0\x0B\/") . '/';
+
+			if (str_starts_with($value, 'EXT:')) {
+				$value = 'typo3conf/ext/' . substr($value, 4);
+			}
+		}
+
+		// TYPO3 6 stores all settings as strings, some are expected to be booleans, though.
+		return ($value === 'FALSE') ? FALSE : $value;
 	}
 }

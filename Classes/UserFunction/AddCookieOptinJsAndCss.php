@@ -215,7 +215,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl(
-			$this->rootpage, BaseUrlService::getLanguage()
+			$this->rootpage,
+			BaseUrlService::getLanguage()
 		);
 		$href = $siteBaseUrl . $file . '?' . $cacheBuster;
 

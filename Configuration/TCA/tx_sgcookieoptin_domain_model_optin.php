@@ -1748,9 +1748,7 @@ $configuration = [
 ];
 
 $GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_optin'] = [
-	'refs' => [
-		'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
-	],
+	'refs' => ['EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'],
 ];
 
 $versionNumber = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version();
