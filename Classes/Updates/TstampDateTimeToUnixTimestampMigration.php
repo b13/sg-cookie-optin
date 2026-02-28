@@ -147,8 +147,14 @@ class TstampDateTimeToUnixTimestampMigration implements UpgradeWizardInterface {
 
 		$connection->executeStatement(
 			'UPDATE ' . $tableIdentifier . ' '
-			. 'SET ' . $tempTstampIdentifier . ' = '
-			. 'COALESCE(UNIX_TIMESTAMP(NULLIF(' . $tstampIdentifier . ", '0000-00-00 00:00:00')), 0)"
+			. 'SET ' . $tempTstampIdentifier . ' = 0 '
+			. 'WHERE CAST(' . $tstampIdentifier . " AS CHAR(19)) = '0000-00-00 00:00:00'"
+		);
+
+		$connection->executeStatement(
+			'UPDATE ' . $tableIdentifier . ' '
+			. 'SET ' . $tempTstampIdentifier . ' = UNIX_TIMESTAMP(' . $tstampIdentifier . ') '
+			. 'WHERE CAST(' . $tstampIdentifier . " AS CHAR(19)) <> '0000-00-00 00:00:00'"
 		);
 
 		if ($indexConfiguration !== [] && $this->hasIndex($table, (string) $indexConfiguration['name'])) {
