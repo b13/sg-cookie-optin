@@ -67,10 +67,7 @@ class RateLimitService {
 					'root_page_id',
 					$queryBuilder->createNamedParameter($rootPageId, ParameterType::INTEGER)
 				),
-				$queryBuilder->expr()->gte(
-					'tstamp',
-					$queryBuilder->createNamedParameter($oneHourAgo, ParameterType::INTEGER)
-				)
+				$queryBuilder->expr()->gte('tstamp', $queryBuilder->createNamedParameter($oneHourAgo, ParameterType::INTEGER))
 			)
 			->executeQuery()
 			->fetchOne();

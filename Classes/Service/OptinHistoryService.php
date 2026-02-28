@@ -26,8 +26,8 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
-use Exception;
 use Doctrine\DBAL\ParameterType;
+use Exception;
 use SGalinski\SgCookieOptin\Exception\RateLimitExceededException;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Core\Environment;

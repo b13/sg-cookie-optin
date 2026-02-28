@@ -17,3 +17,5 @@
 - Resources/Public/JavaScript/Backend/Legacy/LicenseNotification.js removed
 - Resources/Public/JavaScript/Backend/Legacy/Statistics.js removed
 - Moved the plugins from the `list`-type to their own `CTypes` (please execute the UpgradeWizard `sgalinskiSgCookieOptinCTypeMigration`) in the Install Tool upgrade section
+- Execute UpgradeWizard `sgCookieOptinTstampDateTimeToUnixTimestampMigration` to migrate `tstamp` fields in
+  `tx_sgcookieoptin_domain_model_user_preference` and `tx_sgcookieoptin_domain_model_rate_limit` from `DATETIME` to Unix timestamp integers.
