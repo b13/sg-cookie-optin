@@ -27,6 +27,7 @@
 namespace SGalinski\SgCookieOptin\Service;
 
 use Exception;
+use Doctrine\DBAL\ParameterType;
 use SGalinski\SgCookieOptin\Exception\RateLimitExceededException;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Core\Environment;
@@ -277,17 +278,25 @@ class OptinHistoryService {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public static function deleteOlderThan(int $olderThan, int $pid): void {
-		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-			?->getConnectionForTable(self::TABLE_NAME);
-		$query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE tstamp < DATE_SUB(NOW(), INTERVAL ? DAY)';
-		$params = [$olderThan];
+		$deleteTimestamp = (int) ($GLOBALS['EXEC_TIME'] ?? time()) - (max(0, $olderThan) * 86400);
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			?->getQueryBuilderForTable(self::TABLE_NAME);
+		$queryBuilder
+			->delete(self::TABLE_NAME)
+			->where(
+				$queryBuilder->expr()->lt(
+					'tstamp',
+					$queryBuilder->createNamedParameter($deleteTimestamp, ParameterType::INTEGER)
+				)
+			);
 
 		if ($pid > 0) {
-			$query .= "\n AND pid = ?";
-			$params[] = $pid;
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, ParameterType::INTEGER))
+			);
 		}
 
-		$connection->executeQuery($query, $params);
+		$queryBuilder->executeStatement();
 	}
 
 	/**
@@ -385,8 +394,8 @@ class OptinHistoryService {
 		$cookieValuePairs = explode('|', $jsonInput['cookieValue']);
 		// we want the next 3 values to be identical for all items of this preference
 		$preferenceHash = StringUtility::getUniqueId();
-		$tstamp = date('Y-m-d H:i:s', $GLOBALS['EXEC_TIME']);
-		$date = substr($tstamp, 0, 10);
+		$tstamp = (int) ($GLOBALS['EXEC_TIME'] ?? time());
+		$date = date('Y-m-d', $tstamp);
 		foreach ($cookieValuePairs as $pair) {
 			$value = 0;
 			if (strpos($pair, ':') > 0) {

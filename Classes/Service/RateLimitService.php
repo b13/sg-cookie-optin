@@ -51,8 +51,8 @@ class RateLimitService {
 	 */
 	public static function checkAndRecordRateLimit(string $ipAddress, int $rootPageId): void {
 		$ipHash = self::anonymizeIpAddress($ipAddress);
-		$currentTime = date('Y-m-d H:i:s');
-		$oneHourAgo = date('Y-m-d H:i:s', strtotime('-1 hour'));
+		$currentTime = (int) ($GLOBALS['EXEC_TIME'] ?? time());
+		$oneHourAgo = $currentTime - 3600;
 
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
 			?->getQueryBuilderForTable(self::TABLE_NAME);
@@ -67,10 +67,15 @@ class RateLimitService {
 					'root_page_id',
 					$queryBuilder->createNamedParameter($rootPageId, ParameterType::INTEGER)
 				),
-				$queryBuilder->expr()->gte('tstamp', $queryBuilder->createNamedParameter($oneHourAgo))
+				$queryBuilder->expr()->gte(
+					'tstamp',
+					$queryBuilder->createNamedParameter($oneHourAgo, ParameterType::INTEGER)
+				)
 			)
 			->executeQuery()
 			->fetchOne();
+
+		$requestCount = (int) $requestCount;
 
 		if ($requestCount >= self::MAX_REQUESTS_PER_HOUR) {
 			throw new RateLimitExceededException(
@@ -137,10 +142,17 @@ class RateLimitService {
 	 * @throws Exception
 	 */
 	public static function cleanupOldEntries(int $olderThanHours = 24): void {
-		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-			?->getConnectionForTable(self::TABLE_NAME);
-
-		$query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE tstamp < DATE_SUB(NOW(), INTERVAL ? HOUR)';
-		$connection->executeQuery($query, [$olderThanHours]);
+		$deleteTimestamp = (int) ($GLOBALS['EXEC_TIME'] ?? time()) - (max(0, $olderThanHours) * 3600);
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			?->getQueryBuilderForTable(self::TABLE_NAME);
+		$queryBuilder
+			->delete(self::TABLE_NAME)
+			->where(
+				$queryBuilder->expr()->lt(
+					'tstamp',
+					$queryBuilder->createNamedParameter($deleteTimestamp, ParameterType::INTEGER)
+				)
+			)
+			->executeStatement();
 	}
 }

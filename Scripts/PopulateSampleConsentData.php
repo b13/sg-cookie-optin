@@ -100,7 +100,6 @@ try {
 function createRows(int $pid, int $timestamp, array $groups, int $version, string $uuid): array {
 	$preferenceHash = getUniqueId();
 	$date = date('Y-m-d', $timestamp);
-	$dateTime = date('Y-m-d H:i:s', $timestamp);
 	$isAll = random_int(0, 1);
 	$rows = [];
 
@@ -109,7 +108,7 @@ function createRows(int $pid, int $timestamp, array $groups, int $version, strin
 		$rows[] = [
 			'user_hash' => $uuid,
 			'version' => $version,
-			'tstamp' => $dateTime,
+			'tstamp' => $timestamp,
 			'date' => $date,
 			'preference_hash' => $preferenceHash,
 			'item_identifier' => $group,
