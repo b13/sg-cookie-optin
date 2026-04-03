@@ -65,10 +65,10 @@ class EditOnClickViewHelper extends AbstractViewHelper {
 					[
 						$this->arguments['table'] =>
 							[
-								$this->arguments['uid'] => 'edit'
+								$this->arguments['uid'] => 'edit',
 							],
 					],
-				'returnUrl' => $indexUrl
+				'returnUrl' => $indexUrl,
 			];
 		return $uriBuilder->buildUriFromRoute('record_edit', $uriParameters);
 	}

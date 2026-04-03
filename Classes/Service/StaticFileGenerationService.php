@@ -43,7 +43,6 @@ use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use function count;
 
 /**
  * Class SGalinski\SgCookieOptin\Service\TemplateService
@@ -75,7 +74,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	protected array $googleNamesByService = [
 		1 => 'analytics_storage',
 		2 => 'ad_storage, ad_personalization, ad_user_data',
-		3 => 'analytics_storage, ad_storage, ad_personalization, ad_user_data'
+		3 => 'analytics_storage, ad_storage, ad_personalization, ad_user_data',
 	];
 
 	/**
@@ -107,7 +106,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$folderName = str_replace('#PID#', $this->siteRoot, $folder . self::FOLDER_SITEROOT);
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		// First remove the folder with all files and then create it again. So no data artifacts are kept.
 		GeneralUtility::rmdir($sitePath . $folderName, TRUE);
 		GeneralUtility::mkdir_deep($sitePath . $folderName);
@@ -188,7 +187,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			}
 
 			$translatedFullData = $this->getFullData($translatedRecord ?? $originalRecord, self::TABLE_NAME, $languageUid);
-			if (count($translatedFullData) <= 0) {
+			if (\count($translatedFullData) <= 0) {
 				continue;
 			}
 
@@ -217,7 +216,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			session_start([
 				'cookie_secure' => TRUE,
 				'cookie_httponly' => TRUE,
-				'cookie_samesite' => 'Strict'
+				'cookie_samesite' => 'Strict',
 			]);
 			$_SESSION['tx_sgcookieoptin']['configurationChanged'] = TRUE;
 		}
@@ -239,7 +238,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		foreach ($data as $fieldName => $value) {
 			$tcaConfig = $this->getTCAConfigForInlineField($table, $fieldName);
-			if (count($tcaConfig) <= 0) {
+			if (\count($tcaConfig) <= 0) {
 				$fullData[$fieldName] = $value;
 				continue;
 			}
@@ -253,7 +252,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			}
 
 			$inlineData = $this->getDataForInlineField($foreignTable, $foreignField, $parentUid, $language);
-			if (count($inlineData) > 0) {
+			if (\count($inlineData) > 0) {
 				foreach ($inlineData as $index => $inlineDataEntry) {
 					if (!isset($inlineDataEntry['uid'])) {
 						continue;
@@ -277,12 +276,12 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function getTCAConfigForInlineField(string $table, string $field): array {
 		$tableData = $GLOBALS['TCA'][$table];
-		if (!is_array($tableData)) {
+		if (!\is_array($tableData)) {
 			return [];
 		}
 
 		$tableColumn = $tableData['columns'][$field] ?? NULL;
-		if (!is_array($tableColumn)) {
+		if (!\is_array($tableColumn)) {
 			return [];
 		}
 
@@ -327,7 +326,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 
-		if (!is_array($rows)) {
+		if (!\is_array($rows)) {
 			return [];
 		}
 
@@ -350,7 +349,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function getTCALanguageField(string $table): string {
 		$tableData = $GLOBALS['TCA'][$table];
-		if (!is_array($tableData)) {
+		if (!\is_array($tableData)) {
 			return '';
 		}
 
@@ -373,7 +372,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @throws ResourceDoesNotExistException
 	 */
 	protected function createCSSFile(array $data, string $folder, array $cssData, bool $minifyFile = TRUE): void {
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$content = '';
 		$resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 		$file = $resourceFactory->retrieveFileOrFolderObject(
@@ -488,7 +487,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$file = $folder . $groupName . '-' . $languageUid . '.js';
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$groupFile = $sitePath . $file;
 		file_put_contents($groupFile, $content);
 
@@ -512,7 +511,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @throws ResourceDoesNotExistException
 	 */
 	protected function createJavaScriptFile(string $folder, bool $minifyFile = TRUE): void {
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
 
 		$resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
@@ -741,7 +740,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$navigationEntries = $this->getPagesFromNavigation($translatedData['navigation'], $languageUid);
-		if (count($navigationEntries) <= 0) {
+		if (\count($navigationEntries) <= 0) {
 			$navigationEntries = $this->getPagesFromNavigation($data['navigation'], $languageUid);
 		}
 
@@ -865,7 +864,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		];
 
 		$placeholders = [
-			'iframe_consent_description' => '<p class="sg-cookie-optin-box-flash-message"></p>'
+			'iframe_consent_description' => '<p class="sg-cookie-optin-box-flash-message"></p>',
 		];
 
 		$jsonDataArray = [
@@ -875,7 +874,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'iFrameGroup' => $iFrameGroup,
 			'settings' => $settings,
 			'textEntries' => $textEntries,
-			'placeholders' => $placeholders
+			'placeholders' => $placeholders,
 		];
 
 		$jsonDataArray['mustacheData'] = [
@@ -926,13 +925,13 @@ class StaticFileGenerationService implements SingletonInterface {
 			],
 			'iframeWhitelist' => [
 				'iframe_whitelist_regex' => $translatedData['iframe_whitelist_regex'],
-				'markup' => $translatedData['iframe_whitelist_regex']
+				'markup' => $translatedData['iframe_whitelist_regex'],
 			],
 		];
 
 		$jsonDataArray['mustacheData']['services'] = [];
 		if ((int) $translatedData['services'] > 0 ||
-			(is_countable($translatedData['services']) && (count($translatedData['services']) > 0))
+			(is_countable($translatedData['services']) && (\count($translatedData['services']) > 0))
 		) {
 			$templateService = GeneralUtility::makeInstance(TemplateService::class);
 			foreach ($translatedData['services'] as $service) {
@@ -952,7 +951,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			}
 		}
 
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
 			'#LANG#',
 			$locale . JsonImportService::LOCALE_SEPARATOR . $languageUid,
@@ -960,20 +959,20 @@ class StaticFileGenerationService implements SingletonInterface {
 		);
 
 		$mask = JSON_PRETTY_PRINT;
-		if (defined('JSON_THROW_ON_ERROR')) {
-			$mask = constant('JSON_THROW_ON_ERROR') | JSON_PRETTY_PRINT | constant('JSON_INVALID_UTF8_SUBSTITUTE');
+		if (\defined('JSON_THROW_ON_ERROR')) {
+			$mask = \constant('JSON_THROW_ON_ERROR') | JSON_PRETTY_PRINT | \constant('JSON_INVALID_UTF8_SUBSTITUTE');
 		}
 
 		// Call pre-processing function for constructor:
 		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']) &&
-			is_array(
+			\is_array(
 				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']
 			)
 		) {
 			$_params = [
 				'pObj' => &$this,
 				'data' => &$jsonDataArray,
-				'languageUid' => $languageUid
+				'languageUid' => $languageUid,
 			];
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'] as $_funcRef) {
 				GeneralUtility::callUserFunction($_funcRef, $_params, $this);

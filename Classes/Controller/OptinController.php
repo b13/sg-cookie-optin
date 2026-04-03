@@ -112,7 +112,7 @@ class OptinController extends AbstractController {
 		session_start([
 			'cookie_secure' => TRUE,
 			'cookie_httponly' => TRUE,
-			'cookie_samesite' => 'Strict'
+			'cookie_samesite' => 'Strict',
 		]);
 		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
 			unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
@@ -134,7 +134,7 @@ class OptinController extends AbstractController {
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int)$pageInfo['is_siteroot'] === 1) {
 			$optIns = BackendService::getOptins($pageUid);
 
-			if (count($optIns) > 1) {
+			if (\count($optIns) > 1) {
 				$this->addFlashMessage(
 					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
 					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
@@ -156,7 +156,6 @@ class OptinController extends AbstractController {
 
 	/**
 	 * Activates the demo mode for the given instance.
-	 *
 	 */
 	public function activateDemoModeAction(): ResponseInterface {
 		if (LicenceCheckService::isInDemoMode() || !LicenceCheckService::isDemoModeAcceptable()) {
@@ -169,13 +168,12 @@ class OptinController extends AbstractController {
 
 	/**
 	 * Imports JSON configuration
-	 *
 	 */
 	public function importJsonAction(): ?ResponseInterface {
 		session_start([
 			'cookie_secure' => TRUE,
 			'cookie_httponly' => TRUE,
-			'cookie_samesite' => 'Strict'
+			'cookie_samesite' => 'Strict',
 		]);
 
 		$pid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
@@ -218,7 +216,7 @@ class OptinController extends AbstractController {
 		session_start([
 			'cookie_secure' => TRUE,
 			'cookie_httponly' => TRUE,
-			'cookie_samesite' => 'Strict'
+			'cookie_samesite' => 'Strict',
 		]);
 
 		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
@@ -228,7 +226,7 @@ class OptinController extends AbstractController {
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
 			$optIns = BackendService::getOptins($pageUid);
 
-			if (count($optIns) > 0) {
+			if (\count($optIns) > 0) {
 				$this->addFlashMessage(
 					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
 					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
@@ -282,20 +280,20 @@ class OptinController extends AbstractController {
 			$dataSummary = [];
 			if (isset($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'])) {
 				foreach ($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'] as $languageId => $languageData) {
-					$groupsCounts[$languageId] = count($languageData['cookieGroups']);
+					$groupsCounts[$languageId] = \count($languageData['cookieGroups']);
 					foreach ($languageData['cookieGroups'] as $group) {
 						if (!isset($cookiesCounts[$languageId])) {
 							$cookiesCounts[$languageId] = 0;
 							$scriptsCounts[$languageId] = 0;
 						}
 
-						$cookiesCounts[$languageId] += isset($group['cookieData']) ? count($group['cookieData']) : 0;
-						$scriptsCounts[$languageId] += isset($group['scriptData']) ? count($group['scriptData']) : 0;
+						$cookiesCounts[$languageId] += isset($group['cookieData']) ? \count($group['cookieData']) : 0;
+						$scriptsCounts[$languageId] += isset($group['scriptData']) ? \count($group['scriptData']) : 0;
 					}
 				}
 			}
 
-			if (count(array_unique($groupsCounts)) > 1) {
+			if (\count(array_unique($groupsCounts)) > 1) {
 				$this->addFlashMessage(
 					LocalizationUtility::translate('backend.jsonImport.warnings.groupsCount', 'sg_cookie_optin'),
 					LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
@@ -304,7 +302,7 @@ class OptinController extends AbstractController {
 				$warningGroups = TRUE;
 			}
 
-			if (count(array_unique($cookiesCounts)) > 1) {
+			if (\count(array_unique($cookiesCounts)) > 1) {
 				$this->addFlashMessage(
 					LocalizationUtility::translate('backend.jsonImport.warnings.cookiesCount', 'sg_cookie_optin'),
 					LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
@@ -313,7 +311,7 @@ class OptinController extends AbstractController {
 				$warningCookies = TRUE;
 			}
 
-			if (count(array_unique($scriptsCounts)) > 1) {
+			if (\count(array_unique($scriptsCounts)) > 1) {
 				$this->addFlashMessage(
 					LocalizationUtility::translate('backend.jsonImport.warnings.scriptsCount', 'sg_cookie_optin'),
 					LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
@@ -324,13 +322,13 @@ class OptinController extends AbstractController {
 
 			foreach ($languages as $language) {
 				$dataSummary[$language['uid']] = [
-					'translated' => array_key_exists($language['uid'], $groupsCounts),
+					'translated' => \array_key_exists($language['uid'], $groupsCounts),
 					'groups' => $groupsCounts[$language['uid']] ?? 0,
 					'cookies' => $cookiesCounts[$language['uid']] ?? 0,
 					'scripts' => $scriptsCounts[$language['uid']] ?? 0,
 					'title' => $language['title'] ?? '',
 					'locale' => $language['locale'] ?? '',
-					'flagIdentifier' => $language['flagIdentifier'] ?? ''
+					'flagIdentifier' => $language['flagIdentifier'] ?? '',
 				];
 			}
 			$this->moduleTemplate->assign('dataSummary', $dataSummary);
@@ -346,7 +344,6 @@ class OptinController extends AbstractController {
 
 	/**
 	 * Downloads a JSON file containing all the configuration for each language
-	 *
 	 */
 	public function exportJsonAction() {
 		try {
@@ -360,7 +357,7 @@ class OptinController extends AbstractController {
 			}
 
 			$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
-			$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . DIRECTORY_SEPARATOR;
+			$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . DIRECTORY_SEPARATOR;
 			$filesPath = $sitePath . $folder . 'siteroot-' . $pid . DIRECTORY_SEPARATOR;
 			$jsonData = [];
 			foreach (new DirectoryIterator($filesPath) as $file) {
@@ -389,7 +386,6 @@ class OptinController extends AbstractController {
 
 	/**
 	 * Displays the user preference statistics
-	 *
 	 */
 	public function statisticsAction(): ResponseInterface {
 		$this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
@@ -448,7 +444,7 @@ class OptinController extends AbstractController {
 			'provider' => '',
 			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE,
 			'lifetime' => '1 Jahr',
-			'parent_optin' => $newOptinKey
+			'parent_optin' => $newOptinKey,
 		];
 
 		$newCookieKey = StringUtility::getUniqueId('NEW');
@@ -458,7 +454,7 @@ class OptinController extends AbstractController {
 			'provider' => '',
 			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE,
 			'lifetime' => '1 Jahr',
-			'parent_optin' => $newOptinKey
+			'parent_optin' => $newOptinKey,
 		];
 
 		$dataHandler = GeneralUtility::makeInstance(DataHandler::class);
@@ -482,14 +478,13 @@ class OptinController extends AbstractController {
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		$params = [
 			'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$optInId => 'edit']],
-			'returnUrl' => (string) $uriBuilder->buildUriFromRoutePath('/module/web/sg-cookie-optin', ['id' => $pid])
+			'returnUrl' => (string) $uriBuilder->buildUriFromRoutePath('/module/web/sg-cookie-optin', ['id' => $pid]),
 		];
 		return (string) $uriBuilder->buildUriFromRoute('record_edit', $params);
 	}
 
 	/**
 	 * Checks the license status and displays it
-	 *
 	 */
 	protected function checkLicenseStatus(): void {
 		if (LicenceCheckService::isTYPO3VersionSupported() && !LicenceCheckService::isInDevelopmentContext()) {

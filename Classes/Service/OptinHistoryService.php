@@ -63,7 +63,7 @@ class OptinHistoryService {
 			}
 
 			$file = $folder . 'siteroot-' . $rootPageId . '/cookieOptin.css';
-			$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+			$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 			if (!file_exists($sitePath . $file)) {
 				throw new SaveOptinHistoryException('Invalid site path');
 			}
@@ -80,13 +80,13 @@ class OptinHistoryService {
 
 			$jsonInput = json_decode($preferences, TRUE);
 
-			if (!is_array($jsonInput) || !self::validateInput($jsonInput)) {
+			if (!\is_array($jsonInput) || !self::validateInput($jsonInput)) {
 				throw new SaveOptinHistoryException('Invalid input');
 			}
 
 			$insertData = self::prepareInsertData($jsonInput, self::TYPE_GROUP);
 
-			if (count($insertData) < 1) {
+			if (\count($insertData) < 1) {
 				throw new SaveOptinHistoryException('No data to save');
 			}
 
@@ -94,7 +94,7 @@ class OptinHistoryService {
 			if (!self::havePreferencesChanged($jsonInput['uuid'], $insertData)) {
 				return [
 					'error' => 0,
-					'message' => 'Preferences unchanged - no data saved'
+					'message' => 'Preferences unchanged - no data saved',
 				];
 			}
 
@@ -119,17 +119,17 @@ class OptinHistoryService {
 
 			return [
 				'error' => 0,
-				'message' => 'OK'
+				'message' => 'OK',
 			];
 		} catch (RateLimitExceededException $exception) {
 			return [
 				'error' => 2, // Different error code for rate limit
-				'message' => $exception->getMessage()
+				'message' => $exception->getMessage(),
 			];
 		} catch (Exception $exception) {
 			return [
 				'error' => 1,
-				'message' => $exception->getMessage()
+				'message' => $exception->getMessage(),
 			];
 		}
 	}
@@ -198,7 +198,7 @@ class OptinHistoryService {
 
 		$query .= ' WHERE ' . implode(' AND ', $where);
 
-		if (count($groupBy) > 0) {
+		if (\count($groupBy) > 0) {
 			$query .= ' GROUP BY ' . implode(',', $groupBy);
 		}
 
@@ -404,7 +404,7 @@ class OptinHistoryService {
 				$groupName = $pair;
 			}
 
-			if (!in_array($groupName, $allowedGroupNames)) {
+			if (!\in_array($groupName, $allowedGroupNames)) {
 				continue;
 			}
 

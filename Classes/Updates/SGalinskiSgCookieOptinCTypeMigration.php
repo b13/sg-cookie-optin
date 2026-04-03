@@ -42,7 +42,7 @@ final class SGalinskiSgCookieOptinCTypeMigration extends AbstractListTypeToCType
 	protected function getListTypeToCTypeMapping(): array {
 		return [
 			'sgcookieoptin_optin' => 'sgcookieoptin_optin',
-			'sgcookieoptin_cookielist' => 'sgcookieoptin_cookielist'
+			'sgcookieoptin_cookielist' => 'sgcookieoptin_cookielist',
 		];
 	}
 }

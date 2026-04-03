@@ -94,7 +94,7 @@ class StatisticsController extends AbstractController {
 		// Grab page UID from the request
 		$pageUid = (int) ($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? NULL);
 		$this->moduleTemplate->assign('versions', OptinHistoryService::getVersions([
-					'pid' => $pageUid
+					'pid' => $pageUid,
 				]));
 
 		// Check if a page is site root in page record

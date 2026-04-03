@@ -58,7 +58,7 @@ $configuration = [
 		'sys_language_uid' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-			'config' => ['type' => 'language']
+			'config' => ['type' => 'language'],
 		],
 		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -67,18 +67,18 @@ $configuration = [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => [
-					['label' => '', 'value' => 0]
+					['label' => '', 'value' => 0],
 				],
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_cookie',
 				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_cookie.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_cookie.sys_language_uid IN (-1,0)',
-				'default' => 0
-			]
+				'default' => 0,
+			],
 		],
 		'l10n_diffsource' => [
 			'config' => [
 				'type' => 'passthrough',
-				'default' => ''
-			]
+				'default' => '',
+			],
 		],
 		'name' => [
 			'exclude' => TRUE,
@@ -88,7 +88,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'placeholder' => '_ga',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'provider' => [
@@ -98,7 +98,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'placeholder' => 'Google Adwords',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'purpose' => [
@@ -107,7 +107,7 @@ $configuration = [
 			'config' => [
 				'type' => 'text',
 				'placeholder' => 'Cookie von Google zur Steuerung der erweiterten Script- und Ereignisbehandlung.',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'lifetime' => [
@@ -117,7 +117,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'placeholder' => '1 Jahr',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'parent_group' => [
@@ -153,7 +153,7 @@ $configuration = [
 
 $GLOBALS['TCA_DESCR']['tx_sgcookieoptin_domain_model_cookie'] = [
 	'refs' => [
-		'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
+		'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf',
 	],
 ];
 
@@ -171,7 +171,7 @@ if (version_compare($versionNumber, '13.3', '<')) {
 		'label' => 'PID',
 		'config' => [
 			'type' => 'none',
-		]
+		],
 	];
 }
 

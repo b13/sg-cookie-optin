@@ -67,7 +67,7 @@ try {
 			if (!$statement) {
 				$keys = array_keys($row);
 				$query = 'INSERT INTO ' . TABLE_NAME . '(' . implode(',', $keys)
-					. ") VALUES (" .
+					. ') VALUES (' .
 					implode(', ', array_map(function ($paramKey) {
 						return ':' . $paramKey;
 					}, $keys)) . ')';

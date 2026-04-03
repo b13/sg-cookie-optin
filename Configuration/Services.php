@@ -22,12 +22,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 	$services->set(GenerateStaticFilesCommand::class)
 		->tag('console.command', [
 			'command' => 'sg_cookie_optin:generate_static_files',
-			'description' => 'Generates the necessary JavaScript, JSON and CSS files.'
+			'description' => 'Generates the necessary JavaScript, JSON and CSS files.',
 		]);
 	$services->set(DeleteUsageHistoryCommand::class)
 		->tag('console.command', [
 			'command' => 'sg_cookie_optin:delete_usage_history',
-			'description' => 'Deletes the optin usage history entries older than X days'
+			'description' => 'Deletes the optin usage history entries older than X days',
 		]);
 	$services->set(AbstractViewHelper::class)
 		->public();

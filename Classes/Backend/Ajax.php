@@ -89,7 +89,7 @@ class Ajax {
 			$count = OptinHistoryService::searchUserHistory($params, TRUE);
 			$result = [
 				'data' => $data,
-				'count' => end($count[0])
+				'count' => end($count[0]),
 			];
 			$response->getBody()->write(json_encode($result));
 		} catch (Exception $exception) {
@@ -140,11 +140,11 @@ class Ajax {
 
 				$data[$identifier][$acceptedKey] = [
 					'value' => 0,
-					'color' => '#009146'
+					'color' => '#009146',
 				];
 				$data[$identifier][$rejectedKey] = [
 					'value' => 0,
-					'color' => '#C41700'
+					'color' => '#C41700',
 				];
 
 				$identifierData = OptinHistoryService::searchUserHistory($params, TRUE);

@@ -112,7 +112,7 @@ abstract class AbstractController extends ActionController {
 		/** @var AbstractTask $aTaskObject */
 		foreach ($allTasks as $aTaskObject) {
 			// skip tasks, that are not of class DeleteUsageHistoryCommand
-			if (get_class($aTaskObject) === ExecuteSchedulableCommandTask::class
+			if (\get_class($aTaskObject) === ExecuteSchedulableCommandTask::class
 				&& $aTaskObject->getCommandIdentifier() === 'sg_cookie_optin:delete_usage_history') {
 				$taskExists = TRUE;
 			}

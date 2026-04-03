@@ -56,7 +56,7 @@ $configuration = [
 		'sys_language_uid' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-			'config' => ['type' => 'language']
+			'config' => ['type' => 'language'],
 		],
 		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -65,18 +65,18 @@ $configuration = [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => [
-					['label' => '', 'value' => 0]
+					['label' => '', 'value' => 0],
 				],
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_service',
 				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_service.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_service.sys_language_uid IN (-1,0)',
-				'default' => 0
-			]
+				'default' => 0,
+			],
 		],
 		'l10n_diffsource' => [
 			'config' => [
 				'type' => 'passthrough',
-				'default' => ''
-			]
+				'default' => '',
+			],
 		],
 		'identifier' => [
 			'exclude' => TRUE,
@@ -85,7 +85,7 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'replacement_html_overwritten' => [
@@ -96,7 +96,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -113,7 +113,7 @@ $configuration = [
 				'format' => 'html',
 				'eval' => 'trim',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -138,7 +138,7 @@ $configuration = [
 				'type' => 'input',
 				'eval' => 'trim',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 				'default' => '',
 			],
@@ -163,7 +163,7 @@ if (version_compare($versionNumber, '13.3', '<')) {
 		'label' => 'PID',
 		'config' => [
 			'type' => 'none',
-		]
+		],
 	];
 }
 

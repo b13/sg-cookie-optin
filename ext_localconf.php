@@ -46,7 +46,7 @@ call_user_func(
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
 			'nodeName' => 'templatePreviewLinkWizard',
 			'priority' => 70,
-			'class' => \SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard::class
+			'class' => \SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard::class,
 		];
 
 		// Ajax Endpoint

@@ -262,10 +262,10 @@ abstract class AbstractListTypeToCTypeUpdate implements UpgradeWizardInterface {
 		}
 
 		foreach ($this->getListTypeToCTypeMapping() as $listType => $contentElement) {
-			if (!is_string($listType) || $listType === '') {
+			if (!\is_string($listType) || $listType === '') {
 				throw new RuntimeException('Invalid mapping item "' . $listType . '" in class "' . static::class, 1727605678);
 			}
-			if (!is_string($contentElement) || $contentElement === '') {
+			if (!\is_string($contentElement) || $contentElement === '') {
 				throw new RuntimeException('Invalid mapping item "' . $contentElement . '" in class "' . static::class, 1727605679);
 			}
 		}

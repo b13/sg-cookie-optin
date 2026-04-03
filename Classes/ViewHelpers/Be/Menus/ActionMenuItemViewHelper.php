@@ -96,7 +96,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 			array_merge(
 				[
 					'controller' => $currentRequest?->getControllerName(),
-					'action' => $currentRequest?->getControllerActionName()
+					'action' => $currentRequest?->getControllerActionName(),
 				],
 				$requestArguments
 			)

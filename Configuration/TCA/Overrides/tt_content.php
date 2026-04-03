@@ -6,7 +6,7 @@ call_user_func(function () {
 		[
 			'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel',
 			'sgcookieoptin_optin',
-			'iconIdentifier' => 'ext-sg_cookie_optin'
+			'iconIdentifier' => 'ext-sg_cookie_optin',
 		],
 		'CType',
 		'sg_cookie_optin'
@@ -26,7 +26,7 @@ call_user_func(function () {
 		[
 			'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_backend.xlf:cookieListPluginLabel',
 			'sgcookieoptin_cookielist',
-			'iconIdentifier' => 'ext-sg_cookie_optin'
+			'iconIdentifier' => 'ext-sg_cookie_optin',
 		],
 		'CType',
 		'sg_cookie_optin'

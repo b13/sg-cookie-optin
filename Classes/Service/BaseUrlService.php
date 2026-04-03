@@ -64,7 +64,7 @@ class BaseUrlService {
 			$basePath = '/';
 		}
 
-		if ($basePath[strlen($basePath) - 1] !== '/') {
+		if ($basePath[\strlen($basePath) - 1] !== '/') {
 			$basePath .= '/';
 		}
 

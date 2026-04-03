@@ -64,7 +64,7 @@ class BackendService {
 			);
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 
-		if (!is_array($rows)) {
+		if (!\is_array($rows)) {
 			return [];
 		}
 
@@ -104,7 +104,7 @@ class BackendService {
 
 		$rows = $queryBuilder->executeQuery()->fetchAllAssociative();
 
-		return (is_array($rows) ? $rows : []);
+		return (\is_array($rows) ? $rows : []);
 	}
 
 	/**

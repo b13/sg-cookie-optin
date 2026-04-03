@@ -79,28 +79,28 @@ $configuration = [
 	'palettes' => [
 		'accept_buttons_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.accept_buttons_texts',
-			'showitem' => 'accept_all_text, accept_specific_text, accept_essential_text'
+			'showitem' => 'accept_all_text, accept_specific_text, accept_essential_text',
 		],
 		'link_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.link_texts',
 			'showitem' => 'extend_box_link_text, extend_box_link_text_close, --linebreak--,
-				extend_table_link_text, extend_table_link_text_close'
+				extend_table_link_text, extend_table_link_text_close',
 		],
 		'cookie_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_texts',
 			'showitem' => 'cookie_name_text, cookie_provider_text, --linebreak--,
-			 	cookie_purpose_text, cookie_lifetime_text'
+			 	cookie_purpose_text, cookie_lifetime_text',
 		],
 		'color_general' => [
-			'showitem' => 'color_full_box, color_full_headline, color_full_text, --linebreak--, color_box, color_headline, color_text, color_focus_outline'
+			'showitem' => 'color_full_box, color_full_headline, color_full_text, --linebreak--, color_box, color_headline, color_text, color_focus_outline',
 		],
 		'color_notification' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_notification',
-			'showitem' => 'color_confirmation_background, color_confirmation_text'
+			'showitem' => 'color_confirmation_background, color_confirmation_text',
 		],
 		'color_checkbox' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_checkboxes',
-			'showitem' => 'color_checkbox_required, color_checkbox'
+			'showitem' => 'color_checkbox_required, color_checkbox',
 		],
 		'color_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_buttons',
@@ -109,7 +109,7 @@ $configuration = [
 				color_full_button_close, color_full_button_close_hover, color_full_button_close_text, --linebreak--,
 				color_button_all, color_button_all_hover, color_button_all_text, --linebreak--,
 				color_button_specific, color_button_specific_hover, color_button_specific_text, --linebreak--,
-				color_button_essential, color_button_essential_hover, color_button_essential_text'
+				color_button_essential, color_button_essential_hover, color_button_essential_text',
 		],
 		'color_list' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_lists',
@@ -118,127 +118,127 @@ $configuration = [
 		'fingerprint' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint',
 			'showitem' => 'show_fingerprint, fingerprint_position, --linebreak--,
-			color_fingerprint_background, color_fingerprint_image'
+			color_fingerprint_background, color_fingerprint_image',
 		],
 		'color_table' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_tables',
 			'showitem' => 'color_table_header, color_table, --linebreak--,
-				color_table_header_text, color_Table_data_text'
+				color_table_header_text, color_Table_data_text',
 		],
 		'template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template',
 			'showitem' => 'template_selection, template_overwritten, --linebreak--,
 				template_warning, --linebreak--,
-				template_html'
+				template_html',
 		],
 		'iframe_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_texts',
 			'showitem' => 'iframe_button_allow_all_text, iframe_button_allow_one_text, iframe_button_reject_text, --linebreak--,
 				iframe_button_load_one_text, iframe_open_settings_text, --linebreak--,
-				iframe_button_load_one_description'
+				iframe_button_load_one_description',
 		],
 		'iframe_colors' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_colors',
 			'showitem' => 'iframe_color_consent_box_background, --linebreak--,
 				iframe_color_button_load_one, iframe_color_button_load_one_hover, iframe_color_button_load_one_text, --linebreak--,
 				iframe_color_open_settings, --linebreak--,
-				iframe_replacement_background_image'
+				iframe_replacement_background_image',
 		],
 		'iframe_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_template',
 			'showitem' => 'iframe_overwritten, --linebreak--,
 				iframe_warning, --linebreak--,
-				iframe_html'
+				iframe_html',
 		],
 		'iframe_whitelist' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_whitelist',
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_whitelist.description',
-			'showitem' => 'iframe_whitelist_regex'
+			'showitem' => 'iframe_whitelist_regex',
 		],
 		'iframe_replacement_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_template',
 			'showitem' => 'iframe_replacement_overwritten, --linebreak--,
 				iframe_replacement_warning, --linebreak--,
-				iframe_replacement_html, --linebreak--'
+				iframe_replacement_html, --linebreak--',
 		],
 		'banner_general' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general',
 			'showitem' => 'banner_enable, --linebreak--, banner_force_min_width, --linebreak--, banner_position,
-				banner_description'
+				banner_description',
 		],
 		'banner_general_colors' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors',
-			'showitem' => 'banner_color_box, banner_color_text, banner_color_link_text'
+			'showitem' => 'banner_color_box, banner_color_text, banner_color_link_text',
 		],
 		'banner_settings_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_settings_button',
 			'showitem' => 'banner_show_settings_button, --linebreak--,
 				banner_button_settings_text, --linebreak--,
-				banner_color_button_settings, banner_color_button_settings_hover, banner_color_button_settings_text'
+				banner_color_button_settings, banner_color_button_settings_hover, banner_color_button_settings_text',
 		],
 		'banner_accept_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button',
 			'showitem' => 'banner_button_accept_text, --linebreak--,
-				banner_color_button_accept, banner_color_button_accept_hover, banner_color_button_accept_text'
+				banner_color_button_accept, banner_color_button_accept_hover, banner_color_button_accept_text',
 		],
 		'banner_accept_essential_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_accept_essential_button',
 			'showitem' => 'banner_button_accept_essential_text, --linebreak--,
-				banner_color_button_accept_essential, banner_color_button_accept_essential_hover, banner_color_button_accept_essential_text'
+				banner_color_button_accept_essential, banner_color_button_accept_essential_hover, banner_color_button_accept_essential_text',
 		],
 		'banner_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_template',
 			'showitem' => 'banner_overwritten, --linebreak--,
 				banner_warning, --linebreak--,
-				banner_html'
+				banner_html',
 		],
 		'cookie_lifetime_settings' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.cookie_lifetime_settings',
 			'showitem' => 'cookie_lifetime, session_only_essential_cookies, --linebreak--,
-				banner_show_again_interval'
+				banner_show_again_interval',
 		],
 		'update_version' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.update_version',
-			'showitem' => 'update_version_checkbox, version'
+			'showitem' => 'update_version_checkbox, version',
 		],
 		'multidomain' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings',
-			'showitem' => 'subdomain_support, set_cookie_for_domain, --linebreak--, domains_to_delete_cookies_for'
+			'showitem' => 'subdomain_support, set_cookie_for_domain, --linebreak--, domains_to_delete_cookies_for',
 		],
 		'consent_mode' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.consent_mode',
-			'showitem' => 'disable_automatic_loading'
+			'showitem' => 'disable_automatic_loading',
 		],
 		'accessibility' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.accessibility',
-			'showitem' => 'monochrome_enabled'
+			'showitem' => 'monochrome_enabled',
 		],
 		'general' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.general',
-			'showitem' => 'unified_cookie_name, --linebreak--, overwrite_baseurl, --linebreak--, disable_for_this_language, --linebreak--, automatic_script_activation'
+			'showitem' => 'unified_cookie_name, --linebreak--, overwrite_baseurl, --linebreak--, disable_for_this_language, --linebreak--, automatic_script_activation',
 		],
 		'performance' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.performance',
-			'showitem' => 'minify_generated_data, --linebreak--, render_assets_inline'
+			'showitem' => 'minify_generated_data, --linebreak--, render_assets_inline',
 		],
 		'privacy' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.privacy',
-			'showitem' => 'consider_do_not_track, --linebreak--, cookiebanner_whitelist_regex'
+			'showitem' => 'consider_do_not_track, --linebreak--, cookiebanner_whitelist_regex',
 		],
 		'testing' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.testing',
-			'showitem' => 'activate_testing_mode'
+			'showitem' => 'activate_testing_mode',
 		],
 		'statistics' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.statistics',
-			'showitem' => 'disable_usage_statistics, --linebreak--, auto_action_for_bots'
-		]
+			'showitem' => 'disable_usage_statistics, --linebreak--, auto_action_for_bots',
+		],
 	],
 	'columns' => [
 		'sys_language_uid' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-			'config' => ['type' => 'language']
+			'config' => ['type' => 'language'],
 		],
 		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -247,18 +247,18 @@ $configuration = [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => [
-					['label' => '', 'value' => 0]
+					['label' => '', 'value' => 0],
 				],
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_optin',
 				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_optin.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_optin.sys_language_uid IN (-1,0)',
-				'default' => 0
-			]
+				'default' => 0,
+			],
 		],
 		'l10n_diffsource' => [
 			'config' => [
 				'type' => 'passthrough',
-				'default' => ''
-			]
+				'default' => '',
+			],
 		],
 		'header' => [
 			'exclude' => TRUE,
@@ -268,7 +268,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Datenschutzeinstellungen',
 				'placeholder' => 'Datenschutzeinstellungen',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'description' => [
@@ -278,7 +278,7 @@ $configuration = [
 				'type' => 'text',
 				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
-				'eval' => 'trim'
+				'eval' => 'trim',
 			],
 		],
 		'save_confirmation_text' => [
@@ -289,7 +289,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Cookie-Einstellungen erfolgreich gespeichert',
 				'placeholder' => 'Cookie-Einstellungen erfolgreich gespeichert',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'dependent_groups_text' => [
@@ -300,7 +300,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Abhängig von:',
 				'placeholder' => 'Abhängig von:',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'user_hash_text' => [
@@ -311,7 +311,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'User-Hash',
 				'placeholder' => 'User-Hash',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'accept_all_text' => [
@@ -322,7 +322,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Alle akzeptieren',
 				'placeholder' => 'Alle akzeptieren',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'accept_specific_text' => [
@@ -333,7 +333,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Speichern & schließen',
 				'placeholder' => 'Speichern & schließen',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'accept_essential_text' => [
@@ -344,7 +344,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Nur essenzielle Cookies akzeptieren',
 				'placeholder' => 'Nur essenzielle Cookies akzeptieren',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'extend_box_link_text' => [
@@ -355,7 +355,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Weitere Informationen anzeigen',
 				'placeholder' => 'Weitere Informationen anzeigen',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'extend_box_link_text_close' => [
@@ -366,7 +366,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Weitere Informationen verstecken',
 				'placeholder' => 'Weitere Informationen verstecken',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'extend_table_link_text' => [
@@ -377,7 +377,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Cookie-Informationen anzeigen',
 				'placeholder' => 'Cookie-Informationen anzeigen',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'extend_table_link_text_close' => [
@@ -388,7 +388,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Cookie-Informationen verstecken',
 				'placeholder' => 'Cookie-Informationen verstecken',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'fingerprint_aria_label_text' => [
@@ -399,7 +399,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Cookies verwalten',
 				'placeholder' => 'Cookies verwalten',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'contrast_toggle_aria_label_text' => [
@@ -410,7 +410,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Dunkelmodus umschalten',
 				'placeholder' => 'Dunkelmodus umschalten',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'cookie_name_text' => [
@@ -421,7 +421,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Name',
 				'placeholder' => 'Name',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'cookie_provider_text' => [
@@ -432,7 +432,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Anbieter',
 				'placeholder' => 'Anbieter',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'cookie_purpose_text' => [
@@ -442,7 +442,7 @@ $configuration = [
 				'type' => 'input',
 				'default' => 'Zweck',
 				'placeholder' => 'Zweck',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'cookie_lifetime_text' => [
@@ -453,7 +453,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Laufzeit',
 				'placeholder' => 'Laufzeit',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'navigation' => [
@@ -466,8 +466,8 @@ $configuration = [
 				'maxitems' => 2,
 				'wizards' => [
 					'suggest' => [
-						'type' => 'suggest'
-					]
+						'type' => 'suggest',
+					],
 				],
 			],
 		],
@@ -493,7 +493,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_headline' => [
@@ -504,7 +504,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'color_text' => [
@@ -514,7 +514,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'color_confirmation_background' => [
@@ -524,8 +524,8 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96'
-			]
+				'placeholder' => '#2E6B96',
+			],
 		],
 		'color_confirmation_text' => [
 			'exclude' => TRUE,
@@ -534,8 +534,8 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
-			]
+				'placeholder' => '#FFFFFF',
+			],
 		],
 		'color_checkbox' => [
 			'exclude' => TRUE,
@@ -544,7 +544,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59'
+				'placeholder' => '#143D59',
 			],
 		],
 		'color_checkbox_required' => [
@@ -554,7 +554,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757'
+				'placeholder' => '#575757',
 			],
 		],
 		'color_button_all' => [
@@ -564,7 +564,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59'
+				'placeholder' => '#143D59',
 			],
 		],
 		'color_button_all_hover' => [
@@ -574,7 +574,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96'
+				'placeholder' => '#2E6B96',
 			],
 		],
 		'color_button_all_text' => [
@@ -584,7 +584,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_button_specific' => [
@@ -594,7 +594,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757'
+				'placeholder' => '#575757',
 			],
 		],
 		'color_button_specific_hover' => [
@@ -604,7 +604,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292'
+				'placeholder' => '#929292',
 			],
 		],
 		'color_button_specific_text' => [
@@ -614,7 +614,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_button_essential' => [
@@ -624,7 +624,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757'
+				'placeholder' => '#575757',
 			],
 		],
 		'color_button_essential_hover' => [
@@ -634,7 +634,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292'
+				'placeholder' => '#929292',
 			],
 		],
 		'color_button_essential_text' => [
@@ -644,7 +644,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_list' => [
@@ -654,7 +654,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757'
+				'placeholder' => '#575757',
 			],
 			'displayCond' => 'FIELD:template_selection:=:0',
 		],
@@ -665,7 +665,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 			'displayCond' => 'FIELD:template_selection:=:0',
 		],
@@ -676,7 +676,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_table_header' => [
@@ -686,7 +686,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#F3F3F3',
-				'placeholder' => '#F3F3F3'
+				'placeholder' => '#F3F3F3',
 			],
 		],
 		'color_table_header_text' => [
@@ -696,7 +696,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'color_Table_data_text' => [
@@ -706,7 +706,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'color_button_close' => [
@@ -717,7 +717,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_button_close_hover' => [
@@ -728,7 +728,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_button_close_text' => [
@@ -739,7 +739,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'monochrome_enabled' => [
@@ -760,7 +760,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Essenziell',
 				'placeholder' => 'Essenziell',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'essential_description' => [
@@ -770,7 +770,7 @@ $configuration = [
 				'type' => 'text',
 				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
 				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
-				'eval' => 'trim'
+				'eval' => 'trim',
 			],
 		],
 		'essential_scripts' => [
@@ -822,7 +822,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Externe Inhalte',
 				'placeholder' => 'Externe Inhalte',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'iframe_description' => [
@@ -832,7 +832,7 @@ $configuration = [
 				'type' => 'text',
 				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_IFRAME_DESCRIPTION,
 				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_IFRAME_DESCRIPTION,
-				'eval' => 'trim'
+				'eval' => 'trim',
 			],
 		],
 		'iframe_cookies' => [
@@ -858,7 +858,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Alle externen Inhalte erlauben',
 				'placeholder' => 'Alle externen Inhalte erlauben',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'iframe_button_allow_one_text' => [
@@ -869,7 +869,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Einmalig erlauben',
 				'placeholder' => 'Einmalig erlauben',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'iframe_button_reject_text' => [
@@ -880,7 +880,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Nicht erlauben',
 				'placeholder' => 'Nicht erlauben',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'iframe_button_load_one_description' => [
@@ -891,7 +891,7 @@ $configuration = [
 				'size' => 30,
 				'default' => '',
 				'placeholder' => '',
-				'eval' => 'trim'
+				'eval' => 'trim',
 			],
 		],
 
@@ -903,7 +903,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Externen Inhalt laden',
 				'placeholder' => 'Externen Inhalt laden',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'iframe_open_settings_text' => [
@@ -914,7 +914,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Einstellungen anzeigen',
 				'placeholder' => 'Einstellungen anzeigen',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'iframe_color_consent_box_background' => [
@@ -924,7 +924,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#D6D6D6',
-				'placeholder' => '#D6D6D6'
+				'placeholder' => '#D6D6D6',
 			],
 		],
 		'iframe_color_button_load_one' => [
@@ -934,7 +934,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59'
+				'placeholder' => '#143D59',
 			],
 		],
 		'iframe_color_button_load_one_hover' => [
@@ -944,7 +944,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96'
+				'placeholder' => '#2E6B96',
 			],
 		],
 		'iframe_color_button_load_one_text' => [
@@ -954,7 +954,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'iframe_color_open_settings' => [
@@ -964,7 +964,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'iframe_html' => [
@@ -977,7 +977,7 @@ $configuration = [
 				'format' => 'html',
 				'eval' => 'trim',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -990,7 +990,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -1000,8 +1000,8 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'none',
-				'renderType' => 'SgCookieOptinTCAWarningField'
-			]
+				'renderType' => 'SgCookieOptinTCAWarningField',
+			],
 		],
 		'iframe_replacement_html' => [
 			'exclude' => TRUE,
@@ -1014,7 +1014,7 @@ $configuration = [
 				'eval' => 'trim',
 				'default' => '',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -1027,7 +1027,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 
@@ -1038,8 +1038,8 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'none',
-				'renderType' => 'SgCookieOptinTCAWarningField'
-			]
+				'renderType' => 'SgCookieOptinTCAWarningField',
+			],
 		],
 		'iframe_replacement_background_image' => [
 			'exclude' => TRUE,
@@ -1049,7 +1049,7 @@ $configuration = [
 				'type' => 'input',
 				'eval' => 'trim',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 				'default' => '',
 			],
@@ -1062,7 +1062,7 @@ $configuration = [
 				'type' => 'input',
 				'default' => '365',
 				'placeholder' => '365',
-				'eval' => 'trim, int, required'
+				'eval' => 'trim, int, required',
 			],
 		],
 		'session_only_essential_cookies' => [
@@ -1081,7 +1081,7 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'default' => '',
-				'eval' => 'trim'
+				'eval' => 'trim',
 			],
 		],
 		'minify_generated_data' => [
@@ -1106,7 +1106,7 @@ $configuration = [
 					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.1', 'value' => 1],
 					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.auto_action_for_bots.2', 'value' => 2],
 				],
-				'default' => '0'
+				'default' => '0',
 			],
 		],
 		'template_html' => [
@@ -1125,7 +1125,7 @@ $configuration = [
 				],
 				'default' => '',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -1138,7 +1138,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -1148,8 +1148,8 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'none',
-				'renderType' => 'SgCookieOptinTCAWarningField'
-			]
+				'renderType' => 'SgCookieOptinTCAWarningField',
+			],
 		],
 		'template_selection' => [
 			'exclude' => TRUE,
@@ -1166,7 +1166,7 @@ $configuration = [
 					['label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.1', 'value' => 1],
 				],
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -1222,7 +1222,7 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'default' => '',
-				'eval' => 'trim,domainname'
+				'eval' => 'trim,domainname',
 			],
 		],
 		'banner_show_again_interval' => [
@@ -1232,7 +1232,7 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'default' => '14',
-				'eval' => 'trim, int'
+				'eval' => 'trim, int',
 			],
 		],
 		'banner_enable' => [
@@ -1266,11 +1266,11 @@ $configuration = [
 				'default' => '',
 				'fieldWizard' => [
 					'templatePreviewLinkWizard' => [
-						'renderType' => 'templatePreviewLinkWizard'
+						'renderType' => 'templatePreviewLinkWizard',
 					],
 				],
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -1283,7 +1283,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-					'allowLanguageSynchronization' => TRUE
+					'allowLanguageSynchronization' => TRUE,
 				],
 			],
 		],
@@ -1293,8 +1293,8 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'none',
-				'renderType' => 'SgCookieOptinTCAWarningField'
-			]
+				'renderType' => 'SgCookieOptinTCAWarningField',
+			],
 		],
 		'banner_show_settings_button' => [
 			'exclude' => TRUE,
@@ -1326,7 +1326,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#DDDDDD',
-				'placeholder' => '#DDDDDD'
+				'placeholder' => '#DDDDDD',
 			],
 		],
 		'banner_color_text' => [
@@ -1336,7 +1336,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'banner_color_link_text' => [
@@ -1346,7 +1346,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#373737',
-				'placeholder' => '#373737'
+				'placeholder' => '#373737',
 			],
 		],
 		'banner_color_button_settings' => [
@@ -1356,7 +1356,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757'
+				'placeholder' => '#575757',
 			],
 		],
 		'banner_color_button_settings_hover' => [
@@ -1366,7 +1366,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292'
+				'placeholder' => '#929292',
 			],
 		],
 		'banner_color_button_settings_text' => [
@@ -1376,7 +1376,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'banner_color_button_accept' => [
@@ -1386,7 +1386,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59'
+				'placeholder' => '#143D59',
 			],
 		],
 		'banner_color_button_accept_hover' => [
@@ -1396,7 +1396,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#2E6B96',
-				'placeholder' => '#2E6B96'
+				'placeholder' => '#2E6B96',
 			],
 		],
 		'banner_color_button_accept_text' => [
@@ -1406,7 +1406,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'banner_button_accept_text' => [
@@ -1417,7 +1417,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Akzeptieren',
 				'placeholder' => 'Akzeptieren',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'banner_color_button_accept_essential' => [
@@ -1427,7 +1427,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#575757',
-				'placeholder' => '#575757'
+				'placeholder' => '#575757',
 			],
 		],
 		'banner_color_button_accept_essential_hover' => [
@@ -1437,7 +1437,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#929292',
-				'placeholder' => '#929292'
+				'placeholder' => '#929292',
 			],
 		],
 		'banner_color_button_accept_essential_text' => [
@@ -1447,7 +1447,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'banner_button_accept_essential_text' => [
@@ -1458,7 +1458,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Ablehnen',
 				'placeholder' => 'Ablehnen',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'banner_button_settings_text' => [
@@ -1469,7 +1469,7 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Einstellungen',
 				'placeholder' => 'Einstellungen',
-				'eval' => 'trim, required'
+				'eval' => 'trim, required',
 			],
 		],
 		'banner_description' => [
@@ -1479,7 +1479,7 @@ $configuration = [
 				'type' => 'text',
 				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
-				'eval' => 'trim'
+				'eval' => 'trim',
 			],
 		],
 		'show_button_close' => [
@@ -1509,7 +1509,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59'
+				'placeholder' => '#143D59',
 			],
 		],
 		'color_full_headline' => [
@@ -1520,7 +1520,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_full_text' => [
@@ -1531,7 +1531,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_full_button_close' => [
@@ -1542,7 +1542,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59'
+				'placeholder' => '#143D59',
 			],
 		],
 		'color_full_button_close_hover' => [
@@ -1553,7 +1553,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#143D59'
+				'placeholder' => '#143D59',
 			],
 		],
 		'color_full_button_close_text' => [
@@ -1564,7 +1564,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF'
+				'placeholder' => '#FFFFFF',
 			],
 		],
 		'color_focus_outline' => [
@@ -1574,7 +1574,7 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#F5b51A',
-				'placeholder' => '#F5b51A'
+				'placeholder' => '#F5b51A',
 			],
 		],
 		'iframe_whitelist_regex' => [
@@ -1596,7 +1596,7 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'eval' => 'trim',
-				'default' => ''
+				'default' => '',
 			],
 		],
 		'cookiebanner_whitelist_regex' => [
@@ -1608,7 +1608,7 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'eval' => 'trim',
-				'default' => ''
+				'default' => '',
 			],
 		],
 		'version' => [
@@ -1618,7 +1618,7 @@ $configuration = [
 				'type' => 'input',
 				'default' => '1',
 				'readOnly' => '1',
-				'eval' => 'trim, int, required'
+				'eval' => 'trim, int, required',
 			],
 		],
 		'update_version_checkbox' => [
@@ -1686,8 +1686,8 @@ $configuration = [
 						'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.4',
 						'value' => 4,
 					],
-				]
-			]
+				],
+			],
 		],
 		'color_fingerprint_background' => [
 			'exclude' => TRUE,
@@ -1696,8 +1696,8 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#143D59',
-				'placeholder' => '#208A20'
-			]
+				'placeholder' => '#208A20',
+			],
 		],
 		'color_fingerprint_image' => [
 			'exclude' => TRUE,
@@ -1706,8 +1706,8 @@ $configuration = [
 			'config' => [
 				'type' => 'color',
 				'default' => '#FFFFFF',
-				'placeholder' => '#208A20'
-			]
+				'placeholder' => '#208A20',
+			],
 		],
 		'disable_automatic_loading' => [
 			'exclude' => TRUE,
@@ -1758,7 +1758,7 @@ if (version_compare($versionNumber, '13.3', '<')) {
 		'label' => 'PID',
 		'config' => [
 			'type' => 'none',
-		]
+		],
 	];
 }
 

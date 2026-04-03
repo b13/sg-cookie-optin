@@ -103,7 +103,7 @@ class ExtensionSettingsService {
 	 */
 	public static function getAssetFilePath(string $sitePath, string $folder, int $rootPageId, string $pattern) {
 		$files = glob($sitePath . $folder . 'siteroot-' . $rootPageId . '/' . $pattern);
-		if (count($files) > 0) {
+		if (\count($files) > 0) {
 			return str_replace($sitePath, '', $files[0]);
 		}
 

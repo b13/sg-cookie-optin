@@ -77,7 +77,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 
 		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage, BaseUrlService::getLanguage());
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$jsonFile = ExtensionSettingsService::getJsonFilePath($folder, $rootPageId, $sitePath);
 		if ($jsonFile === NULL) {
 			return '';
@@ -109,7 +109,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			],
 			[
 				'useNonce' => TRUE,
-				'priority' => TRUE
+				'priority' => TRUE,
 			]
 		);
 
@@ -121,10 +121,10 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				[
 					'type' => 'text/javascript',
 					'data-ignore' => '1',
-					'crossorigin' => 'anonymous'
+					'crossorigin' => 'anonymous',
 				],
 				[
-					'useNonce' => TRUE
+					'useNonce' => TRUE,
 				]
 			);
 
@@ -144,11 +144,11 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 					'id' => 'cookieOptinScript',
 					'data-ignore' => '1',
 					'crossorigin' => 'anonymous',
-					'defer' => 'defer'
+					'defer' => 'defer',
 				],
 				[
 					'useNonce' => TRUE,
-					'priority' => TRUE
+					'priority' => TRUE,
 				]
 			);
 		}
@@ -180,7 +180,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/cookieOptin.css';
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (!file_exists($sitePath . $file)) {
 			return '';
 		}

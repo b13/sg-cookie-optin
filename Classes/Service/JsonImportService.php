@@ -103,7 +103,7 @@ class JsonImportService {
 		$services = $jsonData['mustacheData']['services'];
 		$mustacheData = $jsonData['mustacheData'];
 
-		if (!is_array($footerLinks)) {
+		if (!\is_array($footerLinks)) {
 			$footerLinks = [];
 		}
 
@@ -646,7 +646,7 @@ class JsonImportService {
 			$this->defaultLanguageIdMappingLookup[$groupIdentifier] = [
 				'id' => $groupId,
 				'cookies' => [],
-				'scripts' => []
+				'scripts' => [],
 			];
 		}
 

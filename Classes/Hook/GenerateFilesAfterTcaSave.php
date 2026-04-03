@@ -32,8 +32,6 @@ use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\StaticFileGenerationService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
-use TYPO3\CMS\Core\Error\Http\ServiceUnavailableException;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Routing\InvalidRouteArgumentsException;
@@ -70,7 +68,7 @@ class GenerateFilesAfterTcaSave {
 
 		$originalRecord = [];
 		foreach ($dataHandler->datamap[StaticFileGenerationService::TABLE_NAME] as $uid => $data) {
-			if (count($originalRecord) > 0) {
+			if (\count($originalRecord) > 0) {
 				break;
 			}
 
@@ -115,7 +113,7 @@ class GenerateFilesAfterTcaSave {
 			session_start([
 				'cookie_secure' => TRUE,
 				'cookie_httponly' => TRUE,
-				'cookie_samesite' => 'Strict'
+				'cookie_samesite' => 'Strict',
 			]);
 			$_SESSION['tx_sgcookieoptin']['configurationChanged'] = TRUE;
 		}

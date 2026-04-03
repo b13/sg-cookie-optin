@@ -104,7 +104,7 @@ class CookieListController extends AbstractController {
 			'uid' => 0,
 			'title' => $optin['essential_title'],
 			'description' => $optin['essential_description'],
-			'cookies' => 0
+			'cookies' => 0,
 		]);
 
 		foreach ($groups as &$group) {

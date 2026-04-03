@@ -28,7 +28,7 @@ return $showModule ? [
 				'uploadJson',
 				'importJson',
 				'previewImport',
-				'exportJson'
+				'exportJson',
 			],
 			\SGalinski\SgCookieOptin\Controller\StatisticsController::class => ['index'],
 			\SGalinski\SgCookieOptin\Controller\ConsentController::class => ['index'],

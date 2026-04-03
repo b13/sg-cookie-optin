@@ -192,8 +192,9 @@ class LicenceCheckService {
 	'7.3.1' => 1764959582, // 2025-12-05T18:33:02Z
 	'7.3.2' => 1765460628, // 2025-12-11T13:43:48Z
 	'7.3.3' => 1772062848, // 2026-02-25T23:40:48Z
-    '7.3.4' => 1772299246, // 2026-02-28T17:20:46Z
-    '7.3.5' => 1772300070, // 2026-02-28T17:34:30Z
+	'7.3.4' => 1772299246, // 2026-02-28T17:20:46Z
+	'7.3.5' => 1772300070, // 2026-02-28T17:34:30Z
+    '7.3.6' => 1775248342, // 2026-04-03T20:32:22Z
 ];
 
 	/**
@@ -434,7 +435,7 @@ class LicenceCheckService {
 					'backend.licenceCheck.noLicenseKey',
 					'sg_cookie_optin',
 					[LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')]
-				)
+				),
 			];
 		}
 
@@ -447,7 +448,7 @@ class LicenceCheckService {
 					'backend.licenceCheck.expiredError.message',
 					'sg_cookie_optin',
 					[LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')]
-				)
+				),
 			];
 		}
 
@@ -474,7 +475,7 @@ class LicenceCheckService {
 						'backend.licenceCheck.expiringWarning.message',
 						'sg_cookie_optin',
 						[$date, LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')]
-					)
+					),
 				];
 			}
 		}
@@ -488,7 +489,7 @@ class LicenceCheckService {
 		return [
 			'error' => 0,
 			'title' => LocalizationUtility::translate('backend.licenceCheck.status.title', 'sg_cookie_optin'),
-			'message' => LocalizationUtility::translate('backend.licenceCheck.status.okMessage', 'sg_cookie_optin', [$date])
+			'message' => LocalizationUtility::translate('backend.licenceCheck.status.okMessage', 'sg_cookie_optin', [$date]),
 		];
 	}
 
@@ -590,7 +591,7 @@ class LicenceCheckService {
 			return;
 		}
 
-		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$sitePath = \defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		GeneralUtility::rmdir($sitePath . $folder, TRUE);
 	}
 
