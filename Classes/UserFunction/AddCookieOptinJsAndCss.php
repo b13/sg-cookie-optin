@@ -29,6 +29,7 @@ namespace SGalinski\SgCookieOptin\UserFunction;
 use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
@@ -56,6 +57,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
+    #[AsAllowedCallable]
 	public function addJavaScript(string $content, array $configuration): string {
 		if (!LicenceCheckService::isInDevelopmentContext()
 			&& !LicenceCheckService::isInDemoMode()
@@ -168,6 +170,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws AspectNotFoundException
 	 * @throws SiteNotFoundException
 	 */
+    #[AsAllowedCallable]
 	public function addCSS(string $content, array $configuration): string {
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0) {

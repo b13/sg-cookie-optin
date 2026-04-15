@@ -33,8 +33,8 @@ use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Request;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -127,7 +127,7 @@ class BackendService {
 			->setHref(GeneralUtility::getIndpEnv('REQUEST_URI'))
 			->setTitle(
 				LocalizationUtility::translate($locallangPath . 'labels.reload')
-			)->setIcon($iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL));
+			)->setIcon($iconFactory->getIcon('actions-refresh', IconSize::SMALL));
 		$buttonBar->addButton($refreshButton, ButtonBar::BUTTON_POSITION_RIGHT);
 
 		// shortcut button

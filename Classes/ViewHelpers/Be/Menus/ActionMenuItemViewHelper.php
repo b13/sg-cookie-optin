@@ -75,7 +75,7 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 	 * @return string the rendered option tag
 	 * @see \TYPO3\CMS\Fluid\ViewHelpers\Be\Menus\ActionMenuViewHelper
 	 */
-	public function render() {
+	public function render(): string {
 		$label = $this->arguments['label'];
 		$controller = $this->arguments['controller'];
 		$action = $this->arguments['action'];
